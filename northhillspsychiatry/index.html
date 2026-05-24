@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>North Hills Psychiatry</title>
+  <meta name="description" content="A modern, patient-centered healthcare practice website template." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link id="font-link" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['var(--font-body)', 'Inter', 'sans-serif'], serif: ['var(--font-heading)', 'Georgia', 'serif'] },
+          colors: {
+            brand: { primary: 'var(--brand-primary)', accent: 'var(--brand-accent)', 800: 'var(--brand-800)', 900: 'var(--brand-900)' },
+            surface: 'var(--surface)',
+            warm: { 50: '#FCFBF8', 100: '#F8F6F2', 200: '#F3F0EA' },
+          },
+          boxShadow: {
+            soft: '0 10px 40px rgba(15, 23, 42, 0.06)',
+            card: '0 10px 40px rgba(15, 23, 42, 0.06)',
+            cardHover: '0 18px 52px rgba(15, 23, 42, 0.10)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style type="text/tailwindcss">
+    @layer components {
+      .page-shell { @apply mx-auto max-w-7xl px-6 lg:px-8; }
+      .section { @apply px-6 py-16 lg:px-8; }
+      .section-shell { @apply mx-auto max-w-7xl; }
+      .eyebrow { @apply text-sm font-semibold uppercase tracking-wide text-brand-accent; }
+      .section-title { @apply mt-4 text-3xl font-semibold leading-tight tracking-tight text-slate-950 md:text-4xl; }
+      .section-copy { @apply mt-5 text-base leading-7 text-slate-600; }
+      .card { @apply rounded-3xl border border-white/70 bg-white/80 p-6 shadow-card backdrop-blur; }
+      .interactive-card { @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg; }
+      .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-primary px-5 py-3 text-base font-semibold text-white shadow-sm transition hover:opacity-90 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 focus-visible:ring-offset-2; }
+      .btn-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 text-base font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 focus-visible:ring-offset-2; }
+      .nav-link { @apply rounded-md text-sm font-medium text-slate-600 transition hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 focus-visible:ring-offset-2; }
+      .badge { @apply inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700; }
+      .badge-brand { @apply inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700; }
+      .form-label { @apply text-sm font-medium text-slate-700; }
+      .form-control { @apply mt-2 w-full rounded-2xl border border-slate-300 px-4 py-3.5 text-base text-slate-950 outline-none transition focus:border-brand-primary focus:ring-4 focus:ring-slate-200 focus-visible:ring-4 focus-visible:ring-slate-300; }
+      .hours-row { @apply flex items-center justify-between border-b border-slate-200 pb-4; }
+    }
+  </style>
+
+  <style>
+    :root {
+      --brand-primary: #1E3A5F;
+      --brand-accent: #2F5D7E;
+      --brand-800: #27476F;
+      --brand-900: #16324F;
+      --surface: #F8F6F2;
+      --font-body: Inter;
+      --font-heading: Inter;
+      --radius: 1.5rem;
+    }
+
+    .image-treatment { filter: brightness(0.98) contrast(1.02) saturate(0.92); }
+    .fade-in-up { animation: fadeInUp 500ms ease-out both; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(0.5rem); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      z-index: 100;
+      transform: translateY(-150%);
+      border-radius: 0.75rem;
+      background: #ffffff;
+      padding: 0.75rem 1rem;
+      color: #0f172a;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+    }
+    .skip-link:focus-visible { transform: translateY(0); outline: 3px solid #1E3A5F; outline-offset: 3px; }
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid #1E3A5F;
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+      .fade-in-up { animation: none; }
+      .interactive-card:hover { transform: none; }
+    }
+  </style>
+</head>
+<body class="bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0">
+  <div id="app"></div>
+
+  <script>
+    const themes = {
+      psychiatry: { primary: '#1E3A5F', accent: '#2F5D7E', brand800: '#27476F', brand900: '#16324F', surface: '#F8F6F2', headingFont: 'Inter', bodyFont: 'Inter' },
+      acupuncture: { primary: '#315C45', accent: '#5F7F62', brand800: '#274A3A', brand900: '#20382D', surface: '#F7F4ED', headingFont: 'Inter', bodyFont: 'Inter' },
+      wellness: { primary: '#4A5568', accent: '#7C6F64', brand800: '#3B4556', brand900: '#2D3748', surface: '#FAF8F4', headingFont: 'Inter', bodyFont: 'Inter' },
+    };
+
+    const practiceConfig = {
+      theme: 'psychiatry',
+      seo: {
+        title: 'North Hills Psychiatry | Compassionate Psychiatric Care in Austin',
+        description: 'Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.',
+        ogImage: './images/hero/Austin_Hero_Image.png',
+      },
+      practice: {
+        name: 'North Hills Psychiatry',
+        tagline: 'Compassionate Psychiatric Care',
+        locationLabel: 'Located in North Hills, Austin, Texas',
+        phone: '(512) 372-4554',
+        phoneHref: 'tel:+15123724554',
+        email: 'info@northhillspsychiatry.com',
+        addressLines: ['11615 Angus Road', 'Suite 225', 'Austin, TX 78759'],
+        socialLinks: [],
+      },
+      hero: {
+        image: './images/hero/Austin_Hero_Image.png',
+        title: 'Compassionate psychiatric care, personalized for you.',
+        copy: 'A modern, patient-centered practice helping adults and families navigate anxiety, ADHD, depression, trauma, and life transitions with thoughtful, evidence-based care.',
+        primaryCta: 'Request Appointment',
+        secondaryCta: 'Meet Our Providers',
+      },
+      trustItems: [
+        { icon: 'Video', label: 'Care model', value: 'In-person & telehealth' },
+        { icon: 'Users', label: 'Patients', value: 'Adults, teens, and families' },
+        { icon: 'ShieldCheck', label: 'Insurance', value: 'Major plans accepted' },
+        { icon: 'CalendarCheck', label: 'Availability', value: 'New patients welcome' },
+      ],
+      about: {
+        eyebrow: 'About the practice',
+        title: 'Thoughtful care designed around the patient experience.',
+        copy: 'Our practice combines clinical expertise with a calm, supportive experience from the first visit. We help patients understand their options, find the right provider, and begin care with less friction.',
+        features: [
+          { title: 'Clear next steps', copy: 'Simple appointment requests and intake guidance.' },
+          { title: 'Provider matching', copy: 'Find care by specialty, condition, or preference.' },
+          { title: 'Modern access', copy: 'Mobile-first experience for busy patients.' },
+        ],
+      },
+      providers: [
+        { slug: 'maya-patel', name: 'Dr. Zita Samuel', credentials: 'MD · Adult Psychiatry', image: './images/providers/zita_samuel.png', specialties: ['ADHD', 'Anxiety', 'Telehealth'], bio: 'Evidence-based care for adults navigating anxiety, depression, and attention concerns.' },
+        { slug: 'daniel-kim', name: 'Dr. Diana Samuel', credentials: 'MD · Adult & Adolescent Psychiatry', image: './images/providers/diana_samuel.png', specialties: ['Teens', 'Mood', 'New Patients'], bio: 'Supportive psychiatric care for children, teens, and families.' },
+      ],
+      services: [
+        { icon: 'Brain', title: 'Anxiety', copy: 'Support for persistent worry, panic, stress, and life transitions.' },
+        { icon: 'Sparkles', title: 'ADHD', copy: 'Evaluation and treatment planning for focus, attention, and executive function.' },
+        { icon: 'HeartPulse', title: 'Depression', copy: 'Personalized care for mood symptoms, motivation, and emotional wellbeing.' },
+        { icon: 'Pill', title: 'Medication Management', copy: 'Ongoing support to adjust treatment safely and thoughtfully over time.' },
+      ],
+      insurance: {
+        title: 'Major plans accepted',
+        copy: 'Insurance logos shown are for accepted plans represented in this preview.',
+        plans: [
+          { name: 'Blue Cross Blue Shield of Texas', logo: '../shared/logos/bcbstx-logo.svg' },
+          { name: 'Cigna Healthcare', logo: '../shared/logos/cignahlthcr.svg' },
+          { name: 'UnitedHealthcare', logo: '../shared/logos/UHC.svg' },
+          { name: 'Aetna', logo: '../shared/logos/aetna.svg' }
+        ],
+      },
+      faqs: [
+        { question: 'Do you offer telehealth appointments?', answer: 'Yes. Many appointments are available virtually, depending on provider availability and patient needs.' },
+        { question: 'Do you accept insurance?', answer: 'This section can list accepted insurance plans and link into future eligibility verification workflows.' },
+        { question: 'How do I request an appointment?', answer: 'Patients can request an appointment online or call the office. This CTA can later connect to IntakeQ, Jane, or GraceMed intake.' },
+      ],
+      contact: {
+        eyebrow: 'Start care',
+        title: 'Ready to take the next step?',
+        copy: 'Use this form to represent a simple appointment request flow. In production, this can connect to IntakeQ, Jane, or a GraceMed workflow API.',
+        disclaimer: 'Placeholder only. Production forms need privacy, security, and workflow handling.',
+      },
+      location: {
+        title: 'Conveniently located in North Austin',
+        mapLabel: 'Static map image or embedded map',
+        directionsHref: 'https://maps.google.com',
+        hours: [
+          ['Monday', '8:00 AM – 5:00 PM'],
+          ['Tuesday', '8:00 AM – 5:00 PM'],
+          ['Wednesday', 'Telehealth Only'],
+          ['Thursday', '8:00 AM – 5:00 PM'],
+          ['Friday', '8:00 AM – 3:00 PM'],
+          ['Saturday–Sunday', 'Closed'],
+        ],
+      },
+      footer: { links: ['Privacy', 'Accessibility', 'Contact'] },
+    };
+
+    const icon = (name, cls = 'h-4 w-4') => `<i data-lucide="${name}" class="${cls}" aria-hidden="true"></i>`;
+    const esc = (value) => String(value).replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
+
+    function applyTheme(config) {
+      const theme = themes[config.theme] || themes.psychiatry;
+      document.documentElement.style.setProperty('--brand-primary', theme.primary);
+      document.documentElement.style.setProperty('--brand-accent', theme.accent);
+      document.documentElement.style.setProperty('--brand-800', theme.brand800);
+      document.documentElement.style.setProperty('--brand-900', theme.brand900);
+      document.documentElement.style.setProperty('--surface', theme.surface);
+      document.documentElement.style.setProperty('--font-heading', theme.headingFont);
+      document.documentElement.style.setProperty('--font-body', theme.bodyFont);
+      document.title = config.seo.title;
+      document.querySelector('meta[name="description"]').setAttribute('content', config.seo.description);
+    }
+
+    function Header({ practice, hero }) {
+      return `
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        <header class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+          <div class="page-shell flex items-center justify-between py-3 md:py-4">
+            <a href="#" class="flex items-center gap-3" aria-label="${esc(practice.name)} home">
+              <div class="flex h-9 w-9 items-center justify-center rounded-2xl bg-brand-primary text-sm font-semibold text-white shadow-sm md:h-10 md:w-10 md:text-base">${esc(practice.name[0])}</div>
+              <div><p class="text-base font-semibold text-slate-950">${esc(practice.name)}</p><p class="text-xs leading-5 text-slate-500">${esc(practice.tagline)}</p></div>
+            </a>
+            <nav class="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
+              <a href="#providers" class="nav-link">Providers</a><a href="#services" class="nav-link">Services</a><a href="#insurance" class="nav-link">Insurance</a><a href="#faq" class="nav-link">FAQ</a>
+              <a href="#contact" class="btn-primary px-4 py-2.5 text-sm">${esc(hero.primaryCta)}</a>
+            </nav>
+            <a href="#contact" class="btn-secondary min-h-[44px] px-3 py-2 text-sm md:hidden">Contact</a>
+          </div>
+        </header>`;
+    }
+
+    function HeroSection({ practice, hero }) {
+      return `
+        <section class="fade-in-up relative isolate min-h-[680px] overflow-hidden bg-warm-50 sm:min-h-[760px]">
+          <img src="${esc(hero.image)}" alt="Austin skyline at sunset" class="image-treatment absolute inset-0 -z-20 h-full w-full object-cover object-[62%_center]" />
+          <div class="absolute inset-0 -z-10 bg-gradient-to-r from-white/80 via-white/45 to-transparent sm:from-white/90 sm:via-white/40 sm:to-transparent"></div>
+          <div class="absolute inset-x-0 bottom-0 -z-10 h-1/3 bg-gradient-to-t from-white/35 via-white/10 to-transparent"></div>
+          <div class="page-shell flex min-h-[680px] flex-col justify-center py-16 sm:min-h-[760px] lg:py-24">
+            <div class="max-w-4xl space-y-6">
+              <div class="inline-flex items-center gap-3 rounded-full border border-emerald-900/10 bg-white/75 px-4 py-2.5 text-sm font-semibold text-emerald-800 shadow-sm backdrop-blur sm:px-5 sm:py-3 sm:text-base">
+                ${icon('MapPin')} ${esc(practice.locationLabel)}
+              </div>
+              <div class="max-w-4xl rounded-[2rem] border border-white/70 bg-white/75 p-5 shadow-soft backdrop-blur-sm sm:bg-white/65 sm:p-7 lg:bg-white/55">
+                <h1 class="max-w-[11ch] text-[2.8rem] font-semibold leading-[0.95] tracking-tight text-slate-950 sm:max-w-4xl sm:text-6xl sm:leading-[1.02] lg:text-8xl">${esc(hero.title)}</h1>
+                <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9 md:text-2xl md:leading-10">${esc(hero.copy)}</p>
+                <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+                  <a href="#contact" class="btn-primary w-full sm:w-auto">${icon('CalendarCheck')} ${esc(hero.primaryCta)}</a>
+                  <a href="#providers" class="btn-secondary w-full sm:w-auto">${esc(hero.secondaryCta)}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>`;
+    }
+
+    function TrustStrip({ trustItems }) {
+      if (!trustItems?.length) return '';
+      return `<section class="border-y border-slate-100 bg-white"><div class="page-shell grid grid-cols-2 gap-3 py-6 md:grid-cols-4 md:gap-4 md:py-8">${trustItems.map(item => `
+        <div class="card p-4 md:p-5"><div class="flex flex-col gap-1.5 text-xs leading-5 text-slate-500 md:flex-row md:items-center md:gap-2 md:text-sm md:leading-6">${icon(item.icon, 'h-4 w-4 text-brand-accent')}<span>${esc(item.label)}</span></div><p class="mt-2 text-base font-semibold text-slate-950 md:text-lg">${esc(item.value)}</p></div>`).join('')}</div></section>`;
+    }
+
+    function AboutSection({ about }) {
+      return `<section class="section border-t border-slate-100 bg-warm-50"><div class="section-shell grid grid-cols-1 gap-y-8 lg:grid-cols-3 lg:gap-12"><div><p class="eyebrow">${esc(about.eyebrow)}</p><h2 class="section-title">${esc(about.title)}</h2></div><div class="lg:col-span-2"><p class="max-w-3xl text-lg leading-8 text-slate-600">${esc(about.copy)}</p><div class="mt-8 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3">${about.features.map(feature => `<div class="card rounded-2xl p-5"><p class="text-base font-semibold text-slate-950">${esc(feature.title)}</p><p class="mt-2 text-sm leading-6 text-slate-600">${esc(feature.copy)}</p></div>`).join('')}</div></div></div></section>`;
+    }
+
+    function ProviderGrid({ providers }) {
+      if (!providers?.length) return '';
+      return `<section id="providers" class="section border-t border-slate-100 bg-slate-50"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">Providers</p><h2 class="section-title">Meet the care team</h2><p class="section-copy">Provider cards are generated from configuration and can link to future provider detail pages.</p></div><div class="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-3">${providers.map(provider => `
+        <article class="fade-in-up card interactive-card"><div class="aspect-[4/3] overflow-hidden rounded-2xl"><img loading="lazy" src="${esc(provider.image)}" alt="${esc(provider.name)}" class="image-treatment h-full w-full object-cover object-top" /></div><div class="mt-5"><h3 class="text-xl font-semibold text-slate-950 md:text-2xl">${esc(provider.name)}</h3><p class="mt-1 text-sm leading-6 text-slate-500">${esc(provider.credentials)}</p><div class="mt-4 flex flex-wrap gap-2">${provider.specialties.map(s => `<span class="badge-brand">${icon('CheckCircle', 'h-3.5 w-3.5')} ${esc(s)}</span>`).join('')}</div><p class="mt-4 text-base leading-7 text-slate-600">${esc(provider.bio)}</p><a href="./providers/${esc(provider.slug)}.html" class="btn-secondary mt-5 px-4 py-2.5 text-sm">View Profile<span class="sr-only"> for ${esc(provider.name)}</span></a></div></article>`).join('')}</div></div></section>`;
+    }
+
+    function ServicesGrid({ services }) {
+      return `<section id="services" class="section border-t border-slate-100 bg-white"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">Services</p><h2 class="section-title">Care for common health needs</h2></div><div class="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2 lg:grid-cols-4">${services.map(service => `<div class="card interactive-card flex min-h-56 flex-col"><div class="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-50 text-brand-accent">${icon(service.icon || 'Sparkles', 'h-5 w-5')}</div><h3 class="text-xl font-semibold text-slate-950">${esc(service.title)}</h3><p class="mt-3 text-base leading-7 text-slate-500">${esc(service.copy)}</p></div>`).join('')}</div></div></section>`;
+    }
+
+    function InsuranceSection({ insurance }) {
+      return `<section id="insurance" class="section border-t border-slate-100 bg-[#EEF4FA]"><div class="section-shell rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-soft backdrop-blur md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">Insurance</p><h2 class="section-title">${esc(insurance.title)}</h2></div><div class="lg:col-span-2"><p class="flex items-start gap-3 text-lg leading-8 text-slate-600">${icon('ShieldCheck', 'mt-1 h-5 w-5 shrink-0 text-brand-accent')}<span>${esc(insurance.copy)}</span></p><div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">${insurance.plans.map(plan => `<div class="interactive-card flex min-h-28 items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-5 shadow-sm"><img src="${esc(plan.logo)}" alt="${esc(plan.name)}" loading="lazy" class="max-h-14 max-w-full object-contain" /></div>`).join('')}</div></div></div></div></section>`;
+    }
+
+    function FAQSection({ faqs }) {
+      return `<section id="faq" class="section border-t border-slate-100 bg-warm-50"><div class="mx-auto max-w-4xl"><div class="max-w-2xl"><p class="eyebrow">FAQ</p><h2 class="section-title">Common questions</h2></div><div class="mt-10 divide-y divide-slate-100 rounded-3xl border border-white/70 bg-white/80 shadow-card backdrop-blur">${faqs.map((faq, index) => `<details class="group p-6 transition-all duration-300 hover:bg-slate-50" ${index === 0 ? 'open' : ''}><summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-xl text-base font-semibold text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300">${esc(faq.question)}<span class="text-slate-500 transition duration-300 group-open:rotate-45" aria-hidden="true">+</span></summary><p class="mt-4 text-base leading-7 text-slate-600">${esc(faq.answer)}</p></details>`).join('')}</div></div></section>`;
+    }
+
+    function ContactSection({ contact, hero }) {
+      return `<section id="contact" class="fade-in-up section relative overflow-hidden border-t border-slate-100 bg-gradient-to-br from-brand-900 to-brand-800 py-20" aria-labelledby="contact-title"><div class="absolute right-10 top-10 h-72 w-72 rounded-full bg-white/10 blur-3xl" aria-hidden="true"></div><div class="section-shell relative grid grid-cols-1 gap-12 lg:grid-cols-2"><div><p class="text-sm font-semibold uppercase tracking-wide text-blue-300">${esc(contact.eyebrow)}</p><h2 id="contact-title" class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">${esc(contact.title)}</h2><p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">${esc(contact.copy)}</p></div><form class="rounded-3xl bg-white/95 p-6 shadow-soft ring-1 ring-white/10 backdrop-blur" aria-describedby="contact-disclaimer"><div class="grid grid-cols-1 gap-6 sm:grid-cols-2"><div><label for="first-name" class="form-label">First name</label><input id="first-name" name="first-name" autocomplete="given-name" class="form-control" placeholder="Jane" /></div><div><label for="last-name" class="form-label">Last name</label><input id="last-name" name="last-name" autocomplete="family-name" class="form-control" placeholder="Doe" /></div><div class="sm:col-span-2"><label for="email" class="form-label">Email</label><input id="email" name="email" type="email" autocomplete="email" class="form-control" placeholder="jane@example.com" /></div><div class="sm:col-span-2"><label for="message" class="form-label">What can we help with?</label><textarea id="message" name="message" rows="4" class="form-control" placeholder="Briefly describe what you are looking for..."></textarea></div></div><button type="submit" class="btn-primary mt-6 w-full">${icon('CalendarCheck')} ${esc(hero.primaryCta)}</button><p id="contact-disclaimer" class="mt-4 text-sm leading-6 text-slate-500">${esc(contact.disclaimer)}</p></form></div></section>`;
+    }
+
+    function LocationSection({ practice, location }) {
+      return `<section id="location" class="section border-t border-slate-100 bg-warm-100"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">Visit the office</p><h2 class="section-title">${esc(location.title)}</h2></div><div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2"><div class="overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 shadow-soft backdrop-blur"><div class="h-72 bg-gradient-to-br from-slate-100 via-warm-100 to-white"><div class="flex h-full items-center justify-center gap-2 text-base font-medium text-slate-500">${icon('MapPin')} ${esc(location.mapLabel)}</div></div><div class="p-8"><h3 class="text-2xl font-semibold tracking-tight text-slate-950">${esc(practice.name)}</h3><div class="mt-6 space-y-4 text-base leading-7 text-slate-600"><div><p class="font-semibold text-slate-950">Address</p>${practice.addressLines.map(line => `<p>${esc(line)}</p>`).join('')}</div><div><p class="font-semibold text-slate-950">Phone</p><p>${esc(practice.phone)}</p></div><div><p class="font-semibold text-slate-950">Email</p><p>${esc(practice.email)}</p></div></div><div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href="${esc(location.directionsHref)}" class="btn-primary">${icon('MapPin')} Get Directions</a><a href="${esc(practice.phoneHref)}" class="btn-secondary">Call Office</a></div></div></div><div class="rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-soft backdrop-blur"><div class="flex items-center justify-between"><h3 class="flex items-center gap-2 text-2xl font-semibold tracking-tight text-slate-950">${icon('Clock3', 'h-6 w-6 text-brand-accent')} Office Hours</h3><span class="rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">Open Today</span></div><div class="mt-8 space-y-5">${location.hours.map(([day, hours], index) => `<div class="${index === location.hours.length - 1 ? 'flex items-center justify-between' : 'hours-row'}"><p class="text-base font-medium text-slate-700">${esc(day)}</p><p class="text-base font-semibold text-slate-950">${esc(hours)}</p></div>`).join('')}</div><div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5"><p class="flex items-center gap-2 text-sm font-semibold text-brand-accent">${icon('Video')} Telehealth appointments available throughout Texas.</p></div></div></div></div></section>`;
+    }
+
+    function FooterSection({ practice, footer }) {
+      return `<footer class="border-t border-slate-100 bg-warm-200 px-6 py-12 lg:px-8"><div class="mx-auto flex max-w-7xl flex-col gap-8 border-t border-slate-200 pt-8 md:flex-row md:items-center md:justify-between"><div><p class="text-base font-semibold text-slate-950">${esc(practice.name)}</p><p class="mt-2 text-sm leading-6 text-slate-500">${esc(practice.addressLines.at(-1))} · ${esc(practice.phone)}</p></div><div class="flex gap-6 text-sm font-medium text-slate-600">${footer.links.map(link => `<a class="transition hover:text-slate-950" href="#">${esc(link)}</a>`).join('')}</div></div></footer>`;
+    }
+
+    function StickyMobileCta({ practice, hero }) {
+      return `<div class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/90 p-3 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur md:hidden"><div class="mx-auto grid max-w-md grid-cols-2 gap-3"><a href="#contact" class="btn-primary min-h-[44px] px-3 py-2 text-sm">${esc(hero.primaryCta)}</a><a href="${esc(practice.phoneHref)}" class="btn-secondary min-h-[44px] px-3 py-2 text-sm">Call Office</a></div></div>`;
+    }
+
+    function schema(config) {
+      const data = {
+        '@context': 'https://schema.org',
+        '@type': 'MedicalClinic',
+        name: config.practice.name,
+        telephone: config.practice.phone,
+        email: config.practice.email,
+        address: config.practice.addressLines.join(', '),
+        image: config.hero.image,
+        medicalSpecialty: config.services.map(s => s.title),
+      };
+      return '<' + 'script type="application/ld+json">' + JSON.stringify(data).replace(/</g, '\\u003c') + '<' + '/script>';
+    }
+
+    function render(config) {
+      applyTheme(config);
+      document.getElementById('app').innerHTML = `
+        ${Header(config)}
+        <main id="main-content" tabindex="-1">
+          ${HeroSection(config)}
+          ${TrustStrip(config)}
+          ${AboutSection(config)}
+          ${ProviderGrid(config)}
+          ${ServicesGrid(config)}
+          ${InsuranceSection(config)}
+          ${FAQSection(config)}
+          ${ContactSection(config)}
+          ${LocationSection(config)}
+        </main>
+        ${FooterSection(config)}
+        ${StickyMobileCta(config)}
+        ${schema(config)}
+      `;
+      lucide.createIcons();
+    }
+
+    render(practiceConfig);
+  </script>
+</body>
+</html>
