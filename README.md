@@ -36,6 +36,13 @@ gracemed-previews/
 
 There is no backend, database, framework build step, or authenticated application code in this repository.
 
+## Cloudflare Pages Deployment
+
+Use the build script so repository-only files such as `AGENTS.md` are not published.
+
+- Build command: `./scripts/build.sh`
+- Build output directory: `dist`
+
 ## Development Notes
 
 - Use relative asset paths, because previews are served from subpaths.
