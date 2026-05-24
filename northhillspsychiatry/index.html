@@ -189,6 +189,7 @@
         title: 'Conveniently located in North Austin',
         mapLabel: 'Static map image or embedded map',
         directionsHref: 'https://maps.google.com',
+        timeZone: 'America/Chicago',
         hours: [
           ['Monday', '8:00 AM – 5:00 PM'],
           ['Tuesday', '8:00 AM – 5:00 PM'],
@@ -197,6 +198,15 @@
           ['Friday', '8:00 AM – 3:00 PM'],
           ['Saturday–Sunday', 'Closed'],
         ],
+        weeklyHours: {
+          Monday: { open: '08:00', close: '17:00' },
+          Tuesday: { open: '08:00', close: '17:00' },
+          Wednesday: { telehealthOnly: true },
+          Thursday: { open: '08:00', close: '17:00' },
+          Friday: { open: '08:00', close: '15:00' },
+          Saturday: { closed: true },
+          Sunday: { closed: true },
+        },
       },
       footer: { links: ['Privacy', 'Accessibility', 'Contact'] },
     };
@@ -291,8 +301,34 @@
       return `<section id="contact" class="fade-in-up section relative overflow-hidden border-t border-slate-100 bg-gradient-to-br from-brand-900 to-brand-800 py-20" aria-labelledby="contact-title"><div class="absolute right-10 top-10 h-72 w-72 rounded-full bg-white/10 blur-3xl" aria-hidden="true"></div><div class="section-shell relative grid grid-cols-1 gap-12 lg:grid-cols-2"><div><p class="text-sm font-semibold uppercase tracking-wide text-blue-300">${esc(contact.eyebrow)}</p><h2 id="contact-title" class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">${esc(contact.title)}</h2><p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">${esc(contact.copy)}</p></div><form class="rounded-3xl bg-white/95 p-6 shadow-soft ring-1 ring-white/10 backdrop-blur" aria-describedby="contact-disclaimer"><div class="grid grid-cols-1 gap-6 sm:grid-cols-2"><div><label for="first-name" class="form-label">First name</label><input id="first-name" name="first-name" autocomplete="given-name" class="form-control" placeholder="Jane" /></div><div><label for="last-name" class="form-label">Last name</label><input id="last-name" name="last-name" autocomplete="family-name" class="form-control" placeholder="Doe" /></div><div class="sm:col-span-2"><label for="email" class="form-label">Email</label><input id="email" name="email" type="email" autocomplete="email" class="form-control" placeholder="jane@example.com" /></div><div class="sm:col-span-2"><label for="message" class="form-label">What can we help with?</label><textarea id="message" name="message" rows="4" class="form-control" placeholder="Briefly describe what you are looking for..."></textarea></div></div><button type="submit" class="btn-primary mt-6 w-full">${icon('CalendarCheck')} ${esc(hero.primaryCta)}</button><p id="contact-disclaimer" class="mt-4 text-sm leading-6 text-slate-500">${esc(contact.disclaimer)}</p></form></div></section>`;
     }
 
+    function officeStatus(location) {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: location.timeZone,
+        weekday: 'long',
+        hour: '2-digit',
+        minute: '2-digit',
+        hourCycle: 'h23',
+      }).formatToParts(new Date());
+      const value = (type) => parts.find(part => part.type === type)?.value;
+      const today = location.weeklyHours?.[value('weekday')];
+
+      if (!today || today.closed) return { label: 'Closed Today', className: 'bg-slate-100 text-slate-600' };
+      if (today.telehealthOnly) return { label: 'Telehealth Today', className: 'bg-blue-50 text-brand-accent' };
+
+      const nowMinutes = Number(value('hour')) * 60 + Number(value('minute'));
+      const toMinutes = (time) => {
+        const [hours, minutes] = time.split(':').map(Number);
+        return hours * 60 + minutes;
+      };
+      const isOpen = nowMinutes >= toMinutes(today.open) && nowMinutes < toMinutes(today.close);
+      return isOpen
+        ? { label: 'Open Now', className: 'bg-emerald-50 text-emerald-700' }
+        : { label: 'Closed Now', className: 'bg-slate-100 text-slate-600' };
+    }
+
     function LocationSection({ practice, location }) {
-      return `<section id="location" class="section border-t border-slate-100 bg-warm-100"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">Visit the office</p><h2 class="section-title">${esc(location.title)}</h2></div><div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2"><div class="overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 shadow-soft backdrop-blur"><div class="h-72 bg-gradient-to-br from-slate-100 via-warm-100 to-white"><div class="flex h-full items-center justify-center gap-2 text-base font-medium text-slate-500">${icon('MapPin')} ${esc(location.mapLabel)}</div></div><div class="p-8"><h3 class="text-2xl font-semibold tracking-tight text-slate-950">${esc(practice.name)}</h3><div class="mt-6 space-y-4 text-base leading-7 text-slate-600"><div><p class="font-semibold text-slate-950">Address</p>${practice.addressLines.map(line => `<p>${esc(line)}</p>`).join('')}</div><div><p class="font-semibold text-slate-950">Phone</p><p>${esc(practice.phone)}</p></div><div><p class="font-semibold text-slate-950">Email</p><p>${esc(practice.email)}</p></div></div><div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href="${esc(location.directionsHref)}" class="btn-primary">${icon('MapPin')} Get Directions</a><a href="${esc(practice.phoneHref)}" class="btn-secondary">Call Office</a></div></div></div><div class="rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-soft backdrop-blur"><div class="flex items-center justify-between"><h3 class="flex items-center gap-2 text-2xl font-semibold tracking-tight text-slate-950">${icon('Clock3', 'h-6 w-6 text-brand-accent')} Office Hours</h3><span class="rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">Open Today</span></div><div class="mt-8 space-y-5">${location.hours.map(([day, hours], index) => `<div class="${index === location.hours.length - 1 ? 'flex items-center justify-between' : 'hours-row'}"><p class="text-base font-medium text-slate-700">${esc(day)}</p><p class="text-base font-semibold text-slate-950">${esc(hours)}</p></div>`).join('')}</div><div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5"><p class="flex items-center gap-2 text-sm font-semibold text-brand-accent">${icon('Video')} Telehealth appointments available throughout Texas.</p></div></div></div></div></section>`;
+      const status = officeStatus(location);
+      return `<section id="location" class="section border-t border-slate-100 bg-warm-100"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">Visit the office</p><h2 class="section-title">${esc(location.title)}</h2></div><div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2"><div class="overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 shadow-soft backdrop-blur"><div class="h-72 bg-gradient-to-br from-slate-100 via-warm-100 to-white"><div class="flex h-full items-center justify-center gap-2 text-base font-medium text-slate-500">${icon('MapPin')} ${esc(location.mapLabel)}</div></div><div class="p-8"><h3 class="text-2xl font-semibold tracking-tight text-slate-950">${esc(practice.name)}</h3><div class="mt-6 space-y-4 text-base leading-7 text-slate-600"><div><p class="font-semibold text-slate-950">Address</p>${practice.addressLines.map(line => `<p>${esc(line)}</p>`).join('')}</div><div><p class="font-semibold text-slate-950">Phone</p><p>${esc(practice.phone)}</p></div><div><p class="font-semibold text-slate-950">Email</p><p>${esc(practice.email)}</p></div></div><div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href="${esc(location.directionsHref)}" class="btn-primary">${icon('MapPin')} Get Directions</a><a href="${esc(practice.phoneHref)}" class="btn-secondary">Call Office</a></div></div></div><div class="rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-soft backdrop-blur"><div class="flex items-center justify-between"><h3 class="flex items-center gap-2 text-2xl font-semibold tracking-tight text-slate-950">${icon('Clock3', 'h-6 w-6 text-brand-accent')} Office Hours</h3><span class="rounded-full px-3 py-1 text-sm font-medium ${esc(status.className)}">${esc(status.label)}</span></div><div class="mt-8 space-y-5">${location.hours.map(([day, hours], index) => `<div class="${index === location.hours.length - 1 ? 'flex items-center justify-between' : 'hours-row'}"><p class="text-base font-medium text-slate-700">${esc(day)}</p><p class="text-base font-semibold text-slate-950">${esc(hours)}</p></div>`).join('')}</div><div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5"><p class="flex items-center gap-2 text-sm font-semibold text-brand-accent">${icon('Video')} Telehealth appointments available throughout Texas.</p></div></div></div></div></section>`;
     }
 
     function FooterSection({ practice, footer }) {
