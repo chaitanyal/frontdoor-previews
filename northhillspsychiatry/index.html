@@ -20,7 +20,8 @@
           colors: {
             brand: { primary: 'var(--brand-primary)', accent: 'var(--brand-accent)', 800: 'var(--brand-800)', 900: 'var(--brand-900)' },
             surface: 'var(--surface)',
-            warm: { 50: '#FCFBF8', 100: '#F8F6F2', 200: '#F3F0EA' },
+            warm: { 50: '#FAF8F5', 100: '#F7F3EE', 200: '#EFEAE2' },
+            sage: { 50: '#F3F8F5', 100: '#DCE8E2' },
           },
           boxShadow: {
             soft: '0 10px 40px rgba(15, 23, 42, 0.06)',
@@ -56,10 +57,10 @@
   <style>
     :root {
       --brand-primary: #1E3A5F;
-      --brand-accent: #2F5D7E;
-      --brand-800: #27476F;
-      --brand-900: #16324F;
-      --surface: #F8F6F2;
+      --brand-accent: #2F855A;
+      --brand-800: #16304F;
+      --brand-900: #0F172A;
+      --surface: #FAF8F5;
       --font-body: Inter;
       --font-heading: Inter;
       --radius: 1.5rem;
@@ -110,7 +111,7 @@
 
   <script>
     const themes = {
-      psychiatry: { primary: '#1E3A5F', accent: '#2F5D7E', brand800: '#27476F', brand900: '#16324F', surface: '#F8F6F2', headingFont: 'Inter', bodyFont: 'Inter' },
+      psychiatry: { primary: '#1E3A5F', accent: '#2F855A', brand800: '#16304F', brand900: '#0F172A', surface: '#FAF8F5', headingFont: 'Inter', bodyFont: 'Inter' },
       acupuncture: { primary: '#315C45', accent: '#5F7F62', brand800: '#274A3A', brand900: '#20382D', surface: '#F7F4ED', headingFont: 'Inter', bodyFont: 'Inter' },
       wellness: { primary: '#4A5568', accent: '#7C6F64', brand800: '#3B4556', brand900: '#2D3748', surface: '#FAF8F4', headingFont: 'Inter', bodyFont: 'Inter' },
     };
@@ -291,7 +292,7 @@
     }
 
     function InsuranceSection({ insurance }) {
-      return `<section id="insurance" class="section border-t border-slate-100 bg-[#EEF4FA]"><div class="section-shell rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-soft backdrop-blur md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">Insurance</p><h2 class="section-title">${esc(insurance.title)}</h2></div><div class="lg:col-span-2"><div class="grid grid-cols-1 gap-4 sm:grid-cols-3">${insurance.plans.map(plan => `<div class="interactive-card flex min-h-28 items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-5 shadow-sm"><img src="${esc(plan.logo)}" alt="${esc(plan.name)}" loading="lazy" class="max-h-14 max-w-full object-contain" /></div>`).join('')}</div></div></div></div></section>`;
+      return `<section id="insurance" class="section border-t border-slate-100 bg-sage-100"><div class="section-shell rounded-[2rem] border border-white/70 bg-white/80 p-8 shadow-soft backdrop-blur md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">Insurance</p><h2 class="section-title">${esc(insurance.title)}</h2></div><div class="lg:col-span-2"><div class="grid grid-cols-1 gap-4 sm:grid-cols-3">${insurance.plans.map(plan => `<div class="interactive-card flex min-h-28 items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-5 shadow-sm"><img src="${esc(plan.logo)}" alt="${esc(plan.name)}" loading="lazy" class="max-h-14 max-w-full object-contain" /></div>`).join('')}</div></div></div></div></section>`;
     }
 
     function FAQSection({ faqs }) {
@@ -314,7 +315,7 @@
       const today = location.weeklyHours?.[value('weekday')];
 
       if (!today || today.closed) return { label: 'Closed Today', className: 'bg-slate-100 text-slate-600' };
-      if (today.telehealthOnly) return { label: 'Telehealth Today', className: 'bg-blue-50 text-brand-accent' };
+      if (today.telehealthOnly) return { label: 'Telehealth Today', className: 'bg-sage-50 text-brand-accent' };
 
       const nowMinutes = Number(value('hour')) * 60 + Number(value('minute'));
       const toMinutes = (time) => {
@@ -323,7 +324,7 @@
       };
       const isOpen = nowMinutes >= toMinutes(today.open) && nowMinutes < toMinutes(today.close);
       return isOpen
-        ? { label: 'Open Now', className: 'bg-emerald-50 text-emerald-700' }
+        ? { label: 'Open Now', className: 'bg-emerald-50 text-brand-accent' }
         : { label: 'Closed Now', className: 'bg-slate-100 text-slate-600' };
     }
 
