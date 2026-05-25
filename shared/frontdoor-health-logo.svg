@@ -1,18 +1,18 @@
 <svg width="760" height="150" viewBox="0 0 760 150" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Frontdoor Health logo</title>
-  <desc id="desc">A calm clinical logo with a sage open-door icon, navy Frontdoor wordmark, and sage Health wordmark.</desc>
+  <desc id="desc">A calm clinical logo with a navy open-door icon, navy Frontdoor wordmark, and teal Health wordmark.</desc>
 
   <style>
-    .navy { fill: #1E3A5F; }
-    .sage { fill: #5C8A79; }
-    .sage-soft { fill: #DCE8E2; }
+    .navy { fill: #06284A; }
+    .sage { fill: #9BCBC7; }
+    .sage-soft { fill: #DDEDEA; }
     .wordmark {
       font-family: Inter, Arial, sans-serif;
       font-size: 56px;
       font-weight: 700;
     }
-    .wordmark-main { fill: #1E3A5F; }
-    .wordmark-health { fill: #5C8A79; }
+    .wordmark-main { fill: #06284A; }
+    .wordmark-health { fill: #9BCBC7; }
   </style>
 
   <!-- Door / entry icon -->
@@ -21,7 +21,7 @@
     <path class="sage-soft" d="M58 13H94C101.18 13 107 18.82 107 26V91C107 98.18 101.18 104 94 104H58V13Z"/>
     <path class="sage" d="M68 24H93C96.314 24 99 26.686 99 30V86C99 89.314 96.314 92 93 92H68V84H89C90.105 84 91 83.105 91 82V34C91 32.895 90.105 32 89 32H68V24Z"/>
     <!-- open door -->
-    <path class="sage" d="M14 29L61 12C66.221 10.109 71.75 13.973 71.75 19.526V103.802C71.75 109.198 66.512 113.047 61.357 111.45L14 96.78V29Z"/>
+    <path class="navy" d="M14 29L61 12C66.221 10.109 71.75 13.973 71.75 19.526V103.802C71.75 109.198 66.512 113.047 61.357 111.45L14 96.78V29Z"/>
     <!-- light path -->
     <path class="sage-soft" d="M72 92L124 116H72V92Z"/>
     <!-- knob -->
