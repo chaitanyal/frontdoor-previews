@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build:css": "tailwindcss -c tailwind.config.js -i ./shared/styles/gracemed.css -o ./northhillspsychiatry/assets/styles.css --minify"
+    "build:css": "tailwindcss -c tailwind.config.js -i ./shared/styles/frontdoor.css -o ./northhillspsychiatry/assets/styles.css --minify"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.17"

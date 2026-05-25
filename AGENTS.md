@@ -1,16 +1,16 @@
 # AGENTS.md
 
-# GraceMed Previews Repository
+# Frontdoor Health Previews Repository
 
 This repository hosts static HTML preview websites for small medical practices.
 
 These previews are deployed to:
 
-https://preview.gracemed.us/<practice-slug>
+https://preview.frontdoor.health/<practice-slug>
 
 Example:
 
-https://preview.gracemed.us/northhillspsychiatry
+https://preview.frontdoor.health/northhillspsychiatry
 
 This repository is intentionally simple:
 - static HTML
@@ -34,7 +34,7 @@ Each practice preview lives in its own folder.
 Example:
 
 ```text
-gracemed-previews/
+frontdoor-previews/
   logos/
   northhillspsychiatry/
     index.html
@@ -55,7 +55,7 @@ northhillspsychiatry/
 maps to:
 
 ```text
-https://preview.gracemed.us/northhillspsychiatry
+https://preview.frontdoor.health/northhillspsychiatry
 ```
 
 ---

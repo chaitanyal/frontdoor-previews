@@ -1,15 +1,15 @@
-# GraceMed Previews
+# Frontdoor Health Previews
 
 Static HTML preview sites for small medical practices, deployed under:
 
 ```text
-https://preview.gracemed.us/<practice-slug>
+https://preview.frontdoor.health/<practice-slug>
 ```
 
 Example:
 
 ```text
-https://preview.gracemed.us/northhillspsychiatry
+https://preview.frontdoor.health/northhillspsychiatry
 ```
 
 ## Repository Structure
@@ -17,7 +17,7 @@ https://preview.gracemed.us/northhillspsychiatry
 Each practice preview lives in its own top-level folder. The folder name is the deployed URL slug.
 
 ```text
-gracemed-previews/
+frontdoor-previews/
   AGENTS.md
   README.md
   northhillspsychiatry/
