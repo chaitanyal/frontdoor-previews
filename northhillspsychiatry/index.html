@@ -155,16 +155,6 @@
         { icon: 'CalendarCheck', text: 'New patients welcome' },
         { icon: 'MapPin', text: 'Serving Austin families' },
       ],
-      about: {
-        eyebrow: 'About the practice',
-        title: 'Thoughtful care designed around the patient experience.',
-        copy: 'Our practice combines clinical expertise with a calm, supportive experience from the first visit. We help patients understand their options, find the right provider, and begin care with less friction.',
-        features: [
-          { title: 'Clear next steps', copy: 'Simple appointment requests and intake guidance.' },
-          { title: 'Provider matching', copy: 'Find care by specialty, condition, or preference.' },
-          { title: 'Modern access', copy: 'Mobile-first experience for busy patients.' },
-        ],
-      },
       providers: [
         { slug: 'maya-patel', name: 'Dr. Zita Samuel', credentials: 'MD · Adult Psychiatry', image: './images/providers/zita_samuel.png', specialties: ['ADHD', 'Anxiety'], philosophy: 'Focused on anxiety, adult ADHD, and thoughtful medication support.', bio: 'Evidence-based care for adults navigating anxiety, depression, and attention concerns.' },
         { slug: 'daniel-kim', name: 'Dr. Diana Samuel', credentials: 'MD · Adult & Adolescent Psychiatry', image: './images/providers/diana_samuel.png', specialties: ['Teens', 'Mood'], philosophy: 'Supportive care for children, teens, and families navigating change.', bio: 'Supportive psychiatric care for children, teens, and families.' },
@@ -293,10 +283,6 @@
         <div class="reassurance-row">${icon(item.icon, 'h-4 w-4 text-brand-accent')}<span>${esc(item.text)}</span></div>`).join('')}</div></section>`;
     }
 
-    function AboutSection({ about }) {
-      return `<section class="section border-t border-white/60 bg-warm-50"><div class="section-shell grid grid-cols-1 gap-y-10 lg:grid-cols-3 lg:gap-14"><div><p class="eyebrow">${esc(about.eyebrow)}</p><h2 class="section-title">${esc(about.title)}</h2></div><div class="lg:col-span-2"><p class="max-w-3xl text-lg leading-8 text-slate-600">${esc(about.copy)}</p><div class="mt-10 grid grid-cols-1 gap-y-6 gap-x-5 sm:grid-cols-3">${about.features.map(feature => `<div class="card p-6"><p class="text-base font-semibold text-slate-950">${esc(feature.title)}</p><p class="mt-3 text-sm leading-6 text-slate-600">${esc(feature.copy)}</p></div>`).join('')}</div></div></div></section>`;
-    }
-
     function ProviderGrid({ providers }) {
       if (!providers?.length) return '';
       return `<section id="providers" class="section border-t border-white/60 bg-[#F6F8F7]"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">Providers</p><h2 class="section-title">Meet the care team</h2><p class="section-copy">Warm, evidence-based psychiatric care with a calm first step into treatment.</p></div><div class="mt-12 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-2">${providers.map(provider => `
@@ -382,7 +368,6 @@
         <main id="main-content" tabindex="-1">
           ${HeroSection(config)}
           ${TrustStrip(config)}
-          ${AboutSection(config)}
           ${ProviderGrid(config)}
           ${ConditionsSection(config)}
           ${InsuranceSection(config)}
