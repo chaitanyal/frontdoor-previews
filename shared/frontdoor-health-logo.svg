@@ -7,13 +7,13 @@
     .sage { fill: #5C8A79; }
     .sage-soft { fill: #DCE8E2; }
     .wordmark-main {
-      font-family: Georgia, 'Times New Roman', serif;
+      font-family: Inter, Arial, sans-serif;
       font-size: 56px;
       font-weight: 700;
       fill: #1E3A5F;
     }
     .wordmark-health {
-      font-family: Georgia, 'Times New Roman', serif;
+      font-family: Inter, Arial, sans-serif;
       font-size: 56px;
       font-weight: 700;
       fill: #5C8A79;
