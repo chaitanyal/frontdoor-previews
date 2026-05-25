@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .page-shell { @apply mx-auto max-w-7xl px-6 lg:px-8; }
+  .section { @apply px-6 py-20 lg:px-8; }
+  .section-shell { @apply mx-auto max-w-7xl; }
+  .eyebrow { @apply text-sm font-semibold uppercase tracking-wide text-brand-accent; }
+  .section-title { @apply mt-4 text-3xl font-semibold leading-tight tracking-tight text-slate-950 md:text-4xl; }
+  .section-copy { @apply mt-5 text-base leading-7 text-slate-600; }
+  .soft-card { @apply rounded-[32px] border border-white/60 bg-white/85 shadow-card backdrop-blur-sm; }
+  .card { @apply rounded-[32px] border border-white/60 bg-white/85 p-6 shadow-card backdrop-blur-sm; }
+  .editorial-card { @apply rounded-[32px] border border-white/60 bg-white/85 p-7 shadow-card backdrop-blur-sm md:p-8; }
+  .icon-chip { @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-sage-50 text-brand-accent; }
+  .gentle-gradient { @apply bg-gradient-to-br from-sage-50/80 via-white/70 to-warm-50; }
+  .reassurance-row { @apply flex items-center gap-3 rounded-[28px] bg-white/55 px-4 py-3 text-sm font-semibold text-slate-700; }
+  .interactive-card { @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-cardHover; }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-primary px-5 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-brand-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 focus-visible:ring-offset-2; }
+  .btn-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200/80 bg-white/85 px-5 py-3 text-base font-semibold text-slate-700 shadow-sm transition hover:bg-white focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 focus-visible:ring-offset-2; }
+  .nav-link { @apply rounded-md text-sm font-medium text-slate-600 transition hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 focus-visible:ring-offset-2; }
+  .badge { @apply inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700; }
+  .badge-brand { @apply inline-flex items-center gap-1.5 rounded-full bg-sage-50 px-3 py-1 text-xs font-medium text-brand-accent; }
+  .form-label { @apply text-sm font-medium text-slate-700; }
+  .form-control { @apply mt-2 w-full rounded-[20px] border border-slate-200 bg-white/90 px-4 py-3.5 text-base text-slate-950 outline-none transition focus:border-brand-primary focus:ring-4 focus:ring-slate-200 focus-visible:ring-4 focus-visible:ring-slate-300; }
+  .hours-row { @apply flex items-center justify-between border-b border-slate-200/70 pb-4; }
+}
+
+:root {
+  --brand-primary: #1E3A5F;
+  --brand-accent: #2F855A;
+  --brand-800: #16304F;
+  --brand-900: #0F172A;
+  --surface: #FAF8F5;
+  --font-body: Inter;
+  --font-heading: Inter;
+  --radius: 1.5rem;
+}
+
+.image-treatment { filter: brightness(0.98) contrast(1.02) saturate(0.92); }
+.fade-in-up { animation: fadeInUp 500ms ease-out both; }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-150%);
+  border-radius: 0.75rem;
+  background: #ffffff;
+  padding: 0.75rem 1rem;
+  color: #0f172a;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+}
+.skip-link:focus-visible { transform: translateY(0); outline: 3px solid #1E3A5F; outline-offset: 3px; }
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #1E3A5F;
+  outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .conditions-leaf { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+  .fade-in-up { animation: none; }
+  .interactive-card:hover { transform: none; }
+}

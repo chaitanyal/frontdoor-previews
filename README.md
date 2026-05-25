@@ -43,6 +43,8 @@ Use the build script so repository-only files such as `AGENTS.md` are not publis
 - Build command: `./scripts/build.sh`
 - Build output directory: `dist`
 
+The build compiles local Tailwind CSS and avoids shipping the Tailwind CDN script in production.
+
 ## Image Optimization
 
 Generate WebP copies of raster images and update HTML references with:
