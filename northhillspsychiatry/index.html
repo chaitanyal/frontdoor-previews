@@ -99,6 +99,10 @@
       outline-offset: 3px;
     }
 
+    @media (max-width: 768px) {
+      .conditions-leaf { display: none; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -167,16 +171,16 @@
       ],
       conditionsIntro: 'We provide evaluation and ongoing treatment for a range of psychiatric and emotional health concerns.',
       conditions: [
-        { title: 'Anxiety', description: 'Persistent worry, panic, and stress' },
-        { title: 'ADHD', description: 'Focus, attention, and executive functioning' },
-        { title: 'Depression', description: 'Low mood, burnout, and emotional exhaustion' },
-        { title: 'Bipolar Disorder' },
-        { title: 'Trauma & PTSD' },
-        { title: 'OCD' },
-        { title: 'Eating Disorders' },
-        { title: 'Mood Disorders' },
-        { title: 'Life Transitions' },
-        { title: 'Medication Management' },
+        'Anxiety',
+        'ADHD',
+        'Depression',
+        'Bipolar Disorder',
+        'Trauma & PTSD',
+        'OCD',
+        'Eating Disorders',
+        'Mood Disorders',
+        'Life Transitions',
+        'Medication Management',
       ],
       insurance: {
         title: 'Major plans accepted',
@@ -300,11 +304,11 @@
     }
 
     function BotanicalAccent() {
-      return `<svg aria-hidden="true" class="pointer-events-none absolute right-4 top-8 h-72 w-72 text-slate-950 opacity-[0.05] md:right-12 md:top-12" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M109 188C109 133 109 76 109 32" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M109 82C86 58 64 47 42 49C45 74 62 91 109 102" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M110 110C139 78 164 66 190 69C186 98 165 119 110 132" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M109 145C82 120 58 109 35 113C40 140 61 158 109 166" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      return `<svg aria-hidden="true" class="conditions-leaf pointer-events-none absolute right-4 top-8 h-72 w-72 text-slate-950 opacity-[0.05] md:right-12 md:top-12" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M109 188C109 133 109 76 109 32" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M109 82C86 58 64 47 42 49C45 74 62 91 109 102" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M110 110C139 78 164 66 190 69C186 98 165 119 110 132" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M109 145C82 120 58 109 35 113C40 140 61 158 109 166" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     }
 
     function ConditionsSection({ conditions, conditionsIntro }) {
-      return `<section id="conditions" class="section relative overflow-hidden border-t border-white/60 bg-[#FAF8F6]">${BotanicalAccent()}<div class="section-shell relative"><div class="max-w-3xl"><p class="eyebrow">Areas of care</p><h2 class="section-title">Conditions We Treat</h2><p class="section-copy">${esc(conditionsIntro)}</p></div><ul class="mt-14 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-3" aria-label="Conditions treated">${conditions.map(condition => `<li class="border-t border-slate-200/70 py-5"><h3 class="text-lg font-semibold tracking-tight text-slate-950">${esc(condition.title)}</h3>${condition.description ? `<p class="mt-2 text-sm leading-6 text-slate-500">${esc(condition.description)}</p>` : ''}</li>`).join('')}</ul></div></section>`;
+      return `<section id="conditions" class="section relative overflow-hidden border-t border-white/60 bg-[#FAF8F6]">${BotanicalAccent()}<div class="section-shell relative"><div class="max-w-3xl"><p class="eyebrow">Areas of care</p><h2 class="section-title">Conditions We Treat</h2><p class="section-copy">${esc(conditionsIntro)}</p></div><ul class="mt-14 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-3" aria-label="Conditions treated">${conditions.map(condition => `<li class="border-t border-[rgba(15,23,42,0.06)] py-5"><h3 class="text-lg font-semibold tracking-tight text-slate-950">${esc(condition)}</h3></li>`).join('')}</ul></div></section>`;
     }
 
     function InsuranceSection({ insurance }) {
@@ -366,7 +370,7 @@
         email: config.practice.email,
         address: config.practice.addressLines.join(', '),
         image: config.hero.image,
-        medicalSpecialty: config.conditions.map(condition => condition.title),
+        medicalSpecialty: config.conditions,
       };
       return '<' + 'script type="application/ld+json">' + JSON.stringify(data).replace(/</g, '\\u003c') + '<' + '/script>';
     }
