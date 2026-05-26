@@ -48,15 +48,71 @@
     {
       "slug": "goutham-dronavalli",
       "name": "Dr. Goutham Dronavalli",
-      "credentials": "MD · Pulmonary & Critical Care Medicine",
+      "credentials": "MD \u00b7 Internal Medicine \u2013 Pulmonary Disease",
       "image": "./images/providers/goutham_dronavalli.webp",
       "specialties": [
         "Pulmonary disease",
         "Critical care",
         "Sleep disorders"
       ],
-      "philosophy": "",
-      "bio": "Dr. Dronavalli completed internal medicine residency at East Tennessee State University and fellowship training in pulmonary, critical care, and lung transplant at Baylor College of Medicine."
+      "philosophy": "Practical and personalized care for each individual patient with lung disease.",
+      "bio": "Dr. Dronavalli\u2019s practice philosophy is to provide practical and personalized care to each individual patient with lung disease. He is an associate professor in the Department of Internal Medicine at UT Health, Houston. He also serves as the medical director of Heart Failure IMU.",
+      "specialty": "Internal Medicine \u2013 Pulmonary Disease",
+      "tagline": "Practical, personalized care for each patient with lung disease.",
+      "bioParagraphs": [
+        "Dr. Dronavalli\u2019s practice philosophy is to provide practical and personalized care to each individual patient with lung disease.",
+        "He is an associate professor in the Department of Internal Medicine at UT Health, Houston. He also serves as the medical director of Heart Failure IMU."
+      ],
+      "conditions": [
+        "Asthma",
+        "COPD",
+        "Sleep Apnea",
+        "Shortness of Breath",
+        "Pulmonary Disease",
+        "Respiratory Failure",
+        "Pneumonia",
+        "Low Blood Oxygen"
+      ],
+      "services": [
+        "Pulmonary Function Testing",
+        "Six-Minute Walk Testing",
+        "Home Sleep Studies",
+        "Allergy Skin Testing",
+        "Medication Management",
+        "Critical Care Follow-Up"
+      ],
+      "languages": [
+        "English"
+      ],
+      "education": {
+        "medicalSchool": "East Tennessee Medical University, 2006",
+        "fellowship": [
+          "Baylor College of Medicine, 2010"
+        ],
+        "residency": [
+          "East Tennessee Medical University"
+        ]
+      },
+      "certifications": [
+        "Pulmonary medicine expertise",
+        "Critical care medicine expertise"
+      ],
+      "affiliations": [
+        "Associate Professor, Department of Internal Medicine at UT Health, Houston",
+        "Medical Director, Heart Failure IMU"
+      ],
+      "acceptsNewPatients": true,
+      "telehealth": true,
+      "phone": "(832) 500-1430",
+      "phoneHref": "tel:+18325001430",
+      "office": "1429 Highway 6, Suite 303, Sugar Land, TX 77478",
+      "acceptedInsurances": [
+        "Aetna Health Plans",
+        "Anthem Blue Cross and Blue Shield",
+        "Blue Cross and Blue Shield \u2013 Texas",
+        "Cigna"
+      ],
+      "externalProfileUrl": "https://healow.com/apps/provider/goutham-dronavalli-3201534"
     }
   ],
   "conditionsIntro": "Evaluation and care for common and complex respiratory conditions.",
@@ -129,26 +185,26 @@
     "hours": [
       [
         "Monday",
-        "9:00 AM – 5:00 PM"
+        "9:00 AM \u2013 5:00 PM"
       ],
       [
         "Tuesday",
-        "9:00 AM – 5:00 PM"
+        "9:00 AM \u2013 5:00 PM"
       ],
       [
         "Wednesday",
-        "9:00 AM – 5:00 PM"
+        "9:00 AM \u2013 5:00 PM"
       ],
       [
         "Thursday",
-        "9:00 AM – 5:00 PM"
+        "9:00 AM \u2013 5:00 PM"
       ],
       [
         "Friday",
-        "9:00 AM – 5:00 PM"
+        "9:00 AM \u2013 5:00 PM"
       ],
       [
-        "Saturday–Sunday",
+        "Saturday\u2013Sunday",
         "Closed"
       ]
     ],

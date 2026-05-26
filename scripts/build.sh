@@ -31,7 +31,7 @@ mkdir -p dist
 for item in ./*; do
   name="$(basename "$item")"
   case "$name" in
-    AGENTS.md|README.md|wrangler.toml|scripts|templates|dist|node_modules|package.json|package-lock.json|tailwind.config.js)
+    AGENTS.md|README.md|wrangler.toml|githooks|scripts|templates|dist|node_modules|package.json|package-lock.json|tailwind.config.js)
       continue
       ;;
   esac
@@ -39,6 +39,7 @@ for item in ./*; do
   cp -R "$item" dist/
 done
 
+python3 scripts/generate_provider_pages.py
 python3 scripts/embed_practice_json.py
 
 rm -rf dist/shared/styles

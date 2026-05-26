@@ -46,28 +46,128 @@
   ],
   "providers": [
     {
-      "slug": "maya-patel",
+      "slug": "zita-samuel",
       "name": "Dr. Zita Samuel",
-      "credentials": "MD · Adult Psychiatry",
+      "credentials": "MD \u00b7 Board Certified, Adult Psychiatry",
       "image": "./images/providers/zita_samuel.webp",
       "specialties": [
         "ADHD",
         "Anxiety"
       ],
-      "philosophy": "Focused on anxiety, adult ADHD, and thoughtful medication support.",
-      "bio": "Evidence-based care for adults navigating anxiety, depression, and attention concerns."
+      "philosophy": "Works with each patient and their support system to understand the whole person and develop thoughtful, individualized care.",
+      "bio": "Dr. Zita Samuel is board certified in adult psychiatry. She completed adult psychiatry residency at Loyola University Medical Center / Edward Hines VA Medical Center, where she was elected Chief Resident and received Resident of the Year. She later served as Assistant Professor at the University of Texas Medical Branch and taught psychiatry residents at Shoal Creek.",
+      "specialty": "Board Certified Adult Psychiatry",
+      "tagline": "Collaborative adult psychiatric care that considers the patient, their support system, life stressors, and biological factors.",
+      "bioParagraphs": [
+        "Dr. Zita Samuel is board certified in adult psychiatry and works with patients and their support systems to develop a fuller understanding of each person. She believes stressors, life events, and biological factors all shape mental health.",
+        "She completed adult psychiatry residency at Loyola University Medical Center / Edward Hines VA Medical Center, where she was elected Chief Resident and received Resident of the Year. She later served as Assistant Professor at the University of Texas Medical Branch and taught psychiatry residents at Shoal Creek."
+      ],
+      "conditions": [
+        "Anxiety",
+        "ADHD",
+        "Depression",
+        "Mood Disorders",
+        "Life Transitions",
+        "Stress-Related Concerns",
+        "Medication Questions"
+      ],
+      "services": [
+        "Adult Psychiatric Evaluation",
+        "Medication Management",
+        "Supportive Treatment Planning",
+        "Consultation/Liaison Psychiatry Experience",
+        "Emergency Psychiatry Experience"
+      ],
+      "languages": [
+        "English"
+      ],
+      "education": {
+        "residency": [
+          "Adult Psychiatry \u2014 Loyola University Medical Center / Edward Hines VA Medical Center"
+        ]
+      },
+      "certifications": [
+        "Board Certified, Adult Psychiatry"
+      ],
+      "affiliations": [
+        "Former Assistant Professor, University of Texas Medical Branch",
+        "Former psychiatry resident educator, UTMB at Shoal Creek",
+        "North Hills Psychiatry"
+      ],
+      "acceptsNewPatients": true,
+      "telehealth": true,
+      "phone": "(512) 372-4554",
+      "phoneHref": "tel:+15123724554",
+      "office": "11615 Angus Road, Suite 225, Austin, TX 78759",
+      "awards": [
+        "Chief Resident",
+        "Resident of the Year",
+        "Junior Faculty Teaching Award",
+        "Medical Student Teaching Award"
+      ]
     },
     {
-      "slug": "daniel-kim",
+      "slug": "diana-samuel",
       "name": "Dr. Diana Samuel",
-      "credentials": "MD · Adult & Adolescent Psychiatry",
+      "credentials": "MD \u00b7 Board Certified, Child & Adolescent Psychiatry \u00b7 Board Certified, Adult Psychiatry",
       "image": "./images/providers/diana_samuel.webp",
       "specialties": [
         "Teens",
         "Mood"
       ],
-      "philosophy": "Supportive care for children, teens, and families navigating change.",
-      "bio": "Supportive psychiatric care for children, teens, and families."
+      "philosophy": "Takes time to understand each child and family, discuss treatment options, and support success at home, school, and in life.",
+      "bio": "Dr. Diana Samuel is board certified in child and adolescent psychiatry and adult psychiatry. She completed adult psychiatry residency at Baylor College of Medicine and child and adolescent psychiatry fellowship at the University of Texas Southwestern, where she served as chief fellow.",
+      "specialty": "Child, Adolescent & Adult Psychiatry",
+      "tagline": "Family-centered psychiatric care for children, adolescents, young adults, and families navigating treatment decisions.",
+      "bioParagraphs": [
+        "Dr. Diana Samuel is board certified in child and adolescent psychiatry and adult psychiatry. She helps children, adolescents, young adults, and families with a thoughtful approach to medication management, psychotherapy-informed care, and family collaboration.",
+        "After Ross University Medical School, she completed adult psychiatry residency at Baylor College of Medicine in Houston and child and adolescent psychiatry fellowship at the University of Texas Southwestern in Dallas, where she was selected by faculty and peers to serve as chief fellow."
+      ],
+      "conditions": [
+        "Child & Adolescent Mental Health",
+        "Anxiety",
+        "ADHD",
+        "Depression",
+        "Mood Disorders",
+        "School & Family Stress",
+        "Medication Questions"
+      ],
+      "services": [
+        "Child & Adolescent Psychiatric Evaluation",
+        "Adult Psychiatric Evaluation",
+        "Medication Management",
+        "Family-Centered Treatment Planning",
+        "Psychotherapy-Informed Care",
+        "School Collaboration Experience"
+      ],
+      "languages": [
+        "English"
+      ],
+      "education": {
+        "medicalSchool": "Ross University Medical School",
+        "residency": [
+          "Adult Psychiatry \u2014 Baylor College of Medicine, Houston, Texas"
+        ],
+        "fellowship": [
+          "Child and Adolescent Psychiatry \u2014 University of Texas Southwestern, Dallas, Texas"
+        ]
+      },
+      "certifications": [
+        "Board Certified, Child and Adolescent Psychiatry",
+        "Board Certified, Adult Psychiatry"
+      ],
+      "affiliations": [
+        "Former Consulting Psychiatrist, Dallas Independent School District",
+        "North Hills Psychiatry"
+      ],
+      "acceptsNewPatients": true,
+      "telehealth": true,
+      "phone": "(512) 372-4554",
+      "phoneHref": "tel:+15123724554",
+      "office": "11615 Angus Road, Suite 225, Austin, TX 78759",
+      "awards": [
+        "Chief Fellow, Child and Adolescent Psychiatry Fellowship"
+      ]
     }
   ],
   "conditionsIntro": "We provide evaluation and ongoing treatment for a range of psychiatric and emotional health concerns.",
@@ -133,11 +233,11 @@
     "hours": [
       [
         "Monday",
-        "8:00 AM – 5:00 PM"
+        "8:00 AM \u2013 5:00 PM"
       ],
       [
         "Tuesday",
-        "8:00 AM – 5:00 PM"
+        "8:00 AM \u2013 5:00 PM"
       ],
       [
         "Wednesday",
@@ -145,14 +245,14 @@
       ],
       [
         "Thursday",
-        "8:00 AM – 5:00 PM"
+        "8:00 AM \u2013 5:00 PM"
       ],
       [
         "Friday",
-        "8:00 AM – 3:00 PM"
+        "8:00 AM \u2013 3:00 PM"
       ],
       [
-        "Saturday–Sunday",
+        "Saturday\u2013Sunday",
         "Closed"
       ]
     ],
