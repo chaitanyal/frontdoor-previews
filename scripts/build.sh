@@ -24,4 +24,5 @@ for item in ./*; do
 done
 
 rm -rf dist/shared/styles
+find dist -name '*.md' -type f -delete
 find dist -name '.DS_Store' -type f -delete
