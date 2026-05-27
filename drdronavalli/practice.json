@@ -56,7 +56,7 @@
     {
       "slug": "goutham-dronavalli",
       "name": "Dr. Goutham Dronavalli",
-      "credentials": "MD \u00b7 Pulmonary & Critical Care Medicine",
+      "credentials": "Pulmonary & Critical Care Medicine",
       "image": "./images/providers/goutham_dronavalli.webp",
       "specialties": [
         "Pulmonary disease",
@@ -64,26 +64,26 @@
         "Sleep disorders"
       ],
       "specialty": "Pulmonary Disease & Sleep Medicine",
-      "tagline": "Personalized pulmonary and sleep care focused on improving breathing, recovery, and long-term respiratory health.",
+      "tagline": "Dr. Goutham Dronavalli combines advanced academic insight with personalized treatment plans to help patients overcome complex breathing disorders and chronic sleep conditions. Welcoming new patients in Sugar Land.",
       "bioParagraphs": [
-        "Dr. Dronavalli provides practical, personalized care for patients with lung disease, sleep concerns, and complex breathing symptoms.",
-        "He serves as an Associate Professor in the Department of Internal Medicine at UTHealth Houston and has extensive experience in pulmonary and critical care medicine, including inpatient and outpatient care, pulmonary function testing, sleep studies, and allergy testing."
+        "Dr. Goutham Dronavalli provides comprehensive, evidence-based care for patients navigating complex lung diseases and sleep disorders. As an Associate Professor in the Department of Internal Medicine at UTHealth Houston, he bridges cutting-edge medical research with compassionate bedside care. His extensive clinical expertise spans both inpatient and outpatient settings, ensuring seamless continuity for his patients.",
+        "Dr. Dronavalli specializes in detailed diagnostic evaluations, including pulmonary function testing, advanced allergy screenings, and specialized sleep studies. He works closely with each patient to build highly individualized treatment plans focused on long-term management, clear communication, and measurable improvements in quality of life."
       ],
       "conditions": [
         "Asthma",
-        "COPD",
-        "Sleep Apnea",
-        "Shortness of Breath",
-        "Pulmonary Disease",
-        "Respiratory Failure"
+        "Chronic Obstructive Pulmonary Disease (COPD)",
+        "Obstructive & Central Sleep Apnea",
+        "Chronic Cough & Wheezing",
+        "Interstitial Lung Disease (ILD)",
+        "Insomnia & Sleep-Disordered Breathing"
       ],
       "services": [
-        "Pulmonary Function Testing",
-        "Six-Minute Walk Testing",
-        "Home Sleep Studies",
-        "Allergy Testing",
-        "Medication Management",
-        "Critical Care Follow-Up"
+        "Comprehensive Pulmonary Function Testing (PFTs)",
+        "Home Sleep Apnea Testing (HSAT)",
+        "Six-Minute Walk Testing (Oxygen Evaluation)",
+        "CPAP / BiPAP Therapy Management",
+        "Allergy Evaluation & Management",
+        "Chronic Medication Management"
       ],
       "languages": [
         "English"
@@ -118,13 +118,15 @@
         "Cigna"
       ],
       "externalProfileUrl": "https://healow.com/apps/provider/goutham-dronavalli-3201534",
-      "aboutHeading": "Individualized Pulmonary Care",
+      "aboutHeading": "Expert pulmonary and sleep care designed to help you breathe easier and sleep better.",
       "whatToExpect": [
-        "Thorough evaluations and personalized treatment plans",
-        "Clear communication about diagnosis and next steps",
-        "Long-term management of chronic lung conditions"
+        "Personalized testing and care plans built around your unique lifestyle.",
+        "Clear guidance regarding your diagnosis, test results, and next steps.",
+        "Consistent support to protect your breathing and sleep health."
       ],
-      "cardDescription": "Pulmonary and sleep care for asthma, COPD, sleep apnea, shortness of breath, and complex respiratory concerns."
+      "ctaTitle": "Take the Next Step Toward Better Breathing & Sleep",
+      "ctaCopy": "Call our Sugar Land office directly or request an appointment online. Our team will contact you promptly to finalize your visit.",
+      "cardDescription": "Dr. Goutham Dronavalli combines advanced academic insight with personalized treatment plans to help patients overcome complex breathing disorders and chronic sleep conditions. Welcoming new patients in Sugar Land."
     }
   ],
   "conditionsIntro": "Evaluation and care for common and complex respiratory conditions.",
