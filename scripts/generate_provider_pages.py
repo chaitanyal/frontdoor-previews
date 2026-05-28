@@ -126,10 +126,10 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     bio_paragraphs = provider.get("bioParagraphs") or []
     expectations = provider.get("whatToExpect") or default_expectations(config, provider)
     hospital_affiliations = provider.get("hospitalAffiliations") or provider.get("Hospital Affiliations") or []
-    affiliations = hospital_affiliations or provider.get("affiliations") or []
+    professional_affiliations = provider.get("affiliations") or []
     academic = provider.get("academicAppointments") or []
     awards = provider.get("awards") or []
-    extra_credentials = [*affiliations, *academic, *awards]
+    professional_credentials = [*professional_affiliations, *academic, *awards]
     languages = provider.get("languages") or ["English"]
     phone = provider.get("phone") or practice.get("phone")
     phone_href = provider.get("phoneHref") or practice.get("phoneHref")
@@ -141,9 +141,10 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     specialty = provider.get("specialty") or provider.get("credentials", "").split("·")[-1].strip()
     about_heading = provider.get("aboutHeading") or ("Personalized Psychiatric Care" if is_psychiatry(config, provider) else "Individualized Pulmonary Care")
     affiliation_section = ""
-    if extra_credentials and not is_psychiatry(config, provider):
-        section_title = "Hospital Affiliations" if hospital_affiliations else "Professional Affiliations"
-        affiliation_section = f'''\n    <section class="section border-t border-white/60 bg-[#F8F7F4]"><div class="section-shell max-w-4xl"><details class="soft-card p-7"><summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between text-xl font-semibold text-slate-950">{esc(section_title)}<span class="icon-chip" aria-hidden="true">+</span></summary><div class="mt-6 flex flex-wrap gap-2">{chips(extra_credentials, 'badge-brand')}</div></details></div></section>'''
+    if hospital_affiliations:
+        affiliation_section = f'''\n    <section class="section border-t border-white/60 bg-[#F8F7F4]"><div class="section-shell max-w-5xl"><div class="soft-card p-7 md:p-8"><h2 class="text-3xl font-semibold leading-tight tracking-tight text-slate-950 md:text-5xl">Hospital Affiliations</h2><ul class="mt-7 grid grid-cols-1 gap-3 md:grid-cols-2">{list_cards(hospital_affiliations)}</ul></div></div></section>'''
+    elif professional_credentials and not is_psychiatry(config, provider):
+        affiliation_section = f'''\n    <section class="section border-t border-white/60 bg-[#F8F7F4]"><div class="section-shell max-w-5xl"><div class="soft-card p-7 md:p-8"><h2 class="text-3xl font-semibold leading-tight tracking-tight text-slate-950 md:text-5xl">Professional Affiliations</h2><ul class="mt-7 grid grid-cols-1 gap-3 md:grid-cols-2">{list_cards(professional_credentials)}</ul></div></div></section>'''
 
     schema = {
         "@context": "https://schema.org",
