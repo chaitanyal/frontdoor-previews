@@ -23,8 +23,10 @@ def esc(value: Any) -> str:
 def rel(path: str | None) -> str:
     if not path:
         return ""
-    if path.startswith("http") or path.startswith("/"):
+    if path.startswith("http"):
         return path
+    if path.startswith("/"):
+        return "../../" + path.lstrip("/")
     if path.startswith("./"):
         return "../../" + path[2:]
     if path.startswith("../"):

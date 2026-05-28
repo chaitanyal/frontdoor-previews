@@ -17,7 +17,7 @@ for practice_dir in ./*/; do
       echo "Missing ${practice_dir}practice.json" >&2
       exit 1
     fi
-    python3 -m json.tool "${practice_dir}practice.json" >/dev/null
+    python3 scripts/validate_practice_json.py "${practice_dir}practice.json" >/dev/null
   fi
 done
 
