@@ -229,44 +229,47 @@
     "hours": [
       [
         "Monday",
-        "8:00 AM \u2013 5:00 PM"
+        "10:30 AM \u2013 6:00 PM"
       ],
       [
         "Tuesday",
-        "8:00 AM \u2013 5:00 PM"
+        "8:00 AM \u2013 3:00 PM"
       ],
       [
         "Wednesday",
-        "Telehealth Only"
+        "Closed"
       ],
       [
         "Thursday",
-        "8:00 AM \u2013 5:00 PM"
+        "Closed"
       ],
       [
         "Friday",
         "8:00 AM \u2013 3:00 PM"
       ],
       [
-        "Saturday\u2013Sunday",
+        "Saturday",
+        "Closed"
+      ],
+      [
+        "Sunday",
         "Closed"
       ]
     ],
     "weeklyHours": {
       "Monday": {
-        "open": "08:00",
-        "close": "17:00"
+        "open": "10:30",
+        "close": "18:00"
       },
       "Tuesday": {
         "open": "08:00",
-        "close": "17:00"
+        "close": "15:00"
       },
       "Wednesday": {
-        "telehealthOnly": true
+        "closed": true
       },
       "Thursday": {
-        "open": "08:00",
-        "close": "17:00"
+        "closed": true
       },
       "Friday": {
         "open": "08:00",
