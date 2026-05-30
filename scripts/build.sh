@@ -48,9 +48,10 @@ for practice_dir in dist/*/; do
 done
 
 python3 scripts/generate_provider_pages.py
-python3 scripts/embed_practice_json.py
+node scripts/prerender_practice_pages.js dist
 
 rm -rf dist/shared/styles .tmp/frontdoor-build
 find dist -name '*.md' -type f -delete
 find dist -name 'practice.json' -type f -delete
 find dist -name '.DS_Store' -type f -delete
+python3 scripts/validate_built_html.py dist

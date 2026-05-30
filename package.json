@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "bash scripts/build.sh",
-    "build:css": "mkdir -p .tmp/frontdoor-build && tailwindcss -c tailwind.config.js -i ./shared/styles/frontdoor.css -o ./.tmp/frontdoor-build/styles.css --minify"
+    "build:css": "mkdir -p .tmp/frontdoor-build && tailwindcss -c tailwind.config.js -i ./shared/styles/frontdoor.css -o ./.tmp/frontdoor-build/styles.css --minify",
+    "validate:html": "python3 scripts/validate_built_html.py dist"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.17"

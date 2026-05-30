@@ -65,14 +65,15 @@ There is no backend, database, framework build step, or authenticated applicatio
 
 ## Content and Build Process
 
-Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared homepage rendering lives in `shared/home-page.js`, provider profile rendering lives in `scripts/generate_provider_pages.py`, and shared Tailwind source styles live in `shared/styles/frontdoor.css`. The checked-in practice `index.html` files are generic render shells; practice-specific metadata and page content come from `practice.json` during the build.
+Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared homepage rendering lives in `shared/home-page.js`, practice homepage prerendering lives in `scripts/prerender_practice_pages.js`, provider profile rendering lives in `scripts/generate_provider_pages.py`, and shared Tailwind source styles live in `shared/styles/frontdoor.css`. The checked-in practice `index.html` files are generic local-preview shells; practice-specific metadata and page content are prerendered from `practice.json` during the build.
 
 Build flow:
 
 ```text
 sites/<practice>/practice.json + shared/home-page.js + shared/styles/frontdoor.css
   -> scripts/generate_provider_pages.py
-  -> scripts/embed_practice_json.py
+  -> scripts/prerender_practice_pages.js
+  -> scripts/validate_built_html.py
   -> rendered HTML/CSS in dist/
   -> Cloudflare Pages
 ```
@@ -86,9 +87,9 @@ sites/<practice>/practice.json + shared/home-page.js + shared/styles/frontdoor.c
 5. Copies stories from `stories/<story-slug>/` to `dist/stories/<story-slug>/`.
 6. Creates each practice `assets/` directory in `dist/`, copies compiled CSS to `assets/styles.css`, and copies shared fonts to `assets/fonts/`.
 7. Generates static provider profile pages under `dist/<practice-slug>/providers/<provider-slug>/` from provider data in `practice.json`.
-8. Embeds `practice.json` content into each built homepage so there is no runtime JSON fetch.
-9. Replaces generic shell metadata with `seo.title` and `seo.description` from `practice.json`.
-10. Removes source-only files such as `practice.json`, Markdown files, and build-only artifacts from `dist/`.
+8. Prerenders each practice homepage into static HTML with metadata and page content from `practice.json`.
+9. Removes source-only files such as `practice.json`, Markdown files, and build-only artifacts from `dist/`.
+10. Validates built HTML for basic structure, SEO smoke checks, JSON-LD parsing, and local asset paths.
 
 Resulting preview output:
 
