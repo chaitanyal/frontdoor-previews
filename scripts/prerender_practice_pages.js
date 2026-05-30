@@ -12,6 +12,44 @@ function escapeAttr(value) {
   }[char]));
 }
 
+const OFFICE_STATUS_SCRIPT = `<script>
+(() => {
+  function statusFor(timeZone, weeklyHours) {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      weekday: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+    }).formatToParts(new Date());
+    const value = (type) => parts.find(part => part.type === type)?.value;
+    const today = weeklyHours?.[value('weekday')];
+    if (!today) return { label: 'Call for Hours', className: 'bg-slate-100 text-slate-600' };
+    if (today.closed) return { label: 'Closed Today', className: 'bg-slate-100 text-slate-600' };
+    if (today.telehealthOnly) return { label: 'Telehealth Today', className: 'bg-sage-50 text-brand-accent' };
+    if (!today.open || !today.close) return { label: 'Call for Hours', className: 'bg-slate-100 text-slate-600' };
+    const nowMinutes = Number(value('hour')) * 60 + Number(value('minute'));
+    const toMinutes = (time) => {
+      const [hours, minutes] = time.split(':').map(Number);
+      return hours * 60 + minutes;
+    };
+    return nowMinutes >= toMinutes(today.open) && nowMinutes < toMinutes(today.close)
+      ? { label: 'Open Now', className: 'bg-emerald-50 text-brand-accent' }
+      : { label: 'Closed Now', className: 'bg-slate-100 text-slate-600' };
+  }
+
+  const element = document.querySelector('[data-office-status]');
+  if (!element) return;
+  try {
+    const status = statusFor(element.dataset.timeZone, JSON.parse(element.dataset.weeklyHours || '{}'));
+    element.textContent = status.label;
+    element.className = 'rounded-full px-3 py-1 text-sm font-medium ' + status.className;
+  } catch (error) {
+    console.warn('Unable to update office status', error);
+  }
+})();
+</script>`;
+
 function prerenderPractice(practiceDir, rendererSource) {
   const configPath = path.join(practiceDir, 'practice.json');
   if (!fs.existsSync(configPath)) return;
@@ -75,6 +113,7 @@ function prerenderPractice(practiceDir, rendererSource) {
 </head>
 <body class="bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0">
   ${app.innerHTML.trim()}
+  ${OFFICE_STATUS_SCRIPT}
   <script>lucide.createIcons();</script>
 </body>
 </html>
