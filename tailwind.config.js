@@ -38,9 +38,9 @@ module.exports = {
         },
       },
       boxShadow: {
-        soft: '0 10px 40px rgba(15, 23, 42, 0.06)',
-        card: '0 10px 40px rgba(15, 23, 42, 0.06)',
-        cardHover: '0 18px 52px rgba(15, 23, 42, 0.10)',
+        soft: '0 2px 8px rgba(15, 23, 42, 0.04)',
+        card: '0 2px 8px rgba(15, 23, 42, 0.04)',
+        cardHover: '0 6px 16px rgba(15, 23, 42, 0.07)',
       },
     },
   },

@@ -63,7 +63,7 @@
     const content = homeContent(config);
     return `
       <a href="#main-content" class="skip-link">Skip to main content</a>
-      <header class="sticky top-0 z-50 border-b border-white/60 bg-white/90 shadow-[0_1px_20px_rgba(15,23,42,0.04)] backdrop-blur">
+      <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/95">
         <div class="page-shell flex items-center justify-between py-3 md:py-4">
           <a href="#" class="flex items-center gap-3" aria-label="${esc(practice.name)} home">
             <div class="flex h-9 w-9 items-center justify-center rounded-2xl bg-brand-primary text-sm font-semibold text-white shadow-sm md:h-10 md:w-10 md:text-base">${esc(practice.name[0])}</div>
@@ -88,10 +88,10 @@
         <div class="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-warm-50/55 via-white/10 to-transparent"></div>
         <div class="page-shell flex min-h-[680px] flex-col justify-center py-16 sm:min-h-[760px] lg:py-24">
           <div class="max-w-4xl space-y-6">
-            <div class="inline-flex items-center gap-3 rounded-full border border-white/60 bg-white/75 px-4 py-2.5 text-sm font-semibold text-brand-primary shadow-sm backdrop-blur sm:px-5 sm:py-3 sm:text-base">
+            <div class="inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/85 px-4 py-2.5 text-sm font-semibold text-brand-primary sm:px-5 sm:py-3 sm:text-base">
               <span class="icon-chip h-8 w-8 rounded-full">${icon('MapPin')}</span> ${esc(practice.locationLabel)}
             </div>
-            <div class="max-w-4xl rounded-[32px] border border-white/60 bg-white/75 p-6 shadow-soft backdrop-blur-sm sm:bg-white/65 sm:p-8 lg:bg-white/55">
+            <div class="max-w-4xl rounded-[32px] border border-slate-200 bg-white/85 p-6 sm:p-8 lg:bg-white/80">
               <h1 class="max-w-3xl text-[2.5rem] font-semibold leading-[1.04] tracking-tight text-slate-950 sm:text-5xl md:text-6xl lg:text-7xl">${esc(hero.title)}</h1>
               <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9 md:text-2xl md:leading-10">${esc(hero.copy)}</p>
               <div class="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -132,20 +132,20 @@
       const name = typeof plan === 'string' ? plan : plan.name;
       const logo = typeof plan === 'string' ? '' : plan.logo;
       return logo
-        ? `<div class="interactive-card flex min-h-28 items-center justify-center rounded-[28px] border border-white/60 bg-white/85 px-6 py-5 shadow-sm"><img src="${esc(logo)}" alt="${esc(name)}" loading="lazy" class="max-h-14 max-w-full object-contain" /></div>`
-        : `<div class="interactive-card rounded-[24px] border border-white/60 bg-white/85 p-5 text-base font-semibold text-slate-800 shadow-sm">${esc(name)}</div>`;
+        ? `<div class="interactive-card flex min-h-28 items-center justify-center rounded-[28px] border border-slate-200 bg-white px-6 py-5"><img src="${esc(logo)}" alt="${esc(name)}" loading="lazy" class="max-h-14 max-w-full object-contain" /></div>`
+        : `<div class="interactive-card rounded-[24px] border border-slate-200 bg-white p-5 text-base font-semibold text-slate-800">${esc(name)}</div>`;
     }).join('');
     return `<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">${items}</div>`;
   }
 
   function PricingTable(rates) {
     if (!rates?.length) return '';
-    return `<div class="overflow-hidden rounded-[28px] border border-white/70 bg-white/90 shadow-sm"><div class="grid grid-cols-12 gap-4 border-b border-slate-100 bg-slate-50/80 px-5 py-4 text-sm font-semibold uppercase tracking-wide text-slate-500"><div class="col-span-7">Service</div><div class="col-span-2 text-right">Duration</div><div class="col-span-3 text-right">Fee</div></div>${rates.map(rate => `<div class="grid grid-cols-12 gap-4 border-b border-slate-100 px-5 py-5 last:border-b-0"><div class="col-span-12 text-lg font-semibold text-slate-950 sm:col-span-7">${esc(rate.name)}</div><div class="col-span-5 text-base text-slate-600 sm:col-span-2 sm:text-right">${rate.durationMinutes ? `${esc(rate.durationMinutes)} min` : '—'}</div><div class="col-span-7 text-right text-lg font-semibold text-brand-primary sm:col-span-3">${money(rate.price)}</div></div>`).join('')}</div>`;
+    return `<div class="overflow-hidden rounded-[28px] border border-slate-200 bg-white"><div class="grid grid-cols-12 gap-4 border-b border-slate-100 bg-slate-50/80 px-5 py-4 text-sm font-semibold uppercase tracking-wide text-slate-500"><div class="col-span-7">Service</div><div class="col-span-2 text-right">Duration</div><div class="col-span-3 text-right">Fee</div></div>${rates.map(rate => `<div class="grid grid-cols-12 gap-4 border-b border-slate-100 px-5 py-5 last:border-b-0"><div class="col-span-12 text-lg font-semibold text-slate-950 sm:col-span-7">${esc(rate.name)}</div><div class="col-span-5 text-base text-slate-600 sm:col-span-2 sm:text-right">${rate.durationMinutes ? `${esc(rate.durationMinutes)} min` : '—'}</div><div class="col-span-7 text-right text-lg font-semibold text-brand-primary sm:col-span-3">${money(rate.price)}</div></div>`).join('')}</div>`;
   }
 
   function ContactForRatesCard(config, policy) {
     const message = policy.contactForRatesMessage || 'Please call our office for current rates and payment options.';
-    return `<div class="rounded-[28px] border border-white/70 bg-white/90 p-7 shadow-sm"><p class="text-sm font-semibold uppercase tracking-wide text-brand-primary">Questions About Fees?</p><p class="mt-3 text-lg leading-8 text-slate-700">Treatment fees are available by contacting the office.</p><p class="mt-3 text-base leading-7 text-slate-600">${esc(message)}</p><a href="${esc(config.practice.phoneHref)}" class="btn-secondary mt-6 px-4 py-2.5 text-sm">${icon('Phone')} ${esc(config.practice.phone)}</a></div>`;
+    return `<div class="rounded-[28px] border border-slate-200 bg-white p-7"><p class="text-sm font-semibold uppercase tracking-wide text-brand-primary">Questions About Fees?</p><p class="mt-3 text-lg leading-8 text-slate-700">Treatment fees are available by contacting the office.</p><p class="mt-3 text-base leading-7 text-slate-600">${esc(message)}</p><a href="${esc(config.practice.phoneHref)}" class="btn-secondary mt-6 px-4 py-2.5 text-sm">${icon('Phone')} ${esc(config.practice.phone)}</a></div>`;
   }
 
   function paymentMethodIcon(method) {
@@ -182,7 +182,7 @@
         ? `<div><h3 class="mb-4 text-xl font-semibold tracking-tight text-slate-950">Insurance Plans Accepted</h3>${InsurancePlanList(plans)}</div>`
         : InsurancePlanList(plans)
       : '';
-    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card gentle-gradient p-8 md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">${esc(title)}</p><h2 class="section-title">${esc(intro[0])}</h2><p class="mt-5 text-lg leading-8 text-slate-600">${esc(intro[1])}</p>${policy.superbillAvailable ? `<p class="mt-4 rounded-[24px] border border-white/70 bg-white/80 p-5 text-base leading-7 text-slate-700">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>` : ''}</div><div class="space-y-8 lg:col-span-2">${planGrid}${pricing}${PaymentMethods(policy.paymentMethods)}</div></div></div></section>`;
+    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">${esc(title)}</p><h2 class="section-title">${esc(intro[0])}</h2><p class="mt-5 text-lg leading-8 text-slate-600">${esc(intro[1])}</p>${policy.superbillAvailable ? `<p class="mt-4 rounded-[24px] border border-slate-200 bg-white p-5 text-base leading-7 text-slate-700">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>` : ''}</div><div class="space-y-8 lg:col-span-2">${planGrid}${pricing}${PaymentMethods(policy.paymentMethods)}</div></div></div></section>`;
   }
 
   function InsuranceSection(config) {
@@ -191,8 +191,8 @@
     const plans = insurance.plans || [];
     const body = plans.length
       ? InsurancePlanList(plans)
-      : `<div class="rounded-[28px] border border-white/60 bg-white/85 p-7 text-lg leading-8 text-slate-700 shadow-sm">${esc(insurance.copy || content.insuranceFallback)}</div>`;
-    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card gentle-gradient p-8 md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">Insurance</p><h2 class="section-title">${esc(insurance.title)}</h2></div><div class="lg:col-span-2">${body}</div></div></div></section>`;
+      : `<div class="rounded-[28px] border border-slate-200 bg-white p-7 text-lg leading-8 text-slate-700">${esc(insurance.copy || content.insuranceFallback)}</div>`;
+    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">Insurance</p><h2 class="section-title">${esc(insurance.title)}</h2></div><div class="lg:col-span-2">${body}</div></div></div></section>`;
   }
 
   function FAQSection({ faqs }) {
@@ -200,7 +200,7 @@
   }
 
   function ContactSection({ contact, hero }) {
-    return `<section id="contact" class="fade-in-up section relative overflow-hidden border-t border-white/60 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary py-20" aria-labelledby="contact-title"><div class="absolute right-10 top-10 h-72 w-72 rounded-full bg-sage-100/20 blur-3xl" aria-hidden="true"></div><div class="absolute bottom-0 left-0 h-60 w-60 rounded-full bg-white/10 blur-3xl" aria-hidden="true"></div><div class="section-shell relative grid grid-cols-1 gap-12 lg:grid-cols-2"><div><p class="text-sm font-semibold uppercase tracking-wide text-sage-100">${esc(contact.eyebrow)}</p><h2 id="contact-title" class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">${esc(contact.title)}</h2><p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">${esc(contact.copy)}</p></div><form class="soft-card bg-white/95 p-7 md:p-8" aria-describedby="contact-disclaimer"><div class="grid grid-cols-1 gap-6 sm:grid-cols-2"><div><label for="first-name" class="form-label">First name</label><input id="first-name" name="first-name" autocomplete="given-name" class="form-control" placeholder="Jane" /></div><div><label for="last-name" class="form-label">Last name</label><input id="last-name" name="last-name" autocomplete="family-name" class="form-control" placeholder="Doe" /></div><div class="sm:col-span-2"><label for="email" class="form-label">Email</label><input id="email" name="email" type="email" autocomplete="email" class="form-control" placeholder="jane@example.com" /></div><div class="sm:col-span-2"><label for="message" class="form-label">What can we help with?</label><textarea id="message" name="message" rows="4" class="form-control" placeholder="Briefly describe what you are looking for..."></textarea></div></div><button type="submit" class="btn-primary mt-6 w-full">${icon('CalendarCheck')} ${esc(hero.primaryCta)}</button><p id="contact-disclaimer" class="mt-4 text-sm leading-6 text-slate-500">${esc(contact.disclaimer)}</p></form></div></section>`;
+    return `<section id="contact" class="fade-in-up section relative overflow-hidden border-t border-white/60 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary py-20" aria-labelledby="contact-title"><div class="section-shell relative grid grid-cols-1 gap-12 lg:grid-cols-2"><div><p class="text-sm font-semibold uppercase tracking-wide text-sage-100">${esc(contact.eyebrow)}</p><h2 id="contact-title" class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">${esc(contact.title)}</h2><p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">${esc(contact.copy)}</p></div><form class="dark-section-card p-7 md:p-8" aria-describedby="contact-disclaimer"><div class="grid grid-cols-1 gap-6 sm:grid-cols-2"><div><label for="first-name" class="form-label">First name</label><input id="first-name" name="first-name" autocomplete="given-name" class="form-control" placeholder="Jane" /></div><div><label for="last-name" class="form-label">Last name</label><input id="last-name" name="last-name" autocomplete="family-name" class="form-control" placeholder="Doe" /></div><div class="sm:col-span-2"><label for="email" class="form-label">Email</label><input id="email" name="email" type="email" autocomplete="email" class="form-control" placeholder="jane@example.com" /></div><div class="sm:col-span-2"><label for="message" class="form-label">What can we help with?</label><textarea id="message" name="message" rows="4" class="form-control" placeholder="Briefly describe what you are looking for..."></textarea></div></div><button type="submit" class="btn-primary mt-6 w-full">${icon('CalendarCheck')} ${esc(hero.primaryCta)}</button><p id="contact-disclaimer" class="mt-4 text-sm leading-6 text-slate-500">${esc(contact.disclaimer)}</p></form></div></section>`;
   }
 
   function officeStatus(location) {
@@ -250,7 +250,7 @@
   }
 
   function StickyMobileCta({ practice, hero }) {
-    return `<div class="fixed inset-x-0 bottom-0 z-50 border-t border-white/60 bg-white/90 p-3 shadow-[0_-10px_30px_rgba(15,23,42,0.08)] backdrop-blur md:hidden"><div class="mx-auto grid max-w-md grid-cols-2 gap-3"><a href="#contact" class="btn-primary min-h-[44px] px-3 py-2 text-sm">${esc(hero.primaryCta)}</a><a href="${esc(practice.phoneHref)}" class="btn-secondary min-h-[44px] px-3 py-2 text-sm">Call Office</a></div></div>`;
+    return `<div class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"><div class="mx-auto grid max-w-md grid-cols-2 gap-3"><a href="#contact" class="btn-primary min-h-[44px] px-3 py-2 text-sm">${esc(hero.primaryCta)}</a><a href="${esc(practice.phoneHref)}" class="btn-secondary min-h-[44px] px-3 py-2 text-sm">Call Office</a></div></div>`;
   }
 
   function schema(config) {
@@ -277,9 +277,9 @@
         ${ProviderGrid(config)}
         ${ConditionsSection(config)}
         ${FinancialPolicySection(config)}
-        ${FAQSection(config)}
         ${ContactSection(config)}
         ${LocationSection(config, options)}
+        ${FAQSection(config)}
       </main>
       ${FooterSection(config)}
       ${StickyMobileCta(config)}
