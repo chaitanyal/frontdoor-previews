@@ -163,10 +163,8 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         for key in ["section_label", "headline", "summary", "disclaimer"]:
             require_string_key(insurance, key, "insurance")
         validate_string_list(require_key(insurance, "coverage_types", "insurance"), "insurance.coverage_types", min_items=1)
-        if "carriers" in insurance:
-            validate_string_list(insurance["carriers"], "insurance.carriers")
-            if insurance["carriers"]:
-                require_string_key(insurance, "carrier_label", "insurance")
+        if "carrier_sentence" in insurance:
+            require_string_key(insurance, "carrier_sentence", "insurance")
         verification = require_mapping(require_key(insurance, "verification", "insurance"), "insurance.verification")
         if "enabled" not in verification or not isinstance(verification["enabled"], bool):
             fail("insurance.verification.enabled must be a boolean")

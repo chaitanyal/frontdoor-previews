@@ -16,6 +16,7 @@
   const icon = (name, cls = 'h-4 w-4') => `<i data-lucide="${name}" class="${cls}" aria-hidden="true"></i>`;
   const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
   const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Number(value || 0));
+  const linkedPhoneText = (template, practice) => esc(template).replace('{phone}', `<a href="${esc(practice.phoneHref)}" class="font-medium text-inherit underline decoration-slate-300 underline-offset-4 hover:text-brand-primary">${esc(practice.phone)}</a>`);
 
   function financialTitle(policy) {
     if (!policy) return 'Insurance';
@@ -129,14 +130,14 @@
   function InsuranceCoverageSection(config) {
     const { insurance, practice } = config;
     if (!insurance?.enabled) return '';
-    const coverageBadges = (insurance.coverage_types || []).map(type => `<span class="badge-brand px-4 py-2 text-sm">${esc(type)}</span>`).join('');
-    const carriers = insurance.carriers?.length
-      ? `<div class="mt-8"><p class="text-sm font-semibold uppercase tracking-wide text-slate-500">${esc(insurance.carrier_label || '')}</p><p class="mt-3 text-base leading-7 text-slate-700">${insurance.carriers.map(esc).join(' • ')}</p></div>`
+    const coverageBadges = (insurance.coverage_types || []).map(type => `<span class="badge-brand px-5 py-2.5 text-[0.95rem]">${esc(type)}</span>`).join('');
+    const carriers = insurance.carrier_sentence
+      ? `<p class="mt-6 max-w-[800px] text-[0.95rem] leading-[1.6] text-slate-600 opacity-85">${esc(insurance.carrier_sentence)}</p>`
       : '';
     const verification = insurance.verification?.enabled
-      ? `<div class="mt-8 rounded-[28px] border border-slate-200 bg-warm-50 p-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">${esc(insurance.verification.headline)}</h3><p class="mt-3 text-base leading-7 text-slate-700">${esc((insurance.verification.description || '').replace('{phone}', practice.phone))}</p></div>`
+      ? `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 p-6 md:px-8 md:py-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">${esc(insurance.verification.headline)}</h3><p class="mt-3 text-base leading-7 text-slate-700">${linkedPhoneText(insurance.verification.description || '', practice)}</p></div>`
       : '';
-    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(insurance.section_label || '')}</p><h2 class="section-title">${esc(insurance.headline || '')}</h2><p class="mt-5 text-lg leading-8 text-slate-600">${esc(insurance.summary || '')}</p></div>${coverageBadges ? `<div class="mt-8 flex flex-wrap gap-3">${coverageBadges}</div>` : ''}${carriers}${verification}${insurance.disclaimer ? `<p class="mt-6 text-sm leading-6 text-slate-500">${esc(insurance.disclaimer)}</p>` : ''}</div></section>`;
+    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(insurance.section_label || '')}</p><h2 class="section-title">${esc(insurance.headline || '')}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(insurance.summary || '')}</p></div>${coverageBadges ? `<div class="mt-6 flex flex-wrap gap-3">${coverageBadges}</div>` : ''}${carriers}${verification}${insurance.disclaimer ? `<p class="mt-6 text-sm leading-6 text-slate-500">${esc(insurance.disclaimer)}</p>` : ''}</div></section>`;
   }
 
   function PricingTable(rates) {

@@ -73,18 +73,15 @@
     "headline": "Insurance Coverage",
     "summary": "Describe accepted coverage types in patient-friendly language.",
     "coverage_types": [
-      "Commercial Insurance"
-    ],
-    "carrier_label": "Common carriers include:",
-    "carriers": [
-      "Example Carrier"
+      "Private Insurance"
     ],
     "verification": {
       "enabled": true,
-      "headline": "Questions about coverage?",
-      "description": "Call {phone} and our team can help verify your benefits before your appointment."
+      "headline": "Need help verifying your coverage?",
+      "description": "Call {phone} and our team can help verify your coverage and benefits before your appointment."
     },
-    "disclaimer": "Coverage varies by plan."
+    "disclaimer": "Coverage varies by plan. Please contact the office to confirm participation and benefits.",
+    "carrier_sentence": "Participating plans may include Example Carrier."
   },
   "faqs": [
     {
