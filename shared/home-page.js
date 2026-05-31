@@ -135,9 +135,9 @@
       ? `<p class="mt-6 max-w-[800px] text-[0.95rem] leading-[1.6] text-slate-600 opacity-85">${esc(insurance.carrier_sentence)}</p>`
       : '';
     const verification = insurance.verification?.enabled
-      ? `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 p-6 md:px-8 md:py-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">${esc(insurance.verification.headline)}</h3><p class="mt-3 text-base leading-7 text-slate-700">${esc(insurance.verification.description || '')}</p>${ContactButtons(practice)}</div>`
+      ? `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 px-6 pb-6 pt-6 md:px-8 md:pb-6 md:pt-6"><p class="text-base leading-7 text-slate-700">${esc(insurance.verification.description || '')}</p>${ContactButtons(practice)}</div>`
       : '';
-    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(insurance.section_label || '')}</p><h2 class="section-title">${esc(insurance.headline || '')}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(insurance.summary || '')}</p></div>${coverageBadges ? `<div class="mt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Accepted coverage types</p><div class="mt-3 flex flex-wrap gap-3">${coverageBadges}</div></div>` : ''}${carriers}${verification}${insurance.disclaimer ? `<p class="mt-6 text-sm leading-6 text-slate-500">${esc(insurance.disclaimer)}</p>` : ''}</div></section>`;
+    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(insurance.section_label || '')}</p><h2 class="section-title">${esc(insurance.headline || '')}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(insurance.summary || '')}</p></div>${coverageBadges ? `<div class="mt-6 flex flex-wrap gap-3">${coverageBadges}</div>` : ''}${carriers}${verification}${insurance.disclaimer ? `<p class="mt-6 text-sm leading-6 text-slate-500">${esc(insurance.disclaimer)}</p>` : ''}</div></section>`;
   }
 
   function PricingTable(rates) {
@@ -146,8 +146,8 @@
   }
 
   function ContactForRatesCard(config, policy) {
-    const message = policy.contactForRatesMessage || 'Please call our office for current rates and payment options.';
-    return `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 p-6 md:px-8 md:py-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">Questions about fees or payment?</h3><p class="mt-3 text-base leading-7 text-slate-700">${esc(message)}</p>${ContactButtons(config.practice)}</div>`;
+    const message = policy.contactForRatesMessage || 'Contact our office for current rates and payment options.';
+    return `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 px-6 pb-6 pt-6 md:px-8 md:pb-6 md:pt-6"><p class="text-base leading-7 text-slate-700">${esc(message)}</p>${ContactButtons(config.practice)}</div>`;
   }
 
   function paymentMethodIcon(method) {
@@ -181,8 +181,12 @@
     return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(title)}</p><h2 class="section-title">${esc(intro[0])}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(intro[1])}</p></div>${PaymentMethods(policy.paymentMethods)}${pricing}${policy.superbillAvailable ? `<p class="mt-6 max-w-[800px] text-sm leading-6 text-slate-500">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>` : ''}</div></section>`;
   }
 
+  function FAQAnswer(answer) {
+    return String(answer || '').split('\n').filter(Boolean).map(line => `<p>${esc(line)}</p>`).join('');
+  }
+
   function FAQSection({ faqs }) {
-    return `<section id="faq" class="section border-t border-white/60 bg-warm-50"><div class="mx-auto max-w-4xl"><div class="max-w-2xl"><p class="eyebrow">FAQ</p><h2 class="section-title">Common questions</h2></div><div class="mt-12 soft-card divide-y divide-slate-100/80 overflow-hidden">${faqs.map((faq, index) => `<details class="group p-7 transition-all duration-300 hover:bg-white/70" ${index === 0 ? 'open' : ''}><summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-xl text-base font-semibold text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300">${esc(faq.question)}<span class="icon-chip h-8 w-8 transition duration-300 group-open:rotate-45" aria-hidden="true">+</span></summary><p class="mt-4 text-base leading-7 text-slate-600">${esc(faq.answer)}</p></details>`).join('')}</div></div></section>`;
+    return `<section id="faq" class="section border-t border-white/60 bg-warm-50"><div class="mx-auto max-w-4xl"><div class="max-w-2xl"><p class="eyebrow">FAQ</p><h2 class="section-title">Common questions</h2></div><div class="mt-12 soft-card divide-y divide-slate-100/80 overflow-hidden">${faqs.map((faq, index) => `<details class="group p-7 transition-all duration-300 hover:bg-white/70" ${index === 0 ? 'open' : ''}><summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-xl text-base font-semibold text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300">${esc(faq.question)}<span class="icon-chip h-8 w-8 transition duration-300 group-open:rotate-45" aria-hidden="true">+</span></summary><div class="mt-4 space-y-3 text-base leading-7 text-slate-600">${FAQAnswer(faq.answer)}</div></details>`).join('')}</div></div></section>`;
   }
 
   function ContactSection({ contact, hero }) {

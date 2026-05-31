@@ -71,17 +71,15 @@
     "enabled": true,
     "section_label": "Insurance",
     "headline": "Insurance Coverage",
-    "summary": "Describe accepted coverage types in patient-friendly language.",
+    "summary": "We accept Medicare, Medicare Advantage, Medicare Supplement (Medigap), and many private insurance plans.",
     "coverage_types": [
       "Private Insurance"
     ],
     "verification": {
       "enabled": true,
       "headline": "Need help verifying your coverage?",
-      "description": "Contact our office to verify your coverage before your appointment."
-    },
-    "disclaimer": "Coverage varies by plan. Please contact the office to confirm participation and benefits.",
-    "carrier_sentence": "Participating insurance plans may include Example Carrier."
+      "description": "Verify your coverage before your appointment."
+    }
   },
   "faqs": [
     {
