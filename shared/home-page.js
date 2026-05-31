@@ -159,7 +159,7 @@
 
   function PaymentMethods(methods) {
     if (!methods?.length) return '';
-    return `<div class="mt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Accepted payment methods</p><div class="mt-3 flex flex-wrap gap-3"><span class="badge-brand px-5 py-2.5 text-[0.95rem]">Self Pay</span>${methods.map(method => `<span class="badge-brand px-5 py-2.5 text-[0.95rem]">${icon(paymentMethodIcon(method), 'h-3.5 w-3.5')} ${esc(method)}</span>`).join('')}</div></div>`;
+    return `<div class="mt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Accepted payment methods</p><div class="mt-3 flex flex-wrap gap-3">${methods.map(method => `<span class="badge-brand px-5 py-2.5 text-[0.95rem]">${icon(paymentMethodIcon(method), 'h-3.5 w-3.5')} ${esc(method)}</span>`).join('')}</div></div>`;
   }
 
   function FinancialPolicySection(config) {
