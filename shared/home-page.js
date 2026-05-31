@@ -16,7 +16,7 @@
   const icon = (name, cls = 'h-4 w-4') => `<i data-lucide="${name}" class="${cls}" aria-hidden="true"></i>`;
   const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
   const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Number(value || 0));
-  const linkedPhoneText = (template, practice) => esc(template).replace('{phone}', `<a href="${esc(practice.phoneHref)}" class="font-medium text-inherit underline decoration-slate-300 underline-offset-4 hover:text-brand-primary">${esc(practice.phone)}</a>`);
+  const ContactButtons = (practice) => `<div class="mt-5 flex flex-col gap-3 sm:flex-row"><a href="${esc(practice.phoneHref)}" class="btn-secondary px-4 py-2.5 text-sm">${icon('Phone')} ${esc(practice.phone)}</a><a href="mailto:${esc(practice.email)}" class="btn-secondary px-4 py-2.5 text-sm">${icon('Mail')} Email</a></div>`;
 
   function financialTitle(policy) {
     if (!policy) return 'Insurance';
@@ -135,7 +135,7 @@
       ? `<p class="mt-6 max-w-[800px] text-[0.95rem] leading-[1.6] text-slate-600 opacity-85">${esc(insurance.carrier_sentence)}</p>`
       : '';
     const verification = insurance.verification?.enabled
-      ? `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 p-6 md:px-8 md:py-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">${esc(insurance.verification.headline)}</h3><p class="mt-3 text-base leading-7 text-slate-700">${linkedPhoneText(insurance.verification.description || '', practice)}</p></div>`
+      ? `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 p-6 md:px-8 md:py-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">${esc(insurance.verification.headline)}</h3><p class="mt-3 text-base leading-7 text-slate-700">${esc(insurance.verification.description || '')}</p>${ContactButtons(practice)}</div>`
       : '';
     return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(insurance.section_label || '')}</p><h2 class="section-title">${esc(insurance.headline || '')}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(insurance.summary || '')}</p></div>${coverageBadges ? `<div class="mt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Accepted coverage types</p><div class="mt-3 flex flex-wrap gap-3">${coverageBadges}</div></div>` : ''}${carriers}${verification}${insurance.disclaimer ? `<p class="mt-6 text-sm leading-6 text-slate-500">${esc(insurance.disclaimer)}</p>` : ''}</div></section>`;
   }
@@ -147,7 +147,7 @@
 
   function ContactForRatesCard(config, policy) {
     const message = policy.contactForRatesMessage || 'Please call our office for current rates and payment options.';
-    return `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 p-6 md:px-8 md:py-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">Questions about fees or payment?</h3><p class="mt-3 text-base leading-7 text-slate-700">${esc(message)}</p><a href="${esc(config.practice.phoneHref)}" class="btn-secondary mt-5 px-4 py-2.5 text-sm">${icon('Phone')} ${esc(config.practice.phone)}</a></div>`;
+    return `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 p-6 md:px-8 md:py-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">Questions about fees or payment?</h3><p class="mt-3 text-base leading-7 text-slate-700">${esc(message)}</p>${ContactButtons(config.practice)}</div>`;
   }
 
   function paymentMethodIcon(method) {
@@ -232,7 +232,7 @@
 
   function FooterSection({ practice, footer }) {
     const address = practice.addressLines.map(line => `<p>${esc(line)}</p>`).join('');
-    return `<footer class="border-t border-white/60 bg-warm-200 px-6 py-12 lg:px-8"><div class="mx-auto flex max-w-7xl flex-col gap-8 border-t border-white/60 pt-8 md:flex-row md:items-center md:justify-between"><div><p class="text-base font-semibold text-slate-950">${esc(practice.name)}</p><div class="mt-2 text-sm leading-6 text-slate-500">${address}<p>${esc(practice.phone)}</p></div></div><div class="flex gap-6 text-sm font-medium text-slate-600">${footer.links.map(link => `<a class="transition hover:text-slate-950" href="#">${esc(link)}</a>`).join('')}</div></div></footer>`;
+    return `<footer class="border-t border-white/60 bg-warm-200 px-6 py-12 lg:px-8"><div class="mx-auto flex max-w-7xl flex-col gap-8 border-t border-white/60 pt-8 md:flex-row md:items-center md:justify-between"><div><p class="text-base font-semibold text-slate-950">${esc(practice.name)}</p><div class="mt-2 text-sm leading-6 text-slate-500">${address}<p>${esc(practice.phone)}</p><p><a class="transition hover:text-slate-950" href="mailto:${esc(practice.email)}">${esc(practice.email)}</a></p></div></div><div class="flex gap-6 text-sm font-medium text-slate-600">${footer.links.map(link => `<a class="transition hover:text-slate-950" href="#">${esc(link)}</a>`).join('')}</div></div></footer>`;
   }
 
   function StickyMobileCta({ practice, hero }) {
