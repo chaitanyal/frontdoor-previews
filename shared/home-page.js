@@ -126,16 +126,17 @@
     return `<section id="conditions" class="section relative overflow-hidden border-t border-white/60 bg-warm-50">${BotanicalAccent()}<div class="section-shell relative"><div class="max-w-3xl"><p class="eyebrow">Areas of care</p><h2 class="section-title">Conditions We Treat</h2><p class="section-copy">${esc(conditionsIntro)}</p></div><ul class="mt-14 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-3" aria-label="Conditions treated">${conditions.map(condition => `<li class="border-t border-slate-200 py-5"><h3 class="text-lg font-semibold tracking-tight text-slate-950">${esc(condition)}</h3></li>`).join('')}</ul></div></section>`;
   }
 
-  function InsurancePlanList(plans) {
-    if (!plans?.length) return '';
-    const items = plans.map(plan => {
-      const name = typeof plan === 'string' ? plan : plan.name;
-      const logo = typeof plan === 'string' ? '' : plan.logo;
-      return logo
-        ? `<div class="interactive-card flex min-h-28 items-center justify-center rounded-[28px] border border-slate-200 bg-white px-6 py-5"><img src="${esc(logo)}" alt="${esc(name)}" loading="lazy" class="max-h-14 max-w-full object-contain" /></div>`
-        : `<div class="interactive-card rounded-[24px] border border-slate-200 bg-white p-5 text-base font-semibold text-slate-800">${esc(name)}</div>`;
-    }).join('');
-    return `<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">${items}</div>`;
+  function InsuranceCoverageSection(config) {
+    const { insurance, practice } = config;
+    if (!insurance?.enabled) return '';
+    const coverageBadges = (insurance.coverage_types || []).map(type => `<span class="badge-brand px-4 py-2 text-sm">${esc(type)}</span>`).join('');
+    const carriers = insurance.carriers?.length
+      ? `<div class="mt-8"><p class="text-sm font-semibold uppercase tracking-wide text-slate-500">${esc(insurance.carrier_label || '')}</p><p class="mt-3 text-base leading-7 text-slate-700">${insurance.carriers.map(esc).join(' • ')}</p></div>`
+      : '';
+    const verification = insurance.verification?.enabled
+      ? `<div class="mt-8 rounded-[28px] border border-slate-200 bg-warm-50 p-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">${esc(insurance.verification.headline)}</h3><p class="mt-3 text-base leading-7 text-slate-700">${esc((insurance.verification.description || '').replace('{phone}', practice.phone))}</p></div>`
+      : '';
+    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(insurance.section_label || '')}</p><h2 class="section-title">${esc(insurance.headline || '')}</h2><p class="mt-5 text-lg leading-8 text-slate-600">${esc(insurance.summary || '')}</p></div>${coverageBadges ? `<div class="mt-8 flex flex-wrap gap-3">${coverageBadges}</div>` : ''}${carriers}${verification}${insurance.disclaimer ? `<p class="mt-6 text-sm leading-6 text-slate-500">${esc(insurance.disclaimer)}</p>` : ''}</div></section>`;
   }
 
   function PricingTable(rates) {
@@ -162,37 +163,21 @@
 
   function FinancialPolicySection(config) {
     const policy = config.financialPolicy;
-    if (!policy) return InsuranceSection(config);
+    if (!policy) return InsuranceCoverageSection(config);
+    if (['insurance', 'hybrid'].includes(policy.paymentModel) && config.insurance?.enabled) return InsuranceCoverageSection(config);
     const title = financialTitle(policy);
-    const plans = policy.insurancePlans || config.insurance?.plans || [];
-    const showPlans = ['insurance', 'hybrid'].includes(policy.paymentModel) && plans.length;
     const intro = {
-      insurance: ['Insurance Accepted', 'We work with a range of insurance plans. Please contact the office to confirm your benefits before scheduling.'],
       cash_only: ['Private Pay Practice', 'This practice operates on a self-pay basis and does not participate in insurance networks.'],
       out_of_network: ['Out-of-Network Insurance', 'This practice is out-of-network with insurance providers.'],
       hybrid: ['Insurance & Self-Pay Options', 'This practice accepts select insurance plans and also offers self-pay options.'],
+      insurance: ['Insurance', 'Please contact the office to confirm insurance and payment options.'],
     }[policy.paymentModel] || ['Payment Information', 'Please contact the office to confirm insurance and payment options.'];
     const pricing = policy.pricingDisplay === 'published'
       ? PricingTable(policy.rates || [])
       : policy.pricingDisplay === 'contact_for_rates'
         ? ContactForRatesCard(config, policy)
         : '';
-    const planGrid = showPlans
-      ? policy.paymentModel === 'hybrid'
-        ? `<div><h3 class="mb-4 text-xl font-semibold tracking-tight text-slate-950">Insurance Plans Accepted</h3>${InsurancePlanList(plans)}</div>`
-        : InsurancePlanList(plans)
-      : '';
-    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">${esc(title)}</p><h2 class="section-title">${esc(intro[0])}</h2><p class="mt-5 text-lg leading-8 text-slate-600">${esc(intro[1])}</p>${policy.superbillAvailable ? `<p class="mt-4 rounded-[24px] border border-slate-200 bg-white p-5 text-base leading-7 text-slate-700">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>` : ''}</div><div class="space-y-8 lg:col-span-2">${planGrid}${pricing}${PaymentMethods(policy.paymentMethods)}</div></div></div></section>`;
-  }
-
-  function InsuranceSection(config) {
-    const { insurance } = config;
-    const content = homeContent(config);
-    const plans = insurance.plans || [];
-    const body = plans.length
-      ? InsurancePlanList(plans)
-      : `<div class="rounded-[28px] border border-slate-200 bg-white p-7 text-lg leading-8 text-slate-700">${esc(insurance.copy || content.insuranceFallback)}</div>`;
-    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">Insurance</p><h2 class="section-title">${esc(insurance.title)}</h2></div><div class="lg:col-span-2">${body}</div></div></div></section>`;
+    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">${esc(title)}</p><h2 class="section-title">${esc(intro[0])}</h2><p class="mt-5 text-lg leading-8 text-slate-600">${esc(intro[1])}</p>${policy.superbillAvailable ? `<p class="mt-4 rounded-[24px] border border-slate-200 bg-white p-5 text-base leading-7 text-slate-700">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>` : ''}</div><div class="space-y-8 lg:col-span-2">${pricing}${PaymentMethods(policy.paymentMethods)}</div></div></div></section>`;
   }
 
   function FAQSection({ faqs }) {

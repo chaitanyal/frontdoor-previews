@@ -157,13 +157,22 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         validate_financial_policy(config["financialPolicy"])
 
     insurance = require_mapping(require_key(config, "insurance", "root"), "insurance")
-    require_string_key(insurance, "title", "insurance")
-    plans = insurance.get("plans") or []
-    require_list(plans, "insurance.plans")
-    for index, plan_value in enumerate(plans):
-        plan = require_mapping(plan_value, f"insurance.plans[{index}]")
-        require_string_key(plan, "name", f"insurance.plans[{index}]")
-        validate_asset_path(require_key(plan, "logo", f"insurance.plans[{index}]"), f"insurance.plans[{index}].logo")
+    if "enabled" not in insurance or not isinstance(insurance["enabled"], bool):
+        fail("insurance.enabled must be a boolean")
+    if insurance["enabled"]:
+        for key in ["section_label", "headline", "summary", "disclaimer"]:
+            require_string_key(insurance, key, "insurance")
+        validate_string_list(require_key(insurance, "coverage_types", "insurance"), "insurance.coverage_types", min_items=1)
+        if "carriers" in insurance:
+            validate_string_list(insurance["carriers"], "insurance.carriers")
+            if insurance["carriers"]:
+                require_string_key(insurance, "carrier_label", "insurance")
+        verification = require_mapping(require_key(insurance, "verification", "insurance"), "insurance.verification")
+        if "enabled" not in verification or not isinstance(verification["enabled"], bool):
+            fail("insurance.verification.enabled must be a boolean")
+        if verification["enabled"]:
+            require_string_key(verification, "headline", "insurance.verification")
+            require_string_key(verification, "description", "insurance.verification")
 
     faqs = require_list(require_key(config, "faqs", "root"), "faqs")
     for index, faq_value in enumerate(faqs):

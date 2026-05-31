@@ -149,30 +149,30 @@
     "Allergies"
   ],
   "insurance": {
-    "title": "Major plans accepted",
-    "copy": "Please call the office to confirm benefits, referral requirements, and appointment availability.",
-    "plans": [
-      {
-        "name": "Aetna",
-        "logo": "../shared/logos/aetna.svg"
-      },
-      {
-        "name": "Anthem",
-        "logo": "../shared/logos/anthem.svg"
-      },
-      {
-        "name": "Blue Cross Blue Shield of Texas",
-        "logo": "../shared/logos/bcbstx-logo.svg"
-      },
-      {
-        "name": "Cigna Healthcare",
-        "logo": "../shared/logos/cignahlthcr.svg"
-      },
-      {
-        "name": "Humana",
-        "logo": "../shared/logos/humana.svg"
-      }
-    ]
+    "enabled": true,
+    "section_label": "Insurance",
+    "headline": "Insurance Coverage",
+    "summary": "We accept Medicare and many major insurance plans, including Medicare Advantage and Medicare Supplement (Medigap) plans.",
+    "coverage_types": [
+      "Medicare",
+      "Medicare Advantage",
+      "Medigap",
+      "Commercial Insurance"
+    ],
+    "carrier_label": "Common carriers include:",
+    "carriers": [
+      "Aetna",
+      "Anthem",
+      "Blue Cross Blue Shield of Texas",
+      "Cigna Healthcare",
+      "Humana"
+    ],
+    "verification": {
+      "enabled": true,
+      "headline": "Questions about coverage?",
+      "description": "Call {phone} and our team can help verify your benefits before your appointment."
+    },
+    "disclaimer": "Coverage varies by plan. Please contact the office to confirm benefits, referral requirements, and appointment availability."
   },
   "faqs": [
     {

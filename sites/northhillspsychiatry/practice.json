@@ -185,25 +185,7 @@
     "Medication Management"
   ],
   "insurance": {
-    "title": "Major plans accepted",
-    "plans": [
-      {
-        "name": "Blue Cross Blue Shield of Texas",
-        "logo": "../shared/logos/bcbstx-logo.svg"
-      },
-      {
-        "name": "Cigna Healthcare",
-        "logo": "../shared/logos/cignahlthcr.svg"
-      },
-      {
-        "name": "UnitedHealthcare",
-        "logo": "../shared/logos/UHC.svg"
-      },
-      {
-        "name": "Aetna",
-        "logo": "../shared/logos/aetna.svg"
-      }
-    ]
+    "enabled": false
   },
   "faqs": [
     {

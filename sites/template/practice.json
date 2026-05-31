@@ -27,10 +27,22 @@
     "secondaryCta": "Meet the Provider"
   },
   "trustItems": [
-    { "icon": "ShieldCheck", "text": "Insurance accepted" },
-    { "icon": "Video", "text": "Telehealth available" },
-    { "icon": "CalendarCheck", "text": "New patients welcome" },
-    { "icon": "MapPin", "text": "Convenient local office" }
+    {
+      "icon": "ShieldCheck",
+      "text": "Insurance accepted"
+    },
+    {
+      "icon": "Video",
+      "text": "Telehealth available"
+    },
+    {
+      "icon": "CalendarCheck",
+      "text": "New patients welcome"
+    },
+    {
+      "icon": "MapPin",
+      "text": "Convenient local office"
+    }
   ],
   "providers": [
     {
@@ -38,7 +50,10 @@
       "name": "Dr. Provider Name",
       "credentials": "MD · Specialty",
       "image": "./images/providers/provider-name.webp",
-      "specialties": ["Specialty Area", "Patient Focus"],
+      "specialties": [
+        "Specialty Area",
+        "Patient Focus"
+      ],
       "philosophy": "A short statement about the provider's clinical focus and approach.",
       "bio": "A concise provider bio describing training, care style, and patient population."
     }
@@ -53,13 +68,23 @@
     "Condition or Service 6"
   ],
   "insurance": {
-    "title": "Insurance and payment options",
-    "plans": [
-      { "name": "Blue Cross Blue Shield", "logo": "../shared/logos/bcbstx-logo.svg" },
-      { "name": "Cigna Healthcare", "logo": "../shared/logos/cignahlthcr.svg" },
-      { "name": "UnitedHealthcare", "logo": "../shared/logos/UHC.svg" },
-      { "name": "Aetna", "logo": "../shared/logos/aetna.svg" }
-    ]
+    "enabled": true,
+    "section_label": "Insurance",
+    "headline": "Insurance Coverage",
+    "summary": "Describe accepted coverage types in patient-friendly language.",
+    "coverage_types": [
+      "Commercial Insurance"
+    ],
+    "carrier_label": "Common carriers include:",
+    "carriers": [
+      "Example Carrier"
+    ],
+    "verification": {
+      "enabled": true,
+      "headline": "Questions about coverage?",
+      "description": "Call {phone} and our team can help verify your benefits before your appointment."
+    },
+    "disclaimer": "Coverage varies by plan."
   },
   "faqs": [
     {
@@ -88,24 +113,65 @@
     "directionsHref": "https://maps.google.com",
     "timeZone": "America/New_York",
     "hours": [
-      ["Monday", "8:00 AM – 5:00 PM"],
-      ["Tuesday", "8:00 AM – 5:00 PM"],
-      ["Wednesday", "8:00 AM – 5:00 PM"],
-      ["Thursday", "8:00 AM – 5:00 PM"],
-      ["Friday", "8:00 AM – 3:00 PM"],
-      ["Saturday–Sunday", "Closed"]
+      [
+        "Monday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Tuesday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Wednesday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Thursday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Friday",
+        "8:00 AM – 3:00 PM"
+      ],
+      [
+        "Saturday–Sunday",
+        "Closed"
+      ]
     ],
     "weeklyHours": {
-      "Monday": { "open": "08:00", "close": "17:00" },
-      "Tuesday": { "open": "08:00", "close": "17:00" },
-      "Wednesday": { "open": "08:00", "close": "17:00" },
-      "Thursday": { "open": "08:00", "close": "17:00" },
-      "Friday": { "open": "08:00", "close": "15:00" },
-      "Saturday": { "closed": true },
-      "Sunday": { "closed": true }
+      "Monday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Tuesday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Wednesday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Thursday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Friday": {
+        "open": "08:00",
+        "close": "15:00"
+      },
+      "Saturday": {
+        "closed": true
+      },
+      "Sunday": {
+        "closed": true
+      }
     }
   },
   "footer": {
-    "links": ["Privacy", "Accessibility", "Contact"]
+    "links": [
+      "Privacy",
+      "Accessibility",
+      "Contact"
+    ]
   }
 }
