@@ -137,7 +137,7 @@
     const verification = insurance.verification?.enabled
       ? `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 p-6 md:px-8 md:py-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">${esc(insurance.verification.headline)}</h3><p class="mt-3 text-base leading-7 text-slate-700">${linkedPhoneText(insurance.verification.description || '', practice)}</p></div>`
       : '';
-    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(insurance.section_label || '')}</p><h2 class="section-title">${esc(insurance.headline || '')}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(insurance.summary || '')}</p></div>${coverageBadges ? `<div class="mt-6 flex flex-wrap gap-3">${coverageBadges}</div>` : ''}${carriers}${verification}${insurance.disclaimer ? `<p class="mt-6 text-sm leading-6 text-slate-500">${esc(insurance.disclaimer)}</p>` : ''}</div></section>`;
+    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(insurance.section_label || '')}</p><h2 class="section-title">${esc(insurance.headline || '')}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(insurance.summary || '')}</p></div>${coverageBadges ? `<div class="mt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Accepted coverage types</p><div class="mt-3 flex flex-wrap gap-3">${coverageBadges}</div></div>` : ''}${carriers}${verification}${insurance.disclaimer ? `<p class="mt-6 text-sm leading-6 text-slate-500">${esc(insurance.disclaimer)}</p>` : ''}</div></section>`;
   }
 
   function PricingTable(rates) {
@@ -147,7 +147,7 @@
 
   function ContactForRatesCard(config, policy) {
     const message = policy.contactForRatesMessage || 'Please call our office for current rates and payment options.';
-    return `<div class="rounded-[28px] border border-slate-200 bg-white p-7"><p class="text-sm font-semibold uppercase tracking-wide text-brand-primary">Questions About Fees?</p><p class="mt-3 text-lg leading-8 text-slate-700">Treatment fees are available by contacting the office.</p><p class="mt-3 text-base leading-7 text-slate-600">${esc(message)}</p><a href="${esc(config.practice.phoneHref)}" class="btn-secondary mt-6 px-4 py-2.5 text-sm">${icon('Phone')} ${esc(config.practice.phone)}</a></div>`;
+    return `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 p-6 md:px-8 md:py-6"><h3 class="text-xl font-semibold tracking-tight text-slate-950">Questions about fees or payment?</h3><p class="mt-3 text-base leading-7 text-slate-700">${esc(message)}</p><a href="${esc(config.practice.phoneHref)}" class="btn-secondary mt-5 px-4 py-2.5 text-sm">${icon('Phone')} ${esc(config.practice.phone)}</a></div>`;
   }
 
   function paymentMethodIcon(method) {
@@ -159,7 +159,7 @@
 
   function PaymentMethods(methods) {
     if (!methods?.length) return '';
-    return `<div class="mt-8"><h3 class="text-xl font-semibold tracking-tight text-slate-950">Accepted Payment Methods</h3><div class="mt-4 flex flex-wrap gap-3">${methods.map(method => `<span class="badge-brand">${icon(paymentMethodIcon(method), 'h-3.5 w-3.5')} ${esc(method)}</span>`).join('')}</div></div>`;
+    return `<div class="mt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Accepted payment methods</p><div class="mt-3 flex flex-wrap gap-3"><span class="badge-brand px-5 py-2.5 text-[0.95rem]">Self Pay</span>${methods.map(method => `<span class="badge-brand px-5 py-2.5 text-[0.95rem]">${icon(paymentMethodIcon(method), 'h-3.5 w-3.5')} ${esc(method)}</span>`).join('')}</div></div>`;
   }
 
   function FinancialPolicySection(config) {
@@ -178,7 +178,7 @@
       : policy.pricingDisplay === 'contact_for_rates'
         ? ContactForRatesCard(config, policy)
         : '';
-    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="grid grid-cols-1 gap-10 lg:grid-cols-3"><div><p class="eyebrow">${esc(title)}</p><h2 class="section-title">${esc(intro[0])}</h2><p class="mt-5 text-lg leading-8 text-slate-600">${esc(intro[1])}</p>${policy.superbillAvailable ? `<p class="mt-4 rounded-[24px] border border-slate-200 bg-white p-5 text-base leading-7 text-slate-700">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>` : ''}</div><div class="space-y-8 lg:col-span-2">${pricing}${PaymentMethods(policy.paymentMethods)}</div></div></div></section>`;
+    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(title)}</p><h2 class="section-title">${esc(intro[0])}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(intro[1])}</p></div>${PaymentMethods(policy.paymentMethods)}${pricing}${policy.superbillAvailable ? `<p class="mt-6 max-w-[800px] text-sm leading-6 text-slate-500">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>` : ''}</div></section>`;
   }
 
   function FAQSection({ faqs }) {
