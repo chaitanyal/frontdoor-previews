@@ -184,6 +184,8 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     languages = provider.get("languages") or ["English"]
     phone = provider.get("phone") or practice.get("phone")
     phone_href = provider.get("phoneHref") or practice.get("phoneHref")
+    email = provider.get("email") or practice.get("email")
+    email_href = f"mailto:{email}" if email else ""
     office_lines = provider.get("officeLines") or practice.get("addressLines", [])
     office = provider.get("office") or ", ".join(office_lines)
     office_html = "".join(f"<p>{esc(line)}</p>" for line in office_lines) or f"<p>{esc(office)}</p>"
@@ -204,6 +206,7 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
         "medicalSpecialty": specialty,
         "image": rel(provider.get("image")),
         "telephone": phone,
+        "email": email,
         "address": office,
         "worksFor": {"@type": "MedicalClinic", "name": practice.get("name")},
     }
@@ -249,7 +252,7 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     <section class="bg-warm-50 px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['conditionsTreated'])}</h2><ul class="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">{list_cards(conditions)}</ul></div></section>
     <section class="bg-white px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['treatmentServices'])}</h2><ul class="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">{list_cards(services)}</ul></div></section>
     <section class="bg-warm-50 px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['educationTraining'])}</h2><div class="mt-7 grid grid-cols-1 gap-4 md:grid-cols-2">{education_rows(provider) or '<div class="soft-card rounded-3xl p-6 text-lg leading-8 text-slate-700 md:p-7">Please contact the office for additional training details.</div>'}</div></div></section>{affiliation_section}
-    <section id="appointment" class="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary px-6 py-16 md:py-24 lg:px-8"><div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center"><div><p class="text-sm font-semibold uppercase tracking-wide text-sage-100">{esc(labels['requestCare'])}</p><h2 class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">{esc(cta_title)}</h2><p class="mt-6 text-lg leading-8 text-slate-300">{esc(cta_copy)}</p></div><div class="dark-section-card p-7"><p class="text-lg font-semibold text-slate-950">{esc(practice['name'])}</p><div class="mt-3 text-base leading-7 text-slate-600">{office_html}</div><div class="mt-6 flex flex-col gap-3 sm:flex-row"><a href="{esc(phone_href)}" class="btn-primary">{esc(phone)}</a><a href="../../#contact" class="btn-secondary">{esc(labels['requestAppointment'])}</a></div>{f'<p class="mt-4 text-sm font-semibold text-brand-accent">{esc(labels["telehealthAvailable"])}</p>' if provider.get('telehealth') is True else ''}</div></div></section>
+    <section id="appointment" class="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary px-6 py-16 md:py-24 lg:px-8"><div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center"><div><p class="text-sm font-semibold uppercase tracking-wide text-sage-100">{esc(labels['requestCare'])}</p><h2 class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">{esc(cta_title)}</h2><p class="mt-6 text-lg leading-8 text-slate-300">{esc(cta_copy)}</p></div><div class="dark-section-card p-7"><p class="text-lg font-semibold text-slate-950">{esc(practice['name'])}</p><div class="mt-3 text-base leading-7 text-slate-600">{office_html}<p><a href="{esc(email_href)}" class="hover:text-brand-primary">{esc(email)}</a></p></div><div class="mt-6 flex flex-col gap-3 sm:flex-row"><a href="{esc(phone_href)}" class="btn-primary">{esc(phone)}</a><a href="../../#contact" class="btn-secondary">{esc(labels['requestAppointment'])}</a></div>{f'<p class="mt-4 text-sm font-semibold text-brand-accent">{esc(labels["telehealthAvailable"])}</p>' if provider.get('telehealth') is True else ''}</div></div></section>
   </main>
   <div class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"><div class="mx-auto grid max-w-md grid-cols-2 gap-3"><a href="#appointment" class="btn-primary min-h-[44px] px-3 py-2 text-sm">{esc(labels['bookAppointment'])}</a><a href="{esc(phone_href)}" class="btn-secondary min-h-[44px] px-3 py-2 text-sm">{esc(labels['callOffice'])}</a></div></div>
   <script type="application/ld+json">{json.dumps(schema).replace('<', '\\u003c')}</script>
