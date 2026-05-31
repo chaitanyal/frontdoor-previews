@@ -65,12 +65,12 @@ There is no backend, database, framework build step, or authenticated applicatio
 
 ## Content and Build Process
 
-Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared homepage rendering lives in `shared/home-page.js`, practice homepage prerendering lives in `scripts/prerender_practice_pages.js`, provider profile rendering lives in `scripts/generate_provider_pages.py`, and shared Tailwind source styles live in `shared/styles/frontdoor.css`. The checked-in practice `index.html` files are generic local-preview shells; practice-specific metadata and page content are prerendered from `practice.json` during the build.
+Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared palette definitions live in `shared/themes.json`, and each practice selects one with its `theme` field. Shared homepage rendering lives in `shared/home-page.js`, practice homepage prerendering lives in `scripts/prerender_practice_pages.js`, provider profile rendering lives in `scripts/generate_provider_pages.py`, and shared Tailwind source styles live in `shared/styles/frontdoor.css`. The checked-in practice `index.html` files are generic local-preview shells; practice-specific metadata, palette variables, and page content are prerendered from `practice.json` during the build.
 
 Build flow:
 
 ```text
-sites/<practice>/practice.json + shared/home-page.js + shared/styles/frontdoor.css
+sites/<practice>/practice.json + shared/themes.json + shared/home-page.js + shared/styles/frontdoor.css
   -> scripts/generate_provider_pages.py
   -> scripts/prerender_practice_pages.js
   -> scripts/validate_built_html.py
@@ -82,7 +82,7 @@ sites/<practice>/practice.json + shared/home-page.js + shared/styles/frontdoor.c
 
 1. Compiles Tailwind CSS from `shared/styles/frontdoor.css`.
 2. Copies the root preview landing page and shared assets into `dist/`.
-3. Verifies each practice in `sites/` with an `index.html` has a valid `practice.json`.
+3. Verifies each practice in `sites/` with an `index.html` has a valid `practice.json` and known `theme` from `shared/themes.json`.
 4. Copies each practice from `sites/<practice-slug>/` to `dist/<practice-slug>/`, preserving preview URLs.
 5. Copies stories from `stories/<story-slug>/` to `dist/stories/<story-slug>/`.
 6. Creates each practice `assets/` directory in `dist/`, copies compiled CSS to `assets/styles.css`, and copies shared fonts to `assets/fonts/`.

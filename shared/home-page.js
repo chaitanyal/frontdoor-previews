@@ -1,8 +1,16 @@
 (() => {
-  const themes = {
-    psychiatry: { primary: '#1E3A5F', accent: '#2F855A', brand800: '#16304F', brand900: '#0F172A', surface: '#FAF8F5', headingFont: 'Inter', bodyFont: 'Inter' },
-    acupuncture: { primary: '#315C45', accent: '#5F7F62', brand800: '#274A3A', brand900: '#20382D', surface: '#F7F4ED', headingFont: 'Inter', bodyFont: 'Inter' },
-    wellness: { primary: '#4A5568', accent: '#7C6F64', brand800: '#3B4556', brand900: '#2D3748', surface: '#FAF8F4', headingFont: 'Inter', bodyFont: 'Inter' },
+  const defaultTheme = {
+    primary: '#1E3A5F',
+    primaryHover: '#16304F',
+    secondarySage: '#DCE8E2',
+    surfaceWarm: '#FAF8F5',
+    cardBackground: '#FFFFFF',
+    textPrimary: '#0F172A',
+    textSecondary: '#475569',
+    border: '#E2E8F0',
+    success: '#2F855A',
+    fontHeading: 'Inter',
+    fontBody: 'Inter',
   };
 
   const icon = (name, cls = 'h-4 w-4') => `<i data-lucide="${name}" class="${cls}" aria-hidden="true"></i>`;
@@ -29,14 +37,23 @@
   }
 
   function applyTheme(config) {
-    const theme = themes[config.theme] || themes.psychiatry;
+    const theme = config.themeTokens || defaultTheme;
+    document.documentElement.style.setProperty('--color-primary', theme.primary);
+    document.documentElement.style.setProperty('--color-primary-hover', theme.primaryHover);
+    document.documentElement.style.setProperty('--color-sage', theme.secondarySage);
+    document.documentElement.style.setProperty('--color-surface', theme.surfaceWarm);
+    document.documentElement.style.setProperty('--color-card', theme.cardBackground);
+    document.documentElement.style.setProperty('--color-text-primary', theme.textPrimary);
+    document.documentElement.style.setProperty('--color-text-secondary', theme.textSecondary);
+    document.documentElement.style.setProperty('--color-border', theme.border);
+    document.documentElement.style.setProperty('--color-success', theme.success);
     document.documentElement.style.setProperty('--brand-primary', theme.primary);
-    document.documentElement.style.setProperty('--brand-accent', theme.accent);
-    document.documentElement.style.setProperty('--brand-800', theme.brand800);
-    document.documentElement.style.setProperty('--brand-900', theme.brand900);
-    document.documentElement.style.setProperty('--surface', theme.surface);
-    document.documentElement.style.setProperty('--font-heading', theme.headingFont);
-    document.documentElement.style.setProperty('--font-body', theme.bodyFont);
+    document.documentElement.style.setProperty('--brand-accent', theme.success);
+    document.documentElement.style.setProperty('--brand-800', theme.primaryHover);
+    document.documentElement.style.setProperty('--brand-900', theme.textPrimary);
+    document.documentElement.style.setProperty('--surface', theme.surfaceWarm);
+    document.documentElement.style.setProperty('--font-heading', theme.fontHeading);
+    document.documentElement.style.setProperty('--font-body', theme.fontBody);
     document.title = config.seo.title;
     document.querySelector('meta[name="description"]').setAttribute('content', config.seo.description);
   }
@@ -97,7 +114,7 @@
     const { providers } = config;
     if (!providers?.length) return '';
     const content = homeContent(config);
-    return `<section id="providers" class="section border-t border-white/60 bg-[#F6F8F7]"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">${esc(content.providerEyebrow)}</p><h2 class="section-title">${esc(content.providerTitle)}</h2><p class="section-copy">${esc(content.providerCopy)}</p></div><div class="mt-12 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-2">${providers.map(provider => `
+    return `<section id="providers" class="section border-t border-white/60 bg-warm-50"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">${esc(content.providerEyebrow)}</p><h2 class="section-title">${esc(content.providerTitle)}</h2><p class="section-copy">${esc(content.providerCopy)}</p></div><div class="mt-12 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-2">${providers.map(provider => `
       <article class="fade-in-up editorial-card interactive-card"><div class="aspect-[5/4] overflow-hidden rounded-[28px]"><img loading="lazy" src="${esc(provider.image)}" alt="${esc(provider.name)}" class="image-treatment h-full w-full object-cover object-top" /></div><div class="mt-6"><h3 class="text-2xl font-semibold text-slate-950">${esc(provider.name)}</h3><p class="mt-1 text-sm leading-6 text-slate-500">${esc(provider.credentials)}</p><p class="mt-4 text-lg leading-8 text-slate-700">${esc(provider.cardDescription || '')}</p><div class="mt-5 flex flex-wrap gap-2">${(provider.specialties || []).map(s => `<span class="badge-brand">${icon('CheckCircle', 'h-3.5 w-3.5')} ${esc(s)}</span>`).join('')}</div><a href="./providers/${esc(provider.slug)}/" class="btn-secondary mt-6 px-4 py-2.5 text-sm">View Profile<span class="sr-only"> for ${esc(provider.name)}</span></a></div></article>`).join('')}</div></div></section>`;
   }
 
@@ -106,7 +123,7 @@
   }
 
   function ConditionsSection({ conditions, conditionsIntro }) {
-    return `<section id="conditions" class="section relative overflow-hidden border-t border-white/60 bg-[#FAF8F6]">${BotanicalAccent()}<div class="section-shell relative"><div class="max-w-3xl"><p class="eyebrow">Areas of care</p><h2 class="section-title">Conditions We Treat</h2><p class="section-copy">${esc(conditionsIntro)}</p></div><ul class="mt-14 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-3" aria-label="Conditions treated">${conditions.map(condition => `<li class="border-t border-[rgba(15,23,42,0.06)] py-5"><h3 class="text-lg font-semibold tracking-tight text-slate-950">${esc(condition)}</h3></li>`).join('')}</ul></div></section>`;
+    return `<section id="conditions" class="section relative overflow-hidden border-t border-white/60 bg-warm-50">${BotanicalAccent()}<div class="section-shell relative"><div class="max-w-3xl"><p class="eyebrow">Areas of care</p><h2 class="section-title">Conditions We Treat</h2><p class="section-copy">${esc(conditionsIntro)}</p></div><ul class="mt-14 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-3" aria-label="Conditions treated">${conditions.map(condition => `<li class="border-t border-slate-200 py-5"><h3 class="text-lg font-semibold tracking-tight text-slate-950">${esc(condition)}</h3></li>`).join('')}</ul></div></section>`;
   }
 
   function InsurancePlanList(plans) {
@@ -179,7 +196,7 @@
   }
 
   function FAQSection({ faqs }) {
-    return `<section id="faq" class="section border-t border-white/60 bg-[#F8F7F4]"><div class="mx-auto max-w-4xl"><div class="max-w-2xl"><p class="eyebrow">FAQ</p><h2 class="section-title">Common questions</h2></div><div class="mt-12 soft-card divide-y divide-slate-100/80 overflow-hidden">${faqs.map((faq, index) => `<details class="group p-7 transition-all duration-300 hover:bg-white/70" ${index === 0 ? 'open' : ''}><summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-xl text-base font-semibold text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300">${esc(faq.question)}<span class="icon-chip h-8 w-8 transition duration-300 group-open:rotate-45" aria-hidden="true">+</span></summary><p class="mt-4 text-base leading-7 text-slate-600">${esc(faq.answer)}</p></details>`).join('')}</div></div></section>`;
+    return `<section id="faq" class="section border-t border-white/60 bg-warm-50"><div class="mx-auto max-w-4xl"><div class="max-w-2xl"><p class="eyebrow">FAQ</p><h2 class="section-title">Common questions</h2></div><div class="mt-12 soft-card divide-y divide-slate-100/80 overflow-hidden">${faqs.map((faq, index) => `<details class="group p-7 transition-all duration-300 hover:bg-white/70" ${index === 0 ? 'open' : ''}><summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-xl text-base font-semibold text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300">${esc(faq.question)}<span class="icon-chip h-8 w-8 transition duration-300 group-open:rotate-45" aria-hidden="true">+</span></summary><p class="mt-4 text-base leading-7 text-slate-600">${esc(faq.answer)}</p></details>`).join('')}</div></div></section>`;
   }
 
   function ContactSection({ contact, hero }) {
@@ -209,7 +226,7 @@
     };
     const isOpen = nowMinutes >= toMinutes(today.open) && nowMinutes < toMinutes(today.close);
     return isOpen
-      ? { label: 'Open Now', className: 'bg-emerald-50 text-brand-accent' }
+      ? { label: 'Open Now', className: 'bg-sage-50 text-brand-accent' }
       : { label: 'Closed Now', className: 'bg-slate-100 text-slate-600' };
   }
 

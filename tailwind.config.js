@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './northhillspsychiatry/**/*.html', './drdronavalli/**/*.html', './scripts/**/*.py', './shared/**/*.js'],
+  content: ['./sites/**/*.html', './scripts/generate_provider_pages.py', './shared/**/*.js'],
   theme: {
     extend: {
       fontFamily: {
@@ -8,15 +8,34 @@ module.exports = {
         serif: ['var(--font-heading)', 'Georgia', 'serif'],
       },
       colors: {
+        primary: 'var(--color-primary)',
+        primaryHover: 'var(--color-primary-hover)',
+        sage: { 50: 'var(--color-sage)', 100: 'var(--color-sage)' },
+        surface: 'var(--color-surface)',
+        card: 'var(--color-card)',
+        textPrimary: 'var(--color-text-primary)',
+        textSecondary: 'var(--color-text-secondary)',
+        border: 'var(--color-border)',
+        success: 'var(--color-success)',
         brand: {
-          primary: 'var(--brand-primary)',
-          accent: 'var(--brand-accent)',
-          800: 'var(--brand-800)',
-          900: 'var(--brand-900)',
+          primary: 'var(--color-primary)',
+          accent: 'var(--color-success)',
+          800: 'var(--color-primary-hover)',
+          900: 'var(--color-text-primary)',
         },
-        surface: 'var(--surface)',
-        warm: { 50: '#FAF8F5', 100: '#F7F3EE', 200: '#EFEAE2' },
-        sage: { 50: '#F3F8F5', 100: '#DCE8E2' },
+        warm: { 50: 'var(--color-surface)', 100: 'var(--color-surface)', 200: 'var(--color-surface)' },
+        slate: {
+          50: 'var(--color-border)',
+          100: 'var(--color-border)',
+          200: 'var(--color-border)',
+          300: 'var(--color-border)',
+          500: 'var(--color-text-secondary)',
+          600: 'var(--color-text-secondary)',
+          700: 'var(--color-text-secondary)',
+          800: 'var(--color-text-primary)',
+          900: 'var(--color-text-primary)',
+          950: 'var(--color-text-primary)',
+        },
       },
       boxShadow: {
         soft: '0 10px 40px rgba(15, 23, 42, 0.06)',

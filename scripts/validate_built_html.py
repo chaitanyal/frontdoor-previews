@@ -29,6 +29,7 @@ class BuiltHtmlParser(HTMLParser):
         self.meta_description = False
         self.assets: list[tuple[str, int, str]] = []
         self.json_ld_blocks: list[tuple[str, int]] = []
+        self.classes: list[tuple[str, int]] = []
         self._in_title = False
         self._script_type = ""
         self._script_data: list[str] = []
@@ -44,6 +45,9 @@ class BuiltHtmlParser(HTMLParser):
             self.h1_count += 1
         if tag == "meta" and attrs_dict.get("name") == "description" and attrs_dict.get("content"):
             self.meta_description = True
+        if attrs_dict.get("class"):
+            for class_name in (attrs_dict.get("class") or "").split():
+                self.classes.append((class_name, line))
         if "id" in attrs_dict and attrs_dict["id"]:
             element_id = attrs_dict["id"] or ""
             if element_id in self.ids:
@@ -136,6 +140,17 @@ def validate_page(path: Path) -> list[str]:
         target = asset_target(path, value)
         if target is not None and not target.exists():
             errors.append(f"{path}: line {line}: missing local asset {value}")
+
+    uses_practice_styles = any(value.endswith("assets/styles.css") for value, _, _ in parser.assets)
+    disallowed_color_prefixes = (
+        "bg-[#", "text-[#", "border-[#", "from-[#", "via-[#", "to-[#",
+        "bg-[rgb", "text-[rgb", "border-[rgb", "from-[rgb", "via-[rgb", "to-[rgb",
+        "bg-emerald", "text-emerald", "border-emerald",
+    )
+    if uses_practice_styles:
+        for class_name, line in parser.classes:
+            if class_name.startswith(disallowed_color_prefixes):
+                errors.append(f"{path}: line {line}: off-palette color class is not allowed: {class_name}")
 
     for block, line in parser.json_ld_blocks:
         try:

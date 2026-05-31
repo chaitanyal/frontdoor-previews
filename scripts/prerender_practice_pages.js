@@ -12,6 +12,14 @@ function escapeAttr(value) {
   }[char]));
 }
 
+const themes = JSON.parse(fs.readFileSync(path.join('shared', 'themes.json'), 'utf8'));
+
+function resolveTheme(config) {
+  const theme = themes[config.theme];
+  if (!theme) throw new Error(`Unknown theme '${config.theme}'`);
+  return theme;
+}
+
 const OFFICE_STATUS_SCRIPT = `<script>
 (() => {
   function statusFor(timeZone, weeklyHours) {
@@ -34,7 +42,7 @@ const OFFICE_STATUS_SCRIPT = `<script>
       return hours * 60 + minutes;
     };
     return nowMinutes >= toMinutes(today.open) && nowMinutes < toMinutes(today.close)
-      ? { label: 'Open Now', className: 'bg-emerald-50 text-brand-accent' }
+      ? { label: 'Open Now', className: 'bg-sage-50 text-brand-accent' }
       : { label: 'Closed Now', className: 'bg-slate-100 text-slate-600' };
   }
 
@@ -55,6 +63,7 @@ function prerenderPractice(practiceDir, rendererSource) {
   if (!fs.existsSync(configPath)) return;
 
   const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  config.themeTokens = resolveTheme(config);
   const app = { innerHTML: '' };
   const cssVars = new Map();
   const descriptionMeta = {

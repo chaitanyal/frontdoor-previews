@@ -9,6 +9,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+THEMES_PATH = Path("shared/themes.json")
+
 
 class ValidationError(Exception):
     pass
@@ -108,7 +110,22 @@ def validate_financial_policy(value: Any) -> None:
                 fail(f"financialPolicy.rates[{index}].price must be a number")
 
 
+def valid_theme_names() -> set[str]:
+    try:
+        themes = json.loads(THEMES_PATH.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as error:
+        fail(f"Unable to read {THEMES_PATH}: {error}")
+    if not isinstance(themes, dict) or not themes:
+        fail(f"{THEMES_PATH} must contain at least one theme")
+    return set(themes)
+
+
 def validate_practice_config(config: dict[str, Any], source: Path) -> None:
+    theme = require_string_key(config, "theme", "root")
+    themes = valid_theme_names()
+    if theme not in themes:
+        fail(f"root.theme must be one of {', '.join(sorted(themes))}")
+
     seo = require_mapping(require_key(config, "seo", "root"), "seo")
     require_string_key(seo, "title", "seo")
     require_string_key(seo, "description", "seo")

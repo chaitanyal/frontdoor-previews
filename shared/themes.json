@@ -1,0 +1,15 @@
+{
+  "calm-healthcare": {
+    "primary": "#1E3A5F",
+    "primaryHover": "#16304F",
+    "secondarySage": "#DCE8E2",
+    "surfaceWarm": "#FAF8F5",
+    "cardBackground": "#FFFFFF",
+    "textPrimary": "#0F172A",
+    "textSecondary": "#475569",
+    "border": "#E2E8F0",
+    "success": "#2F855A",
+    "fontHeading": "Inter",
+    "fontBody": "Inter"
+  }
+}
