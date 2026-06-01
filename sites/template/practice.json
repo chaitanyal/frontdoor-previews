@@ -77,7 +77,6 @@
     ],
     "verification": {
       "enabled": true,
-      "headline": "Need help verifying your coverage?",
       "description": "Verify your coverage before your appointment."
     }
   },

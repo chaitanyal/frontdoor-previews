@@ -15,7 +15,8 @@ VOID_TAGS = {
     "param", "source", "track", "wbr",
 }
 
-SKIP_ASSET_SCHEMES = {"http", "https", "mailto", "tel", "data", "javascript"}
+ALLOWED_LINK_SCHEMES = {"http", "https", "mailto", "tel"}
+SKIP_ASSET_SCHEMES = {*ALLOWED_LINK_SCHEMES, "data"}
 
 
 class BuiltHtmlParser(HTMLParser):
@@ -107,6 +108,17 @@ def is_local_asset(value: str) -> bool:
     return True
 
 
+def validate_link_scheme(value: str, line: int, attr: str) -> str | None:
+    parsed = urlparse(value)
+    if not parsed.scheme:
+        return None
+    if attr == "href" and parsed.scheme in ALLOWED_LINK_SCHEMES:
+        return None
+    if attr != "href" and parsed.scheme in {"http", "https", "data"}:
+        return None
+    return f"line {line}: unsupported {attr} scheme is not allowed: {value}"
+
+
 def asset_target(page: Path, value: str) -> Path | None:
     parsed = urlparse(value)
     clean = parsed.path
@@ -132,6 +144,10 @@ def validate_page(path: Path) -> list[str]:
         errors.append(f"{path}: expected exactly one <h1>, found {parser.h1_count}")
 
     for value, line, attr in parser.assets:
+        link_error = validate_link_scheme(value, line, attr)
+        if link_error:
+            errors.append(f"{path}: {link_error}")
+            continue
         if not is_local_asset(value):
             continue
         if urlparse(value).path.startswith("/"):

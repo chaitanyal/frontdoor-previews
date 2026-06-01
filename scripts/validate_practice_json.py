@@ -171,7 +171,6 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         if "enabled" not in verification or not isinstance(verification["enabled"], bool):
             fail("insurance.verification.enabled must be a boolean")
         if verification["enabled"]:
-            require_string_key(verification, "headline", "insurance.verification")
             require_string_key(verification, "description", "insurance.verification")
 
     faqs = require_list(require_key(config, "faqs", "root"), "faqs")
