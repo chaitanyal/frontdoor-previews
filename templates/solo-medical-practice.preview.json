@@ -19,6 +19,12 @@
     ],
     "socialLinks": []
   },
+  "appointmentWorkflow": {
+    "type": "direct_contact",
+    "contactHeading": "Questions or Appointments?",
+    "phoneLabel": "Call Office",
+    "emailLabel": "Email"
+  },
   "hero": {
     "image": "./images/hero/hero.webp",
     "title": "Care that starts with understanding.",
@@ -79,7 +85,7 @@
     "eyebrow": "Start care",
     "title": "Ready to get started?",
     "copy": "Request an appointment and the office will follow up with next steps, availability, and insurance information.",
-    "disclaimer": "The office typically responds within 1 business day."
+    "emergencyCopy": "For medical emergencies, call 911 or go to the nearest emergency room."
   },
   "location": {
     "title": "Conveniently located in City",

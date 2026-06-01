@@ -19,6 +19,20 @@
     ],
     "socialLinks": []
   },
+  "appointmentWorkflow": {
+    "type": "patient_management_system",
+    "contactHeading": "Contact the Office",
+    "phoneLabel": "Call Office",
+    "emailLabel": "Email",
+    "newPatient": {
+      "label": "New Patient Appointment",
+      "url": "https://healow.com/apps/provider/goutham-dronavalli-3201534"
+    },
+    "existingPatient": {
+      "label": "Existing Patient Portal",
+      "url": "https://mycw59.eclinicalweb.com/portal7544/jsp/100mp/login_otp.jsp"
+    }
+  },
   "hero": {
     "image": "./images/hero/hero.webp",
     "imageAlt": "Pulmonary practice hero image",
@@ -186,7 +200,7 @@
     "eyebrow": "Request care",
     "title": "Ready to schedule a pulmonary visit?",
     "copy": "Contact the office for appointment availability, insurance details, and next steps for pulmonary or sleep-related concerns.",
-    "disclaimer": "For pressing questions, please contact the office by phone or fax."
+    "emergencyCopy": "For medical emergencies, call 911 or go to the nearest emergency room."
   },
   "location": {
     "title": "Pulmonary care in Sugar Land",

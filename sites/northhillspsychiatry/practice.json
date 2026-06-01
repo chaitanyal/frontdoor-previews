@@ -19,6 +19,12 @@
     ],
     "socialLinks": []
   },
+  "appointmentWorkflow": {
+    "type": "direct_contact",
+    "contactHeading": "Questions or Appointments?",
+    "phoneLabel": "Call Office",
+    "emailLabel": "Email"
+  },
   "hero": {
     "image": "./images/hero/Austin_Hero_Image.webp",
     "imageAlt": "Austin skyline at sunset",
@@ -205,7 +211,7 @@
     "eyebrow": "Start care",
     "title": "Ready to get started?",
     "copy": "Request an appointment and our office will follow up with next steps, availability, and payment information.",
-    "disclaimer": "We typically respond within 1 business day."
+    "emergencyCopy": "If you are experiencing a mental health crisis or having thoughts of self-harm, call 911 or 988 immediately."
   },
   "location": {
     "title": "Conveniently located in North Austin",
