@@ -39,6 +39,28 @@ if page.exists():
     page.write_text(html, encoding='utf-8')
 PY
 
+  cat > dist/404.html <<'HTML'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found | FrontDoor Health</title>
+  <meta name="description" content="The requested FrontDoor Health page could not be found." />
+  <meta name="robots" content="noindex,nofollow" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-warm-50 font-sans text-slate-950 antialiased">
+  <main class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-5 py-16 text-center">
+    <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">404</p>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-5xl">Page not found</h1>
+    <p class="mt-5 text-lg leading-8 text-slate-600">This page is not part of the FrontDoor Health marketing site.</p>
+    <a class="mx-auto mt-8 inline-flex rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white" href="./">Return home</a>
+  </main>
+</body>
+</html>
+HTML
+
   if [[ -d stories ]]; then
     mkdir -p dist/case-studies
     cat > dist/case-studies/index.html <<'HTML'
@@ -150,14 +172,18 @@ elif [[ "$FRONTDOOR_TARGET" == "marketing" ]]; then
     printf '</urlset>\n'
   } > dist/sitemap.xml
 
+  if [[ ! -f dist/404.html ]]; then
+    echo "Marketing build must include 404.html so unknown routes do not fall back to index.html" >&2
+    exit 1
+  fi
   for preview_route in drdronavalli northhillspsychiatry cibola; do
     if [[ -e "dist/${preview_route}" ]]; then
       echo "Marketing build must not include preview route: /${preview_route}/" >&2
       exit 1
     fi
   done
-  if grep -RF "noindex,nofollow" dist >/dev/null 2>&1; then
-    echo "Marketing build must be indexable and must not contain noindex,nofollow" >&2
+  if find dist -name '*.html' ! -name '404.html' -print0 | xargs -0 grep -F "noindex,nofollow" >/dev/null 2>&1; then
+    echo "Marketing pages must be indexable and must not contain noindex,nofollow" >&2
     exit 1
   fi
 else
