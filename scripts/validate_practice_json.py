@@ -74,28 +74,11 @@ def validate_labeled_string_list(value: Any, path: str, *, min_items: int = 0) -
         require_string(pair[1], f"{path}[{index}][1]")
 
 
-def validate_workflow_action(value: Any, path: str) -> None:
-    action = require_mapping(value, path)
-    require_string_key(action, "label", path)
-    url = require_string_key(action, "url", path)
+def require_http_url(value: Any, path: str) -> str:
+    url = require_string(value, path)
     if not url.startswith(("http://", "https://")):
-        fail(f"{path}.url must be an http(s) URL")
-
-
-def validate_appointment_workflow(value: Any) -> None:
-    workflow = require_mapping(value, "appointmentWorkflow")
-    workflow_type = require_string_key(workflow, "type", "appointmentWorkflow")
-    for key in ["contactHeading", "phoneLabel", "emailLabel"]:
-        require_string_key(workflow, key, "appointmentWorkflow")
-    if workflow_type == "patient_management_system":
-        validate_workflow_action(require_key(workflow, "newPatient", "appointmentWorkflow"), "appointmentWorkflow.newPatient")
-        validate_workflow_action(require_key(workflow, "existingPatient", "appointmentWorkflow"), "appointmentWorkflow.existingPatient")
-    elif workflow_type != "direct_contact":
-        actions = require_list(require_key(workflow, "actions", "appointmentWorkflow"), "appointmentWorkflow.actions")
-        if not actions:
-            fail("appointmentWorkflow.actions must contain at least 1 action for custom workflow types")
-        for index, action in enumerate(actions):
-            validate_workflow_action(action, f"appointmentWorkflow.actions[{index}]")
+        fail(f"{path} must be an http(s) URL")
+    return url
 
 
 def validate_financial_policy(value: Any) -> None:
@@ -160,8 +143,11 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
     for key in ["name", "tagline", "locationLabel", "phone", "phoneHref", "email"]:
         require_string_key(practice, key, "practice")
     validate_string_list(require_key(practice, "addressLines", "practice"), "practice.addressLines", min_items=1)
-
-    validate_appointment_workflow(require_key(config, "appointmentWorkflow", "root"))
+    require_string_key(practice, "emergencyNotice", "practice")
+    if "defaultAppointmentUrl" in practice:
+        require_http_url(practice["defaultAppointmentUrl"], "practice.defaultAppointmentUrl")
+    if "patientPortalUrl" in practice:
+        require_http_url(practice["patientPortalUrl"], "practice.patientPortalUrl")
 
     hero = require_mapping(require_key(config, "hero", "root"), "hero")
     for key in ["image", "imageAlt", "title", "copy", "primaryCta", "secondaryCta"]:
@@ -175,6 +161,8 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         for key in ["slug", "name", "image", "tagline", "cardDescription"]:
             require_string_key(provider, key, provider_path)
         validate_asset_path(provider["image"], f"{provider_path}.image")
+        if "appointmentUrl" in provider:
+            require_http_url(provider["appointmentUrl"], f"{provider_path}.appointmentUrl")
 
     validate_string_list(require_key(config, "conditions", "root"), "conditions", min_items=1)
     require_string_key(config, "conditionsIntro", "root")
@@ -204,12 +192,6 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         faq = require_mapping(faq_value, f"faqs[{index}]")
         require_string_key(faq, "question", f"faqs[{index}]")
         require_string_key(faq, "answer", f"faqs[{index}]")
-
-    contact = require_mapping(require_key(config, "contact", "root"), "contact")
-    for key in ["eyebrow", "title", "copy"]:
-        require_string_key(contact, key, "contact")
-    if "emergencyCopy" in contact:
-        require_string_key(contact, "emergencyCopy", "contact")
 
     location = require_mapping(require_key(config, "location", "root"), "location")
     for key in ["title", "officeImage", "officeImageAlt", "directionsHref", "timeZone"]:

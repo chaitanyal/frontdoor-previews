@@ -17,13 +17,8 @@
       "Suite 100",
       "City, ST 12345"
     ],
-    "socialLinks": []
-  },
-  "appointmentWorkflow": {
-    "type": "direct_contact",
-    "contactHeading": "Questions or Appointments?",
-    "phoneLabel": "Call Office",
-    "emailLabel": "Email"
+    "socialLinks": [],
+    "emergencyNotice": "For medical emergencies, call 911 or go to the nearest emergency room."
   },
   "hero": {
     "image": "./images/hero/hero.webp",
@@ -33,10 +28,22 @@
     "secondaryCta": "Meet the Provider"
   },
   "trustItems": [
-    { "icon": "ShieldCheck", "text": "Insurance accepted" },
-    { "icon": "Video", "text": "Telehealth available" },
-    { "icon": "CalendarCheck", "text": "New patients welcome" },
-    { "icon": "MapPin", "text": "Convenient local office" }
+    {
+      "icon": "ShieldCheck",
+      "text": "Insurance accepted"
+    },
+    {
+      "icon": "Video",
+      "text": "Telehealth available"
+    },
+    {
+      "icon": "CalendarCheck",
+      "text": "New patients welcome"
+    },
+    {
+      "icon": "MapPin",
+      "text": "Convenient local office"
+    }
   ],
   "providers": [
     {
@@ -44,7 +51,10 @@
       "name": "Dr. Provider Name",
       "credentials": "MD · Specialty",
       "image": "./images/providers/provider-name.webp",
-      "specialties": ["Specialty Area", "Patient Focus"],
+      "specialties": [
+        "Specialty Area",
+        "Patient Focus"
+      ],
       "philosophy": "A short statement about the provider's clinical focus and approach.",
       "bio": "A concise provider bio describing training, care style, and patient population."
     }
@@ -61,10 +71,22 @@
   "insurance": {
     "title": "Insurance and payment options",
     "plans": [
-      { "name": "Blue Cross Blue Shield", "logo": "../shared/logos/bcbstx-logo.svg" },
-      { "name": "Cigna Healthcare", "logo": "../shared/logos/cignahlthcr.svg" },
-      { "name": "UnitedHealthcare", "logo": "../shared/logos/UHC.svg" },
-      { "name": "Aetna", "logo": "../shared/logos/aetna.svg" }
+      {
+        "name": "Blue Cross Blue Shield",
+        "logo": "../shared/logos/bcbstx-logo.svg"
+      },
+      {
+        "name": "Cigna Healthcare",
+        "logo": "../shared/logos/cignahlthcr.svg"
+      },
+      {
+        "name": "UnitedHealthcare",
+        "logo": "../shared/logos/UHC.svg"
+      },
+      {
+        "name": "Aetna",
+        "logo": "../shared/logos/aetna.svg"
+      }
     ]
   },
   "faqs": [
@@ -81,12 +103,6 @@
       "answer": "Submit the appointment request form or call the office. The team will follow up with availability and next steps."
     }
   ],
-  "contact": {
-    "eyebrow": "Start care",
-    "title": "Ready to get started?",
-    "copy": "Request an appointment and the office will follow up with next steps, availability, and insurance information.",
-    "emergencyCopy": "For medical emergencies, call 911 or go to the nearest emergency room."
-  },
   "location": {
     "title": "Conveniently located in City",
     "officeImage": "./images/office/office.webp",
@@ -94,24 +110,64 @@
     "directionsHref": "https://maps.google.com",
     "timeZone": "America/New_York",
     "hours": [
-      ["Monday", "8:00 AM – 5:00 PM"],
-      ["Tuesday", "8:00 AM – 5:00 PM"],
-      ["Wednesday", "8:00 AM – 5:00 PM"],
-      ["Thursday", "8:00 AM – 5:00 PM"],
-      ["Friday", "8:00 AM – 3:00 PM"],
-      ["Saturday–Sunday", "Closed"]
+      [
+        "Monday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Tuesday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Wednesday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Thursday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Friday",
+        "8:00 AM – 3:00 PM"
+      ],
+      [
+        "Saturday–Sunday",
+        "Closed"
+      ]
     ],
     "weeklyHours": {
-      "Monday": { "open": "08:00", "close": "17:00" },
-      "Tuesday": { "open": "08:00", "close": "17:00" },
-      "Wednesday": { "open": "08:00", "close": "17:00" },
-      "Thursday": { "open": "08:00", "close": "17:00" },
-      "Friday": { "open": "08:00", "close": "15:00" },
-      "Saturday": { "closed": true },
-      "Sunday": { "closed": true }
+      "Monday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Tuesday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Wednesday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Thursday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Friday": {
+        "open": "08:00",
+        "close": "15:00"
+      },
+      "Saturday": {
+        "closed": true
+      },
+      "Sunday": {
+        "closed": true
+      }
     }
   },
   "footer": {
-    "links": ["Privacy", "Accessibility"]
+    "links": [
+      "Privacy",
+      "Accessibility"
+    ]
   }
 }

@@ -17,13 +17,8 @@
       "Suite 100",
       "City, ST 12345"
     ],
-    "socialLinks": []
-  },
-  "appointmentWorkflow": {
-    "type": "direct_contact",
-    "contactHeading": "Questions or Appointments?",
-    "phoneLabel": "Call Office",
-    "emailLabel": "Email"
+    "socialLinks": [],
+    "emergencyNotice": "For medical emergencies, call 911 or go to the nearest emergency room."
   },
   "hero": {
     "image": "./images/hero/hero.webp",
@@ -100,12 +95,6 @@
       "answer": "Submit the appointment request form or call the office. The team will follow up with availability and next steps."
     }
   ],
-  "contact": {
-    "eyebrow": "Start care",
-    "title": "Ready to get started?",
-    "copy": "Request an appointment and the office will follow up with next steps, availability, and insurance information.",
-    "emergencyCopy": "For medical emergencies, call 911 or go to the nearest emergency room."
-  },
   "location": {
     "title": "Conveniently located in City",
     "officeImage": "./images/office/office.webp",

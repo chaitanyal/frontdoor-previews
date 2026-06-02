@@ -210,29 +210,24 @@
     return `<section id="faq" class="section border-t border-white/60 bg-warm-50"><div class="mx-auto max-w-4xl"><div class="max-w-2xl"><p class="eyebrow">FAQ</p><h2 class="section-title">Common questions</h2></div><div class="mt-12 soft-card divide-y divide-slate-100/80 overflow-hidden">${faqs.map((faq, index) => `<details class="group p-7 transition-all duration-300 hover:bg-white/70" ${index === 0 ? 'open' : ''}><summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-xl text-base font-semibold text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300">${esc(faq.question)}<span class="icon-chip h-8 w-8 transition duration-300 group-open:rotate-45" aria-hidden="true">+</span></summary><div class="mt-4 space-y-3 text-base leading-7 text-slate-600">${FAQAnswer(faq.answer)}</div></details>`).join('')}</div></div></section>`;
   }
 
-  function WorkflowActions(workflow) {
-    if (!workflow || workflow.type === 'direct_contact') return [];
-    if (Array.isArray(workflow.actions)) return workflow.actions;
-    if (workflow.type === 'patient_management_system') return [workflow.newPatient, workflow.existingPatient];
-    return [];
-  }
-
-  function AppointmentWorkflowActions(workflow) {
-    const actions = WorkflowActions(workflow).filter(action => action?.label && action?.url);
+  function AppointmentWorkflowActions({ appointmentUrl, patientPortalUrl }) {
+    const actions = [
+      appointmentUrl ? { label: 'New Patient Appointment', url: appointmentUrl, primary: true, iconName: 'CalendarCheck' } : null,
+      patientPortalUrl ? { label: 'Existing Patient Portal', url: patientPortalUrl, primary: false, iconName: 'LogIn' } : null,
+    ].filter(Boolean);
     if (!actions.length) return '';
-    return `<div class="space-y-3">${actions.map((action, index) => `<a href="${esc(action.url)}" target="_blank" rel="noopener noreferrer" class="${index === 0 ? 'btn-primary' : 'btn-secondary'} w-full justify-center px-5 py-4 text-base">${index === 0 ? icon('CalendarCheck') : icon('LogIn')} ${esc(action.label)} ${icon('ExternalLink', 'h-3.5 w-3.5')}</a>`).join('')}</div>`;
+    return `<div class="space-y-3">${actions.map(action => `<a href="${esc(action.url)}" target="_blank" rel="noopener noreferrer" class="${action.primary ? 'btn-primary' : 'btn-secondary'} w-full justify-center px-5 py-4 text-base">${icon(action.iconName)} ${esc(action.label)} ${icon('ExternalLink', 'h-3.5 w-3.5')}</a>`).join('')}</div>`;
   }
 
-  function EmergencyCopy(contact) {
-    if (!contact.emergencyCopy) return '';
-    return `<p class="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium leading-6 text-amber-900">${esc(contact.emergencyCopy)}</p>`;
+  function EmergencyNotice(value) {
+    if (!value) return '';
+    return `<p class="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium leading-6 text-amber-900">${esc(value)}</p>`;
   }
 
-  function ContactWorkflowCard(config) {
-    const { appointmentWorkflow, contact, practice } = config;
-    const hasPatientPortal = appointmentWorkflow?.type === 'patient_management_system';
-    const contactClass = hasPatientPortal ? 'mt-8 border-t border-slate-200 pt-7' : '';
-    return `<div class="dark-section-card p-7 md:p-8">${AppointmentWorkflowActions(appointmentWorkflow)}<div class="${contactClass}"><h3 class="text-2xl font-semibold tracking-tight text-slate-950">${esc(appointmentWorkflow.contactHeading)}</h3>${ContactCards(practice, 'lg', { phone: appointmentWorkflow.phoneLabel, email: appointmentWorkflow.emailLabel })}</div>${EmergencyCopy(contact)}</div>`;
+  function AppointmentSection({ appointmentUrl, patientPortalUrl, phone, phoneHref, email, emergencyNotice }) {
+    const hasActions = Boolean(appointmentUrl || patientPortalUrl);
+    const practice = { phone, phoneHref, email };
+    return `<section id="contact" class="fade-in-up section relative overflow-hidden border-t border-white/60 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary py-20" aria-labelledby="contact-title"><div class="section-shell relative grid grid-cols-1 gap-12 lg:grid-cols-2"><div><p class="text-sm font-semibold uppercase tracking-wide text-sage-100">REQUEST CARE</p><h2 id="contact-title" class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">Ready to schedule a visit?</h2><p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">Contact the office directly or request an appointment online.</p></div><div class="dark-section-card p-7 md:p-8">${AppointmentWorkflowActions({ appointmentUrl, patientPortalUrl })}<div class="${hasActions ? 'mt-8 border-t border-slate-200 pt-7' : ''}"><h3 class="text-2xl font-semibold tracking-tight text-slate-950">Contact the Office</h3>${ContactCards(practice, 'lg')}</div>${EmergencyNotice(emergencyNotice)}</div></div></section>`;
   }
 
   async function copyText(value) {
@@ -296,8 +291,15 @@
   }
 
   function ContactSection(config) {
-    const { contact } = config;
-    return `<section id="contact" class="fade-in-up section relative overflow-hidden border-t border-white/60 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary py-20" aria-labelledby="contact-title"><div class="section-shell relative grid grid-cols-1 gap-12 lg:grid-cols-2"><div><p class="text-sm font-semibold uppercase tracking-wide text-sage-100">${esc(contact.eyebrow)}</p><h2 id="contact-title" class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">${esc(contact.title)}</h2><p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300">${esc(contact.copy)}</p></div>${ContactWorkflowCard(config)}</div></section>`;
+    const { practice } = config;
+    return AppointmentSection({
+      appointmentUrl: practice.defaultAppointmentUrl,
+      patientPortalUrl: practice.patientPortalUrl,
+      phone: practice.phone,
+      phoneHref: practice.phoneHref,
+      email: practice.email,
+      emergencyNotice: practice.emergencyNotice,
+    });
   }
 
   function officeStatus(location) {

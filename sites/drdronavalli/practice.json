@@ -17,21 +17,10 @@
       "Suite 303",
       "Sugar Land, TX 77478"
     ],
-    "socialLinks": []
-  },
-  "appointmentWorkflow": {
-    "type": "patient_management_system",
-    "contactHeading": "Contact the Office",
-    "phoneLabel": "Call Office",
-    "emailLabel": "Email",
-    "newPatient": {
-      "label": "New Patient Appointment",
-      "url": "https://healow.com/apps/provider/goutham-dronavalli-3201534"
-    },
-    "existingPatient": {
-      "label": "Existing Patient Portal",
-      "url": "https://mycw59.eclinicalweb.com/portal7544/jsp/100mp/login_otp.jsp"
-    }
+    "socialLinks": [],
+    "defaultAppointmentUrl": "https://healow.com/apps/provider/goutham-dronavalli-3201534",
+    "patientPortalUrl": "https://mycw59.eclinicalweb.com/portal7544/jsp/100mp/login_otp.jsp",
+    "emergencyNotice": "For medical emergencies, call 911 or go to the nearest emergency room."
   },
   "hero": {
     "image": "./images/hero/hero.webp",
@@ -142,9 +131,8 @@
         "Clear guidance regarding your diagnosis, test results, and next steps.",
         "Consistent support to protect your breathing and sleep health."
       ],
-      "ctaTitle": "Take the Next Step Toward Better Breathing & Sleep",
-      "ctaCopy": "Call our Sugar Land office directly or request an appointment online. Our team will contact you promptly to finalize your visit.",
-      "cardDescription": "Combining advanced academic insight with personalized care, Dr. Dronavalli helps patients overcome complex breathing disorders and chronic sleep conditions. Welcoming new patients at our Sugar Land clinic."
+      "cardDescription": "Combining advanced academic insight with personalized care, Dr. Dronavalli helps patients overcome complex breathing disorders and chronic sleep conditions. Welcoming new patients at our Sugar Land clinic.",
+      "appointmentUrl": "https://healow.com/apps/provider/goutham-dronavalli-3201534"
     }
   ],
   "conditionsIntro": "Evaluation and care for common and complex respiratory conditions.",
@@ -196,12 +184,6 @@
       "answer": "We accept Medicare, Medicare Advantage, Medicare Supplement (Medigap), and many private insurance plan.\nParticipating plans include Aetna, Anthem, Blue Cross Blue Shield of Texas, Cigna, Humana, and others.\nBecause participation varies by plan, please contact our office to verify coverage before scheduling."
     }
   ],
-  "contact": {
-    "eyebrow": "Request care",
-    "title": "Ready to schedule a pulmonary visit?",
-    "copy": "Contact the office for appointment availability, insurance details, and next steps for pulmonary or sleep-related concerns.",
-    "emergencyCopy": "For medical emergencies, call 911 or go to the nearest emergency room."
-  },
   "location": {
     "title": "Pulmonary care in Sugar Land",
     "officeImage": "./images/office/office.webp",

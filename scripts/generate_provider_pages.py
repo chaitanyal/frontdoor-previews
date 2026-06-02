@@ -71,6 +71,78 @@ def care_steps(values: list[str] | None) -> str:
     )
 
 
+def contact_card(kind: str, label: str, value: str, href: str = "") -> str:
+    icon_name = "Mail" if kind == "email" else "Phone"
+    value_class = "text-base font-medium text-slate-700" if kind == "email" else "text-lg font-semibold text-slate-950"
+    content = (
+        f'<span class="icon-chip shrink-0 bg-warm-50"><i data-lucide="{icon_name}" class="h-4 w-4" aria-hidden="true"></i></span>'
+        f'<span class="min-w-0"><span class="block text-sm font-semibold uppercase tracking-wide text-slate-500">{esc(label)}</span>'
+        f'<span class="mt-1 block break-words {value_class}">{esc(value)}</span></span>'
+    )
+    classes = "group flex min-h-[72px] w-full min-w-0 items-center gap-4 rounded-[24px] border border-slate-200 bg-white/85 p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brand-primary hover:bg-white hover:shadow-md focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"
+    if kind == "email":
+        return f'<button type="button" data-copy-email="{esc(value)}" class="{classes}" aria-label="Copy email {esc(value)}">{content}</button>'
+    return f'<a href="{esc(href)}" class="{classes}" aria-label="{esc(label)} {esc(value)}">{content}</a>'
+
+
+def appointment_section(*, appointment_url: str, patient_portal_url: str, phone: str, phone_href: str, email: str, emergency_notice: str) -> str:
+    actions = []
+    if appointment_url:
+        actions.append(('<i data-lucide="CalendarCheck" class="h-4 w-4" aria-hidden="true"></i>', 'New Patient Appointment', appointment_url, 'btn-primary'))
+    if patient_portal_url:
+        actions.append(('<i data-lucide="LogIn" class="h-4 w-4" aria-hidden="true"></i>', 'Existing Patient Portal', patient_portal_url, 'btn-secondary'))
+    actions_html = ''.join(
+        f'<a href="{esc(url)}" target="_blank" rel="noopener noreferrer" class="{cls} w-full justify-center px-5 py-4 text-base">{icon_html} {esc(label)} <i data-lucide="ExternalLink" class="h-3.5 w-3.5" aria-hidden="true"></i></a>'
+        for icon_html, label, url, cls in actions
+    )
+    actions_block = f'<div class="space-y-3">{actions_html}</div>' if actions_html else ''
+    contact_class = 'mt-8 border-t border-slate-200 pt-7' if actions_html else ''
+    notice = f'<p class="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium leading-6 text-amber-900">{esc(emergency_notice)}</p>' if emergency_notice else ''
+    return f'''<section id="appointment" class="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary px-6 py-16 md:py-24 lg:px-8"><div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center"><div><p class="text-sm font-semibold uppercase tracking-wide text-sage-100">REQUEST CARE</p><h2 class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">Ready to schedule a visit?</h2><p class="mt-6 text-lg leading-8 text-slate-300">Contact the office directly or request an appointment online.</p></div><div class="dark-section-card p-7 md:p-8">{actions_block}<div class="{contact_class}"><h3 class="text-2xl font-semibold tracking-tight text-slate-950">Contact the Office</h3><div class="mt-5 grid gap-3">{contact_card('phone', 'Call Office', phone, phone_href)}{contact_card('email', 'Email', email)}</div></div>{notice}</div></div></section>'''
+
+
+def copy_email_script() -> str:
+    return '''<script>
++(() => {
++  async function copyText(value) {
++    if (navigator.clipboard?.writeText && window.isSecureContext) {
++      await navigator.clipboard.writeText(value);
++      return true;
++    }
++    const textarea = document.createElement('textarea');
++    textarea.value = value;
++    textarea.setAttribute('readonly', '');
++    textarea.style.position = 'fixed';
++    textarea.style.top = '-9999px';
++    document.body.appendChild(textarea);
++    textarea.select();
++    textarea.setSelectionRange(0, textarea.value.length);
++    const copied = document.execCommand('copy');
++    textarea.remove();
++    return copied;
++  }
++  function showCopyToast() {
++    const toast = document.querySelector('[data-copy-toast]');
++    if (!toast) return;
++    toast.classList.remove('hidden');
++    window.clearTimeout(showCopyToast.timeoutId);
++    showCopyToast.timeoutId = window.setTimeout(() => toast.classList.add('hidden'), 2500);
++  }
++  document.querySelectorAll('[data-copy-email]').forEach(button => {
++    button.addEventListener('click', async () => {
++      const email = button.getAttribute('data-copy-email') || '';
++      try {
++        if (!await copyText(email)) throw new Error('Copy command failed');
++        showCopyToast();
++      } catch (_error) {
++        window.prompt('Copy email address:', email);
++      }
++    });
++  });
++})();
++</script>'''.replace('\n+', '\n')
+
+
 def is_psychiatry(config: dict[str, Any], provider: dict[str, Any]) -> bool:
     haystack = " ".join([
         provider.get("specialty", ""),
@@ -182,15 +254,14 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     awards = provider.get("awards") or []
     professional_credentials = [*professional_affiliations, *academic, *awards]
     languages = provider.get("languages") or ["English"]
-    phone = provider.get("phone") or practice.get("phone")
-    phone_href = provider.get("phoneHref") or practice.get("phoneHref")
-    email = provider.get("email") or practice.get("email")
-    email_href = f"mailto:{email}" if email else ""
-    office_lines = provider.get("officeLines") or practice.get("addressLines", [])
-    office = provider.get("office") or ", ".join(office_lines)
-    office_html = "".join(f"<p>{esc(line)}</p>" for line in office_lines) or f"<p>{esc(office)}</p>"
-    cta_title = provider.get("ctaTitle") or f"Ready to schedule with {name}?"
-    cta_copy = provider.get("ctaCopy") or "Call the office or request an appointment to confirm availability, insurance, and next steps."
+    phone = practice.get("phone")
+    phone_href = practice.get("phoneHref")
+    email = practice.get("email")
+    office_lines = practice.get("addressLines", [])
+    office = ", ".join(office_lines)
+    appointment_url = provider.get("appointmentUrl") or practice.get("defaultAppointmentUrl", "")
+    patient_portal_url = practice.get("patientPortalUrl", "")
+    emergency_notice = practice.get("emergencyNotice", "")
     specialty = provider.get("specialty") or provider.get("credentials", "").split("·")[-1].strip()
     about_heading = provider.get("aboutHeading") or ("Personalized Psychiatric Care" if is_psychiatry(config, provider) else "Individualized Pulmonary Care")
     affiliation_section = ""
@@ -252,10 +323,12 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     <section class="bg-warm-50 px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['conditionsTreated'])}</h2><ul class="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">{list_cards(conditions)}</ul></div></section>
     <section class="bg-white px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['treatmentServices'])}</h2><ul class="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3">{list_cards(services)}</ul></div></section>
     <section class="bg-warm-50 px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['educationTraining'])}</h2><div class="mt-7 grid grid-cols-1 gap-4 md:grid-cols-2">{education_rows(provider) or '<div class="soft-card rounded-3xl p-6 text-lg leading-8 text-slate-700 md:p-7">Please contact the office for additional training details.</div>'}</div></div></section>{affiliation_section}
-    <section id="appointment" class="relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary px-6 py-16 md:py-24 lg:px-8"><div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center"><div><p class="text-sm font-semibold uppercase tracking-wide text-sage-100">{esc(labels['requestCare'])}</p><h2 class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">{esc(cta_title)}</h2><p class="mt-6 text-lg leading-8 text-slate-300">{esc(cta_copy)}</p></div><div class="dark-section-card p-7"><p class="text-lg font-semibold text-slate-950">{esc(practice['name'])}</p><div class="mt-3 text-base leading-7 text-slate-600">{office_html}<p><a href="{esc(email_href)}" class="hover:text-brand-primary">{esc(email)}</a></p></div><div class="mt-6 flex flex-col gap-3 sm:flex-row"><a href="{esc(phone_href)}" class="btn-primary">{esc(phone)}</a><a href="../../#contact" class="btn-secondary">{esc(labels['requestAppointment'])}</a></div>{f'<p class="mt-4 text-sm font-semibold text-brand-accent">{esc(labels["telehealthAvailable"])}</p>' if provider.get('telehealth') is True else ''}</div></div></section>
+    {appointment_section(appointment_url=appointment_url, patient_portal_url=patient_portal_url, phone=phone, phone_href=phone_href, email=email, emergency_notice=emergency_notice)}
   </main>
   <div class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"><div class="mx-auto grid max-w-md grid-cols-2 gap-3"><a href="#appointment" class="btn-primary min-h-[44px] px-3 py-2 text-sm">{esc(labels['bookAppointment'])}</a><a href="{esc(phone_href)}" class="btn-secondary min-h-[44px] px-3 py-2 text-sm">{esc(labels['callOffice'])}</a></div></div>
+  <div data-copy-toast class="pointer-events-none fixed inset-x-4 bottom-24 z-[60] mx-auto hidden max-w-sm rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center text-sm font-semibold text-slate-950 shadow-lg md:bottom-6" role="status" aria-live="polite">✓ Email copied</div>
   <script type="application/ld+json">{json.dumps(schema).replace('<', '\\u003c')}</script>
+  {copy_email_script()}
   <script>lucide.createIcons();</script>
 </body>
 </html>
