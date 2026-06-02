@@ -49,6 +49,7 @@ done
 
 python3 scripts/generate_provider_pages.py
 node scripts/prerender_practice_pages.js dist
+python3 scripts/generate_legal_pages.py dist
 
 rm -rf dist/shared/styles .tmp/frontdoor-build
 find dist -name '*.md' -type f -delete
