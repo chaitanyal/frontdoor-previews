@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import os
 from html import escape
 from pathlib import Path
 from typing import Any
@@ -49,6 +50,26 @@ def rel(path: str | None) -> str:
     if path.startswith("../"):
         return "../../" + path
     return "../../" + path
+
+
+def normalized_site_url(config: dict[str, Any]) -> str:
+    return str((config.get("seo") or {}).get("siteUrl") or "").rstrip("/")
+
+
+def canonical_url(config: dict[str, Any], page_path: str = "") -> str:
+    site_url = normalized_site_url(config)
+    if not site_url:
+        return ""
+    normalized_path = page_path.strip("/")
+    return f"{site_url}/{normalized_path}/" if normalized_path else f"{site_url}/"
+
+
+def robots_meta(config: dict[str, Any]) -> str:
+    if os.environ.get("FRONTDOOR_BUILD_ENV") != "production":
+        return '  <meta name="robots" content="noindex,nofollow" />\n'
+    if (config.get("seo") or {}).get("allowIndexing") is True:
+        return ""
+    return '  <meta name="robots" content="noindex,nofollow" />\n'
 
 
 def chips(values: list[str] | None, cls: str = "badge-brand") -> str:
@@ -270,6 +291,9 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     elif professional_credentials and not is_psychiatry(config, provider):
         affiliation_section = f'''\n    <section class="bg-warm-50 px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><div class="soft-card rounded-3xl p-6 md:p-8"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['professionalAffiliations'])}</h2><ul class="mt-7 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">{list_cards(professional_credentials)}</ul></div></div></section>'''
 
+    provider_slug = provider.get("slug", "")
+    canonical = canonical_url(config, f"providers/{provider_slug}")
+    canonical_link = f'  <link rel="canonical" href="{esc(canonical)}" />\n' if canonical else ""
     schema = {
         "@context": "https://schema.org",
         "@type": "Physician",
@@ -289,8 +313,7 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}" />
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="stylesheet" href="../../assets/styles.css" />
+{robots_meta(config)}{canonical_link}  <link rel="stylesheet" href="../../assets/styles.css" />
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>:root{{{theme_css(theme)}}}</style>
 </head>

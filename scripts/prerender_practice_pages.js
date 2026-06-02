@@ -12,6 +12,24 @@ function escapeAttr(value) {
   }[char]));
 }
 
+function normalizedSiteUrl(config) {
+  return String(config.seo?.siteUrl || '').replace(/\/+$/, '');
+}
+
+function canonicalUrl(config, pagePath = '') {
+  const siteUrl = normalizedSiteUrl(config);
+  if (!siteUrl) return '';
+  const normalizedPath = String(pagePath || '').replace(/^\/+|\/+$/g, '');
+  return normalizedPath ? `${siteUrl}/${normalizedPath}/` : `${siteUrl}/`;
+}
+
+function robotsMeta(config) {
+  if (process.env.FRONTDOOR_BUILD_ENV !== 'production') {
+    return '  <meta name="robots" content="noindex,nofollow" />\n';
+  }
+  return config.seo?.allowIndexing === true ? '' : '  <meta name="robots" content="noindex,nofollow" />\n';
+}
+
 const themes = JSON.parse(fs.readFileSync(path.join('shared', 'themes.json'), 'utf8'));
 
 function resolveTheme(config) {
@@ -166,6 +184,8 @@ function prerenderPractice(practiceDir, rendererSource) {
   context.window.FrontdoorHome.render(config, { staticOfficeStatus: true });
 
   const cssText = [...cssVars.entries()].map(([name, value]) => `${name}:${value};`).join('');
+  const canonical = canonicalUrl(config);
+  const canonicalLink = canonical ? `  <link rel="canonical" href="${escapeAttr(canonical)}" />\n` : '';
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -173,8 +193,7 @@ function prerenderPractice(practiceDir, rendererSource) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${escapeAttr(document.title)}</title>
   <meta name="description" content="${escapeAttr(descriptionMeta.content)}" />
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="stylesheet" href="./assets/styles.css" />
+${robotsMeta(config)}${canonicalLink}  <link rel="stylesheet" href="./assets/styles.css" />
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>:root{${cssText}}</style>
 </head>

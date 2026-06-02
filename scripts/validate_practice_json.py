@@ -81,6 +81,13 @@ def require_http_url(value: Any, path: str) -> str:
     return url
 
 
+def require_https_url(value: Any, path: str) -> str:
+    url = require_string(value, path)
+    if not url.startswith("https://"):
+        fail(f"{path} must be an HTTPS URL starting with https://")
+    return url
+
+
 def validate_financial_policy(value: Any) -> None:
     policy = require_mapping(value, "financialPolicy")
     payment_model = require_string_key(policy, "paymentModel", "financialPolicy")
@@ -136,6 +143,11 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
     seo = require_mapping(require_key(config, "seo", "root"), "seo")
     require_string_key(seo, "title", "seo")
     require_string_key(seo, "description", "seo")
+    if "siteUrl" not in seo:
+        fail("Missing required field: seo.siteUrl")
+    require_https_url(seo["siteUrl"], "seo.siteUrl")
+    if "allowIndexing" in seo and not isinstance(seo["allowIndexing"], bool):
+        fail("seo.allowIndexing must be a boolean")
     if "ogImage" in seo:
         validate_asset_path(seo["ogImage"], "seo.ogImage")
 

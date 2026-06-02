@@ -13,6 +13,7 @@ mkdir -p dist
 npm run build:css
 
 if [[ -z "$SITE" ]]; then
+  export FRONTDOOR_BUILD_ENV="preview"
   # Root preview landing page and shared assets.
   for item in index.html robots.txt shared; do
     if [[ -e "$item" ]]; then
@@ -55,6 +56,7 @@ if [[ -z "$SITE" ]]; then
     fi
   done
 else
+  export FRONTDOOR_BUILD_ENV="production"
   site_dir="sites/${SITE}"
   if [[ ! -f "${site_dir}/practice.json" ]]; then
     echo "Missing ${site_dir}/practice.json" >&2
@@ -74,10 +76,33 @@ python3 scripts/generate_provider_pages.py
 node scripts/prerender_practice_pages.js dist
 python3 scripts/generate_legal_pages.py dist
 
-if [[ -n "$SITE" ]]; then
-  site_url="https://${SITE}.pages.dev"
+if [[ -z "$SITE" ]]; then
+  printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+else
+  site_url="$(python3 - <<'PY'
+import json
+from pathlib import Path
+config = json.loads(Path('dist/practice.json').read_text(encoding='utf-8'))
+print((config.get('seo') or {}).get('siteUrl', '').rstrip('/'))
+PY
+)"
+  allow_indexing="$(python3 - <<'PY'
+import json
+from pathlib import Path
+config = json.loads(Path('dist/practice.json').read_text(encoding='utf-8'))
+print('true' if (config.get('seo') or {}).get('allowIndexing') is True else 'false')
+PY
+)"
+  if [[ -z "$site_url" ]]; then
+    echo "Missing required field: seo.siteUrl" >&2
+    exit 1
+  fi
+  if [[ "$site_url" != https://* ]]; then
+    echo "seo.siteUrl must be an HTTPS URL starting with https://" >&2
+    exit 1
+  fi
   {
-    printf 'User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n' "$site_url"
+    printf 'User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n' "$site_url"
   } > dist/robots.txt
   {
     printf '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -92,6 +117,21 @@ if [[ -n "$SITE" ]]; then
     done < <(find dist -name index.html -type f | sort)
     printf '</urlset>\n'
   } > dist/sitemap.xml
+
+  while IFS= read -r page; do
+    if ! grep -Fq "<link rel=\"canonical\" href=\"${site_url}/" "$page"; then
+      echo "Missing canonical URL using seo.siteUrl in ${page}" >&2
+      exit 1
+    fi
+  done < <(find dist -name index.html -type f | sort)
+  if grep -RF "pages.dev" dist/robots.txt dist/sitemap.xml >/dev/null; then
+    echo "Production SEO artifacts must not reference pages.dev" >&2
+    exit 1
+  fi
+  if [[ "$allow_indexing" == "true" ]] && grep -RF "noindex,nofollow" dist >/dev/null 2>&1; then
+    echo "Production build contains noindex,nofollow despite seo.allowIndexing=true" >&2
+    exit 1
+  fi
 fi
 
 rm -rf dist/shared/styles .tmp/frontdoor-build

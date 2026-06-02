@@ -3,7 +3,10 @@
   "seo": {
     "title": "Goutham Dronavalli, MD | Pulmonary Care in Sugar Land",
     "description": "Pulmonary and critical care medicine with practical, personalized care for patients in Sugar Land and the Houston area.",
-    "ogImage": "./images/hero/hero.webp"
+    "ogImage": "./images/hero/hero.webp",
+    "defaultOgImage": "./images/hero/hero.webp",
+    "siteUrl": "https://drdronavalli.com",
+    "allowIndexing": true
   },
   "practice": {
     "name": "Goutham Dronavalli, MD",
@@ -108,7 +111,7 @@
         "Sleep Disorders Specialist",
         "Accepting New Patients"
       ],
-      "Hospital Affiliations": [
+      "hospitalAffiliations": [
         "Houston Methodist Hospital",
         "Memorial Hermann Texas Medical Center",
         "Baylor St. Luke’s Medical Center"
@@ -181,7 +184,7 @@
     },
     {
       "question": "Which insurance plans do you accept?",
-      "answer": "We accept Medicare, Medicare Advantage, Medicare Supplement (Medigap), and many private insurance plan.\nParticipating plans include Aetna, Anthem, Blue Cross Blue Shield of Texas, Cigna, Humana, and others.\nBecause participation varies by plan, please contact our office to verify coverage before scheduling."
+      "answer": "We accept Medicare, Medicare Advantage, Medicare Supplement (Medigap), and many private insurance plans.\nParticipating plans include Aetna, Anthem, Blue Cross Blue Shield of Texas, Cigna, Humana, and others.\nBecause participation varies by plan, please contact our office to verify coverage before scheduling."
     }
   ],
   "location": {
