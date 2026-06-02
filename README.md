@@ -1,24 +1,33 @@
 # FrontDoor Health Previews
 
-Static HTML preview sites for small medical practices, deployed under:
+Static HTML marketing and practice sites for small medical practices, deployed as separate Cloudflare Pages projects.
 
 ```text
-https://preview.frontdoor.health/<practice-slug>
+https://frontdoor.health
+https://drdronavalli.com
+https://<practice-preview>.pages.dev
 ```
 
 Example:
 
 ```text
-https://preview.frontdoor.health/northhillspsychiatry
+SITE_ID=northhillspsychiatry npm run build:preview
 ```
 
 ## Repository Structure
 
-Practice preview source files live under `sites/`. The folder name becomes the deployed preview URL slug, but the build still outputs each practice at the root of `dist/` to preserve existing URLs.
+Practice source files live under `sites/`. The folder name is the `SITE_ID` used by explicit production and preview practice builds.
 
 ```text
 frontdoor-previews/
-  index.html                 # FrontDoor preview landing page
+  marketing/                 # frontdoor.health source pages
+    index.html
+    404.html
+    about/
+    case-studies/
+    transformations/
+    assets/
+    marketing.json           # marketing configuration
   sites/
     template/                # starter structure for new practices
     drdronavalli/
@@ -31,10 +40,6 @@ frontdoor-previews/
       practice.json
       images/
       assets/fonts/
-  stories/                   # FrontDoor marketing/case-study content
-    drdronavalli/
-      index.html
-      images/assets
   shared/
     home-page.js
     styles/frontdoor.css
@@ -78,35 +83,67 @@ sites/<practice>/practice.json + shared/themes.json + shared/home-page.js + shar
   -> Cloudflare Pages
 ```
 
-`npm run build` runs `scripts/build.sh`, which:
+There is intentionally no deployable default build. `npm run build` fails unless a deployment target is selected through one of the explicit scripts below.
+
+Marketing build flow:
 
 1. Compiles Tailwind CSS from `shared/styles/frontdoor.css`.
-2. Copies the root preview landing page and shared assets into `dist/`.
-3. Verifies each practice in `sites/` with an `index.html` has a valid `practice.json` and known `theme` from `shared/themes.json`.
-4. Copies each practice from `sites/<practice-slug>/` to `dist/<practice-slug>/`, preserving preview URLs.
-5. Copies stories from `stories/<story-slug>/` to `dist/stories/<story-slug>/`.
-6. Creates each practice `assets/` directory in `dist/`, copies compiled CSS to `assets/styles.css`, and copies shared fonts to `assets/fonts/`.
-7. Generates static provider profile pages under `dist/<practice-slug>/providers/<provider-slug>/` from provider data in `practice.json`.
-8. Prerenders each practice homepage into static HTML with metadata and page content from `practice.json`.
-9. Removes source-only files such as `practice.json`, Markdown files, and build-only artifacts from `dist/`.
-10. Validates built HTML for basic structure, SEO smoke checks, JSON-LD parsing, and local asset paths.
+2. Cleans `dist/`.
+3. Copies `marketing/` into `dist/`.
+4. Renders the featured practice from `marketing/marketing.json` and `sites/<site-id>/practice.json`.
+5. Copies the selected featured practice hero image into `dist/assets/featured-practice/`.
+6. Generates `robots.txt` and `sitemap.xml` for `https://frontdoor.health`.
+7. Validates built HTML for basic structure and local asset paths.
 
-Resulting preview output:
+Practice build flow:
+
+1. Requires `SITE_ID`.
+2. Compiles Tailwind CSS from `shared/styles/frontdoor.css`.
+3. Cleans `dist/`.
+4. Validates `sites/<SITE_ID>/practice.json`.
+5. Copies only `sites/<SITE_ID>/` into `dist/`.
+6. Copies compiled CSS to `dist/assets/styles.css` and shared fonts to `dist/assets/fonts/`.
+7. Generates static provider, privacy, and accessibility pages.
+8. Prerenders the practice homepage from `practice.json`.
+9. Generates deployment-specific `robots.txt` and, for production practice builds, `sitemap.xml`.
+10. Removes source-only files such as `practice.json`, Markdown files, and build-only artifacts from `dist/`.
+11. Validates built HTML for basic structure, SEO smoke checks, JSON-LD parsing, and local asset paths.
+
+Resulting production or preview practice output:
 
 ```text
 dist/
-  drdronavalli/
-  northhillspsychiatry/
-  stories/
-    drdronavalli/
+  index.html
+  providers/
+  privacy/
+  accessibility/
+  assets/
+  robots.txt
 ```
 
 ## Cloudflare Pages Deployment
 
 Use the build script so repository-only files such as `AGENTS.md`, `scripts/`, and `practice.json` are not published.
 
-- Build command: `./scripts/build.sh`
+FrontDoor Health marketing site:
+
+- Domain: `frontdoor.health`
+- Build command: `npm run build:marketing`
 - Build output directory: `dist`
+
+Production practice deployments:
+
+- Example domain: `drdronavalli.com`
+- Build command: `SITE_ID=drdronavalli npm run build:practice`
+- Build output directory: `dist`
+
+Preview practice deployments:
+
+- Example domain: a practice-specific `*.pages.dev` project
+- Build command: `SITE_ID=northhillspsychiatry npm run build:preview`
+- Build output directory: `dist`
+
+Deployment should never rely on `npm run build` or `./scripts/build.sh` without an explicit target. Production practice deployments use `build:practice`; preview deployments use `build:preview`; the marketing site uses `build:marketing`.
 
 Cloudflare Pages deploys the generated `dist/` directory.
 
@@ -122,10 +159,11 @@ The script scans source `images/` folders, skips SVG/WebP files, and ignores gen
 
 ## Development Notes
 
-- Use relative asset paths, because previews are served from subpaths.
+- Use relative asset paths so built sites work from their deployment root and nested pages.
 - Keep previews mobile-first and accessible.
 - Prefer optimized JPG/WebP images and SVG logos.
 - Drive practice and provider-specific content from `practice.json`; avoid one-off HTML/CSS edits per practice or provider.
+- Drive the marketing featured practice from `marketing/marketing.json`; changing `featuredPractice` should not require homepage HTML edits.
 - Keep templates opinionated. Add new JSON knobs only when they are reusable across practices.
 - Provider profile UI labels have defaults in `scripts/generate_provider_pages.py` and can be overridden with `providerProfileLabels` in `practice.json` when needed.
 - Treat per-practice `assets/styles.css` as a build output, not source. Shared CSS source lives in `shared/styles/frontdoor.css`.

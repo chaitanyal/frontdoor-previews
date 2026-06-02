@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Running pre-commit sanity check: npm run build"
-npm run build
+echo "Running pre-commit sanity checks"
+npm run build:marketing
+SITE_ID=drdronavalli npm run build:practice
+SITE_ID=northhillspsychiatry npm run build:preview

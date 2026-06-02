@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Frontdoor Health">
+  <rect width="64" height="64" rx="14" fill="#FAF8F5"/>
+  <path d="M34 10H49C52.3137 10 55 12.6863 55 16V43C55 46.3137 52.3137 49 49 49H34V10Z" fill="#DDEDEA"/>
+  <path d="M39 16H49C50.1046 16 51 16.8954 51 18V41C51 42.1046 50.1046 43 49 43H39V38H46C47.1046 38 48 37.1046 48 36V23C48 21.8954 47.1046 21 46 21H39V16Z" fill="#9BCBC7"/>
+  <path d="M11 19.5L35 10.8C38.1327 9.6644 41.45 11.982 41.45 15.313V49.825C41.45 53.0629 38.3072 55.3722 35.2142 54.4138L11 46.914V19.5Z" fill="#06284A"/>
+  <path d="M42 44L59 54H42V44Z" fill="#DDEDEA"/>
+  <circle cx="32" cy="33" r="2.4" fill="#FAF8F5"/>
+</svg>

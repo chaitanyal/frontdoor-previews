@@ -2,9 +2,8 @@
   "scripts": {
     "build": "bash scripts/build.sh",
     "build:marketing": "FRONTDOOR_TARGET=marketing bash scripts/build.sh",
-    "build:drdronavalli": "SITE=drdronavalli bash scripts/build.sh",
-    "build:northhillspsychiatry": "SITE=northhillspsychiatry bash scripts/build.sh",
-    "build:cibola": "SITE=cibola bash scripts/build.sh",
+    "build:practice": "FRONTDOOR_TARGET=practice bash scripts/build.sh",
+    "build:preview": "FRONTDOOR_TARGET=preview bash scripts/build.sh",
     "build:css": "mkdir -p .tmp/frontdoor-build && tailwindcss -c tailwind.config.js -i ./shared/styles/frontdoor.css -o ./.tmp/frontdoor-build/styles.css --minify",
     "validate:html": "python3 scripts/validate_built_html.py dist"
   },
