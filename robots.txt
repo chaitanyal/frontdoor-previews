@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /northhillspsychiatry/
-Disallow: /drdronavalli/
+
+Sitemap: https://frontdoor.health/sitemap.xml

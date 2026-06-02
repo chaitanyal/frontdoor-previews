@@ -1,6 +1,7 @@
 {
   "scripts": {
     "build": "bash scripts/build.sh",
+    "build:marketing": "FRONTDOOR_TARGET=marketing bash scripts/build.sh",
     "build:drdronavalli": "SITE=drdronavalli bash scripts/build.sh",
     "build:northhillspsychiatry": "SITE=northhillspsychiatry bash scripts/build.sh",
     "build:cibola": "SITE=cibola bash scripts/build.sh",
