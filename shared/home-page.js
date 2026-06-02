@@ -137,7 +137,7 @@
     if (!providers?.length) return '';
     const content = homeContent(config);
     return `<section id="providers" class="section border-t border-white/60 bg-warm-50"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">${esc(content.providerEyebrow)}</p><h2 class="section-title">${esc(content.providerTitle)}</h2><p class="section-copy">${esc(content.providerCopy)}</p></div><div class="mt-12 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-2">${providers.map(provider => `
-      <article class="fade-in-up editorial-card interactive-card"><div class="aspect-[5/4] overflow-hidden rounded-[28px]"><img loading="lazy" src="${esc(provider.image)}" alt="${esc(provider.name)}" class="image-treatment h-full w-full object-cover object-top" /></div><div class="mt-6"><h3 class="text-2xl font-semibold text-slate-950">${esc(provider.name)}</h3><p class="mt-1 text-sm leading-6 text-slate-500">${esc(provider.credentials)}</p><p class="mt-4 text-lg leading-8 text-slate-700">${esc(provider.cardDescription || '')}</p><div class="mt-5 flex flex-wrap gap-2">${(provider.specialties || []).map(s => `<span class="badge-brand">${icon('CheckCircle', 'h-3.5 w-3.5')} ${esc(s)}</span>`).join('')}</div><a href="./providers/${esc(provider.slug)}/" class="btn-secondary mt-6 px-4 py-2.5 text-sm">View Profile<span class="sr-only"> for ${esc(provider.name)}</span></a></div></article>`).join('')}</div></div></section>`;
+      <article class="fade-in-up editorial-card interactive-card cursor-pointer transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.995] focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300" tabindex="0" role="link" data-card-href="./providers/${esc(provider.slug)}/" aria-label="View profile for ${esc(provider.name)}"><div class="aspect-[5/4] overflow-hidden rounded-[28px]"><img loading="lazy" src="${esc(provider.image)}" alt="${esc(provider.name)}" class="image-treatment h-full w-full object-cover object-top" /></div><div class="mt-6"><h3 class="text-2xl font-semibold text-slate-950">${esc(provider.name)}</h3><p class="mt-1 text-sm leading-6 text-slate-500">${esc(provider.credentials)}</p><p class="mt-4 text-lg leading-8 text-slate-700">${esc(provider.cardDescription || '')}</p><div class="mt-5 flex flex-wrap gap-2">${(provider.specialties || []).map(s => `<span class="badge-brand">${icon('CheckCircle', 'h-3.5 w-3.5')} ${esc(s)}</span>`).join('')}</div><span class="btn-secondary mt-6 px-4 py-2.5 text-sm" aria-hidden="true">View Profile</span></div></article>`).join('')}</div></div></section>`;
   }
 
   function BotanicalAccent() {
@@ -266,6 +266,20 @@
     showCopyToast.timeoutId = window.setTimeout(() => toast.classList.add('hidden'), 2500);
   }
 
+  function bindProviderCards() {
+    if (typeof document.querySelectorAll !== 'function') return;
+    document.querySelectorAll('[data-card-href]').forEach(card => {
+      card.addEventListener('click', () => {
+        window.location.href = card.getAttribute('data-card-href');
+      });
+      card.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        window.location.href = card.getAttribute('data-card-href');
+      });
+    });
+  }
+
   function bindCopyEmailActions() {
     if (typeof document.querySelectorAll !== 'function') return;
     document.querySelectorAll('[data-copy-email]').forEach(button => {
@@ -370,6 +384,7 @@
       ${schema(config)}
     `;
     lucide.createIcons();
+    bindProviderCards();
     bindCopyEmailActions();
   }
 

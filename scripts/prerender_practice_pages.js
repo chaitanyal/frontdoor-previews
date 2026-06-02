@@ -58,6 +58,21 @@ const OFFICE_STATUS_SCRIPT = `<script>
 })();
 </script>`;
 
+const PROVIDER_CARD_SCRIPT = `<script>
+(() => {
+  document.querySelectorAll('[data-card-href]').forEach(card => {
+    card.addEventListener('click', () => {
+      window.location.href = card.getAttribute('data-card-href');
+    });
+    card.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      window.location.href = card.getAttribute('data-card-href');
+    });
+  });
+})();
+</script>`;
+
 const COPY_EMAIL_SCRIPT = `<script>
 (() => {
   async function copyText(value) {
@@ -166,6 +181,7 @@ function prerenderPractice(practiceDir, rendererSource) {
 <body class="bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0">
   ${app.innerHTML.trim()}
   ${OFFICE_STATUS_SCRIPT}
+  ${PROVIDER_CARD_SCRIPT}
   ${COPY_EMAIL_SCRIPT}
   <script>lucide.createIcons();</script>
 </body>
