@@ -40,6 +40,9 @@
     "providerCopy": "Pulmonary and critical care medicine with a practical, personalized approach to lung health.",
     "insuranceFallback": "Please contact the office to confirm insurance and payment options."
   },
+  "providerProfileLabels": {
+    "hospitalAffiliationsIntro": "Active privileges at leading Houston-area hospitals."
+  },
   "trustItems": [
     {
       "icon": "Stethoscope",

@@ -232,6 +232,7 @@ def provider_profile_labels(config: dict[str, Any], provider_name: str) -> dict[
         "treatmentServices": "Treatment Services",
         "educationTraining": "Education & Training",
         "hospitalAffiliations": "Hospital Affiliations",
+        "hospitalAffiliationsIntro": "Hospital and clinical affiliations.",
         "professionalAffiliations": "Professional Affiliations",
         "howProviderHelps": f"How Dr. {last_name} helps",
         "telehealthAvailable": "Telehealth available",
@@ -298,7 +299,7 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     about_heading = provider.get("aboutHeading") or ("Personalized Psychiatric Care" if is_psychiatry(config, provider) else "Individualized Pulmonary Care")
     affiliation_section = ""
     if hospital_affiliations:
-        affiliation_section = f'''\n    <section class="bg-warm-50 px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><div class="soft-card rounded-3xl p-6 md:p-8"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['hospitalAffiliations'])}</h2><p class="mt-3 text-base text-slate-600">Active privileges at leading Houston-area hospitals.</p><ul class="mt-7 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">{list_cards(hospital_affiliations)}</ul></div></div></section>'''
+        affiliation_section = f'''\n    <section class="bg-warm-50 px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><div class="soft-card rounded-3xl p-6 md:p-8"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['hospitalAffiliations'])}</h2><p class="mt-3 text-base text-slate-600">{esc(labels['hospitalAffiliationsIntro'])}</p><ul class="mt-7 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">{list_cards(hospital_affiliations)}</ul></div></div></section>'''
     elif professional_credentials and not is_psychiatry(config, provider):
         affiliation_section = f'''\n    <section class="bg-warm-50 px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><div class="soft-card rounded-3xl p-6 md:p-8"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">{esc(labels['professionalAffiliations'])}</h2><ul class="mt-7 grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4">{list_cards(professional_credentials)}</ul></div></div></section>'''
 
