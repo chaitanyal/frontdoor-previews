@@ -42,6 +42,9 @@ def generate_for_practice(practice_dir: Path) -> None:
 
 def main() -> int:
     root = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("dist")
+    if (root / "practice.json").exists():
+        generate_for_practice(root)
+        return 0
     for practice_dir in sorted(root.iterdir()):
         if practice_dir.is_dir():
             generate_for_practice(practice_dir)

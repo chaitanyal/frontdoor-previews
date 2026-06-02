@@ -354,6 +354,9 @@ def generate_for_practice(practice_dir: Path) -> None:
 
 def main() -> None:
     dist = Path("dist")
+    if (dist / "practice.json").exists():
+        generate_for_practice(dist)
+        return
     for practice_dir in dist.iterdir():
         if practice_dir.is_dir():
             generate_for_practice(practice_dir)

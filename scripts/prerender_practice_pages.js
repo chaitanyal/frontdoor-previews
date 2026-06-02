@@ -195,6 +195,10 @@ function main() {
   const dist = process.argv[2] || 'dist';
   const rendererPath = path.join('shared', 'home-page.js');
   const rendererSource = fs.readFileSync(rendererPath, 'utf8');
+  if (fs.existsSync(path.join(dist, 'practice.json'))) {
+    prerenderPractice(dist, rendererSource);
+    return;
+  }
   for (const entry of fs.readdirSync(dist, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue;
     prerenderPractice(path.join(dist, entry.name), rendererSource);
