@@ -124,8 +124,12 @@ PY
       exit 1
     fi
   done < <(find dist -name index.html -type f | sort)
-  if grep -RF "pages.dev" dist/robots.txt dist/sitemap.xml >/dev/null; then
-    echo "Production SEO artifacts must not reference pages.dev" >&2
+  if grep -RF "pages.dev" dist >/dev/null; then
+    echo "Production output must not reference pages.dev; use seo.siteUrl for production URLs" >&2
+    exit 1
+  fi
+  if grep -RF "frontdoor-previews" dist >/dev/null; then
+    echo "Production output must not reference frontdoor-previews; use seo.siteUrl for production URLs" >&2
     exit 1
   fi
   if [[ "$allow_indexing" == "true" ]] && grep -RF "noindex,nofollow" dist >/dev/null 2>&1; then

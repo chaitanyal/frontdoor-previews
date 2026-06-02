@@ -64,6 +64,17 @@ def canonical_url(config: dict[str, Any], page_path: str = "") -> str:
     return f"{site_url}/{normalized_path}/" if normalized_path else f"{site_url}/"
 
 
+def absolute_url(config: dict[str, Any], value: str | None) -> str:
+    if not value:
+        return ""
+    if value.startswith("http"):
+        return value
+    site_url = normalized_site_url(config)
+    if not site_url:
+        return value
+    return f"{site_url}/{value.lstrip('./')}"
+
+
 def robots_meta(config: dict[str, Any]) -> str:
     if os.environ.get("FRONTDOOR_BUILD_ENV") != "production":
         return '  <meta name="robots" content="noindex,nofollow" />\n'
@@ -298,12 +309,13 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
         "@context": "https://schema.org",
         "@type": "Physician",
         "name": name,
+        "url": canonical,
         "medicalSpecialty": specialty,
-        "image": rel(provider.get("image")),
+        "image": absolute_url(config, provider.get("image")),
         "telephone": phone,
         "email": email,
         "address": office,
-        "worksFor": {"@type": "MedicalClinic", "name": practice.get("name")},
+        "worksFor": {"@type": "MedicalClinic", "name": practice.get("name"), "url": canonical_url(config)},
     }
 
     return f"""<!DOCTYPE html>
