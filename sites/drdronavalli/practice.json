@@ -172,6 +172,47 @@
       "description": "Verify your coverage before your appointment."
     }
   },
+  "resourceGroups": [
+    {
+      "title": "New Patients",
+      "resources": [
+        {
+          "title": "New Patient Registration",
+          "url": "./assets/resources/newpatientregistration.pdf"
+        },
+        {
+          "title": "Authorization for Release of Health Information",
+          "url": "./assets/resources/hipaa_release.pdf"
+        }
+      ]
+    },
+    {
+      "title": "Pulmonary & Sleep Assessments",
+      "resources": [
+        {
+          "title": "Sleep Interview Questionnaire",
+          "url": "./assets/resources/sleepinterviewquesttionare.pdf"
+        },
+        {
+          "title": "CAT Test Form",
+          "url": "./assets/resources/cat_test_form.pdf"
+        },
+        {
+          "title": "Asthma Control Test",
+          "url": "./assets/resources/asthama_test.pdf"
+        }
+      ]
+    },
+    {
+      "title": "Instructions & Other Forms",
+      "resources": [
+        {
+          "title": "Medications to Avoid for Allergy Testing",
+          "url": "./assets/resources/medicationstoavoid.pdf"
+        }
+      ]
+    }
+  ],
   "faqs": [
     {
       "question": "What conditions does Dr. Dronavalli treat?",

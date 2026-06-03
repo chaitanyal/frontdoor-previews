@@ -302,6 +302,42 @@
     });
   }
 
+  function isExternalUrl(url) {
+    return /^https?:\/\//i.test(String(url || ''));
+  }
+
+  function isPdfUrl(url) {
+    return String(url || '').split('?')[0].toLowerCase().endsWith('.pdf');
+  }
+
+  function patientResourceGroups(config) {
+    if (config.resourceGroups?.length) {
+      return config.resourceGroups
+        .map(group => ({
+          title: group.title,
+          resources: (group.resources || []).filter(resource => resource?.title && resource?.url),
+        }))
+        .filter(group => group.title && group.resources.length);
+    }
+    if (!config.resources?.length) return [];
+    return [{
+      title: 'Patient Forms',
+      resources: config.resources.filter(resource => resource?.title && resource?.url),
+    }].filter(group => group.resources.length);
+  }
+
+  function PatientResourceRow(resource) {
+    const external = isExternalUrl(resource.url);
+    const fileIcon = isPdfUrl(resource.url) ? 'FileText' : 'Link';
+    return `<a href="${esc(resource.url)}" target="_blank" rel="noopener noreferrer" class="group/resource -mx-3 flex min-h-[44px] items-center gap-3 rounded-2xl px-3 py-2.5 text-base font-medium leading-6 text-slate-700 transition hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"><span class="icon-chip h-8 w-8 shrink-0 bg-warm-50 text-brand-primary group-hover/resource:bg-white">${icon(fileIcon, 'h-4 w-4')}</span><span class="min-w-0 flex-1">${esc(resource.title)}</span>${external ? icon('ExternalLink', 'h-4 w-4 shrink-0 text-slate-500') : ''}</a>`;
+  }
+
+  function PatientResourcesSection(config) {
+    const groups = patientResourceGroups(config);
+    if (!groups.length) return '';
+    return `<section id="patient-resources" class="section border-t border-white/60 bg-warm-50"><div class="section-shell"><div class="max-w-2xl"><h2 class="section-title">Patient Resources</h2><p class="section-copy">Helpful forms, documents, and links for patients.</p></div><div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">${groups.map(group => `<article class="soft-card p-6 md:p-7"><h3 class="text-xl font-semibold tracking-tight text-slate-950">${esc(group.title)}</h3><div class="mt-5 divide-y divide-slate-100/80">${group.resources.map(resource => PatientResourceRow(resource)).join('')}</div></article>`).join('')}</div></div></section>`;
+  }
+
   function officeStatus(location) {
     const parts = new Intl.DateTimeFormat('en-US', {
       timeZone: location.timeZone,
@@ -376,6 +412,7 @@
         ${ConditionsSection(config)}
         ${FinancialPolicySection(config)}
         ${ContactSection(config)}
+        ${PatientResourcesSection(config)}
         ${LocationSection(config, options)}
         ${FAQSection(config)}
       </main>

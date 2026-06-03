@@ -88,6 +88,36 @@ def require_https_url(value: Any, path: str) -> str:
     return url
 
 
+def validate_resource_url(value: Any, path: str) -> None:
+    url = require_string(value, path)
+    if url.startswith(("http://", "https://")):
+        return
+    validate_asset_path(url, path)
+
+
+def validate_resource(value: Any, path: str) -> None:
+    resource = require_mapping(value, path)
+    require_string_key(resource, "title", path)
+    validate_resource_url(require_key(resource, "url", path), f"{path}.url")
+
+
+def validate_resource_groups(config: dict[str, Any]) -> None:
+    if "resourceGroups" in config:
+        groups = require_list(config["resourceGroups"], "resourceGroups")
+        for group_index, group_value in enumerate(groups):
+            group_path = f"resourceGroups[{group_index}]"
+            group = require_mapping(group_value, group_path)
+            require_string_key(group, "title", group_path)
+            resources = require_list(require_key(group, "resources", group_path), f"{group_path}.resources")
+            for resource_index, resource_value in enumerate(resources):
+                validate_resource(resource_value, f"{group_path}.resources[{resource_index}]")
+
+    if "resources" in config:
+        resources = require_list(config["resources"], "resources")
+        for resource_index, resource_value in enumerate(resources):
+            validate_resource(resource_value, f"resources[{resource_index}]")
+
+
 def validate_financial_policy(value: Any) -> None:
     policy = require_mapping(value, "financialPolicy")
     payment_model = require_string_key(policy, "paymentModel", "financialPolicy")
@@ -181,6 +211,8 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
 
     if "financialPolicy" in config:
         validate_financial_policy(config["financialPolicy"])
+
+    validate_resource_groups(config)
 
     insurance = require_mapping(require_key(config, "insurance", "root"), "insurance")
     if "enabled" not in insurance or not isinstance(insurance["enabled"], bool):
