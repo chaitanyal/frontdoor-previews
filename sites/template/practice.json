@@ -51,6 +51,7 @@
       "name": "Dr. Provider Name",
       "credentials": "MD · Specialty",
       "image": "./images/providers/provider-name.webp",
+      "tagline": "A concise summary of the provider's clinical focus, care style, and patient population.",
       "specialties": [
         "Specialty Area",
         "Patient Focus"

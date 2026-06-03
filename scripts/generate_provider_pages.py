@@ -87,6 +87,13 @@ def chips(values: list[str] | None, cls: str = "badge-brand") -> str:
     return "".join(f'<span class="{cls}">{esc(value)}</span>' for value in (values or []))
 
 
+def check_chips(values: list[str] | None, cls: str = "badge-brand") -> str:
+    return "".join(
+        f'<span class="{cls}"><i data-lucide="CheckCircle" class="h-3.5 w-3.5" aria-hidden="true"></i> {esc(value)}</span>'
+        for value in (values or [])
+    )
+
+
 def list_cards(values: list[str] | None) -> str:
     return "".join(
         f'<li class="flex min-h-[72px] items-center rounded-2xl border border-slate-200 bg-white p-5 text-base font-semibold leading-6 text-slate-800">{esc(value)}</li>'
@@ -240,6 +247,19 @@ def provider_profile_labels(config: dict[str, Any], provider_name: str) -> dict[
     return {**defaults, **(config.get("providerProfileLabels") or {})}
 
 
+def practice_telehealth_available(config: dict[str, Any]) -> bool:
+    location = config.get("location") or {}
+    if location.get("telehealthNotice"):
+        return True
+    return any(day.get("telehealthOnly") is True for day in (location.get("weeklyHours") or {}).values())
+
+
+def provider_telehealth_available(config: dict[str, Any], provider: dict[str, Any]) -> bool:
+    if isinstance(provider.get("telehealthOverride"), bool):
+        return provider["telehealthOverride"]
+    return practice_telehealth_available(config)
+
+
 def hero_trust_items(config: dict[str, Any], provider: dict[str, Any]) -> list[str]:
     if provider.get("heroTrustItems"):
         return provider.get("heroTrustItems", [])[:3]
@@ -259,7 +279,7 @@ def hero_trust_items(config: dict[str, Any], provider: dict[str, Any]) -> list[s
 
     if affiliations and not is_psychiatry(config, provider):
         items.append(affiliations[0])
-    elif provider.get("telehealth") is True:
+    elif provider_telehealth_available(config, provider):
         items.append("Telehealth Available")
 
     if provider.get("acceptsNewPatients", True):
@@ -270,12 +290,13 @@ def hero_trust_items(config: dict[str, Any], provider: dict[str, Any]) -> list[s
 
 def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slug: str) -> str:
     practice = config["practice"]
+    contact_override = provider.get("contactOverride") or {}
     theme = THEMES[config.get("theme")]
     name = provider.get("name", "Provider")
     title = f"{name} | {practice['name']}"
     labels = provider_profile_labels(config, name)
     hero_title = provider.get("heroTitle") or ""
-    description = provider.get("tagline") or provider.get("cardDescription") or config.get("seo", {}).get("description", "")
+    description = provider.get("tagline") or config.get("seo", {}).get("description", "")
     hero_title_html = f'<p class="mt-4 text-lg font-semibold text-brand-primary">{esc(hero_title)}</p>' if hero_title else ""
     conditions = (provider.get("conditions") or provider.get("specialties") or config.get("conditions", []))[:6]
     services = (provider.get("services") or ["Evaluation", "Treatment Planning", "Ongoing Care"])[:6]
@@ -287,10 +308,10 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     awards = provider.get("awards") or []
     professional_credentials = [*professional_affiliations, *academic, *awards]
     languages = provider.get("languages") or ["English"]
-    phone = practice.get("phone")
-    phone_href = practice.get("phoneHref")
-    email = practice.get("email")
-    office_lines = practice.get("addressLines", [])
+    phone = contact_override.get("phone") or practice.get("phone")
+    phone_href = contact_override.get("phoneHref") or practice.get("phoneHref")
+    email = contact_override.get("email") or practice.get("email")
+    office_lines = contact_override.get("addressLines") or practice.get("addressLines", [])
     office = ", ".join(office_lines)
     appointment_url = provider.get("appointmentUrl") or practice.get("defaultAppointmentUrl", "")
     patient_portal_url = practice.get("patientPortalUrl", "")
@@ -348,8 +369,8 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
           <div class="soft-card rounded-3xl p-8 md:p-10">
             <h1 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-6xl">{esc(name)}</h1>
             {hero_title_html}
-            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{esc(provider.get('tagline') or provider.get('cardDescription') or description)}</p>
-            <div class="mt-8 flex flex-wrap gap-2">{chips(hero_trust_items(config, provider), 'inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700')}</div>
+            <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-700">{esc(provider.get('tagline') or description)}</p>
+            <div class="mt-8 flex flex-wrap gap-2">{check_chips(hero_trust_items(config, provider))}</div>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href="#appointment" class="btn-primary">{esc(labels['bookAppointment'])}</a><a href="{esc(phone_href)}" class="btn-secondary">{esc(labels['callOffice'])}</a></div>
           </div>
         </div>

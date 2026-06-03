@@ -154,6 +154,20 @@ def validate_financial_policy(value: Any) -> None:
                 fail(f"financialPolicy.rates[{index}].price must be a number")
 
 
+def validate_provider_contact_override(value: Any, path: str) -> None:
+    contact = require_mapping(value, path)
+    if not any(key in contact for key in ["phone", "phoneHref", "email", "addressLines"]):
+        fail(f"{path} must include at least one contact field")
+    if "phone" in contact:
+        require_string_key(contact, "phone", path)
+    if "phoneHref" in contact:
+        require_string_key(contact, "phoneHref", path)
+    if "email" in contact:
+        require_string_key(contact, "email", path)
+    if "addressLines" in contact:
+        validate_string_list(contact["addressLines"], f"{path}.addressLines", min_items=1)
+
+
 def valid_theme_names() -> set[str]:
     try:
         themes = json.loads(THEMES_PATH.read_text(encoding="utf-8"))
@@ -200,11 +214,15 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
     for index, provider_value in enumerate(providers):
         provider = require_mapping(provider_value, f"providers[{index}]")
         provider_path = f"providers[{index}]"
-        for key in ["slug", "name", "image", "tagline", "cardDescription"]:
+        for key in ["slug", "name", "image", "tagline"]:
             require_string_key(provider, key, provider_path)
         validate_asset_path(provider["image"], f"{provider_path}.image")
         if "appointmentUrl" in provider:
             require_http_url(provider["appointmentUrl"], f"{provider_path}.appointmentUrl")
+        if "contactOverride" in provider:
+            validate_provider_contact_override(provider["contactOverride"], f"{provider_path}.contactOverride")
+        if "telehealthOverride" in provider and not isinstance(provider["telehealthOverride"], bool):
+            fail(f"{provider_path}.telehealthOverride must be a boolean")
 
     validate_string_list(require_key(config, "conditions", "root"), "conditions", min_items=1)
     require_string_key(config, "conditionsIntro", "root")
