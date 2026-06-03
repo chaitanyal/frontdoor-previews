@@ -326,6 +326,16 @@
     }].filter(group => group.resources.length);
   }
 
+  function patientResources(config) {
+    return patientResourceGroups(config).flatMap(group => group.resources);
+  }
+
+  function patientResourceCopy(resourceCount) {
+    return resourceCount >= 5
+      ? 'Download forms and questionnaires before your visit.'
+      : 'Download forms before your visit.';
+  }
+
   function PatientResourceRow(resource) {
     const external = isExternalUrl(resource.url);
     const isPdf = isPdfUrl(resource.url);
@@ -334,14 +344,29 @@
     return `<a href="${esc(resource.url)}" target="_blank" rel="noopener noreferrer" class="group/resource -mx-2 flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-xl px-2 py-1 text-base font-medium leading-6 text-slate-700 transition duration-200 hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"><span class="shrink-0 text-slate-500 group-hover/resource:text-brand-primary">${icon(fileIcon, 'h-5 w-5')}</span><span class="min-w-0 flex-1">${esc(resource.title)}</span>${pdfBadge}${external ? icon('ExternalLink', 'h-4 w-4 shrink-0 text-slate-500') : ''}</a>`;
   }
 
+  function PatientResourceCard(resource) {
+    const external = isExternalUrl(resource.url);
+    const isPdf = isPdfUrl(resource.url);
+    const fileIcon = isPdf ? 'FileText' : 'Link';
+    const pdfBadge = isPdf ? '<span class="rounded-full bg-slate-50/60 px-1.5 py-0.5 text-[0.65rem] font-medium text-slate-500">PDF</span>' : '';
+    return `<a href="${esc(resource.url)}" target="_blank" rel="noopener noreferrer" class="group/resource mt-4 flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-[28px] border border-slate-100/70 bg-white px-5 py-3.5 text-base font-medium leading-6 text-slate-700 transition duration-200 hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 sm:px-7"><span class="shrink-0 text-slate-500 group-hover/resource:text-brand-primary">${icon(fileIcon, 'h-5 w-5')}</span><span class="min-w-0 flex-1">${esc(resource.title)}</span>${pdfBadge}${external ? icon('ExternalLink', 'h-4 w-4 shrink-0 text-slate-500') : ''}</a>`;
+  }
+
   function PatientResourceGroup(group) {
     return `<section class="border-t border-slate-100/70 px-5 py-3.5 first:border-t-0 sm:px-7"><h3 class="text-[0.95rem] font-semibold leading-6 text-slate-950">${esc(group.title)}</h3><div class="mt-1.5">${group.resources.map(resource => PatientResourceRow(resource)).join('')}</div></section>`;
   }
 
   function PatientResourcesSection(config) {
     const groups = patientResourceGroups(config);
-    if (!groups.length) return '';
-    return `<section id="patient-resources" class="border-t border-white/60 bg-warm-50 px-6 py-8 lg:px-8 lg:py-9"><div class="mx-auto max-w-4xl"><div class="max-w-2xl"><h2 class="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">Patient Resources</h2><p class="mt-2 text-base leading-7 text-slate-600">Download forms and questionnaires before your visit.</p></div><div class="mt-4 overflow-hidden rounded-[28px] border border-slate-100/70 bg-white">${groups.map(group => PatientResourceGroup(group)).join('')}</div></div></section>`;
+    const resources = patientResources(config);
+    const resourceCount = resources.length;
+    if (!resourceCount) return '';
+    const body = resourceCount === 1
+      ? PatientResourceCard(resources[0])
+      : resourceCount <= 4
+        ? `<div class="mt-4 overflow-hidden rounded-[28px] border border-slate-100/70 bg-white px-5 py-3.5 sm:px-7">${resources.map(resource => PatientResourceRow(resource)).join('')}</div>`
+        : `<div class="mt-4 overflow-hidden rounded-[28px] border border-slate-100/70 bg-white">${groups.map(group => PatientResourceGroup(group)).join('')}</div>`;
+    return `<section id="patient-resources" class="border-t border-white/60 bg-warm-50 px-6 py-8 lg:px-8 lg:py-9"><div class="mx-auto max-w-4xl"><div class="max-w-2xl"><h2 class="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">Patient Resources</h2><p class="mt-2 text-base leading-7 text-slate-600">${patientResourceCopy(resourceCount)}</p></div>${body}</div></section>`;
   }
 
   function officeStatus(location) {

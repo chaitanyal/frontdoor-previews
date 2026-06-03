@@ -188,6 +188,12 @@
   "insurance": {
     "enabled": false
   },
+  "resources": [
+    {
+      "title": "New Patient Registration",
+      "url": "./assets/resources/new-patient-registration.pdf"
+    }
+  ],
   "faqs": [
     {
       "question": "Do you offer telehealth appointments?",
