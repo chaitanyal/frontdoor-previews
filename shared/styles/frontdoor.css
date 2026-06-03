@@ -14,6 +14,7 @@
 @layer components {
   .page-shell { @apply mx-auto max-w-7xl px-6 lg:px-8; }
   .section { @apply px-6 py-20 lg:px-8; }
+  .section-surface-location { @apply bg-sage-100; }
   .section-shell { @apply mx-auto max-w-7xl; }
   .eyebrow { @apply text-sm font-semibold uppercase tracking-wide text-brand-accent; }
   .section-title { @apply mt-4 text-3xl font-semibold leading-tight tracking-tight text-slate-950 md:text-4xl; }
