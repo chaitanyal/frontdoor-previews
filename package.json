@@ -4,6 +4,7 @@
     "build:marketing": "FRONTDOOR_TARGET=marketing bash scripts/build.sh",
     "build:practice": "FRONTDOOR_TARGET=practice bash scripts/build.sh",
     "build:preview": "FRONTDOOR_TARGET=preview bash scripts/build.sh",
+    "build:preview:all": "FRONTDOOR_TARGET=preview SITE_ID=ALL bash scripts/build.sh",
     "build:css": "mkdir -p .tmp/frontdoor-build && tailwindcss -c tailwind.config.js -i ./shared/styles/frontdoor.css -o ./.tmp/frontdoor-build/styles.css --minify",
     "validate:html": "python3 scripts/validate_built_html.py dist"
   },

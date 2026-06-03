@@ -6,7 +6,18 @@ SITE_ID="${SITE_ID:-}"
 MARKETING_SITE_URL="https://frontdoor.health"
 
 if [[ -z "$FRONTDOOR_TARGET" ]]; then
-  FRONTDOOR_TARGET="preview"
+  cat >&2 <<'EOF'
+ERROR: FRONTDOOR_TARGET is required.
+
+Valid targets:
+- marketing
+- practice
+- preview
+
+For the shared preview Pages project, use:
+FRONTDOOR_TARGET=preview SITE_ID=ALL ./scripts/build.sh
+EOF
+  exit 1
 fi
 
 if [[ "$FRONTDOOR_TARGET" != "marketing" && "$FRONTDOOR_TARGET" != "practice" && "$FRONTDOOR_TARGET" != "preview" ]]; then
@@ -20,12 +31,20 @@ if [[ "$FRONTDOOR_TARGET" == "practice" ]]; then
     echo "ERROR: SITE_ID is required for practice builds." >&2
     exit 1
   fi
+  if [[ "$SITE_ID" == "ALL" ]]; then
+    echo "ERROR: SITE_ID=ALL is only valid for preview builds." >&2
+    exit 1
+  fi
   if [[ ! -d "sites/${SITE_ID}" ]]; then
     echo "ERROR: Unknown SITE_ID: ${SITE_ID}" >&2
     exit 1
   fi
-elif [[ "$FRONTDOOR_TARGET" == "preview" && -n "$SITE_ID" ]]; then
-  if [[ ! -d "sites/${SITE_ID}" ]]; then
+elif [[ "$FRONTDOOR_TARGET" == "preview" ]]; then
+  if [[ -z "$SITE_ID" ]]; then
+    echo "ERROR: SITE_ID is required for preview builds. Use SITE_ID=ALL for the shared preview Pages project." >&2
+    exit 1
+  fi
+  if [[ "$SITE_ID" != "ALL" && ! -d "sites/${SITE_ID}" ]]; then
     echo "ERROR: Unknown SITE_ID: ${SITE_ID}" >&2
     exit 1
   fi
@@ -87,7 +106,7 @@ else
     export FRONTDOOR_BUILD_ENV="preview"
   fi
 
-  if [[ "$FRONTDOOR_TARGET" == "preview" && -z "$SITE_ID" ]]; then
+  if [[ "$FRONTDOOR_TARGET" == "preview" && "$SITE_ID" == "ALL" ]]; then
     for site_dir in sites/*/; do
       site_id="$(basename "$site_dir")"
       if [[ "$site_id" == "template" ]]; then
@@ -123,7 +142,7 @@ else
   python3 scripts/generate_legal_pages.py dist
 
   if [[ "$FRONTDOOR_TARGET" == "preview" ]]; then
-    if [[ -n "$SITE_ID" ]]; then
+    if [[ "$SITE_ID" != "ALL" ]]; then
       printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
     fi
   else
