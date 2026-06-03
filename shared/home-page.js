@@ -328,14 +328,20 @@
 
   function PatientResourceRow(resource) {
     const external = isExternalUrl(resource.url);
-    const fileIcon = isPdfUrl(resource.url) ? 'FileText' : 'Link';
-    return `<a href="${esc(resource.url)}" target="_blank" rel="noopener noreferrer" class="group/resource -mx-3 flex min-h-[44px] items-center gap-3 rounded-2xl px-3 py-2.5 text-base font-medium leading-6 text-slate-700 transition hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"><span class="icon-chip h-8 w-8 shrink-0 bg-warm-50 text-brand-primary group-hover/resource:bg-white">${icon(fileIcon, 'h-4 w-4')}</span><span class="min-w-0 flex-1">${esc(resource.title)}</span>${external ? icon('ExternalLink', 'h-4 w-4 shrink-0 text-slate-500') : ''}</a>`;
+    const isPdf = isPdfUrl(resource.url);
+    const fileIcon = isPdf ? 'FileText' : 'Link';
+    const pdfBadge = isPdf ? '<span class="rounded-full bg-slate-50/60 px-1.5 py-0.5 text-[0.65rem] font-medium text-slate-500">PDF</span>' : '';
+    return `<a href="${esc(resource.url)}" target="_blank" rel="noopener noreferrer" class="group/resource -mx-2 flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-xl px-2 py-1 text-base font-medium leading-6 text-slate-700 transition duration-200 hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"><span class="shrink-0 text-slate-500 group-hover/resource:text-brand-primary">${icon(fileIcon, 'h-5 w-5')}</span><span class="min-w-0 flex-1">${esc(resource.title)}</span>${pdfBadge}${external ? icon('ExternalLink', 'h-4 w-4 shrink-0 text-slate-500') : ''}</a>`;
+  }
+
+  function PatientResourceGroup(group) {
+    return `<section class="border-t border-slate-100/70 px-5 py-3.5 first:border-t-0 sm:px-7"><h3 class="text-[0.95rem] font-semibold leading-6 text-slate-950">${esc(group.title)}</h3><div class="mt-1.5">${group.resources.map(resource => PatientResourceRow(resource)).join('')}</div></section>`;
   }
 
   function PatientResourcesSection(config) {
     const groups = patientResourceGroups(config);
     if (!groups.length) return '';
-    return `<section id="patient-resources" class="section border-t border-white/60 bg-warm-50"><div class="section-shell"><div class="max-w-2xl"><h2 class="section-title">Patient Resources</h2><p class="section-copy">Helpful forms, documents, and links for patients.</p></div><div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">${groups.map(group => `<article class="soft-card p-6 md:p-7"><h3 class="text-xl font-semibold tracking-tight text-slate-950">${esc(group.title)}</h3><div class="mt-5 divide-y divide-slate-100/80">${group.resources.map(resource => PatientResourceRow(resource)).join('')}</div></article>`).join('')}</div></div></section>`;
+    return `<section id="patient-resources" class="border-t border-white/60 bg-warm-50 px-6 py-8 lg:px-8 lg:py-9"><div class="mx-auto max-w-4xl"><div class="max-w-2xl"><h2 class="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">Patient Resources</h2><p class="mt-2 text-base leading-7 text-slate-600">Download forms and questionnaires before your visit.</p></div><div class="mt-4 overflow-hidden rounded-[28px] border border-slate-100/70 bg-white">${groups.map(group => PatientResourceGroup(group)).join('')}</div></div></section>`;
   }
 
   function officeStatus(location) {
