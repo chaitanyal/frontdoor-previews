@@ -5,20 +5,8 @@ FRONTDOOR_TARGET="${FRONTDOOR_TARGET:-}"
 SITE_ID="${SITE_ID:-}"
 MARKETING_SITE_URL="https://frontdoor.health"
 
-usage_error() {
-  cat >&2 <<'EOF'
-ERROR: No deployment target specified.
-
-Valid targets:
-- marketing
-- practice
-- preview
-EOF
-  exit 1
-}
-
 if [[ -z "$FRONTDOOR_TARGET" ]]; then
-  usage_error
+  FRONTDOOR_TARGET="preview"
 fi
 
 if [[ "$FRONTDOOR_TARGET" != "marketing" && "$FRONTDOOR_TARGET" != "practice" && "$FRONTDOOR_TARGET" != "preview" ]]; then
@@ -27,11 +15,16 @@ if [[ "$FRONTDOOR_TARGET" != "marketing" && "$FRONTDOOR_TARGET" != "practice" &&
   exit 1
 fi
 
-if [[ "$FRONTDOOR_TARGET" == "practice" || "$FRONTDOOR_TARGET" == "preview" ]]; then
+if [[ "$FRONTDOOR_TARGET" == "practice" ]]; then
   if [[ -z "$SITE_ID" ]]; then
-    echo "ERROR: SITE_ID is required for ${FRONTDOOR_TARGET} builds." >&2
+    echo "ERROR: SITE_ID is required for practice builds." >&2
     exit 1
   fi
+  if [[ ! -d "sites/${SITE_ID}" ]]; then
+    echo "ERROR: Unknown SITE_ID: ${SITE_ID}" >&2
+    exit 1
+  fi
+elif [[ "$FRONTDOOR_TARGET" == "preview" && -n "$SITE_ID" ]]; then
   if [[ ! -d "sites/${SITE_ID}" ]]; then
     echo "ERROR: Unknown SITE_ID: ${SITE_ID}" >&2
     exit 1
@@ -94,23 +87,45 @@ else
     export FRONTDOOR_BUILD_ENV="preview"
   fi
 
-  site_dir="sites/${SITE_ID}"
-  if [[ ! -f "${site_dir}/practice.json" ]]; then
-    echo "ERROR: Missing ${site_dir}/practice.json" >&2
-    exit 1
+  if [[ "$FRONTDOOR_TARGET" == "preview" && -z "$SITE_ID" ]]; then
+    for site_dir in sites/*/; do
+      site_id="$(basename "$site_dir")"
+      if [[ "$site_id" == "template" ]]; then
+        continue
+      fi
+      if [[ ! -f "${site_dir}/practice.json" ]]; then
+        echo "ERROR: Missing ${site_dir}/practice.json" >&2
+        exit 1
+      fi
+      python3 scripts/validate_practice_json.py "${site_dir}/practice.json" >/dev/null
+      mkdir -p "dist/${site_id}"
+      cp -R "${site_dir}/." "dist/${site_id}/"
+      mkdir -p "dist/${site_id}/assets/fonts"
+      cp ./.tmp/frontdoor-build/styles.css "dist/${site_id}/assets/styles.css"
+      cp ./shared/fonts/* "dist/${site_id}/assets/fonts/"
+    done
+    printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+  else
+    site_dir="sites/${SITE_ID}"
+    if [[ ! -f "${site_dir}/practice.json" ]]; then
+      echo "ERROR: Missing ${site_dir}/practice.json" >&2
+      exit 1
+    fi
+    python3 scripts/validate_practice_json.py "${site_dir}/practice.json" >/dev/null
+    cp -R "${site_dir}/." dist/
+    mkdir -p dist/assets/fonts
+    cp ./.tmp/frontdoor-build/styles.css dist/assets/styles.css
+    cp ./shared/fonts/* dist/assets/fonts/
   fi
-  python3 scripts/validate_practice_json.py "${site_dir}/practice.json" >/dev/null
-  cp -R "${site_dir}/." dist/
-  mkdir -p dist/assets/fonts
-  cp ./.tmp/frontdoor-build/styles.css dist/assets/styles.css
-  cp ./shared/fonts/* dist/assets/fonts/
 
   python3 scripts/generate_provider_pages.py
   node scripts/prerender_practice_pages.js dist
   python3 scripts/generate_legal_pages.py dist
 
   if [[ "$FRONTDOOR_TARGET" == "preview" ]]; then
-    printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+    if [[ -n "$SITE_ID" ]]; then
+      printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+    fi
   else
     site_url="$(python3 - <<'PY'
 import json

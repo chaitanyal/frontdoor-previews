@@ -83,7 +83,7 @@ sites/<practice>/practice.json + shared/themes.json + shared/home-page.js + shar
   -> Cloudflare Pages
 ```
 
-There is intentionally no deployable default build. `npm run build` fails unless a deployment target is selected through one of the explicit scripts below.
+The default build is reserved for the shared preview Pages project. Running `npm run build` or `./scripts/build.sh` without environment variables builds all configured practice previews into `dist/<practice-slug>/`.
 
 Marketing build flow:
 
@@ -139,11 +139,17 @@ Production practice deployments:
 
 Preview practice deployments:
 
+- Shared preview domain: `frontdoor-previews.pages.dev/<practice-slug>`
+- Build command: `./scripts/build.sh`
+- Build output directory: `dist`
+
+Practice-specific preview deployments:
+
 - Example domain: a practice-specific `*.pages.dev` project
 - Build command: `SITE_ID=northhillspsychiatry npm run build:preview`
 - Build output directory: `dist`
 
-Deployment should never rely on `npm run build` or `./scripts/build.sh` without an explicit target. Production practice deployments use `build:practice`; preview deployments use `build:preview`; the marketing site uses `build:marketing`.
+Production practice deployments use `build:practice`; practice-specific preview deployments use `build:preview`; the shared preview Pages project can use the default `./scripts/build.sh`; the marketing site uses `build:marketing`.
 
 Cloudflare Pages deploys the generated `dist/` directory.
 
