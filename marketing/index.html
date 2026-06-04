@@ -17,6 +17,7 @@
     }
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <script>
     tailwind.config = {
@@ -233,21 +234,27 @@
           </h2>
         </div>
 
-        <form class="rounded-[32px] bg-white/95 p-8 text-slate-950 shadow-[0_20px_70px_rgba(0,0,0,0.18)] md:p-10">
+        <form id="preview-request-form" class="rounded-[32px] bg-white/95 p-8 text-slate-950 shadow-[0_20px_70px_rgba(0,0,0,0.18)] md:p-10">
           <div class="space-y-6">
             <div>
               <label for="name" class="text-sm font-medium text-slate-700">Name</label>
-              <input id="name" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="Your name" />
+              <input id="name" name="name" autocomplete="name" required maxlength="100" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="Your name" />
             </div>
             <div>
               <label for="email" class="text-sm font-medium text-slate-700">Email</label>
-              <input id="email" type="email" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="you@example.com" />
+              <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="you@example.com" />
             </div>
             <div>
               <label for="website" class="text-sm font-medium text-slate-700">Current practice website</label>
-              <input id="website" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="https://examplepractice.com" />
+              <input id="website" name="websiteUrl" inputmode="url" autocomplete="url" required maxlength="500" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="https://examplepractice.com" />
             </div>
-            <button type="button" class="w-full rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-brand-900">Request a Free Preview</button>
+            <div class="hidden" aria-hidden="true">
+              <label for="companyWebsite">Company website</label>
+              <input id="companyWebsite" name="companyWebsite" tabindex="-1" autocomplete="off" />
+            </div>
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAADeia3tun_3f12Pa"></div>
+            <p id="preview-request-status" class="hidden rounded-2xl px-4 py-3 text-sm font-medium" role="status" aria-live="polite"></p>
+            <button id="preview-request-submit" type="submit" class="w-full rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-brand-900 disabled:cursor-not-allowed disabled:opacity-70">Request a Free Preview</button>
           </div>
         </form>
       </div>
@@ -269,5 +276,63 @@
       </div>
     </div>
   </footer>
+  <script>
+    (() => {
+      const form = document.getElementById('preview-request-form');
+      const submitButton = document.getElementById('preview-request-submit');
+      const status = document.getElementById('preview-request-status');
+      if (!form || !submitButton || !status) return;
+
+      function showStatus(message, type) {
+        status.textContent = message;
+        status.className = 'rounded-2xl px-4 py-3 text-sm font-medium ' + (
+          type === 'success'
+            ? 'bg-green-50 text-green-800'
+            : 'bg-amber-50 text-amber-900'
+        );
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const turnstileToken = window.turnstile?.getResponse();
+        if (!turnstileToken) {
+          showStatus('Please complete the verification check.', 'error');
+          return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+        status.className = 'hidden rounded-2xl px-4 py-3 text-sm font-medium';
+
+        try {
+          const formData = new FormData(form);
+          const response = await fetch('/api/preview-request', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              name: formData.get('name'),
+              email: formData.get('email'),
+              websiteUrl: formData.get('websiteUrl'),
+              companyWebsite: formData.get('companyWebsite'),
+              turnstileToken,
+            }),
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || result.ok !== true) {
+            throw new Error(result.error || 'Unable to send your request right now.');
+          }
+          form.reset();
+          window.turnstile?.reset();
+          showStatus('Thanks. I will review your practice website and follow up.', 'success');
+        } catch (error) {
+          window.turnstile?.reset();
+          showStatus(error.message || 'Unable to send your request right now.', 'error');
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Request a Free Preview';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
