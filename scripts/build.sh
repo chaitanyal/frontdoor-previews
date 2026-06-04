@@ -119,10 +119,45 @@ generate_noindex_headers() {
   fi
 }
 
+copy_noindex_preview_sites() {
+  local preview_count=0
+
+  for site_dir in sites/*/; do
+    site_id="$(basename "$site_dir")"
+    if [[ "$site_id" == "template" ]]; then
+      continue
+    fi
+    if [[ ! -f "${site_dir}/practice.json" ]]; then
+      echo "ERROR: Missing ${site_dir}/practice.json" >&2
+      exit 1
+    fi
+    python3 scripts/validate_practice_json.py "${site_dir}/practice.json" >/dev/null
+    if [[ "$(practice_allows_indexing "${site_dir}/practice.json")" == "true" ]]; then
+      continue
+    fi
+    mkdir -p "dist/previews/${site_id}"
+    cp -R "${site_dir}/." "dist/previews/${site_id}/"
+    mkdir -p "dist/previews/${site_id}/assets/fonts"
+    cp ./.tmp/frontdoor-build/styles.css "dist/previews/${site_id}/assets/styles.css"
+    cp ./shared/fonts/* "dist/previews/${site_id}/assets/fonts/"
+    preview_count=$((preview_count + 1))
+  done
+
+  if [[ "$preview_count" -eq 0 ]]; then
+    echo "ERROR: Preview build found no sites with seo.allowIndexing=false." >&2
+    exit 1
+  fi
+}
+
 if [[ "$FRONTDOOR_TARGET" == "marketing" ]]; then
   export FRONTDOOR_BUILD_ENV="marketing"
   cp -R marketing/. dist/
   python3 scripts/render_marketing.py dist
+  copy_noindex_preview_sites
+  python3 scripts/generate_provider_pages.py
+  node scripts/prerender_practice_pages.js dist
+  python3 scripts/generate_legal_pages.py dist
+  generate_noindex_headers
 
   write_public_robots "$MARKETING_SITE_URL"
   generate_sitemap "$MARKETING_SITE_URL"
@@ -138,7 +173,7 @@ if [[ "$FRONTDOOR_TARGET" == "marketing" ]]; then
       exit 1
     fi
   done
-  if find dist -name '*.html' ! -name '404.html' -print0 | xargs -0 grep -F "noindex" >/dev/null 2>&1; then
+  if find dist -name '*.html' ! -path 'dist/previews/*' ! -name '404.html' -print0 | xargs -0 grep -F "noindex" >/dev/null 2>&1; then
     echo "ERROR: Marketing pages must be indexable and must not contain noindex." >&2
     exit 1
   fi
@@ -150,31 +185,7 @@ else
   fi
 
   if [[ "$FRONTDOOR_TARGET" == "preview" && "$SITE_ID" == "ALL" ]]; then
-    preview_count=0
-    for site_dir in sites/*/; do
-      site_id="$(basename "$site_dir")"
-      if [[ "$site_id" == "template" ]]; then
-        continue
-      fi
-      if [[ ! -f "${site_dir}/practice.json" ]]; then
-        echo "ERROR: Missing ${site_dir}/practice.json" >&2
-        exit 1
-      fi
-      python3 scripts/validate_practice_json.py "${site_dir}/practice.json" >/dev/null
-      if [[ "$(practice_allows_indexing "${site_dir}/practice.json")" == "true" ]]; then
-        continue
-      fi
-      mkdir -p "dist/previews/${site_id}"
-      cp -R "${site_dir}/." "dist/previews/${site_id}/"
-      mkdir -p "dist/previews/${site_id}/assets/fonts"
-      cp ./.tmp/frontdoor-build/styles.css "dist/previews/${site_id}/assets/styles.css"
-      cp ./shared/fonts/* "dist/previews/${site_id}/assets/fonts/"
-      preview_count=$((preview_count + 1))
-    done
-    if [[ "$preview_count" -eq 0 ]]; then
-      echo "ERROR: Preview build found no sites with seo.allowIndexing=false." >&2
-      exit 1
-    fi
+    copy_noindex_preview_sites
     write_public_robots "$MARKETING_SITE_URL"
   else
     site_dir="sites/${SITE_ID}"

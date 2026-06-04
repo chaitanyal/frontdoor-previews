@@ -92,8 +92,10 @@ Marketing build flow:
 3. Copies `marketing/` into `dist/`.
 4. Renders the featured practice from `marketing/marketing.json` and `sites/<site-id>/practice.json`.
 5. Copies the selected featured practice hero image into `dist/assets/featured-practice/`.
-6. Generates `robots.txt` and `sitemap.xml` for `https://frontdoor.health`.
-7. Validates built HTML for basic structure and local asset paths.
+6. Copies noindex preview sites into `dist/previews/<practice-slug>/`.
+7. Generates preview provider, privacy, and accessibility pages.
+8. Generates `_headers`, `robots.txt`, and `sitemap.xml` for `https://frontdoor.health`.
+9. Validates built HTML for basic structure and local asset paths.
 
 Practice build flow:
 
@@ -145,6 +147,7 @@ FrontDoor Health marketing site:
 - Domain: `frontdoor.health`
 - Build command: `npm run build:marketing`
 - Build output directory: `dist`
+- Also serves noindex preview URLs under `https://frontdoor.health/previews/<practice-slug>/`
 
 Production practice deployments:
 
