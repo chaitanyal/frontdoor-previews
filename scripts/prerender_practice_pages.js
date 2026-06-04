@@ -24,10 +24,7 @@ function canonicalUrl(config, pagePath = '') {
 }
 
 function robotsMeta(config) {
-  if (process.env.FRONTDOOR_BUILD_ENV !== 'production') {
-    return '  <meta name="robots" content="noindex,nofollow" />\n';
-  }
-  return config.seo?.allowIndexing === true ? '' : '  <meta name="robots" content="noindex,nofollow" />\n';
+  return config.seo?.allowIndexing === true ? '' : '  <meta name="robots" content="noindex, nofollow">\n';
 }
 
 const themes = JSON.parse(fs.readFileSync(path.join('shared', 'themes.json'), 'utf8'));
@@ -214,14 +211,19 @@ function main() {
   const dist = process.argv[2] || 'dist';
   const rendererPath = path.join('shared', 'home-page.js');
   const rendererSource = fs.readFileSync(rendererPath, 'utf8');
-  if (fs.existsSync(path.join(dist, 'practice.json'))) {
-    prerenderPractice(dist, rendererSource);
-    return;
+
+  function visit(directory) {
+    if (fs.existsSync(path.join(directory, 'practice.json'))) {
+      prerenderPractice(directory, rendererSource);
+      return;
+    }
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      visit(path.join(directory, entry.name));
+    }
   }
-  for (const entry of fs.readdirSync(dist, { withFileTypes: true })) {
-    if (!entry.isDirectory()) continue;
-    prerenderPractice(path.join(dist, entry.name), rendererSource);
-  }
+
+  visit(dist);
 }
 
 main();

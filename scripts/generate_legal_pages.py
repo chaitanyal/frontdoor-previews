@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import html
 import json
-import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -29,11 +28,9 @@ def canonical_url(config: dict[str, Any], page_path: str) -> str:
 
 
 def robots_meta(config: dict[str, Any]) -> str:
-    if os.environ.get("FRONTDOOR_BUILD_ENV") != "production":
-        return '<meta name="robots" content="noindex,nofollow" />'
     if (config.get("seo") or {}).get("allowIndexing") is True:
         return ""
-    return '<meta name="robots" content="noindex,nofollow" />'
+    return '<meta name="robots" content="noindex, nofollow">'
 
 
 def render_template(template: str, config: dict[str, Any], slug: str) -> str:
@@ -69,9 +66,8 @@ def main() -> int:
     if (root / "practice.json").exists():
         generate_for_practice(root)
         return 0
-    for practice_dir in sorted(root.iterdir()):
-        if practice_dir.is_dir():
-            generate_for_practice(practice_dir)
+    for config_path in sorted(root.rglob("practice.json")):
+        generate_for_practice(config_path.parent)
     return 0
 
 

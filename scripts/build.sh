@@ -68,10 +68,55 @@ generate_sitemap() {
       if [[ "$page_path" == "./" ]]; then
         page_path=""
       fi
+      if [[ "$page_path" == previews/* ]]; then
+        continue
+      fi
       printf '  <url><loc>%s/%s</loc></url>\n' "$site_url" "$page_path"
     done < <(find dist -name index.html -type f | sort)
     printf '</urlset>\n'
   } > dist/sitemap.xml
+}
+
+practice_allows_indexing() {
+  python3 -c 'import json, sys; config = json.load(open(sys.argv[1], encoding="utf-8")); print("true" if (config.get("seo") or {}).get("allowIndexing") is True else "false")' "$1"
+}
+
+practice_site_url() {
+  python3 -c 'import json, sys; config = json.load(open(sys.argv[1], encoding="utf-8")); print((config.get("seo") or {}).get("siteUrl", "").rstrip("/"))' "$1"
+}
+
+write_public_robots() {
+  local sitemap_url="$1"
+  {
+    printf 'User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n' "$sitemap_url"
+  } > dist/robots.txt
+}
+
+generate_noindex_headers() {
+  local headers_file="dist/_headers"
+  local wrote_headers="false"
+  : > "$headers_file"
+
+  while IFS= read -r config_path; do
+    if [[ "$(practice_allows_indexing "$config_path")" == "true" ]]; then
+      continue
+    fi
+
+    site_root="${config_path%/practice.json}"
+    route_path="${site_root#dist}"
+    if [[ -z "$route_path" ]]; then
+      route="/*"
+    else
+      route="/${route_path#/}/*"
+    fi
+
+    printf '%s\n  X-Robots-Tag: noindex, nofollow\n' "$route" >> "$headers_file"
+    wrote_headers="true"
+  done < <(find dist -name practice.json -type f | sort)
+
+  if [[ "$wrote_headers" != "true" ]]; then
+    rm -f "$headers_file"
+  fi
 }
 
 if [[ "$FRONTDOOR_TARGET" == "marketing" ]]; then
@@ -79,9 +124,7 @@ if [[ "$FRONTDOOR_TARGET" == "marketing" ]]; then
   cp -R marketing/. dist/
   python3 scripts/render_marketing.py dist
 
-  {
-    printf 'User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n' "$MARKETING_SITE_URL"
-  } > dist/robots.txt
+  write_public_robots "$MARKETING_SITE_URL"
   generate_sitemap "$MARKETING_SITE_URL"
 
   if [[ ! -f dist/404.html ]]; then
@@ -95,8 +138,8 @@ if [[ "$FRONTDOOR_TARGET" == "marketing" ]]; then
       exit 1
     fi
   done
-  if find dist -name '*.html' ! -name '404.html' -print0 | xargs -0 grep -F "noindex,nofollow" >/dev/null 2>&1; then
-    echo "ERROR: Marketing pages must be indexable and must not contain noindex,nofollow." >&2
+  if find dist -name '*.html' ! -name '404.html' -print0 | xargs -0 grep -F "noindex" >/dev/null 2>&1; then
+    echo "ERROR: Marketing pages must be indexable and must not contain noindex." >&2
     exit 1
   fi
 else
@@ -107,6 +150,7 @@ else
   fi
 
   if [[ "$FRONTDOOR_TARGET" == "preview" && "$SITE_ID" == "ALL" ]]; then
+    preview_count=0
     for site_dir in sites/*/; do
       site_id="$(basename "$site_dir")"
       if [[ "$site_id" == "template" ]]; then
@@ -117,13 +161,21 @@ else
         exit 1
       fi
       python3 scripts/validate_practice_json.py "${site_dir}/practice.json" >/dev/null
-      mkdir -p "dist/${site_id}"
-      cp -R "${site_dir}/." "dist/${site_id}/"
-      mkdir -p "dist/${site_id}/assets/fonts"
-      cp ./.tmp/frontdoor-build/styles.css "dist/${site_id}/assets/styles.css"
-      cp ./shared/fonts/* "dist/${site_id}/assets/fonts/"
+      if [[ "$(practice_allows_indexing "${site_dir}/practice.json")" == "true" ]]; then
+        continue
+      fi
+      mkdir -p "dist/previews/${site_id}"
+      cp -R "${site_dir}/." "dist/previews/${site_id}/"
+      mkdir -p "dist/previews/${site_id}/assets/fonts"
+      cp ./.tmp/frontdoor-build/styles.css "dist/previews/${site_id}/assets/styles.css"
+      cp ./shared/fonts/* "dist/previews/${site_id}/assets/fonts/"
+      preview_count=$((preview_count + 1))
     done
-    printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+    if [[ "$preview_count" -eq 0 ]]; then
+      echo "ERROR: Preview build found no sites with seo.allowIndexing=false." >&2
+      exit 1
+    fi
+    write_public_robots "$MARKETING_SITE_URL"
   else
     site_dir="sites/${SITE_ID}"
     if [[ ! -f "${site_dir}/practice.json" ]]; then
@@ -131,35 +183,34 @@ else
       exit 1
     fi
     python3 scripts/validate_practice_json.py "${site_dir}/practice.json" >/dev/null
-    cp -R "${site_dir}/." dist/
-    mkdir -p dist/assets/fonts
-    cp ./.tmp/frontdoor-build/styles.css dist/assets/styles.css
-    cp ./shared/fonts/* dist/assets/fonts/
+    if [[ "$FRONTDOOR_TARGET" == "preview" ]]; then
+      if [[ "$(practice_allows_indexing "${site_dir}/practice.json")" == "true" ]]; then
+        echo "ERROR: Preview builds require seo.allowIndexing=false in ${site_dir}/practice.json." >&2
+        exit 1
+      fi
+      mkdir -p "dist/previews/${SITE_ID}"
+      cp -R "${site_dir}/." "dist/previews/${SITE_ID}/"
+      mkdir -p "dist/previews/${SITE_ID}/assets/fonts"
+      cp ./.tmp/frontdoor-build/styles.css "dist/previews/${SITE_ID}/assets/styles.css"
+      cp ./shared/fonts/* "dist/previews/${SITE_ID}/assets/fonts/"
+    else
+      cp -R "${site_dir}/." dist/
+      mkdir -p dist/assets/fonts
+      cp ./.tmp/frontdoor-build/styles.css dist/assets/styles.css
+      cp ./shared/fonts/* dist/assets/fonts/
+    fi
   fi
 
   python3 scripts/generate_provider_pages.py
   node scripts/prerender_practice_pages.js dist
   python3 scripts/generate_legal_pages.py dist
+  generate_noindex_headers
 
   if [[ "$FRONTDOOR_TARGET" == "preview" ]]; then
-    if [[ "$SITE_ID" != "ALL" ]]; then
-      printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
-    fi
+    write_public_robots "$MARKETING_SITE_URL"
   else
-    site_url="$(python3 - <<'PY'
-import json
-from pathlib import Path
-config = json.loads(Path('dist/practice.json').read_text(encoding='utf-8'))
-print((config.get('seo') or {}).get('siteUrl', '').rstrip('/'))
-PY
-)"
-    allow_indexing="$(python3 - <<'PY'
-import json
-from pathlib import Path
-config = json.loads(Path('dist/practice.json').read_text(encoding='utf-8'))
-print('true' if (config.get('seo') or {}).get('allowIndexing') is True else 'false')
-PY
-)"
+    site_url="$(practice_site_url "dist/practice.json")"
+    allow_indexing="$(practice_allows_indexing "dist/practice.json")"
     if [[ -z "$site_url" ]]; then
       echo "ERROR: Missing required field: seo.siteUrl" >&2
       exit 1
@@ -168,10 +219,13 @@ PY
       echo "ERROR: seo.siteUrl must be an HTTPS URL starting with https://" >&2
       exit 1
     fi
-    {
-      printf 'User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n' "$site_url"
-    } > dist/robots.txt
-    generate_sitemap "$site_url"
+    if [[ "$allow_indexing" == "true" ]]; then
+      write_public_robots "$site_url"
+      generate_sitemap "$site_url"
+    else
+      write_public_robots "$MARKETING_SITE_URL"
+      rm -f dist/sitemap.xml
+    fi
 
     while IFS= read -r page; do
       if ! grep -Fq "<link rel=\"canonical\" href=\"${site_url}/" "$page"; then
@@ -187,8 +241,8 @@ PY
       echo "ERROR: Production output must not reference frontdoor-previews; use seo.siteUrl for production URLs." >&2
       exit 1
     fi
-    if [[ "$allow_indexing" == "true" ]] && grep -RF "noindex,nofollow" dist >/dev/null 2>&1; then
-      echo "ERROR: Production build contains noindex,nofollow despite seo.allowIndexing=true." >&2
+    if [[ "$allow_indexing" == "true" ]] && grep -RF "noindex" dist >/dev/null 2>&1; then
+      echo "ERROR: Production build contains noindex despite seo.allowIndexing=true." >&2
       exit 1
     fi
   fi

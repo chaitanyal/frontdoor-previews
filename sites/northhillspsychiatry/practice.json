@@ -5,8 +5,8 @@
     "description": "Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.",
     "ogImage": "./images/hero/Austin_Hero_Image.webp",
     "defaultOgImage": "./images/hero/Austin_Hero_Image.webp",
-    "siteUrl": "https://northhillspsychiatry.com",
-    "allowIndexing": true
+    "siteUrl": "https://frontdoor.health/previews/northhillspsychiatry/",
+    "allowIndexing": false
   },
   "practice": {
     "name": "North Hills Psychiatry",

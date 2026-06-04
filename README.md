@@ -5,13 +5,13 @@ Static HTML marketing and practice sites for small medical practices, deployed a
 ```text
 https://frontdoor.health
 https://drdronavalli.com
-https://<practice-preview>.pages.dev
+https://frontdoor.health/previews/<practice-slug>/
 ```
 
 Example:
 
 ```text
-SITE_ID=northhillspsychiatry npm run build:preview
+npm run build:preview:all
 ```
 
 ## Repository Structure
@@ -83,7 +83,7 @@ sites/<practice>/practice.json + shared/themes.json + shared/home-page.js + shar
   -> Cloudflare Pages
 ```
 
-Builds are intentionally target-specific. Shared preview deployments use `SITE_ID=ALL` to build all configured practice previews into `dist/<practice-slug>/`.
+Builds are intentionally target-specific. Shared preview deployments use `SITE_ID=ALL` to build configured noindex practice previews into `dist/previews/<practice-slug>/`.
 
 Marketing build flow:
 
@@ -105,11 +105,11 @@ Practice build flow:
 6. Copies compiled CSS to `dist/assets/styles.css` and shared fonts to `dist/assets/fonts/`.
 7. Generates static provider, privacy, and accessibility pages.
 8. Prerenders the practice homepage from `practice.json`.
-9. Generates deployment-specific `robots.txt` and, for production practice builds, `sitemap.xml`.
+9. Generates deployment-specific `robots.txt`, `_headers` for noindex sites, and `sitemap.xml` for indexable production practice builds.
 10. Removes source-only files such as `practice.json`, Markdown files, and build-only artifacts from `dist/`.
 11. Validates built HTML for basic structure, SEO smoke checks, JSON-LD parsing, and local asset paths.
 
-Resulting production or preview practice output:
+Resulting production practice output:
 
 ```text
 dist/
@@ -118,6 +118,21 @@ dist/
   privacy/
   accessibility/
   assets/
+  robots.txt
+```
+
+Resulting shared preview output:
+
+```text
+dist/
+  previews/
+    northhillspsychiatry/
+      index.html
+      providers/
+      privacy/
+      accessibility/
+      assets/
+  _headers
   robots.txt
 ```
 
@@ -139,18 +154,12 @@ Production practice deployments:
 
 Preview practice deployments:
 
-- Shared preview domain: `frontdoor-previews.pages.dev/<practice-slug>`
+- Shared preview URL: `https://frontdoor.health/previews/<practice-slug>/`
 - Build command: `npm run build:preview:all`
 - Equivalent explicit command: `FRONTDOOR_TARGET=preview SITE_ID=ALL ./scripts/build.sh`
 - Build output directory: `dist`
 
-Practice-specific preview deployments:
-
-- Example domain: a practice-specific `*.pages.dev` project
-- Build command: `SITE_ID=northhillspsychiatry npm run build:preview`
-- Build output directory: `dist`
-
-Production practice deployments use `build:practice`; practice-specific preview deployments use `build:preview`; the shared preview Pages project uses `build:preview:all`; the marketing site uses `build:marketing`.
+Production practice deployments use `build:practice`; the shared preview Pages project uses `build:preview:all`; the marketing site uses `build:marketing`.
 
 Cloudflare Pages deploys the generated `dist/` directory.
 

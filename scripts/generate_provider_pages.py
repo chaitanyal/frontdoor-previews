@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import json
-import os
 from html import escape
 from pathlib import Path
 from typing import Any
@@ -76,11 +75,9 @@ def absolute_url(config: dict[str, Any], value: str | None) -> str:
 
 
 def robots_meta(config: dict[str, Any]) -> str:
-    if os.environ.get("FRONTDOOR_BUILD_ENV") != "production":
-        return '  <meta name="robots" content="noindex,nofollow" />\n'
     if (config.get("seo") or {}).get("allowIndexing") is True:
         return ""
-    return '  <meta name="robots" content="noindex,nofollow" />\n'
+    return '  <meta name="robots" content="noindex, nofollow">\n'
 
 
 def chips(values: list[str] | None, cls: str = "badge-brand") -> str:
@@ -406,7 +403,7 @@ def generate_for_practice(practice_dir: Path) -> None:
             continue
         page_dir = providers_dir / slug
         page_dir.mkdir(parents=True, exist_ok=True)
-        (page_dir / "index.html").write_text(provider_page(config, provider, practice_dir.name))
+        (page_dir / "index.html").write_text(provider_page(config, provider, practice_dir.name), encoding="utf-8")
 
 
 def main() -> None:
@@ -414,9 +411,8 @@ def main() -> None:
     if (dist / "practice.json").exists():
         generate_for_practice(dist)
         return
-    for practice_dir in dist.iterdir():
-        if practice_dir.is_dir():
-            generate_for_practice(practice_dir)
+    for config_path in sorted(dist.rglob("practice.json")):
+        generate_for_practice(config_path.parent)
 
 
 if __name__ == "__main__":
