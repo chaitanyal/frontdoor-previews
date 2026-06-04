@@ -282,6 +282,8 @@
       const submitButton = document.getElementById('preview-request-submit');
       const status = document.getElementById('preview-request-status');
       if (!form || !submitButton || !status) return;
+      let isSubmitting = false;
+      let hasSubmitted = false;
 
       function showStatus(message, type) {
         status.textContent = message;
@@ -294,12 +296,15 @@
 
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
+        if (isSubmitting || hasSubmitted) return;
+
         const turnstileToken = window.turnstile?.getResponse();
         if (!turnstileToken) {
           showStatus('Please complete the verification check.', 'error');
           return;
         }
 
+        isSubmitting = true;
         submitButton.disabled = true;
         submitButton.textContent = 'Sending...';
         status.className = 'hidden rounded-2xl px-4 py-3 text-sm font-medium';
@@ -323,13 +328,16 @@
           }
           form.reset();
           window.turnstile?.reset();
+          hasSubmitted = true;
+          submitButton.textContent = 'Request Sent';
           showStatus('Thanks. I will review your practice website and follow up.', 'success');
         } catch (error) {
           window.turnstile?.reset();
           showStatus(error.message || 'Unable to send your request right now.', 'error');
-        } finally {
           submitButton.disabled = false;
           submitButton.textContent = 'Request a Free Preview';
+        } finally {
+          isSubmitting = false;
         }
       });
     })();
