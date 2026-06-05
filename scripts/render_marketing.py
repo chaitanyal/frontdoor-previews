@@ -71,7 +71,9 @@ def main():
     hero_target = hero_dir / source_hero.name
     shutil.copy2(source_hero, hero_target)
 
-    description = text_from_first_h1(Path("marketing") / "case-studies" / site_id / "index.html")
+    description = config.get("featuredPracticeDescription", "")
+    if not description:
+        description = text_from_first_h1(Path("marketing") / "case-studies" / site_id / "index.html")
     if not description:
         description = (practice_config.get("seo") or {}).get("description", "")
 
