@@ -12,7 +12,7 @@ function contactCard({ type, label, value, href = '', variant = 'lg' }) {
   const labelClass = isCompact ? 'sr-only' : 'block text-sm font-semibold uppercase tracking-wide text-slate-500';
   const valueClass = isCompact
     ? 'block break-words text-sm font-semibold leading-5 text-slate-700 sm:text-base'
-    : `mt-1 block break-words ${isEmail ? 'text-base font-medium text-slate-700' : 'text-lg font-semibold text-slate-950'}`;
+    : `mt-1 block break-words ${isEmail ? 'text-base font-semibold text-slate-700' : 'text-lg font-semibold text-slate-950'}`;
   const content = `<span class="${iconClass}">${icon(iconName)}</span><span class="min-w-0"><span class="${labelClass}">${esc(label)}</span><span class="${valueClass}">${esc(value)}</span></span>`;
   if (isEmail) {
     return `<button type="button" data-copy-email="${esc(value)}" class="${base} ${size}" aria-label="Copy ${esc(label.toLowerCase())} ${esc(value)}">${content}</button>`;
