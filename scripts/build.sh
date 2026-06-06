@@ -71,6 +71,9 @@ generate_sitemap() {
       if [[ "$page_path" == previews/* ]]; then
         continue
       fi
+      if [[ "$page_path" == "about/" || "$page_path" == "case-studies/" || "$page_path" == "transformations/" ]]; then
+        continue
+      fi
       printf '  <url><loc>%s/%s</loc></url>\n' "$site_url" "$page_path"
     done < <(find dist -name index.html -type f | sort)
     printf '</urlset>\n'
