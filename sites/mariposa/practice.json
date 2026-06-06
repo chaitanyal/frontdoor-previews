@@ -150,7 +150,7 @@
   },
   "financialPolicy": {
     "paymentModel": "cash_only",
-    "pricingDisplay": "contact_for_rates",
+    "pricingDisplay": "listed",
     "summary": "Mariposa Psychiatry is a private-pay only practice. It is not in network with insurance plans and does not submit insurance claims.",
     "fees": [
       {
@@ -173,8 +173,7 @@
       "Credit cards",
       "Cash",
       "Checks",
-      "Venmo",
-      "Zelle"
+      "Digital payment apps"
     ],
     "contactForRatesMessage": "A superbill may be provided upon request. The practice is not able to accept private payments from Medicare or Medicaid beneficiaries."
   },

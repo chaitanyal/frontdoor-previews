@@ -42,7 +42,7 @@
 
   function financialTitle(policy) {
     if (!policy) return 'Insurance';
-    if (policy.paymentModel === 'cash_only') return 'Fees & Payment';
+    if (policy.paymentModel === 'cash_only') return 'Private Pay';
     if (policy.paymentModel === 'out_of_network') return 'Fees & Insurance';
     return 'Insurance';
   }
@@ -162,14 +162,23 @@
     return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(insurance.section_label || '')}</p><h2 class="section-title">${esc(insurance.headline || '')}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(insurance.summary || '')}</p></div>${coverageBadges ? `<div class="mt-6 flex flex-wrap gap-3">${coverageBadges}</div>` : ''}${carriers}${verification}${insurance.disclaimer ? `<p class="mt-6 text-sm leading-6 text-slate-500">${esc(insurance.disclaimer)}</p>` : ''}</div></section>`;
   }
 
-  function PricingTable(rates) {
-    if (!rates?.length) return '';
-    return `<div class="overflow-hidden rounded-[28px] border border-slate-200 bg-white"><div class="grid grid-cols-12 gap-4 border-b border-slate-100 bg-slate-50/80 px-5 py-4 text-sm font-semibold uppercase tracking-wide text-slate-500"><div class="col-span-7">Service</div><div class="col-span-2 text-right">Duration</div><div class="col-span-3 text-right">Fee</div></div>${rates.map(rate => `<div class="grid grid-cols-12 gap-4 border-b border-slate-100 px-5 py-5 last:border-b-0"><div class="col-span-12 text-lg font-semibold text-slate-950 sm:col-span-7">${esc(rate.name)}</div><div class="col-span-5 text-base text-slate-600 sm:col-span-2 sm:text-right">${rate.durationMinutes ? `${esc(rate.durationMinutes)} min` : '—'}</div><div class="col-span-7 text-right text-lg font-semibold text-brand-primary sm:col-span-3">${money(rate.price)}</div></div>`).join('')}</div>`;
+  function normalizedFees(policy) {
+    if (policy.fees?.length) return policy.fees;
+    return (policy.rates || []).map(rate => ({
+      label: rate.name,
+      amount: money(rate.price),
+      duration: rate.durationMinutes ? `${rate.durationMinutes} minutes` : '',
+    }));
   }
 
-  function ContactForRatesCard(config, policy) {
-    const message = policy.contactForRatesMessage || 'Contact our office for current rates and payment options.';
-    return `<div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 px-6 pb-6 pt-6 md:px-8 md:pb-6 md:pt-6"><p class="text-base leading-7 text-slate-700">${esc(message)}</p>${ContactCards(config.practice, 'sm')}</div>`;
+  function FeeCards(policy) {
+    const fees = normalizedFees(policy);
+    if (!fees.length) return '';
+    return `<div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">${fees.map(fee => `<div class="rounded-[28px] border border-slate-200 bg-white p-5 md:p-6"><div class="flex items-start justify-between gap-4"><p class="text-base font-semibold leading-7 text-slate-950">${esc(fee.label)}</p><p class="shrink-0 text-right text-lg font-semibold text-brand-primary">${esc(fee.amount)}</p></div>${fee.duration ? `<p class="mt-2 text-sm leading-6 text-slate-500">${esc(fee.duration)}</p>` : ''}</div>`).join('')}</div>`;
+  }
+
+  function ContactForRatesMessage() {
+    return `<p class="mt-8 max-w-[800px] text-lg leading-8 text-slate-700">Please call the office for current rates and payment options.</p>`;
   }
 
   function paymentMethodIcon(method) {
@@ -181,26 +190,32 @@
 
   function PaymentMethods(methods) {
     if (!methods?.length) return '';
-    return `<div class="mt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Accepted payment methods</p><div class="mt-3 flex flex-wrap gap-3">${methods.map(method => `<span class="badge-brand px-5 py-2.5 text-[0.95rem]">${icon(paymentMethodIcon(method), 'h-3.5 w-3.5')} ${esc(method)}</span>`).join('')}</div></div>`;
+    return `<div class="mt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Payment Methods</p><div class="mt-3 flex flex-wrap gap-3">${methods.map(method => `<span class="badge-brand px-5 py-2.5 text-[0.95rem]">${icon(paymentMethodIcon(method), 'h-3.5 w-3.5')} ${esc(method)}</span>`).join('')}</div></div>`;
   }
 
   function FinancialPolicySection(config) {
     const policy = config.financialPolicy;
     if (!policy) return InsuranceCoverageSection(config);
-    if (['insurance', 'hybrid'].includes(policy.paymentModel) && config.insurance?.enabled) return InsuranceCoverageSection(config);
-    const title = financialTitle(policy);
-    const intro = {
-      cash_only: ['Private Pay Practice', 'This practice operates on a self-pay basis and does not participate in insurance networks.'],
-      out_of_network: ['Out-of-Network Insurance', 'This practice is out-of-network with insurance providers.'],
-      hybrid: ['Insurance & Self-Pay Options', 'This practice accepts select insurance plans and also offers self-pay options.'],
-      insurance: ['Insurance', 'Please contact the office to confirm insurance and payment options.'],
-    }[policy.paymentModel] || ['Payment Information', 'Please contact the office to confirm insurance and payment options.'];
-    const pricing = policy.pricingDisplay === 'published'
-      ? PricingTable(policy.rates || [])
+    if (['insurance', 'hybrid', 'mixed'].includes(policy.paymentModel) && config.insurance?.enabled) return InsuranceCoverageSection(config);
+    const title = policy.paymentModel === 'cash_only' ? 'Private Pay' : financialTitle(policy);
+    const summary = policy.summary || {
+      cash_only: 'This practice operates on a self-pay basis and does not participate in insurance networks.',
+      out_of_network: 'This practice is out-of-network with insurance providers.',
+      hybrid: 'This practice accepts select insurance plans and also offers self-pay options.',
+      mixed: 'This practice accepts select insurance plans and also offers self-pay options.',
+      insurance: 'Please contact the office to confirm insurance and payment options.',
+    }[policy.paymentModel] || 'Please contact the office to confirm insurance and payment options.';
+    const pricing = ['listed', 'published'].includes(policy.pricingDisplay)
+      ? FeeCards(policy)
       : policy.pricingDisplay === 'contact_for_rates'
-        ? ContactForRatesCard(config, policy)
+        ? ContactForRatesMessage()
         : '';
-    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><p class="eyebrow">${esc(title)}</p><h2 class="section-title">${esc(intro[0])}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(intro[1])}</p></div>${PaymentMethods(policy.paymentMethods)}${pricing}${policy.superbillAvailable ? `<p class="mt-6 max-w-[800px] text-sm leading-6 text-slate-500">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>` : ''}</div></section>`;
+    const policyNote = policy.contactForRatesMessage
+      ? `<p class="mt-6 max-w-[800px] text-sm leading-6 text-slate-500">${esc(policy.contactForRatesMessage)}</p>`
+      : policy.superbillAvailable
+        ? `<p class="mt-6 max-w-[800px] text-sm leading-6 text-slate-500">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>`
+        : '';
+    return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><h2 class="section-title">${esc(title)}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(summary)}</p></div>${pricing}${PaymentMethods(policy.paymentMethods)}${policyNote}</div></section>`;
   }
 
   function FAQAnswer(answer) {

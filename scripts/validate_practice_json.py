@@ -121,11 +121,13 @@ def validate_resource_groups(config: dict[str, Any]) -> None:
 def validate_financial_policy(value: Any) -> None:
     policy = require_mapping(value, "financialPolicy")
     payment_model = require_string_key(policy, "paymentModel", "financialPolicy")
-    if payment_model not in {"insurance", "out_of_network", "cash_only", "hybrid"}:
-        fail("financialPolicy.paymentModel must be one of insurance, out_of_network, cash_only, hybrid")
+    if payment_model not in {"insurance", "out_of_network", "cash_only", "hybrid", "mixed"}:
+        fail("financialPolicy.paymentModel must be one of insurance, out_of_network, cash_only, hybrid, mixed")
     pricing_display = require_string_key(policy, "pricingDisplay", "financialPolicy")
-    if pricing_display not in {"hidden", "contact_for_rates", "published"}:
-        fail("financialPolicy.pricingDisplay must be one of hidden, contact_for_rates, published")
+    if pricing_display not in {"hidden", "contact_for_rates", "listed", "published"}:
+        fail("financialPolicy.pricingDisplay must be one of hidden, contact_for_rates, listed, published")
+    if "summary" in policy:
+        require_string(policy["summary"], "financialPolicy.summary")
 
     if "insurancePlans" in policy:
         plans = require_list(policy["insurancePlans"], "financialPolicy.insurancePlans")
@@ -152,6 +154,14 @@ def validate_financial_policy(value: Any) -> None:
                 fail(f"financialPolicy.rates[{index}].durationMinutes must be an integer")
             if "price" not in rate or not isinstance(rate["price"], (int, float)):
                 fail(f"financialPolicy.rates[{index}].price must be a number")
+    if "fees" in policy:
+        fees = require_list(policy["fees"], "financialPolicy.fees")
+        for index, fee_value in enumerate(fees):
+            fee = require_mapping(fee_value, f"financialPolicy.fees[{index}]")
+            require_string_key(fee, "label", f"financialPolicy.fees[{index}]")
+            require_string_key(fee, "amount", f"financialPolicy.fees[{index}]")
+            if "duration" in fee:
+                require_string(fee["duration"], f"financialPolicy.fees[{index}].duration")
 
 
 def validate_provider_contact_override(value: Any, path: str) -> None:
