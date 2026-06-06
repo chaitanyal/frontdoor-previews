@@ -204,6 +204,18 @@ Reason:
 - previews are hosted under subpaths
 - not at domain root
 
+## Local Preview Verification
+
+This repo is static HTML. For local visual verification, load preview pages directly from the filesystem with `file://` URLs.
+
+Use Playwright screenshots against `file://` URLs for local visual verification.
+
+Prefer:
+- `file:///Users/chaitanya/Projects/frontdoor-previews/dist/previews/<site>/index.html` for built preview output
+- `file:///Users/chaitanya/Projects/frontdoor-previews/sites/<site>/index.html` when checking source preview shells
+
+Do not start a local HTTP server unless a specific task requires HTTP behavior.
+
 ---
 
 # Accessibility

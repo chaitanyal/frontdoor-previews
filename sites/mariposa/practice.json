@@ -171,11 +171,10 @@
     ],
     "paymentMethods": [
       "Credit cards",
+      "Digital Payment Apps",
       "Cash",
-      "Checks",
-      "Digital payment apps"
-    ],
-    "contactForRatesMessage": "A superbill may be provided upon request. The practice is not able to accept private payments from Medicare or Medicaid beneficiaries."
+      "Checks"
+    ]
   },
   "faqs": [
     {
