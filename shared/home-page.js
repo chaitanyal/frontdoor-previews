@@ -174,7 +174,7 @@
   function FeeCards(policy) {
     const fees = normalizedFees(policy);
     if (!fees.length) return '';
-    return `<div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">${fees.map(fee => `<div class="rounded-[28px] border border-slate-200 bg-white p-5 md:p-6"><div class="flex items-start justify-between gap-4"><p class="text-base font-semibold leading-7 text-slate-950">${esc(fee.label)}</p><p class="shrink-0 text-right text-lg font-semibold text-brand-primary">${esc(fee.amount)}</p></div>${fee.duration ? `<p class="mt-2 text-sm leading-6 text-slate-500">${esc(fee.duration)}</p>` : ''}</div>`).join('')}</div>`;
+    return `<div class="mt-8 grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4">${fees.map(fee => `<div class="rounded-[28px] border border-slate-200 bg-white px-5 py-4 md:p-5"><div class="flex items-start justify-between gap-4"><p class="text-base font-semibold leading-7 text-slate-950">${esc(fee.label)}</p><p class="shrink-0 text-right text-xl font-semibold text-brand-primary">${esc(fee.amount)}</p></div>${fee.duration ? `<p class="mt-1 text-sm leading-6 text-slate-500">${esc(fee.duration)}</p>` : ''}</div>`).join('')}</div>`;
   }
 
   function ContactForRatesMessage() {
@@ -190,7 +190,7 @@
 
   function PaymentMethods(methods) {
     if (!methods?.length) return '';
-    return `<div class="mt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Payment Methods</p><div class="mt-3 flex flex-wrap gap-3">${methods.map(method => `<span class="badge-brand px-5 py-2.5 text-[0.95rem]">${icon(paymentMethodIcon(method), 'h-3.5 w-3.5')} ${esc(method)}</span>`).join('')}</div></div>`;
+    return `<div class="mt-8 border-t border-slate-200 pt-6"><p class="text-[0.95rem] font-medium leading-[1.6] text-slate-600 opacity-85">Payment Methods</p><div class="mt-3 flex flex-wrap gap-2.5">${methods.map(method => `<span class="badge-brand bg-sage-50/60 px-4 py-2 text-[0.875rem] text-slate-600">${icon(paymentMethodIcon(method), 'h-3.5 w-3.5')} ${esc(method)}</span>`).join('')}</div></div>`;
   }
 
   function FinancialPolicySection(config) {
@@ -211,9 +211,9 @@
         ? ContactForRatesMessage()
         : '';
     const policyNote = policy.contactForRatesMessage
-      ? `<p class="mt-6 max-w-[800px] text-sm leading-6 text-slate-500">${esc(policy.contactForRatesMessage)}</p>`
+      ? `<p class="mt-6 max-w-full text-sm leading-6 text-slate-500 lg:max-w-[70%]">${esc(policy.contactForRatesMessage)}</p>`
       : policy.superbillAvailable
-        ? `<p class="mt-6 max-w-[800px] text-sm leading-6 text-slate-500">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>`
+        ? `<p class="mt-6 max-w-full text-sm leading-6 text-slate-500 lg:max-w-[70%]">Superbills are available for patients seeking reimbursement through out-of-network benefits.</p>`
         : '';
     return `<section id="insurance" class="section border-t border-white/60 bg-sage-100"><div class="section-shell soft-card p-8 md:p-12"><div class="max-w-3xl"><h2 class="section-title">${esc(title)}</h2><p class="mt-6 text-lg leading-8 text-slate-600">${esc(summary)}</p></div>${pricing}${PaymentMethods(policy.paymentMethods)}${policyNote}</div></section>`;
   }
