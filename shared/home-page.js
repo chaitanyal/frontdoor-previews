@@ -249,7 +249,7 @@
   function AppointmentWorkflowActions({ appointmentUrl, patientPortalUrl }) {
     const actions = [
       appointmentUrl ? { label: 'New Patient Appointment', url: appointmentUrl, primary: true, iconName: 'CalendarCheck' } : null,
-      patientPortalUrl ? { label: 'Existing Patient Portal', url: patientPortalUrl, primary: false, iconName: 'LogIn' } : null,
+      patientPortalUrl ? { label: 'Existing Patient? Log In', url: patientPortalUrl, primary: false, iconName: 'LogIn' } : null,
     ].filter(Boolean);
     if (!actions.length) return '';
     return `<div class="space-y-3">${actions.map(action => `<a href="${esc(action.url)}" target="_blank" rel="noopener noreferrer" class="${action.primary ? 'btn-primary' : 'btn-secondary'} w-full justify-center px-5 py-4 text-base">${icon(action.iconName)} ${esc(action.label)} ${icon('ExternalLink', 'h-3.5 w-3.5')}</a>`).join('')}</div>`;

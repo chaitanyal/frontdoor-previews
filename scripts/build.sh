@@ -154,9 +154,7 @@ if [[ "$FRONTDOOR_TARGET" == "marketing" ]]; then
   cp -R marketing/. dist/
   python3 scripts/render_marketing.py dist
   copy_noindex_preview_sites
-  python3 scripts/generate_provider_pages.py
-  node scripts/prerender_practice_pages.js dist
-  python3 scripts/generate_legal_pages.py dist
+  node scripts/render_practice_pages.js dist
   generate_noindex_headers
 
   write_public_robots "$MARKETING_SITE_URL"
@@ -212,9 +210,7 @@ else
     fi
   fi
 
-  python3 scripts/generate_provider_pages.py
-  node scripts/prerender_practice_pages.js dist
-  python3 scripts/generate_legal_pages.py dist
+  node scripts/render_practice_pages.js dist
   generate_noindex_headers
 
   if [[ "$FRONTDOOR_TARGET" == "preview" ]]; then

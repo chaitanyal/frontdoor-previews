@@ -207,8 +207,7 @@ ${robotsMeta(config)}${canonicalLink}  <link rel="stylesheet" href="./assets/sty
   fs.writeFileSync(path.join(practiceDir, 'index.html'), html);
 }
 
-function main() {
-  const dist = process.argv[2] || 'dist';
+function renderPracticeHomePages(dist = 'dist') {
   const rendererPath = path.join('shared', 'home-page.js');
   const rendererSource = fs.readFileSync(rendererPath, 'utf8');
 
@@ -226,4 +225,10 @@ function main() {
   visit(dist);
 }
 
-main();
+if (require.main === module) {
+  renderPracticeHomePages(process.argv[2] || 'dist');
+}
+
+module.exports = {
+  renderPracticeHomePages,
+};

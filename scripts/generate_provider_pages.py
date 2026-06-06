@@ -130,7 +130,7 @@ def appointment_section(*, appointment_url: str, patient_portal_url: str, phone:
     if appointment_url:
         actions.append(('<i data-lucide="CalendarCheck" class="h-4 w-4" aria-hidden="true"></i>', 'New Patient Appointment', appointment_url, 'btn-primary'))
     if patient_portal_url:
-        actions.append(('<i data-lucide="LogIn" class="h-4 w-4" aria-hidden="true"></i>', 'Existing Patient Portal', patient_portal_url, 'btn-secondary'))
+        actions.append(('<i data-lucide="LogIn" class="h-4 w-4" aria-hidden="true"></i>', 'Existing Patient? Log In', patient_portal_url, 'btn-secondary'))
     actions_html = ''.join(
         f'<a href="{esc(url)}" target="_blank" rel="noopener noreferrer" class="{cls} w-full justify-center px-5 py-4 text-base">{icon_html} {esc(label)} <i data-lucide="ExternalLink" class="h-3.5 w-3.5" aria-hidden="true"></i></a>'
         for icon_html, label, url, cls in actions

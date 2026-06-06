@@ -70,14 +70,13 @@ There is no backend, database, framework build step, or authenticated applicatio
 
 ## Content and Build Process
 
-Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared palette definitions live in `shared/themes.json`, and each practice selects one with its `theme` field. Shared homepage rendering lives in `shared/home-page.js`, practice homepage prerendering lives in `scripts/prerender_practice_pages.js`, provider profile rendering lives in `scripts/generate_provider_pages.py`, and shared Tailwind source styles live in `shared/styles/frontdoor.css`. The checked-in practice `index.html` files are generic local-preview shells; practice-specific metadata, palette variables, and page content are prerendered from `practice.json` during the build.
+Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared palette definitions live in `shared/themes.json`, and each practice selects one with its `theme` field. Practice-associated pages are rendered at build time by `scripts/render_practice_pages.js`, which delegates to JavaScript renderers for the homepage, provider pages, privacy page, and accessibility page. Reusable build-time components live under `shared/render/`, and shared Tailwind source styles live in `shared/styles/frontdoor.css`. The checked-in practice `index.html` files are generic local-preview shells; practice-specific metadata, palette variables, and page content are prerendered from `practice.json` during the build.
 
 Build flow:
 
 ```text
 sites/<practice>/practice.json + shared/themes.json + shared/home-page.js + shared/styles/frontdoor.css
-  -> scripts/generate_provider_pages.py
-  -> scripts/prerender_practice_pages.js
+  -> scripts/render_practice_pages.js
   -> scripts/validate_built_html.py
   -> rendered HTML/CSS in dist/
   -> Cloudflare Pages
@@ -184,7 +183,8 @@ The script scans source `images/` folders, skips SVG/WebP files, and ignores gen
 - Drive practice and provider-specific content from `practice.json`; avoid one-off HTML/CSS edits per practice or provider.
 - Drive the marketing featured practice from `marketing/marketing.json`; changing `featuredPractice` should not require homepage HTML edits.
 - Keep templates opinionated. Add new JSON knobs only when they are reusable across practices.
-- Provider profile UI labels have defaults in `scripts/generate_provider_pages.py` and can be overridden with `providerProfileLabels` in `practice.json` when needed.
+- Provider profile UI labels have defaults in `shared/render/components/provider-page.js` and can be overridden with `providerProfileLabels` in `practice.json` when needed.
+- Legacy Python practice renderers are retained for reference/fallback, but the active practice build path is JavaScript.
 - Treat per-practice `assets/styles.css` as a build output, not source. Shared CSS source lives in `shared/styles/frontdoor.css`.
 - Avoid production healthcare portal behavior or HIPAA-sensitive workflows in these previews.
 
