@@ -37,6 +37,10 @@ def esc(value: Any) -> str:
     return escape(str(value or ""), quote=True)
 
 
+def esc_multiline(value: Any) -> str:
+    return esc(value).replace("\n", "<br>")
+
+
 def rel(path: str | None) -> str:
     if not path:
         return ""
@@ -217,7 +221,7 @@ def education_rows(provider: dict[str, Any]) -> str:
         rows.append(
             f'<div class="rounded-3xl border border-slate-200 bg-white p-6 md:p-7">'
             f'<p class="text-xs font-semibold uppercase tracking-wide text-brand-accent">{esc(label)}</p>'
-            f'<div class="mt-3 space-y-1.5 text-base leading-7 text-slate-700">{"".join(f"<p>{esc(v)}</p>" for v in values)}</div>'
+            f'<div class="mt-3 space-y-1.5 text-base leading-7 text-slate-700">{"".join(f"<p>{esc_multiline(v)}</p>" for v in values)}</div>'
             f'</div>'
         )
     return "".join(rows)
@@ -295,8 +299,8 @@ def provider_page(config: dict[str, Any], provider: dict[str, Any], practice_slu
     hero_title = provider.get("heroTitle") or ""
     description = provider.get("tagline") or config.get("seo", {}).get("description", "")
     hero_title_html = f'<p class="mt-4 text-lg font-semibold text-brand-primary">{esc(hero_title)}</p>' if hero_title else ""
-    conditions = (provider.get("conditions") or provider.get("specialties") or config.get("conditions", []))[:6]
-    services = (provider.get("services") or ["Evaluation", "Treatment Planning", "Ongoing Care"])[:6]
+    conditions = provider.get("conditions") or provider.get("specialties") or config.get("conditions", [])
+    services = provider.get("services") or ["Evaluation", "Treatment Planning", "Ongoing Care"]
     bio_paragraphs = provider.get("bioParagraphs") or []
     expectations = provider.get("whatToExpect") or default_expectations(config, provider)
     hospital_affiliations = provider.get("hospitalAffiliations") or provider.get("Hospital Affiliations") or []

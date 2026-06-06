@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FrontDoor Health Preview</title>
+  <meta name="description" content="Static healthcare practice preview." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="../shared/home-page.js"></script>
+</head>
+<body class="bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0">
+  <div id="app"></div>
+
+  <script>
+    async function loadPracticeConfig() {
+      const response = await fetch('./practice.json');
+      if (!response.ok) throw new Error(`Unable to load practice.json: ${response.status}`);
+      return response.json();
+    }
+
+    loadPracticeConfig()
+      .then(FrontdoorHome.render)
+      .catch((error) => {
+        console.error(error);
+        document.getElementById('app').innerHTML = '<main class="page-shell py-20"><h1 class="text-3xl font-semibold text-slate-950">Unable to load site content.</h1><p class="mt-4 text-slate-600">Please try again later.</p></main>';
+      });
+  </script>
+</body>
+</html>

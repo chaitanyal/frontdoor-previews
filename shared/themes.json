@@ -11,5 +11,19 @@
     "success": "#2F855A",
     "fontHeading": "Inter",
     "fontBody": "Inter"
+  },
+  "warm-wellness": {
+    "primary": "#6B4F3B",
+    "primaryHover": "#5A4130",
+    "secondarySage": "#D7E4DA",
+    "surfaceWarm": "#F8F4EE",
+    "cardBackground": "#FFFDFC",
+    "textPrimary": "#1F2937",
+    "textSecondary": "#5B6470",
+    "border": "#E7DED4",
+    "success": "#2F855A",
+    "accentClay": "#C98F65",
+    "fontHeading": "Inter",
+    "fontBody": "Inter"
   }
 }

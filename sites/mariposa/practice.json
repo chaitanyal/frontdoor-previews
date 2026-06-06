@@ -1,0 +1,256 @@
+{
+  "theme": "warm-wellness",
+  "seo": {
+    "title": "Mariposa Psychiatry | Dr. Alba Lara, M.D. | Austin, TX",
+    "description": "Adult psychiatry and psychodynamic psychotherapy in Austin and online, led by Dr. Alba Lara.",
+    "siteUrl": "https://preview.frontdoor.health/mariposa",
+    "ogImage": "./images/hero/hero.webp",
+    "defaultOgImage": "./images/hero/hero.webp",
+    "allowIndexing": false
+  },
+  "practice": {
+    "name": "Mariposa Psychiatry",
+    "tagline": "Adult psychiatry and psychodynamic psychotherapy",
+    "locationLabel": "Austin, TX 78731",
+    "phone": "(737) 321-5871",
+    "phoneHref": "tel:+17373215871",
+    "email": "",
+    "addressLines": [
+      "Austin, TX 78731"
+    ],
+    "socialLinks": [],
+    "defaultAppointmentUrl": "https://forms.gle/hmX3to3etAw2yrRw5",
+    "emergencyNotice": "If you are experiencing a mental health crisis or having thoughts of self-harm, call 911 or 988 immediately."
+  },
+  "hero": {
+    "image": "./images/hero/hero.webp",
+    "imageAlt": "Calm natural setting for Mariposa Psychiatry",
+    "title": "Insight-oriented psychiatric care.",
+    "copy": "Psychiatry and psychotherapy for adults seeking clarity, stability, and meaningful change.",
+    "primaryCta": "Request Appointment",
+    "secondaryCta": "Meet Dr. Lara"
+  },
+  "home": {
+    "providerEyebrow": "Physician",
+    "providerTitle": "Meet Dr. Lara",
+    "providerCopy": "Psychodynamic psychiatry for adults seeking insight, stability, and meaningful change."
+  },
+  "trustItems": [
+    {
+      "icon": "WalletCards",
+      "text": "Private pay psychiatric care"
+    },
+    {
+      "icon": "CalendarCheck",
+      "text": "New patients welcome"
+    },
+    {
+      "icon": "Video",
+      "text": "Primarily telehealth appointments"
+    },
+    {
+      "icon": "MapPin",
+      "text": "Telehealth in TX, CA, AZ, NM, NY, MO"
+    }
+  ],
+  "providers": [
+    {
+      "slug": "alba-lara",
+      "name": "Dr. Alba Lara",
+      "heroTitle": "Alba Lara, M.D.",
+      "image": "./images/providers/alba-lara.webp",
+      "specialty": "Psychiatrist, MD",
+      "specialties": [
+        "Psychodynamic Psychotherapy",
+        "Consultation-Liaison Psychiatry",
+        "Depression",
+        "Chronic Illness",
+        "Bipolar Disorder"
+      ],
+      "heroTrustItems": [
+        "Private-Pay Psychiatry",
+        "Psychodynamic Psychotherapy",
+        "Primarily Telehealth"
+      ],
+      "tagline": "Bilingual psychiatrist specializing in psychosomatic medicine, complex mood disorders, and insight-oriented psychotherapy.",
+      "bioParagraphs": [
+        "Dr. Alba Lara is a psychiatrist and psychodynamic psychotherapist serving adults through Mariposa Psychiatry, a primarily virtual private-pay practice.",
+        "Her work integrates psychotherapy and psychiatry, with special attention to psychosomatic medicine, complex mood disorders, personality patterns, self-esteem, interpersonal functioning, and the emotional impact of medical illness.",
+        "She offers a thoughtful, gradual partnership for patients seeking more than a brief medication check, including psychotherapy and medication management when clinically appropriate."
+      ],
+      "conditions": [
+        "Mood disorders",
+        "Anxiety and stress",
+        "Personality patterns",
+        "Relationship concerns",
+        "Self-esteem concerns",
+        "Life transitions",
+        "Trauma and PTSD",
+        "Chronic illness and medical complexity",
+        "Chronic pain",
+        "Pregnancy and postpartum concerns",
+        "Somatic symptom concerns"
+      ],
+      "services": [
+        "Psychodynamic psychotherapy",
+        "Transference focused psychotherapy",
+        "Psychiatric evaluation",
+        "Medication evaluation and management",
+        "Psychiatric consultation or second opinion",
+        "Support with psychiatric documentation when clinically appropriate",
+        "Consultation-liaison psychiatry",
+        "ADHD evaluation",
+        "Telepsychiatry"
+      ],
+      "languages": [
+        "English",
+        "Spanish"
+      ],
+      "education": {
+        "medicalSchool": "Texas A&M Health Science Center College of Medicine",
+        "residency": ["University of Texas at Austin Dell Medical School"
+        ],
+        "fellowship": [
+          "Psychodynamic Psychotherapy\nColumbia University Center for Psychoanalytic Training and Research"
+        ]
+      },
+      "certifications": [
+        "Psychiatry, and Consultation-Liaison Psychiatry"
+      ],
+      "affiliations": [
+        "American Academy of Geriatric Psychiatry",
+        "Academy of Consultation Liaison Psychiatry"
+      ],
+      "acceptsNewPatients": true,
+      "aboutHeading": "About Dr. Lara",
+      "whatToExpect": [
+        "A reflective, insight-oriented approach to psychotherapy and psychiatry.",
+        "Attention to long-standing patterns, medical complexity, relationships, and symptom relief.",
+        "A private-pay practice model with payment due at the time of service."
+      ],
+      "appointmentUrl": "https://forms.gle/hmX3to3etAw2yrRw5"
+    }
+  ],
+  "conditionsIntro": "Mariposa Psychiatry works with adults navigating mood symptoms, medical complexity, personality patterns, anxiety, grief, and life transitions.",
+  "conditions": [
+    "Mood disorders",
+    "Anxiety and stress",
+    "Personality patterns",
+    "Relationship concerns",
+    "Self-esteem concerns",
+    "Life transitions",
+    "Trauma and PTSD",
+    "Chronic illness and medical complexity",
+    "Chronic pain",
+    "Pregnancy and postpartum concerns",
+    "Somatic symptom concerns"
+  ],
+  "insurance": {
+    "enabled": false
+  },
+  "financialPolicy": {
+    "paymentModel": "cash_only",
+    "pricingDisplay": "contact_for_rates",
+    "summary": "Mariposa Psychiatry is a private-pay only practice. It is not in network with insurance plans and does not submit insurance claims.",
+    "fees": [
+      {
+        "label": "New patient evaluation",
+        "amount": "$450",
+        "duration": "60 minutes"
+      },
+      {
+        "label": "Follow-up visit",
+        "amount": "$225",
+        "duration": "25 minutes"
+      },
+      {
+        "label": "Therapy session",
+        "amount": "$300",
+        "duration": "45-50 minutes"
+      }
+    ],
+    "paymentMethods": [
+      "Credit cards",
+      "Cash",
+      "Checks",
+      "Venmo",
+      "Zelle"
+    ],
+    "contactForRatesMessage": "A superbill may be provided upon request. The practice is not able to accept private payments from Medicare or Medicaid beneficiaries."
+  },
+  "faqs": [
+    {
+      "question": "Is Mariposa Psychiatry accepting new patients?",
+      "answer": "The intake form is used to review practice inquiries. The practice notes that submitting the form does not guarantee acceptance as a patient."
+    },
+    {
+      "question": "Are appointments online or in person?",
+      "answer": "The practice is primarily virtual, with some limited in-person availability in Northwest Austin."
+    },
+    {
+      "question": "Does Mariposa Psychiatry accept insurance?",
+      "answer": "No. Mariposa Psychiatry is private-pay only, out of network with insurance, and does not submit claims."
+    },
+    {
+      "question": "Can I request a superbill?",
+      "answer": "The source form states that a superbill may be provided upon request."
+    }
+  ],
+  "location": {
+    "title": "Austin Psychiatry Office",
+    "officeImage": "./images/office/office.webp",
+    "officeImageAlt": "Austin, Texas office location for Mariposa Psychiatry",
+    "directionsHref": "https://www.google.com/maps/search/?api=1&query=Austin%2C%20TX%2078731",
+    "timeZone": "America/Chicago",
+    "hours": [
+      [
+        "Monday",
+        "9:00 AM - 5:00 PM"
+      ],
+      [
+        "Tuesday",
+        "9:00 AM - 5:00 PM"
+      ],
+      [
+        "Wednesday",
+        "9:00 AM - 5:00 PM"
+      ],
+      [
+        "Thursday",
+        "9:00 AM - 5:00 PM"
+      ],
+      [
+        "Friday",
+        "9:00 AM - 5:00 PM"
+      ]
+    ],
+    "weeklyHours": {
+      "Monday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Tuesday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Wednesday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Thursday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Friday": {
+        "open": "09:00",
+        "close": "17:00"
+      }
+    }
+  },
+  "footer": {
+    "links": [
+      "Privacy",
+      "Accessibility"
+    ]
+  }
+}

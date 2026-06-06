@@ -66,6 +66,11 @@
         "Anxiety",
         "Depression"
       ],
+      "heroTrustItems": [
+        "Board Certified Adult Psychiatrist",
+        "Adult ADHD & Mood Care",
+        "Accepting New Patients"
+      ],
       "specialty": "Adult psychiatric care for anxiety, depression, ADHD, and mood concerns",
       "tagline": "Combining deep clinical expertise with a supportive, holistic approach to help individuals navigate complex mental health challenges, life transitions, and emotional stressors.",
       "bioParagraphs": [
@@ -117,6 +122,11 @@
       "specialties": [
         "Children & Teens",
         "Families"
+      ],
+      "heroTrustItems": [
+        "Child & Adolescent Psychiatrist",
+        "Family-Focused Care",
+        "Accepting New Patients"
       ],
       "specialty": "Child, Adolescent & Adult Psychiatry",
       "tagline": "Compassionate psychiatric care for children, teens, and families managing anxiety, mood concerns, ADHD, and life stressors.",
