@@ -1,0 +1,8 @@
+name = "frontdoor-analytics"
+main = "src/index.ts"
+compatibility_date = "2026-06-06"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "frontdoor_analytics"
+database_id = "ffcf1889-843c-4ffd-ad9f-4d6392a8c6d2"
