@@ -17,6 +17,7 @@ VOID_TAGS = {
 
 ALLOWED_LINK_SCHEMES = {"http", "https", "mailto", "tel"}
 SKIP_ASSET_SCHEMES = {*ALLOWED_LINK_SCHEMES, "data"}
+ALLOWED_ROOT_ASSETS = {"/shared/analytics.js"}
 
 
 class BuiltHtmlParser(HTMLParser):
@@ -127,7 +128,7 @@ def asset_target(page: Path, value: str) -> Path | None:
     return (page.parent / clean).resolve()
 
 
-def validate_page(path: Path) -> list[str]:
+def validate_page(path: Path, root: Path) -> list[str]:
     parser = BuiltHtmlParser()
     try:
         parser.feed(path.read_text(encoding="utf-8"))
@@ -151,6 +152,11 @@ def validate_page(path: Path) -> list[str]:
         if not is_local_asset(value):
             continue
         if urlparse(value).path.startswith("/"):
+            if value in ALLOWED_ROOT_ASSETS:
+                target = (root / value.lstrip("/")).resolve()
+                if not target.exists():
+                    errors.append(f"{path}: line {line}: missing root asset {value}")
+                continue
             errors.append(f"{path}: line {line}: root-relative {attr} is not allowed: {value}")
             continue
         target = asset_target(path, value)
@@ -186,8 +192,9 @@ def main() -> int:
     args = parser.parse_args()
 
     errors: list[str] = []
-    for path in sorted(args.root.rglob("*.html")):
-        errors.extend(validate_page(path))
+    root = args.root.resolve()
+    for path in sorted(root.rglob("*.html")):
+        errors.extend(validate_page(path, root))
 
     if errors:
         print("built HTML validation failed:", file=sys.stderr)

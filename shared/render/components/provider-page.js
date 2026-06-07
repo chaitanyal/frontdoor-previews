@@ -1,5 +1,5 @@
 const { esc, escMultiline, icon, jsonLd } = require('../html');
-const { appointmentSection } = require('./contact');
+const { appointmentSection, ctaAttr } = require('./contact');
 const { copyEmailScript } = require('../runtime-scripts');
 const { absoluteUrl, canonicalUrl, relFromProvider } = require('../urls');
 const { canonicalLink, robotsMeta } = require('../seo');
@@ -145,6 +145,7 @@ function providerPage(config, provider) {
   const specialty = provider.specialty || String(provider.credentials || '').split('·').pop().trim();
   const aboutHeading = provider.aboutHeading || (isPsychiatry(config, provider) ? 'Personalized Psychiatric Care' : 'Individualized Pulmonary Care');
   const providerSlug = provider.slug || '';
+  const practiceSlug = practice.slug || '';
   const heroTitleHtml = heroTitle ? `<p class="mt-4 text-lg font-semibold text-brand-primary">${esc(heroTitle)}</p>` : '';
   const education = educationRows(provider) || '<div class="soft-card rounded-3xl p-6 text-lg leading-8 text-slate-700 md:p-7">Please contact the office for additional training details.</div>';
 
@@ -180,6 +181,8 @@ function providerPage(config, provider) {
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}" />
 ${robotsMeta(config)}${canonicalLink(config, `providers/${providerSlug}`)}  <link rel="stylesheet" href="../../assets/styles.css" />
+  <script>window.FRONTDOOR_PRACTICE_SLUG = ${JSON.stringify(practiceSlug)};</script>
+  <script src="/shared/analytics.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>:root{${themeCss(theme)}}</style>
 </head>
@@ -189,7 +192,7 @@ ${robotsMeta(config)}${canonicalLink(config, `providers/${providerSlug}`)}  <lin
     <div class="page-shell flex items-center justify-between py-3 md:py-4">
       <a href="../../" class="flex items-center gap-3" aria-label="${esc(practice.name)} home"><div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-primary text-base font-semibold text-white shadow-sm">${esc(practice.name[0])}</div><div><p class="text-base font-semibold text-slate-950">${esc(practice.name)}</p><p class="text-xs leading-5 text-slate-500">${esc(practice.tagline)}</p></div></a>
       <nav class="hidden items-center gap-8 md:flex" aria-label="Provider navigation"><a href="../../#providers" class="nav-link">${esc(labels.providers)}</a><a href="../../#conditions" class="nav-link">${esc(labels.conditions)}</a><a href="#appointment" class="btn-primary px-4 py-2.5 text-sm">${esc(labels.bookAppointment)}</a></nav>
-      <a href="${esc(phoneHref)}" class="btn-secondary min-h-[44px] px-3 py-2 text-sm md:hidden">${esc(labels.callOffice)}</a>
+      <a href="${esc(phoneHref)}"${ctaAttr('phone')} class="btn-secondary min-h-[44px] px-3 py-2 text-sm md:hidden">${esc(labels.callOffice)}</a>
     </div>
   </header>
   <main id="main-content" tabindex="-1">
@@ -203,7 +206,7 @@ ${robotsMeta(config)}${canonicalLink(config, `providers/${providerSlug}`)}  <lin
             ${heroTitleHtml}
             <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-700">${esc(provider.tagline || description)}</p>
             <div class="mt-8 flex flex-wrap gap-2">${checkChips(heroTrustItems(config, provider))}</div>
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href="#appointment" class="btn-primary">${esc(labels.bookAppointment)}</a><a href="${esc(phoneHref)}" class="btn-secondary">${esc(labels.callOffice)}</a></div>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row"><a href="#appointment" class="btn-primary">${esc(labels.bookAppointment)}</a><a href="${esc(phoneHref)}"${ctaAttr('phone')} class="btn-secondary">${esc(labels.callOffice)}</a></div>
           </div>
         </div>
       </div>
@@ -214,7 +217,7 @@ ${robotsMeta(config)}${canonicalLink(config, `providers/${providerSlug}`)}  <lin
     <section class="bg-warm-50 px-6 py-12 lg:px-8 lg:py-20"><div class="mx-auto max-w-6xl"><h2 class="text-4xl font-bold leading-tight tracking-tight text-slate-950 md:text-5xl">${esc(labels.educationTraining)}</h2><div class="mt-7 grid grid-cols-1 gap-4 md:grid-cols-2">${education}</div></div></section>${affiliationSection}
     ${appointmentSection({ appointmentUrl, patientPortalUrl, phone, phoneHref, email, emergencyNotice, sectionId: 'appointment' })}
   </main>
-  <div class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"><div class="mx-auto grid max-w-md grid-cols-2 gap-3"><a href="#appointment" class="btn-primary min-h-[44px] px-3 py-2 text-sm">${esc(labels.bookAppointment)}</a><a href="${esc(phoneHref)}" class="btn-secondary min-h-[44px] px-3 py-2 text-sm">${esc(labels.callOffice)}</a></div></div>
+  <div class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"><div class="mx-auto grid max-w-md grid-cols-2 gap-3"><a href="#appointment" class="btn-primary min-h-[44px] px-3 py-2 text-sm">${esc(labels.bookAppointment)}</a><a href="${esc(phoneHref)}"${ctaAttr('phone')} class="btn-secondary min-h-[44px] px-3 py-2 text-sm">${esc(labels.callOffice)}</a></div></div>
   <div data-copy-toast class="pointer-events-none fixed inset-x-4 bottom-24 z-[60] mx-auto hidden max-w-sm rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center text-sm font-semibold text-slate-950 shadow-lg md:bottom-6" role="status" aria-live="polite">Email copied</div>
   <script type="application/ld+json">${jsonLd(schema)}</script>
   ${copyEmailScript()}

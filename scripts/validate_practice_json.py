@@ -8,6 +8,7 @@ import json
 import sys
 from pathlib import Path
 from typing import Any
+import re
 
 THEMES_PATH = Path("shared/themes.json")
 
@@ -206,8 +207,10 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         validate_asset_path(seo["ogImage"], "seo.ogImage")
 
     practice = require_mapping(require_key(config, "practice", "root"), "practice")
-    for key in ["name", "tagline", "locationLabel", "phone", "phoneHref", "email"]:
+    for key in ["slug", "name", "tagline", "locationLabel", "phone", "phoneHref", "email"]:
         require_string_key(practice, key, "practice")
+    if not re.fullmatch(r"[a-z0-9-]+", practice["slug"]):
+        fail("practice.slug must contain only lowercase letters, numbers, and hyphens")
     validate_string_list(require_key(practice, "addressLines", "practice"), "practice.addressLines", min_items=1)
     require_string_key(practice, "emergencyNotice", "practice")
     if "defaultAppointmentUrl" in practice:

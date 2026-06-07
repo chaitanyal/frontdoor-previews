@@ -136,6 +136,7 @@ function prerenderPractice(practiceDir, rendererSource) {
   if (!fs.existsSync(configPath)) return;
 
   const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  config.practice.slug = config.practice.slug || path.basename(practiceDir);
   config.themeTokens = resolveTheme(config);
   const app = { innerHTML: '' };
   const cssVars = new Map();
@@ -191,6 +192,8 @@ function prerenderPractice(practiceDir, rendererSource) {
   <title>${escapeAttr(document.title)}</title>
   <meta name="description" content="${escapeAttr(descriptionMeta.content)}" />
 ${robotsMeta(config)}${canonicalLink}  <link rel="stylesheet" href="./assets/styles.css" />
+  <script>window.FRONTDOOR_PRACTICE_SLUG = ${JSON.stringify(config.practice.slug)};</script>
+  <script src="/shared/analytics.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>:root{${cssText}}</style>
 </head>

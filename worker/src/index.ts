@@ -6,13 +6,16 @@ const allowedOrigins = new Set([
   "https://drdronavalli.com",
   "https://www.drdronavalli.com",
   "https://frontdoor.health",
+  "https://preview.frontdoor.health",
   "https://frontdoor-previews.pages.dev",
 ]);
 
 const allowedEventTypes = new Set([
   "appointment_click",
+  "new_patient_click",
   "phone_click",
   "directions_click",
+  "existing_patient_click",
   "patient_portal_click",
   "email_click",
   "resource_download",

@@ -3,9 +3,12 @@
   "seo": {
     "title": "Practice Name | Specialty Care in City",
     "description": "Patient-centered specialty care for adults and families in City, State.",
+    "siteUrl": "https://preview.frontdoor.health/practice-slug",
+    "allowIndexing": false,
     "ogImage": "./images/hero/hero.webp"
   },
   "practice": {
+    "slug": "practice-slug",
     "name": "Practice Name",
     "tagline": "Compassionate Specialty Care",
     "locationLabel": "Located in City, State",
@@ -22,6 +25,7 @@
   },
   "hero": {
     "image": "./images/hero/hero.webp",
+    "imageAlt": "Practice hero image",
     "title": "Care that starts with understanding.",
     "copy": "Clear, patient-centered care for people seeking thoughtful support, practical next steps, and a calmer healthcare experience.",
     "primaryCta": "Request Appointment",

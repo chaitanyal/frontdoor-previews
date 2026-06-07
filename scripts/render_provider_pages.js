@@ -8,6 +8,7 @@ function generateForPractice(practiceDir) {
   if (!fs.existsSync(configPath)) return;
 
   const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  config.practice.slug = config.practice.slug || path.basename(practiceDir);
   const providers = config.providers || [];
   const providersDir = path.join(practiceDir, 'providers');
   fs.mkdirSync(providersDir, { recursive: true });

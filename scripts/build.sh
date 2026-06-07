@@ -55,6 +55,8 @@ fi
 
 rm -rf dist .tmp/frontdoor-build
 mkdir -p dist
+mkdir -p dist/shared
+cp ./shared/analytics.js dist/shared/analytics.js
 npm run build:css
 
 generate_sitemap() {

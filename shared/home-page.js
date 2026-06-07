@@ -16,6 +16,7 @@
   const icon = (name, cls = 'h-4 w-4') => `<i data-lucide="${name}" class="${cls}" aria-hidden="true"></i>`;
   const esc = (value) => String(value ?? '').replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
   const money = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(Number(value || 0));
+  const ctaAttr = (type) => ` data-frontdoor-cta="${esc(type)}"`;
 
   function ContactCard({ type, label, value, href, variant = 'lg' }) {
     const isEmail = type === 'email';
@@ -31,8 +32,8 @@
       ? 'block break-words text-sm font-semibold leading-5 text-slate-700 sm:text-base'
       : `mt-1 block break-words ${isEmail ? 'text-base font-semibold text-slate-700' : 'text-lg font-semibold text-slate-950'}`;
     const content = `<span class="${iconClass}">${icon(iconName)}</span><span class="min-w-0"><span class="${labelClass}">${esc(label)}</span><span class="${valueClass}">${esc(value)}</span></span>`;
-    if (isEmail) return `<button type="button" data-copy-email="${esc(value)}" class="${base} ${size}" aria-label="Copy ${esc(label.toLowerCase())} ${esc(value)}">${content}</button>`;
-    return `<a href="${esc(href)}" class="${base} ${size}" aria-label="${esc(label)} ${esc(value)}">${content}</a>`;
+    if (isEmail) return `<button type="button" data-copy-email="${esc(value)}"${ctaAttr('email')} class="${base} ${size}" aria-label="Copy ${esc(label.toLowerCase())} ${esc(value)}">${content}</button>`;
+    return `<a href="${esc(href)}"${ctaAttr('phone')} class="${base} ${size}" aria-label="${esc(label)} ${esc(value)}">${content}</a>`;
   }
 
   function ContactCards(practice, variant = 'lg', labels = {}) {
@@ -253,7 +254,7 @@
       patientPortalUrl ? { label: 'Existing Patient? Log In', url: patientPortalUrl, primary: false, iconName: 'LogIn' } : null,
     ].filter(Boolean);
     if (!actions.length) return '';
-    return `<div class="space-y-3">${actions.map(action => `<a href="${esc(action.url)}" target="_blank" rel="noopener noreferrer" class="${action.primary ? 'btn-primary' : 'btn-secondary'} w-full justify-center px-5 py-4 text-base">${icon(action.iconName)} ${esc(action.label)} ${icon('ExternalLink', 'h-3.5 w-3.5')}</a>`).join('')}</div>`;
+    return `<div class="space-y-3">${actions.map(action => `<a href="${esc(action.url)}"${ctaAttr(action.primary ? 'newPatient' : 'existingPatient')} target="_blank" rel="noopener noreferrer" class="${action.primary ? 'btn-primary' : 'btn-secondary'} w-full justify-center px-5 py-4 text-base">${icon(action.iconName)} ${esc(action.label)} ${icon('ExternalLink', 'h-3.5 w-3.5')}</a>`).join('')}</div>`;
   }
 
   function EmergencyNotice(value) {
@@ -445,7 +446,7 @@
       ? { label: 'Hours Listed', className: 'bg-slate-100 text-slate-600' }
       : officeStatus(location);
     const emailRow = practice.email ? `<div class="flex gap-3"><span class="icon-chip">${icon('Mail')}</span><div><p class="font-semibold text-slate-950">Email</p><p>${esc(practice.email)}</p></div></div>` : '';
-    return `<section id="location" class="section section-surface-location border-t border-white/60"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">Visit the office</p><h2 class="section-title">${esc(location.title)}</h2></div><div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2"><div class="soft-card overflow-hidden"><div class="relative h-72 overflow-hidden"><img src="${esc(location.officeImage)}" alt="${esc(location.officeImageAlt)}" loading="lazy" class="image-treatment h-full w-full object-cover" /><div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950/15 to-transparent" aria-hidden="true"></div></div><div class="p-8"><h3 class="text-2xl font-semibold tracking-tight text-slate-950">${esc(practice.name)}</h3><div class="mt-6 space-y-5 text-base leading-7 text-slate-600"><div class="flex gap-3"><span class="icon-chip">${icon('MapPin')}</span><div><p class="font-semibold text-slate-950">Address</p>${practice.addressLines.map(line => `<p>${esc(line)}</p>`).join('')}</div></div><div class="flex gap-3"><span class="icon-chip">${icon('Phone')}</span><div><p class="font-semibold text-slate-950">Phone</p><p>${esc(practice.phone)}</p></div></div>${emailRow}</div><div class="mt-8 grid gap-3"><a href="${esc(location.directionsHref)}" class="btn-primary min-h-[52px] w-full">${icon('MapPin')} Get Directions</a>${ContactCard({ type: 'phone', label: 'Call Office', value: practice.phone, href: practice.phoneHref, variant: 'lg' })}</div></div></div><div class="soft-card p-8"><div class="flex items-center justify-between gap-3"><h3 class="flex items-center gap-2 whitespace-nowrap text-xl font-semibold tracking-tight text-slate-950 sm:gap-3 sm:text-2xl"><span class="icon-chip h-9 w-9 sm:h-10 sm:w-10">${icon('Clock3', 'h-5 w-5')}</span> Office Hours</h3><span class="whitespace-nowrap rounded-full px-3 py-1 text-sm font-medium ${esc(status.className)}" data-office-status data-time-zone="${esc(location.timeZone)}" data-weekly-hours="${esc(JSON.stringify(location.weeklyHours || {}))}">${esc(status.label)}</span></div><div class="mt-8 space-y-5">${location.hours.map(([day, hours], index) => `<div class="${index === location.hours.length - 1 ? 'flex items-center justify-between' : 'hours-row'}"><p class="text-base font-medium text-slate-700">${esc(day)}</p><p class="text-base font-semibold text-slate-950">${esc(hours)}</p></div>`).join('')}</div>${TelehealthNotice(config)}</div></div></div></section>`;
+    return `<section id="location" class="section section-surface-location border-t border-white/60"><div class="section-shell"><div class="max-w-2xl"><p class="eyebrow">Visit the office</p><h2 class="section-title">${esc(location.title)}</h2></div><div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2"><div class="soft-card overflow-hidden"><div class="relative h-72 overflow-hidden"><img src="${esc(location.officeImage)}" alt="${esc(location.officeImageAlt)}" loading="lazy" class="image-treatment h-full w-full object-cover" /><div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950/15 to-transparent" aria-hidden="true"></div></div><div class="p-8"><h3 class="text-2xl font-semibold tracking-tight text-slate-950">${esc(practice.name)}</h3><div class="mt-6 space-y-5 text-base leading-7 text-slate-600"><div class="flex gap-3"><span class="icon-chip">${icon('MapPin')}</span><div><p class="font-semibold text-slate-950">Address</p>${practice.addressLines.map(line => `<p>${esc(line)}</p>`).join('')}</div></div><div class="flex gap-3"><span class="icon-chip">${icon('Phone')}</span><div><p class="font-semibold text-slate-950">Phone</p><p>${esc(practice.phone)}</p></div></div>${emailRow}</div><div class="mt-8 grid gap-3"><a href="${esc(location.directionsHref)}"${ctaAttr('directions')} class="btn-primary min-h-[52px] w-full">${icon('MapPin')} Get Directions</a>${ContactCard({ type: 'phone', label: 'Call Office', value: practice.phone, href: practice.phoneHref, variant: 'lg' })}</div></div></div><div class="soft-card p-8"><div class="flex items-center justify-between gap-3"><h3 class="flex items-center gap-2 whitespace-nowrap text-xl font-semibold tracking-tight text-slate-950 sm:gap-3 sm:text-2xl"><span class="icon-chip h-9 w-9 sm:h-10 sm:w-10">${icon('Clock3', 'h-5 w-5')}</span> Office Hours</h3><span class="whitespace-nowrap rounded-full px-3 py-1 text-sm font-medium ${esc(status.className)}" data-office-status data-time-zone="${esc(location.timeZone)}" data-weekly-hours="${esc(JSON.stringify(location.weeklyHours || {}))}">${esc(status.label)}</span></div><div class="mt-8 space-y-5">${location.hours.map(([day, hours], index) => `<div class="${index === location.hours.length - 1 ? 'flex items-center justify-between' : 'hours-row'}"><p class="text-base font-medium text-slate-700">${esc(day)}</p><p class="text-base font-semibold text-slate-950">${esc(hours)}</p></div>`).join('')}</div>${TelehealthNotice(config)}</div></div></div></section>`;
   }
 
   function FooterSection() {
@@ -453,7 +454,7 @@
   }
 
   function StickyMobileCta({ practice, hero }) {
-    return `<div class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"><div class="mx-auto grid max-w-md grid-cols-2 gap-3"><a href="#contact" class="btn-primary min-h-[44px] px-3 py-2 text-sm">${esc(hero.primaryCta)}</a><a href="${esc(practice.phoneHref)}" class="btn-secondary min-h-[44px] px-3 py-2 text-sm">Call Office</a></div></div>`;
+    return `<div class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"><div class="mx-auto grid max-w-md grid-cols-2 gap-3"><a href="#contact" class="btn-primary min-h-[44px] px-3 py-2 text-sm">${esc(hero.primaryCta)}</a><a href="${esc(practice.phoneHref)}"${ctaAttr('phone')} class="btn-secondary min-h-[44px] px-3 py-2 text-sm">Call Office</a></div></div>`;
   }
 
   function schema(config) {

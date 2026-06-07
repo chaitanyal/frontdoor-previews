@@ -1,5 +1,9 @@
 const { esc, icon } = require('../html');
 
+function ctaAttr(type) {
+  return ` data-frontdoor-cta="${esc(type)}"`;
+}
+
 function contactCard({ type, label, value, href = '', variant = 'lg' }) {
   const isEmail = type === 'email';
   const isCompact = variant === 'sm';
@@ -15,9 +19,9 @@ function contactCard({ type, label, value, href = '', variant = 'lg' }) {
     : `mt-1 block break-words ${isEmail ? 'text-base font-semibold text-slate-700' : 'text-lg font-semibold text-slate-950'}`;
   const content = `<span class="${iconClass}">${icon(iconName)}</span><span class="min-w-0"><span class="${labelClass}">${esc(label)}</span><span class="${valueClass}">${esc(value)}</span></span>`;
   if (isEmail) {
-    return `<button type="button" data-copy-email="${esc(value)}" class="${base} ${size}" aria-label="Copy ${esc(label.toLowerCase())} ${esc(value)}">${content}</button>`;
+    return `<button type="button" data-copy-email="${esc(value)}"${ctaAttr('email')} class="${base} ${size}" aria-label="Copy ${esc(label.toLowerCase())} ${esc(value)}">${content}</button>`;
   }
-  return `<a href="${esc(href)}" class="${base} ${size}" aria-label="${esc(label)} ${esc(value)}">${content}</a>`;
+  return `<a href="${esc(href)}"${ctaAttr('phone')} class="${base} ${size}" aria-label="${esc(label)} ${esc(value)}">${content}</a>`;
 }
 
 function contactCards(practice, variant = 'lg', labels = {}) {
@@ -32,7 +36,7 @@ function appointmentActions({ appointmentUrl, patientPortalUrl }) {
     patientPortalUrl ? { label: 'Existing Patient? Log In', url: patientPortalUrl, primary: false, iconName: 'LogIn' } : null,
   ].filter(Boolean);
   if (!actions.length) return '';
-  return `<div class="space-y-3">${actions.map(action => `<a href="${esc(action.url)}" target="_blank" rel="noopener noreferrer" class="${action.primary ? 'btn-primary' : 'btn-secondary'} w-full justify-center px-5 py-4 text-base">${icon(action.iconName)} ${esc(action.label)} ${icon('ExternalLink', 'h-3.5 w-3.5')}</a>`).join('')}</div>`;
+  return `<div class="space-y-3">${actions.map(action => `<a href="${esc(action.url)}"${ctaAttr(action.primary ? 'newPatient' : 'existingPatient')} target="_blank" rel="noopener noreferrer" class="${action.primary ? 'btn-primary' : 'btn-secondary'} w-full justify-center px-5 py-4 text-base">${icon(action.iconName)} ${esc(action.label)} ${icon('ExternalLink', 'h-3.5 w-3.5')}</a>`).join('')}</div>`;
 }
 
 function appointmentSection({ appointmentUrl, patientPortalUrl, phone, phoneHref, email, emergencyNotice, sectionId = 'appointment' }) {
@@ -47,6 +51,7 @@ function appointmentSection({ appointmentUrl, patientPortalUrl, phone, phoneHref
 module.exports = {
   appointmentActions,
   appointmentSection,
+  ctaAttr,
   contactCard,
   contactCards,
 };

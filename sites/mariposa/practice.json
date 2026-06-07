@@ -9,6 +9,7 @@
     "allowIndexing": false
   },
   "practice": {
+    "slug": "mariposa",
     "name": "Mariposa Psychiatry",
     "tagline": "Adult psychiatry and psychodynamic psychotherapy",
     "locationLabel": "Austin, TX 78731",
