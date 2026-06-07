@@ -2,14 +2,6 @@ export interface Env {
   DB: D1Database;
 }
 
-const allowedOrigins = new Set([
-  "https://drdronavalli.com",
-  "https://www.drdronavalli.com",
-  "https://frontdoor.health",
-  "https://preview.frontdoor.health",
-  "https://frontdoor-previews.pages.dev",
-]);
-
 const allowedEventTypes = new Set([
   "appointment_click",
   "new_patient_click",
@@ -29,28 +21,24 @@ type EventPayload = {
   referrer?: unknown;
 };
 
-function corsHeaders(request: Request): HeadersInit {
-  const requestOrigin = request.headers.get("Origin");
-  const origin =
-    requestOrigin && allowedOrigins.has(requestOrigin)
-      ? requestOrigin
-      : "https://frontdoor.health";
-
+function corsHeaders(): HeadersInit {
   return {
-    "Access-Control-Allow-Origin": origin,
-    "Access-Control-Allow-Methods": "OPTIONS, POST",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
   };
 }
 
 function jsonResponse(
-  request: Request,
   body: unknown,
   status = 200,
 ): Response {
-  return Response.json(body, {
+  return new Response(JSON.stringify(body), {
     status,
-    headers: corsHeaders(request),
+    headers: {
+      "Content-Type": "application/json",
+      ...corsHeaders(),
+    },
   });
 }
 
@@ -96,18 +84,18 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname !== "/event") {
-      return jsonResponse(request, { error: "Not found" }, 404);
+      return jsonResponse({ error: "Not found" }, 404);
     }
 
     if (request.method === "OPTIONS") {
       return new Response(null, {
         status: 204,
-        headers: corsHeaders(request),
+        headers: corsHeaders(),
       });
     }
 
     if (request.method !== "POST") {
-      return jsonResponse(request, { error: "Method not allowed" }, 405);
+      return jsonResponse({ error: "Method not allowed" }, 405);
     }
 
     const payload = await readPayload(request);
@@ -120,7 +108,7 @@ export default {
       !eventType ||
       !allowedEventTypes.has(eventType)
     ) {
-      return jsonResponse(request, { error: "Invalid event" }, 400);
+      return jsonResponse({ error: "Invalid event" }, 400);
     }
 
     const pagePath = optionalString(payload.page_path);
@@ -155,9 +143,9 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       )
       .run();
     } catch {
-      return jsonResponse(request, { error: "Unable to record event" }, 500);
+      return jsonResponse({ error: "Unable to record event" }, 500);
     }
 
-    return jsonResponse(request, { ok: true });
+    return jsonResponse({ ok: true });
   },
 } satisfies ExportedHandler<Env>;
