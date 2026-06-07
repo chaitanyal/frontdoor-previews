@@ -8,8 +8,20 @@
     directions: "directions_click",
   };
 
+  function isLocalPreview() {
+    return (
+      window.location.protocol === "file:" ||
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname === "::1" ||
+      window.location.hostname === "[::1]"
+    );
+  }
+
   window.frontdoorTrack = function (eventType, destinationUrl) {
     try {
+      if (isLocalPreview() || !window.FRONTDOOR_PRACTICE_SLUG) return;
+
       const payload = {
         practice_slug: window.FRONTDOOR_PRACTICE_SLUG,
         event_type: eventType,
