@@ -157,7 +157,7 @@ copy_noindex_preview_sites() {
 if [[ "$FRONTDOOR_TARGET" == "marketing" ]]; then
   export FRONTDOOR_BUILD_ENV="marketing"
   cp -R marketing/. dist/
-  python3 scripts/render_marketing.py dist
+  node scripts/render_marketing.js dist
   copy_noindex_preview_sites
   node scripts/render_practice_pages.js dist
   generate_noindex_headers

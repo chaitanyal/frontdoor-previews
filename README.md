@@ -200,7 +200,7 @@ The script scans source `images/` folders, skips SVG/WebP files, and ignores gen
 - Drive the marketing featured practice from `marketing/marketing.json`; changing `featuredPractice` should not require homepage HTML edits.
 - Keep templates opinionated. Add new JSON knobs only when they are reusable across practices.
 - Provider profile UI labels have defaults in `shared/render/components/provider-page.js` and can be overridden with `providerProfileLabels` in `practice.json` when needed.
-- Legacy Python practice renderers are retained for reference/fallback, but the active practice build path is JavaScript through `scripts/render_practice_pages.js`, `shared/home-page.js`, and `shared/render/`.
+- Practice rendering is JavaScript-based through `scripts/render_practice_pages.js`, `shared/home-page.js`, and `shared/render/`.
 - Treat per-practice `assets/styles.css` as a build output, not source. Shared CSS source lives in `shared/styles/frontdoor.css`.
 - Avoid production healthcare portal behavior or HIPAA-sensitive workflows in these previews.
 

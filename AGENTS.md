@@ -2,7 +2,7 @@
 
 # Frontdoor Health Previews Repository
 
-This repository hosts static HTML preview websites for small medical practices,
+This repository hosts static HTML preview and production websites for small medical practices,
 plus a small analytics Worker for CTA click tracking.
 
 These previews are deployed to:
