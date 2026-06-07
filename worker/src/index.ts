@@ -129,7 +129,8 @@ export default {
     const userAgent = request.headers.get("User-Agent");
     const country = request.cf?.country ?? null;
 
-    await env.DB.prepare(`
+    try {
+      await env.DB.prepare(`
 INSERT INTO events (
   practice_slug,
   event_type,
@@ -153,6 +154,9 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         country,
       )
       .run();
+    } catch {
+      return jsonResponse(request, { error: "Unable to record event" }, 500);
+    }
 
     return jsonResponse(request, { ok: true });
   },
