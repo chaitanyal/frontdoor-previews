@@ -45,8 +45,10 @@ frontdoor-previews/
     styles/frontdoor.css
     fonts/
     logos/
+    analytics.js              # browser CTA tracking
   scripts/
   templates/
+  worker/                     # Cloudflare Worker + D1 analytics service
   dist/
 ```
 
@@ -66,7 +68,7 @@ Then update `sites/newpractice/practice.json`, content, providers, and assets. N
 - Static assets only
 - Hosted on Cloudflare Pages
 
-There is no backend, database, framework build step, or authenticated application code in this repository.
+The preview and marketing sites do not include authenticated application code or production healthcare portal behavior. CTA analytics are handled separately by the Cloudflare Worker in `worker/`, which records non-PHI event metadata in D1.
 
 ## Content and Build Process
 
@@ -81,6 +83,8 @@ sites/<practice>/practice.json + shared/themes.json + shared/home-page.js + shar
   -> rendered HTML/CSS in dist/
   -> Cloudflare Pages
 ```
+
+Browser analytics are copied from `shared/analytics.js` into `dist/shared/analytics.js` during builds. Rendered homepage and provider pages set `window.FRONTDOOR_PRACTICE_SLUG` and include the shared analytics script so CTA clicks marked with `data-frontdoor-cta` can be sent to `https://analytics.frontdoor.health/event`. Local `file://`, `localhost`, and loopback previews do not send analytics events.
 
 Builds are intentionally target-specific. Shared preview deployments use `SITE_ID=ALL` to build configured noindex practice previews into `dist/previews/<practice-slug>/`.
 
@@ -165,6 +169,18 @@ Production practice deployments use `build:practice`; the shared preview Pages p
 
 Cloudflare Pages deploys the generated `dist/` directory.
 
+## Analytics
+
+CTA click tracking uses:
+
+- `shared/analytics.js` for browser-side event capture
+- `worker/` for the Cloudflare Worker endpoint
+- Cloudflare D1 database `frontdoor_analytics`
+
+Tracked events include practice slug, CTA event type, page path, destination URL, referrer, source attribution, user agent, country, and timestamp. The analytics service is intentionally limited and does not store cookies, user IDs, IP addresses, names, email addresses, form contents, or PHI.
+
+See `worker/README.md` for Worker deployment, migration, and query commands.
+
 ## Image Optimization
 
 Generate WebP copies of raster images and update HTML references with:
@@ -184,7 +200,7 @@ The script scans source `images/` folders, skips SVG/WebP files, and ignores gen
 - Drive the marketing featured practice from `marketing/marketing.json`; changing `featuredPractice` should not require homepage HTML edits.
 - Keep templates opinionated. Add new JSON knobs only when they are reusable across practices.
 - Provider profile UI labels have defaults in `shared/render/components/provider-page.js` and can be overridden with `providerProfileLabels` in `practice.json` when needed.
-- Legacy Python practice renderers are retained for reference/fallback, but the active practice build path is JavaScript.
+- Legacy Python practice renderers are retained for reference/fallback, but the active practice build path is JavaScript through `scripts/render_practice_pages.js`, `shared/home-page.js`, and `shared/render/`.
 - Treat per-practice `assets/styles.css` as a build output, not source. Shared CSS source lives in `shared/styles/frontdoor.css`.
 - Avoid production healthcare portal behavior or HIPAA-sensitive workflows in these previews.
 

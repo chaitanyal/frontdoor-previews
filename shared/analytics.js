@@ -32,21 +32,14 @@
 
       const body = JSON.stringify(payload);
 
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(
-          ANALYTICS_ENDPOINT,
-          new Blob([body], { type: "application/json" })
-        );
-      } else {
-        fetch(ANALYTICS_ENDPOINT, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body,
-          keepalive: true,
-        }).catch(() => {});
-      }
+      fetch(ANALYTICS_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body,
+        keepalive: true,
+      }).catch(() => {});
     } catch (e) {
       // Analytics must never break navigation.
     }

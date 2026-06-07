@@ -2,22 +2,23 @@
 
 # Frontdoor Health Previews Repository
 
-This repository hosts static HTML preview websites for small medical practices.
+This repository hosts static HTML preview websites for small medical practices,
+plus a small analytics Worker for CTA click tracking.
 
 These previews are deployed to:
 
-https://preview.frontdoor.health/<practice-slug>
+https://frontdoor.health/previews/<practice-slug>/
 
 Example:
 
-https://preview.frontdoor.health/northhillspsychiatry
+https://frontdoor.health/previews/northhillspsychiatry/
 
-This repository is intentionally simple:
-- static HTML
+The preview sites are intentionally simple:
+- static HTML output
 - static assets
-- no backend
-- no database
 - no framework build system
+- JavaScript renderers used at build time
+- minimal browser JavaScript for interactions and analytics
 
 The goal is:
 - fast preview generation
@@ -29,33 +30,40 @@ The goal is:
 
 # Repository Structure
 
-Each practice preview lives in its own folder.
+Each practice source lives in its own folder under `sites/`. Shared preview
+deployments are built into `dist/previews/<practice-slug>/`.
 
 Example:
 
 ```text
 frontdoor-previews/
-  logos/
-  northhillspsychiatry/
-    index.html
-    images/
-      providers/
-      hero/
+  sites/
+    northhillspsychiatry/
+      index.html
+      practice.json
+      images/
+        providers/
+        hero/
+  shared/
+    home-page.js
+    render/
+    styles/frontdoor.css
+  worker/
    
 ```
 
-The folder name becomes the URL slug.
+The `sites/<practice-slug>` folder name becomes the preview URL slug.
 
 Example:
 
 ```text
-northhillspsychiatry/
+sites/northhillspsychiatry/
 ```
 
 maps to:
 
 ```text
-https://preview.frontdoor.health/northhillspsychiatry
+https://frontdoor.health/previews/northhillspsychiatry/
 ```
 
 ---
@@ -70,13 +78,20 @@ DNS:
 
 Frontend:
 - Static HTML
-- Tailwind CSS (CDN)
+- Tailwind CSS compiled at build time
 - Minimal JavaScript
+- JavaScript build-time renderers
 
 Assets:
 - SVG logos preferred
 - Optimized JPG/WebP imagery
 - Mobile-first responsive layouts
+
+Analytics:
+- Browser CTA tracking in `shared/analytics.js`
+- Cloudflare Worker in `worker/`
+- Cloudflare D1 database for non-PHI event records
+- No cookies, user IDs, IP addresses, form contents, names, emails, or PHI
 
 ---
 
