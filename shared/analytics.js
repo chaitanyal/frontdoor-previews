@@ -49,12 +49,8 @@
   function sendEvent(payload) {
     const body = JSON.stringify(payload);
 
-    if (navigator.sendBeacon) {
-      const blob = new Blob([body], { type: "application/json" });
-      navigator.sendBeacon(ANALYTICS_ENDPOINT, blob);
-      return;
-    }
-
+    // Keep fetch-only: sendBeacon with an application/json Blob has caused
+    // browser CORS failures against the analytics Worker.
     fetch(ANALYTICS_ENDPOINT, {
       method: "POST",
       headers: {

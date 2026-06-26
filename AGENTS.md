@@ -88,10 +88,13 @@ Assets:
 - Mobile-first responsive layouts
 
 Analytics:
-- Browser CTA tracking in `shared/analytics.js`
+- Browser CTA and preview page-view tracking in `shared/analytics.js`
 - Cloudflare Worker in `worker/`
 - Cloudflare D1 database for non-PHI event records
 - No cookies, user IDs, IP addresses, form contents, names, emails, or PHI
+- Use `fetch()` with `Content-Type: application/json` for analytics POSTs. Do not use
+  `navigator.sendBeacon()` with an `application/json` Blob; it previously caused
+  browser CORS failures against the analytics Worker.
 
 ---
 
