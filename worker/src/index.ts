@@ -3,6 +3,7 @@ export interface Env {
 }
 
 const allowedEventTypes = new Set([
+  "page_view",
   "appointment_click",
   "new_patient_click",
   "phone_click",
@@ -14,11 +15,17 @@ const allowedEventTypes = new Set([
 ]);
 
 type EventPayload = {
+  event?: unknown;
   practice_slug?: unknown;
   event_type?: unknown;
+  path?: unknown;
   page_path?: unknown;
   destination_url?: unknown;
   referrer?: unknown;
+  title?: unknown;
+  session_id?: unknown;
+  visitor_id?: unknown;
+  timestamp?: unknown;
 };
 
 function corsHeaders(): HeadersInit {
@@ -100,7 +107,8 @@ export default {
 
     const payload = await readPayload(request);
     const practiceSlug = optionalString(payload?.practice_slug);
-    const eventType = optionalString(payload?.event_type);
+    const eventType =
+      optionalString(payload?.event_type) ?? optionalString(payload?.event);
 
     if (
       !payload ||
@@ -111,11 +119,17 @@ export default {
       return jsonResponse({ error: "Invalid event" }, 400);
     }
 
-    const pagePath = optionalString(payload.page_path);
+    const pagePath =
+      optionalString(payload.page_path) ?? optionalString(payload.path);
     const destinationUrl = optionalString(payload.destination_url);
     const referrer = optionalString(payload.referrer);
+    const title = optionalString(payload.title);
+    const sessionId = optionalString(payload.session_id);
+    const visitorId = optionalString(payload.visitor_id);
+    const eventTimestamp = optionalString(payload.timestamp);
     const userAgent = request.headers.get("User-Agent");
     const country = request.cf?.country ?? null;
+    const city = request.cf?.city ?? null;
 
     try {
       await env.DB.prepare(`
@@ -126,10 +140,15 @@ INSERT INTO events (
   destination_url,
   referrer,
   session_source,
+  title,
+  session_id,
+  visitor_id,
+  event_timestamp,
   user_agent,
-  country
+  country,
+  city
 )
-VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `)
       .bind(
         practiceSlug,
@@ -138,8 +157,13 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         destinationUrl,
         referrer,
         deriveSessionSource(referrer ?? ""),
+        title,
+        sessionId,
+        visitorId,
+        eventTimestamp,
         userAgent,
         country,
+        city,
       )
       .run();
     } catch {

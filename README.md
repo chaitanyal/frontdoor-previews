@@ -84,7 +84,7 @@ sites/<practice>/practice.json + shared/themes.json + shared/home-page.js + shar
   -> Cloudflare Pages
 ```
 
-Browser analytics are copied from `shared/analytics.js` into `dist/shared/analytics.js` during builds. Rendered homepage and provider pages set `window.FRONTDOOR_PRACTICE_SLUG` and include the shared analytics script so CTA clicks marked with `data-frontdoor-cta` can be sent to `https://analytics.frontdoor.health/event`. Local `file://`, `localhost`, and loopback previews do not send analytics events.
+Browser analytics are copied from `shared/analytics.js` into `dist/shared/analytics.js` during builds. Rendered homepage and provider pages set `window.FRONTDOOR_PRACTICE_SLUG` and include the shared analytics script so CTA clicks marked with `data-frontdoor-cta` can be sent to `https://analytics.frontdoor.health/event`. The same client sends `page_view` events only when the browser path starts with `/previews/`. Local `file://`, `localhost`, and loopback previews do not send analytics events.
 
 Builds are intentionally target-specific. Shared preview deployments use `SITE_ID=ALL` to build configured noindex practice previews into `dist/previews/<practice-slug>/`.
 

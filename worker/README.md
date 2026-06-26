@@ -1,6 +1,6 @@
 # FrontDoor Analytics Worker
 
-Minimal Cloudflare Worker for recording CTA click events in the existing `frontdoor_analytics` D1 database.
+Minimal Cloudflare Worker for recording preview page views and CTA click events in the existing `frontdoor_analytics` D1 database.
 
 This Worker only stores:
 
@@ -10,11 +10,16 @@ This Worker only stores:
 - `destination_url`
 - `referrer`
 - `session_source`
+- `title`
+- `session_id`
+- `visitor_id`
+- `event_timestamp`
 - `user_agent`
 - `country`
+- `city`
 - timestamp
 
-It does not store IP addresses, cookies, user IDs, names, email addresses, form contents, or PHI.
+It does not store IP addresses, cookies, names, email addresses, form contents, or PHI. Page-view events may include pseudonymous browser-generated `visitor_id` and `session_id` values.
 
 ## Install Dependencies
 
@@ -83,6 +88,32 @@ LIMIT 5;
 ```
 
 A successful CURL test should produce one row.
+
+## Page View CURL Test
+
+```bash
+curl -X POST \
+  https://frontdoor-analytics.<account>.workers.dev/event \
+  -H "Content-Type: application/json" \
+  -d '{
+    "event":"page_view",
+    "path":"/previews/northhillspsychiatry/",
+    "practice_slug":"northhillspsychiatry",
+    "referrer":"https://www.google.com/",
+    "title":"North Hills Psychiatry",
+    "session_id":"example-session-id",
+    "visitor_id":"example-visitor-id",
+    "timestamp":"2026-06-26T21:00:00.000Z"
+  }'
+```
+
+Expected response:
+
+```json
+{
+  "ok": true
+}
+```
 
 To confirm source attribution:
 

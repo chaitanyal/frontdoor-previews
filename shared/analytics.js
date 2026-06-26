@@ -18,6 +18,76 @@
     );
   }
 
+  function createId() {
+    if (window.crypto && typeof window.crypto.randomUUID === "function") {
+      return window.crypto.randomUUID();
+    }
+
+    return "id-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
+  }
+
+  function getOrCreateId(storageName, key) {
+    try {
+      const storage = window[storageName];
+      let value = storage.getItem(key);
+      if (!value) {
+        value = createId();
+        storage.setItem(key, value);
+      }
+      return value;
+    } catch (e) {
+      return createId();
+    }
+  }
+
+  function getPreviewSlug(pathname) {
+    const parts = pathname.split("/").filter(Boolean);
+    if (parts[0] !== "previews" || !parts[1]) return null;
+    return parts[1];
+  }
+
+  function sendEvent(payload) {
+    const body = JSON.stringify(payload);
+
+    if (navigator.sendBeacon) {
+      const blob = new Blob([body], { type: "application/json" });
+      navigator.sendBeacon(ANALYTICS_ENDPOINT, blob);
+      return;
+    }
+
+    fetch(ANALYTICS_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+      keepalive: true,
+    }).catch(() => {});
+  }
+
+  function trackPreviewPageView() {
+    try {
+      if (isLocalPreview()) return;
+
+      const path = window.location.pathname;
+      const practiceSlug = getPreviewSlug(path);
+      if (!practiceSlug) return;
+
+      sendEvent({
+        event: "page_view",
+        path,
+        practice_slug: practiceSlug,
+        referrer: document.referrer || null,
+        title: document.title || null,
+        session_id: getOrCreateId("sessionStorage", "fdh_session_id"),
+        visitor_id: getOrCreateId("localStorage", "fdh_visitor_id"),
+        timestamp: new Date().toISOString(),
+      });
+    } catch (e) {
+      // Analytics must never break page loading.
+    }
+  }
+
   window.frontdoorTrack = function (eventType, destinationUrl) {
     try {
       if (isLocalPreview() || !window.FRONTDOOR_PRACTICE_SLUG) return;
@@ -30,16 +100,7 @@
         referrer: document.referrer || "",
       };
 
-      const body = JSON.stringify(payload);
-
-      fetch(ANALYTICS_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body,
-        keepalive: true,
-      }).catch(() => {});
+      sendEvent(payload);
     } catch (e) {
       // Analytics must never break navigation.
     }
@@ -71,4 +132,10 @@
       // Analytics must never break click behavior.
     }
   });
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", trackPreviewPageView);
+  } else {
+    trackPreviewPageView();
+  }
 })();
