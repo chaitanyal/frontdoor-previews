@@ -12,6 +12,7 @@ const allowedEventTypes = new Set([
   "patient_portal_click",
   "email_click",
   "resource_download",
+  "preview_requested",
 ]);
 
 type EventPayload = {
@@ -26,6 +27,7 @@ type EventPayload = {
   session_id?: unknown;
   visitor_id?: unknown;
   timestamp?: unknown;
+  utm_campaign?: unknown;
 };
 
 function corsHeaders(): HeadersInit {
@@ -106,9 +108,11 @@ export default {
     }
 
     const payload = await readPayload(request);
-    const practiceSlug = optionalString(payload?.practice_slug);
     const eventType =
       optionalString(payload?.event_type) ?? optionalString(payload?.event);
+    const practiceSlug =
+      optionalString(payload?.practice_slug) ??
+      (eventType === "preview_requested" ? "frontdoor-health" : null);
 
     if (
       !payload ||
@@ -127,6 +131,7 @@ export default {
     const sessionId = optionalString(payload.session_id);
     const visitorId = optionalString(payload.visitor_id);
     const eventTimestamp = optionalString(payload.timestamp);
+    const utmCampaign = optionalString(payload.utm_campaign);
     const userAgent = request.headers.get("User-Agent");
     const country = request.cf?.country ?? null;
     const city = request.cf?.city ?? null;
@@ -144,11 +149,12 @@ INSERT INTO events (
   session_id,
   visitor_id,
   event_timestamp,
+  utm_campaign,
   user_agent,
   country,
   city
 )
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `)
       .bind(
         practiceSlug,
@@ -161,6 +167,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         sessionId,
         visitorId,
         eventTimestamp,
+        utmCampaign,
         userAgent,
         country,
         city,

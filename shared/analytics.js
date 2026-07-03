@@ -61,6 +61,10 @@
     }).catch(() => {});
   }
 
+  function getUtmCampaign() {
+    return window.FrontdoorAttribution?.getUtmCampaign?.() || null;
+  }
+
   function trackPreviewPageView() {
     try {
       if (isLocalPreview()) return;
@@ -69,7 +73,7 @@
       const practiceSlug = getPreviewSlug(path);
       if (!practiceSlug) return;
 
-      sendEvent({
+      const payload = {
         event: "page_view",
         path,
         practice_slug: practiceSlug,
@@ -78,7 +82,11 @@
         session_id: getOrCreateId("sessionStorage", "fdh_session_id"),
         visitor_id: getOrCreateId("localStorage", "fdh_visitor_id"),
         timestamp: new Date().toISOString(),
-      });
+      };
+      const utmCampaign = getUtmCampaign();
+      if (utmCampaign) payload.utm_campaign = utmCampaign;
+
+      sendEvent(payload);
     } catch (e) {
       // Analytics must never break page loading.
     }

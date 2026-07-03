@@ -33,7 +33,12 @@ function isValidEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function textEmail({ name, email, websiteUrl, submittedAt }) {
+function normalizeUtmCampaign(value) {
+  const campaign = String(value || "").trim();
+  return campaign ? campaign.slice(0, 500) : null;
+}
+
+function textEmail({ name, email, websiteUrl, utmCampaign, submittedAt }) {
   return [
     "New preview request",
     "",
@@ -42,6 +47,7 @@ function textEmail({ name, email, websiteUrl, submittedAt }) {
     `Website: ${websiteUrl}`,
     "",
     "Source: frontdoor.health",
+    `UTM Campaign: ${utmCampaign || "None"}`,
     `Submitted at: ${submittedAt}`,
   ].join("\n");
 }
@@ -62,7 +68,7 @@ async function verifyTurnstile({ token, secret, ip }) {
   return result.success === true;
 }
 
-async function sendPreviewRequestEmail({ apiKey, name, email, websiteUrl, submittedAt }) {
+async function sendPreviewRequestEmail({ apiKey, name, email, websiteUrl, utmCampaign, submittedAt }) {
   const response = await fetch(RESEND_ENDPOINT, {
     method: "POST",
     headers: {
@@ -74,7 +80,7 @@ async function sendPreviewRequestEmail({ apiKey, name, email, websiteUrl, submit
       to: [REQUEST_TO],
       reply_to: email,
       subject: `[Preview Request] ${websiteUrl}`,
-      text: textEmail({ name, email, websiteUrl, submittedAt }),
+      text: textEmail({ name, email, websiteUrl, utmCampaign, submittedAt }),
     }),
   });
 
@@ -114,6 +120,7 @@ export async function onRequestPost(context) {
   const name = String(payload.name || "").trim();
   const email = String(payload.email || "").trim();
   const websiteUrl = normalizeWebsiteUrl(payload.websiteUrl);
+  const utmCampaign = normalizeUtmCampaign(payload.utm_campaign);
   const turnstileToken = String(payload.turnstileToken || "").trim();
 
   if (!name || name.length > 100) {
@@ -146,6 +153,7 @@ export async function onRequestPost(context) {
     name,
     email,
     websiteUrl,
+    utmCampaign,
     submittedAt,
   });
 

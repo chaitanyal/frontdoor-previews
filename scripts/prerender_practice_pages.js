@@ -193,6 +193,7 @@ function prerenderPractice(practiceDir, rendererSource) {
   <meta name="description" content="${escapeAttr(descriptionMeta.content)}" />
 ${robotsMeta(config)}${canonicalLink}  <link rel="stylesheet" href="./assets/styles.css" />
   <script>window.FRONTDOOR_PRACTICE_SLUG = ${JSON.stringify(config.practice.slug)};</script>
+  <script src="/shared/attribution.js"></script>
   <script src="/shared/analytics.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>:root{${cssText}}</style>

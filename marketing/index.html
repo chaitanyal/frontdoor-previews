@@ -18,6 +18,7 @@
   </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script src="/shared/attribution.js"></script>
 
   <script>
     tailwind.config = {
@@ -300,6 +301,40 @@
         );
       }
 
+      function getUtmCampaign() {
+        return window.FrontdoorAttribution?.getUtmCampaign?.() || null;
+      }
+
+      function isLocalPreview() {
+        return (
+          window.location.protocol === 'file:' ||
+          window.location.hostname === 'localhost' ||
+          window.location.hostname === '127.0.0.1' ||
+          window.location.hostname === '::1' ||
+          window.location.hostname === '[::1]'
+        );
+      }
+
+      function sendPreviewRequestedEvent(utmCampaign) {
+        if (isLocalPreview()) return;
+
+        fetch('https://analytics.frontdoor.health/event', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            event_type: 'preview_requested',
+            utm_campaign: utmCampaign,
+            page_path: window.location.pathname,
+            referrer: document.referrer || '',
+            title: document.title || '',
+            timestamp: new Date().toISOString(),
+          }),
+          keepalive: true,
+        }).catch(() => {});
+      }
+
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         if (isSubmitting || hasSubmitted) return;
@@ -317,6 +352,7 @@
 
         try {
           const formData = new FormData(form);
+          const utmCampaign = getUtmCampaign();
           const response = await fetch('/api/preview-request', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
@@ -325,6 +361,7 @@
               email: formData.get('email'),
               websiteUrl: formData.get('websiteUrl'),
               companyWebsite: formData.get('companyWebsite'),
+              utm_campaign: utmCampaign,
               turnstileToken,
             }),
           });
@@ -337,6 +374,7 @@
           hasSubmitted = true;
           submitButton.textContent = 'Request Sent';
           showStatus('Thanks. I will review your practice website and follow up.', 'success');
+          sendPreviewRequestedEvent(utmCampaign);
         } catch (error) {
           window.turnstile?.reset();
           showStatus(error.message || 'Unable to send your request right now.', 'error');

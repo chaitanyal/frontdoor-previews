@@ -11,6 +11,7 @@ function legalShell({ config, slug, title, description, body }) {
   <title>${esc(title)} | ${esc(practice.name)}</title>
   <meta name="description" content="${esc(description)}" />
 ${robotsMeta(config)}${canonicalLink(config, slug)}  <link rel="stylesheet" href="../assets/styles.css" />
+  <script src="/shared/attribution.js"></script>
 </head>
 <body class="bg-surface font-sans text-slate-950 antialiased">
   <main class="section min-h-screen bg-warm-50">

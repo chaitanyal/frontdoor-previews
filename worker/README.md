@@ -14,6 +14,7 @@ This Worker only stores:
 - `session_id`
 - `visitor_id`
 - `event_timestamp`
+- `utm_campaign`
 - `user_agent`
 - `country`
 - `city`
