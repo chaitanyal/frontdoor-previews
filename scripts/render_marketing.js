@@ -15,6 +15,40 @@ function escapeHtml(value) {
     .replace(/'/g, '&#x27;');
 }
 
+const GOOGLE_ADS_GLOBAL_TAG = `<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18297020270"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-18297020270');
+</script>`;
+
+function injectGoogleAdsGlobalTag(htmlText, filePath) {
+  if (htmlText.includes('https://www.googletagmanager.com/gtag/js?id=AW-18297020270')) {
+    return htmlText;
+  }
+  if (!htmlText.includes('</head>')) {
+    throw new Error(`Missing </head> in marketing page: ${filePath}`);
+  }
+  return htmlText.replace('</head>', `${GOOGLE_ADS_GLOBAL_TAG}\n</head>`);
+}
+
+function injectGoogleAdsGlobalTagIntoMarketingPages(root) {
+  for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+    const entryPath = path.join(root, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name === 'previews') continue;
+      injectGoogleAdsGlobalTagIntoMarketingPages(entryPath);
+      continue;
+    }
+    if (!entry.isFile() || !entry.name.endsWith('.html')) continue;
+    const htmlText = fs.readFileSync(entryPath, 'utf8');
+    fs.writeFileSync(entryPath, injectGoogleAdsGlobalTag(htmlText, entryPath), 'utf8');
+  }
+}
+
 function textFromFirstH1(filePath) {
   if (!fs.existsSync(filePath)) return '';
 
@@ -113,6 +147,8 @@ function renderMarketing(root = 'dist') {
     throw new Error('Unresolved featured practice placeholder in marketing homepage');
   }
   fs.writeFileSync(page, htmlText, 'utf8');
+
+  injectGoogleAdsGlobalTagIntoMarketingPages(root);
 }
 
 if (require.main === module) {
