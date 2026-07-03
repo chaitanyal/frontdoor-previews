@@ -17,7 +17,11 @@ VOID_TAGS = {
 
 ALLOWED_LINK_SCHEMES = {"http", "https", "mailto", "tel"}
 SKIP_ASSET_SCHEMES = {*ALLOWED_LINK_SCHEMES, "data"}
-ALLOWED_ROOT_ASSETS = {"/shared/analytics.js", "/shared/attribution.js"}
+ALLOWED_ROOT_ASSETS = {
+    "/shared/analytics.js",
+    "/shared/attribution.js",
+    "/shared/google-ads.js",
+}
 
 
 class BuiltHtmlParser(HTMLParser):

@@ -58,6 +58,7 @@ mkdir -p dist
 mkdir -p dist/shared
 cp ./shared/attribution.js dist/shared/attribution.js
 cp ./shared/analytics.js dist/shared/analytics.js
+cp ./shared/google-ads.js dist/shared/google-ads.js
 npm run build:css
 
 generate_sitemap() {

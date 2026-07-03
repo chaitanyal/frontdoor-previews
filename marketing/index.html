@@ -19,6 +19,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script src="/shared/attribution.js"></script>
+  <script src="/shared/google-ads.js"></script>
 
   <script>
     tailwind.config = {
@@ -335,6 +336,12 @@
         }).catch(() => {});
       }
 
+      function trackGoogleAdsPreviewRequestConversion() {
+        try {
+          window.FrontdoorGoogleAds?.trackGoogleAdsPreviewRequestConversion?.();
+        } catch (_error) {}
+      }
+
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         if (isSubmitting || hasSubmitted) return;
@@ -369,12 +376,15 @@
           if (!response.ok || result.ok !== true) {
             throw new Error(result.error || 'Unable to send your request right now.');
           }
+          sendPreviewRequestedEvent(utmCampaign);
+          if (result.accepted === true) {
+            trackGoogleAdsPreviewRequestConversion();
+          }
           form.reset();
           window.turnstile?.reset();
           hasSubmitted = true;
           submitButton.textContent = 'Request Sent';
           showStatus('Thanks. I will review your practice website and follow up.', 'success');
-          sendPreviewRequestedEvent(utmCampaign);
         } catch (error) {
           window.turnstile?.reset();
           showStatus(error.message || 'Unable to send your request right now.', 'error');

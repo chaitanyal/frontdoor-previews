@@ -114,7 +114,7 @@ export async function onRequestPost(context) {
 
   const honeypot = String(payload.companyWebsite || "").trim();
   if (honeypot) {
-    return jsonResponse({ ok: true });
+    return jsonResponse({ ok: true, accepted: false });
   }
 
   const name = String(payload.name || "").trim();
@@ -161,7 +161,7 @@ export async function onRequestPost(context) {
     return jsonResponse({ ok: false, error: "Unable to send request right now." }, 502);
   }
 
-  return jsonResponse({ ok: true });
+  return jsonResponse({ ok: true, accepted: true });
 }
 
 export async function onRequestOptions() {
