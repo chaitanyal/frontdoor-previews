@@ -1,4 +1,15 @@
 {
   "featuredPractice": "drdronavalli",
-  "featuredPracticeDescription": "See how a redesigned website increased online visibility and helped more people discover the practice."
+  "featuredPracticeMetrics": [
+    {
+      "value": "5.5×",
+      "label": "Monthly website visitors"
+    },
+    {
+      "value": "+87%",
+      "label": "Google referrals"
+    }
+  ],
+  "featuredPracticeDescription": "See how a redesigned website increased online visibility and helped more people discover the practice.",
+  "featuredPracticePreviewImage": "marketing/assets/featured-practice/dronavalli-phone-preview.webp"
 }

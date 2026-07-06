@@ -93,6 +93,11 @@ function renderMarketing(root = 'dist') {
     throw new Error(`Unknown featured practice: ${siteId}`);
   }
 
+  const caseStudyPath = path.join('marketing', 'case-studies', siteId, 'index.html');
+  if (!fs.existsSync(caseStudyPath)) {
+    throw new Error(`Missing featured practice case study: ${caseStudyPath}`);
+  }
+
   const practiceConfig = loadJson(practicePath);
   const siteUrl = (practiceConfig.seo?.siteUrl || '').replace(/\/+$/, '');
   const heroImage = practiceConfig.hero?.image || '';
@@ -108,14 +113,31 @@ function renderMarketing(root = 'dist') {
     throw new Error(`Missing featured practice hero image: ${sourceHero}`);
   }
 
+  const previewImage = config.featuredPracticePreviewImage || '';
+  if (!previewImage) {
+    throw new Error('Missing marketing.featuredPracticePreviewImage');
+  }
+
+  const sourcePreview = path.resolve(previewImage);
+  if (!fs.existsSync(sourcePreview)) {
+    throw new Error(`Missing featured practice preview image: ${sourcePreview}`);
+  }
+
+  const metrics = config.featuredPracticeMetrics || [];
+  if (metrics.length !== 2 || metrics.some((metric) => !metric.value || !metric.label)) {
+    throw new Error('marketing.featuredPracticeMetrics must include two metrics with value and label');
+  }
+
   const heroDir = path.join(root, 'assets', 'featured-practice');
   fs.mkdirSync(heroDir, { recursive: true });
   const heroTarget = path.join(heroDir, path.basename(sourceHero));
+  const previewTarget = path.join(heroDir, path.basename(sourcePreview));
   fs.copyFileSync(sourceHero, heroTarget);
+  fs.copyFileSync(sourcePreview, previewTarget);
 
   let description = config.featuredPracticeDescription || '';
   if (!description) {
-    description = textFromFirstH1(path.join('marketing', 'case-studies', siteId, 'index.html'));
+    description = textFromFirstH1(caseStudyPath);
   }
   if (!description) {
     description = practiceConfig.seo?.description || '';
@@ -125,14 +147,24 @@ function renderMarketing(root = 'dist') {
     practiceName: featuredPracticeName(practiceConfig),
     specialty: practiceConfig.practice?.tagline || '',
     heroImage: `./assets/featured-practice/${path.basename(heroTarget)}`,
+    previewImage: `./assets/featured-practice/${path.basename(previewTarget)}`,
+    caseStudyUrl: `./case-studies/${siteId}/`,
     domain: siteUrl,
+    metrics,
     description,
   };
 
   const replacements = {
     '{{FEATURED_PRACTICE_URL}}': featured.domain,
     '{{FEATURED_PRACTICE_ARIA_LABEL}}': `View ${featured.practiceName} practice website`,
+    '{{FEATURED_PRACTICE_CASE_STUDY_URL}}': featured.caseStudyUrl,
+    '{{FEATURED_PRACTICE_CASE_STUDY_ARIA_LABEL}}': `Read the ${featured.practiceName} case study`,
     '{{FEATURED_PRACTICE_HERO_IMAGE}}': featured.heroImage,
+    '{{FEATURED_PRACTICE_PREVIEW_IMAGE}}': featured.previewImage,
+    '{{FEATURED_PRACTICE_METRIC_1_VALUE}}': featured.metrics[0].value,
+    '{{FEATURED_PRACTICE_METRIC_1_LABEL}}': featured.metrics[0].label,
+    '{{FEATURED_PRACTICE_METRIC_2_VALUE}}': featured.metrics[1].value,
+    '{{FEATURED_PRACTICE_METRIC_2_LABEL}}': featured.metrics[1].label,
     '{{FEATURED_PRACTICE_NAME}}': featured.practiceName,
     '{{FEATURED_PRACTICE_SPECIALTY}}': featured.specialty,
     '{{FEATURED_PRACTICE_DESCRIPTION}}': featured.description,
