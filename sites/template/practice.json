@@ -5,7 +5,9 @@
     "description": "Patient-centered specialty care for adults and families in City, State.",
     "siteUrl": "https://preview.frontdoor.health/practice-slug",
     "allowIndexing": false,
-    "ogImage": "./images/hero/hero.webp"
+    "ogImage": "./images/hero/hero.webp",
+    "ogImageAlt": "Practice Name specialty care in City, State",
+    "locale": "en_US"
   },
   "practice": {
     "slug": "practice-slug",
@@ -20,6 +22,15 @@
       "Suite 100",
       "City, ST 12345"
     ],
+    "address": {
+      "streetAddress": "123 Main Street, Suite 100",
+      "addressLocality": "City",
+      "addressRegion": "ST",
+      "postalCode": "12345",
+      "addressCountry": "US"
+    },
+    "medicalSpecialty": "https://schema.org/PrimaryCare",
+    "acceptsNewPatients": true,
     "socialLinks": [],
     "emergencyNotice": "For medical emergencies, call 911 or go to the nearest emergency room."
   },
@@ -55,13 +66,15 @@
       "name": "Dr. Provider Name",
       "credentials": "MD · Specialty",
       "image": "./images/providers/provider-name.webp",
+      "medicalSpecialty": "https://schema.org/PrimaryCare",
       "tagline": "A concise summary of the provider's clinical focus, care style, and patient population.",
       "specialties": [
         "Specialty Area",
         "Patient Focus"
       ],
       "philosophy": "A short statement about the provider's clinical focus and approach.",
-      "bio": "A concise provider bio describing training, care style, and patient population."
+      "bio": "A concise provider bio describing training, care style, and patient population.",
+      "acceptsNewPatients": true
     }
   ],
   "conditionsIntro": "We provide evaluation and ongoing care for a range of health concerns.",

@@ -1,4 +1,20 @@
 {
+  "seo": {
+    "siteUrl": "https://frontdoor.health",
+    "siteName": "FrontDoor Health",
+    "locale": "en_US",
+    "ogImage": "./assets/frontdoor-health-social.png",
+    "ogImageAlt": "FrontDoor Health — modern websites for independent healthcare practices"
+  },
+  "schema": {
+    "alternateSiteName": "frontdoor.health",
+    "logo": "./assets/frontdoor-health-logo-square.png",
+    "service": {
+      "name": "Healthcare Practice Website Design",
+      "serviceType": "Website design and development for independent healthcare practices",
+      "description": "Modern, accessible, SEO-friendly websites that help independent healthcare practices clearly present their providers, services, insurance information, and scheduling options."
+    }
+  },
   "featuredPractice": "drdronavalli",
   "featuredPracticeMetrics": [
     {

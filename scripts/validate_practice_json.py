@@ -63,6 +63,23 @@ def validate_string_list(value: Any, path: str, *, min_items: int = 0) -> None:
         require_string(item, f"{path}[{index}]")
 
 
+def validate_postal_address(value: Any, path: str) -> None:
+    address = require_mapping(value, path)
+    for key in ["streetAddress", "addressLocality", "addressRegion", "postalCode", "addressCountry"]:
+        require_string_key(address, key, path)
+
+
+def validate_medical_specialty(value: Any, path: str) -> None:
+    specialties = value if isinstance(value, list) else [value]
+    if not specialties:
+        fail(f"{path} must contain at least one Schema.org specialty URL")
+    for index, specialty_value in enumerate(specialties):
+        specialty_path = f"{path}[{index}]" if isinstance(value, list) else path
+        specialty = require_https_url(specialty_value, specialty_path)
+        if not specialty.startswith("https://schema.org/"):
+            fail(f"{specialty_path} must be a Schema.org URL starting with https://schema.org/")
+
+
 def validate_labeled_string_list(value: Any, path: str, *, min_items: int = 0) -> None:
     items = require_list(value, path)
     if len(items) < min_items:
@@ -167,7 +184,7 @@ def validate_financial_policy(value: Any) -> None:
 
 def validate_provider_contact_override(value: Any, path: str) -> None:
     contact = require_mapping(value, path)
-    if not any(key in contact for key in ["phone", "phoneHref", "email", "addressLines"]):
+    if not any(key in contact for key in ["phone", "phoneHref", "email", "addressLines", "address"]):
         fail(f"{path} must include at least one contact field")
     if "phone" in contact:
         require_string_key(contact, "phone", path)
@@ -177,6 +194,8 @@ def validate_provider_contact_override(value: Any, path: str) -> None:
         require_string_key(contact, "email", path)
     if "addressLines" in contact:
         validate_string_list(contact["addressLines"], f"{path}.addressLines", min_items=1)
+    if "address" in contact:
+        validate_postal_address(contact["address"], f"{path}.address")
 
 
 def valid_theme_names() -> set[str]:
@@ -205,6 +224,10 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         fail("seo.allowIndexing must be a boolean")
     if "ogImage" in seo:
         validate_asset_path(seo["ogImage"], "seo.ogImage")
+    if "ogImageAlt" in seo:
+        require_string(seo["ogImageAlt"], "seo.ogImageAlt")
+    if "locale" in seo:
+        require_string(seo["locale"], "seo.locale")
 
     practice = require_mapping(require_key(config, "practice", "root"), "practice")
     for key in ["slug", "name", "tagline", "locationLabel", "phone", "phoneHref", "email"]:
@@ -212,6 +235,12 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
     if not re.fullmatch(r"[a-z0-9-]+", practice["slug"]):
         fail("practice.slug must contain only lowercase letters, numbers, and hyphens")
     validate_string_list(require_key(practice, "addressLines", "practice"), "practice.addressLines", min_items=1)
+    if "address" in practice:
+        validate_postal_address(practice["address"], "practice.address")
+    if "medicalSpecialty" in practice:
+        validate_medical_specialty(practice["medicalSpecialty"], "practice.medicalSpecialty")
+    if "acceptsNewPatients" in practice and not isinstance(practice["acceptsNewPatients"], bool):
+        fail("practice.acceptsNewPatients must be a boolean")
     require_string_key(practice, "emergencyNotice", "practice")
     if "defaultAppointmentUrl" in practice:
         require_http_url(practice["defaultAppointmentUrl"], "practice.defaultAppointmentUrl")
@@ -230,6 +259,17 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         for key in ["slug", "name", "image", "tagline"]:
             require_string_key(provider, key, provider_path)
         validate_asset_path(provider["image"], f"{provider_path}.image")
+        if "medicalSpecialty" in provider:
+            validate_medical_specialty(provider["medicalSpecialty"], f"{provider_path}.medicalSpecialty")
+        if "acceptsNewPatients" in provider and not isinstance(provider["acceptsNewPatients"], bool):
+            fail(f"{provider_path}.acceptsNewPatients must be a boolean")
+        if "seo" in provider:
+            provider_seo = require_mapping(provider["seo"], f"{provider_path}.seo")
+            for key in ["title", "description", "ogImageAlt"]:
+                if key in provider_seo:
+                    require_string(provider_seo[key], f"{provider_path}.seo.{key}")
+            if "ogImage" in provider_seo:
+                validate_asset_path(provider_seo["ogImage"], f"{provider_path}.seo.ogImage")
         if "appointmentUrl" in provider:
             require_http_url(provider["appointmentUrl"], f"{provider_path}.appointmentUrl")
         if "contactOverride" in provider:

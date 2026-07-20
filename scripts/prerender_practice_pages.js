@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { socialMeta } = require('../shared/render/seo');
 
 function escapeAttr(value) {
   return String(value ?? '').replace(/[&<>"]/g, (char) => ({
@@ -191,7 +192,13 @@ function prerenderPractice(practiceDir, rendererSource) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${escapeAttr(document.title)}</title>
   <meta name="description" content="${escapeAttr(descriptionMeta.content)}" />
-${robotsMeta(config)}${canonicalLink}  <link rel="stylesheet" href="./assets/styles.css" />
+${robotsMeta(config)}${canonicalLink}${socialMeta(config, {
+    title: document.title,
+    description: descriptionMeta.content,
+    image: config.seo?.ogImage || config.hero?.image,
+    imageAlt: config.seo?.ogImageAlt || config.hero?.imageAlt,
+    type: 'website',
+  })}  <link rel="stylesheet" href="./assets/styles.css" />
   <script>window.FRONTDOOR_PRACTICE_SLUG = ${JSON.stringify(config.practice.slug)};</script>
   <script src="/shared/attribution.js"></script>
   <script src="/shared/analytics.js"></script>

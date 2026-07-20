@@ -4,7 +4,9 @@
     "title": "Dr. Goutham Dronavalli, MD | Pulmonologist in Sugar Land, TX",
     "description": "Dr. Goutham Dronavalli is a board-certified pulmonologist and critical care physician serving Sugar Land and the greater Houston area. Learn about services, insurance, and appointments.",
     "ogImage": "./images/hero/hero.webp",
+    "ogImageAlt": "Dr. Goutham Dronavalli pulmonary practice in Sugar Land, Texas",
     "defaultOgImage": "./images/hero/hero.webp",
+    "locale": "en_US",
     "siteUrl": "https://drdronavalli.com",
     "allowIndexing": true
   },
@@ -21,6 +23,15 @@
       "Suite 303",
       "Sugar Land, TX 77478"
     ],
+    "address": {
+      "streetAddress": "1429 Highway 6, Suite 303",
+      "addressLocality": "Sugar Land",
+      "addressRegion": "TX",
+      "postalCode": "77478",
+      "addressCountry": "US"
+    },
+    "medicalSpecialty": "https://schema.org/Pulmonary",
+    "acceptsNewPatients": true,
     "socialLinks": [],
     "defaultAppointmentUrl": "https://healow.com/apps/provider/goutham-dronavalli-3201534",
     "patientPortalUrl": "https://mycw59.eclinicalweb.com/portal7544/jsp/100mp/login_otp.jsp",
@@ -74,6 +85,7 @@
         "Sleep disorders"
       ],
       "specialty": "Pulmonary Disease & Sleep Medicine",
+      "medicalSpecialty": "https://schema.org/Pulmonary",
       "tagline": "Combining advanced academic insight with personalized care, Dr. Dronavalli helps patients overcome complex breathing disorders and chronic sleep conditions. Welcoming new patients at our Sugar Land clinic.",
       "bioParagraphs": [
         "Dr. Goutham Dronavalli provides comprehensive, evidence-based care for complex lung diseases and sleep disorders. As an Associate Professor at UTHealth Houston, he bridges cutting-edge medical research with compassionate clinical practice. His extensive expertise spans both inpatient and outpatient settings, ensuring seamless continuity throughout your treatment journey.",

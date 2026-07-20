@@ -458,15 +458,41 @@
   }
 
   function schema(config) {
+    const siteUrl = String(config.seo?.siteUrl || '').replace(/\/+$/, '');
+    const canonical = siteUrl ? `${siteUrl}/` : '';
+    const absoluteUrl = (value) => {
+      if (!value || /^https?:\/\//i.test(value) || !siteUrl) return value;
+      return `${siteUrl}/${String(value).replace(/^\.\//, '')}`;
+    };
+    const openingHoursSpecification = Object.entries(config.location?.weeklyHours || {}).flatMap(([dayOfWeek, hours]) => {
+      if (hours.closed || hours.telehealthOnly || !hours.open || !hours.close) return [];
+      return [{
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: `https://schema.org/${dayOfWeek}`,
+        opens: hours.open,
+        closes: hours.close,
+      }];
+    });
+    const image = absoluteUrl(config.seo?.ogImage || config.hero?.image);
     const data = {
       '@context': 'https://schema.org',
       '@type': 'MedicalClinic',
+      ...(canonical ? { '@id': `${canonical}#clinic`, url: canonical } : {}),
       name: config.practice.name,
+      description: config.seo?.description,
       telephone: config.practice.phone,
       email: config.practice.email,
-      address: config.practice.addressLines.join(', '),
-      image: config.hero.image,
-      medicalSpecialty: config.conditions,
+      address: config.practice.address
+        ? { '@type': 'PostalAddress', ...config.practice.address }
+        : config.practice.addressLines.join(', '),
+      ...(image ? { image } : {}),
+      ...(config.practice.logo ? { logo: absoluteUrl(config.practice.logo) } : {}),
+      ...(config.practice.medicalSpecialty ? { medicalSpecialty: config.practice.medicalSpecialty } : {}),
+      ...(config.conditions?.length ? { knowsAbout: config.conditions } : {}),
+      ...(openingHoursSpecification.length ? { openingHoursSpecification } : {}),
+      ...(typeof config.practice.acceptsNewPatients === 'boolean'
+        ? { isAcceptingNewPatients: config.practice.acceptsNewPatients }
+        : {}),
     };
     return '<' + 'script type="application/ld+json">' + JSON.stringify(data).replace(/</g, '\\u003c') + '<' + '/script>';
   }

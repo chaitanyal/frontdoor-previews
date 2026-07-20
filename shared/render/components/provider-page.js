@@ -2,7 +2,7 @@ const { esc, escMultiline, icon, jsonLd } = require('../html');
 const { appointmentSection, ctaAttr } = require('./contact');
 const { copyEmailScript } = require('../runtime-scripts');
 const { absoluteUrl, canonicalUrl, relFromProvider } = require('../urls');
-const { canonicalLink, robotsMeta } = require('../seo');
+const { canonicalLink, robotsMeta, socialMeta } = require('../seo');
 const { resolveTheme, themeCss } = require('../theme');
 
 function chips(values, cls = 'badge-brand') {
@@ -122,9 +122,10 @@ function providerPage(config, provider) {
   const theme = resolveTheme(config);
   const name = provider.name || 'Provider';
   const labels = providerProfileLabels(config, name);
-  const title = `${name} | ${practice.name}`;
+  const providerSeo = provider.seo || {};
+  const title = providerSeo.title || `${name} | ${practice.name}`;
   const heroTitle = provider.heroTitle || '';
-  const description = provider.tagline || config.seo?.description || '';
+  const description = providerSeo.description || provider.tagline || config.seo?.description || '';
   const conditions = provider.conditions || provider.specialties || config.conditions || [];
   const services = provider.services || ['Evaluation', 'Treatment Planning', 'Ongoing Care'];
   const bioParagraphs = provider.bioParagraphs || [];
@@ -138,11 +139,13 @@ function providerPage(config, provider) {
   const phoneHref = contactOverride.phoneHref || practice.phoneHref || '';
   const email = contactOverride.email || practice.email || '';
   const officeLines = contactOverride.addressLines || practice.addressLines || [];
-  const office = officeLines.join(', ');
+  const address = (contactOverride.address || practice.address)
+    ? { '@type': 'PostalAddress', ...(contactOverride.address || practice.address) }
+    : officeLines.join(', ');
   const appointmentUrl = provider.appointmentUrl || practice.defaultAppointmentUrl || '';
   const patientPortalUrl = practice.patientPortalUrl || '';
   const emergencyNotice = practice.emergencyNotice || '';
-  const specialty = provider.specialty || String(provider.credentials || '').split('·').pop().trim();
+  const medicalSpecialty = provider.medicalSpecialty || practice.medicalSpecialty;
   const aboutHeading = provider.aboutHeading || (isPsychiatry(config, provider) ? 'Personalized Psychiatric Care' : 'Individualized Pulmonary Care');
   const providerSlug = provider.slug || '';
   const practiceSlug = practice.slug || '';
@@ -159,14 +162,21 @@ function providerPage(config, provider) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Physician',
+    '@id': `${canonicalUrl(config, `providers/${providerSlug}`)}#physician`,
     name,
     url: canonicalUrl(config, `providers/${providerSlug}`),
-    medicalSpecialty: specialty,
+    description,
     image: absoluteUrl(config, provider.image),
     telephone: phone,
     email,
-    address: office,
+    address,
+    ...(medicalSpecialty ? { medicalSpecialty } : {}),
+    ...(conditions.length ? { knowsAbout: conditions } : {}),
+    ...(typeof provider.acceptsNewPatients === 'boolean'
+      ? { isAcceptingNewPatients: provider.acceptsNewPatients }
+      : {}),
     worksFor: {
+      '@id': `${canonicalUrl(config)}#clinic`,
       '@type': 'MedicalClinic',
       name: practice.name,
       url: canonicalUrl(config),
@@ -180,7 +190,14 @@ function providerPage(config, provider) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}" />
-${robotsMeta(config)}${canonicalLink(config, `providers/${providerSlug}`)}  <link rel="stylesheet" href="../../assets/styles.css" />
+${robotsMeta(config)}${canonicalLink(config, `providers/${providerSlug}`)}${socialMeta(config, {
+    title,
+    description,
+    pagePath: `providers/${providerSlug}`,
+    image: providerSeo.ogImage || provider.image,
+    imageAlt: providerSeo.ogImageAlt || `Portrait of ${name}`,
+    type: 'profile',
+  })}  <link rel="stylesheet" href="../../assets/styles.css" />
   <script>window.FRONTDOOR_PRACTICE_SLUG = ${JSON.stringify(practiceSlug)};</script>
   <script src="/shared/attribution.js"></script>
   <script src="/shared/analytics.js"></script>
