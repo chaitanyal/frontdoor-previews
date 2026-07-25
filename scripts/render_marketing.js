@@ -266,9 +266,25 @@ function renderMarketing(root = 'dist') {
     throw new Error(`Missing featured practice preview image: ${sourcePreview}`);
   }
 
+  const beforeImage = config.featuredPracticeBeforeImage || '';
+  const afterImage = config.featuredPracticeAfterImage || '';
+  const proofSource = config.featuredPracticeProofSource || '';
+  if (!beforeImage || !afterImage || !proofSource) {
+    throw new Error('marketing must include featured practice before/after images and a proof source');
+  }
+
+  const sourceBefore = path.resolve(beforeImage);
+  const sourceAfter = path.resolve(afterImage);
+  if (!fs.existsSync(sourceBefore) || !fs.existsSync(sourceAfter)) {
+    throw new Error('Missing featured practice before or after image');
+  }
+
   const metrics = config.featuredPracticeMetrics || [];
-  if (metrics.length !== 2 || metrics.some((metric) => !metric.value || !metric.label)) {
-    throw new Error('marketing.featuredPracticeMetrics must include two metrics with value and label');
+  if (
+    metrics.length !== 3 ||
+    metrics.some((metric) => !metric.value || !metric.label || !metric.detail)
+  ) {
+    throw new Error('marketing.featuredPracticeMetrics must include three metrics with value, label, and detail');
   }
 
   const heroDir = path.join(root, 'assets', 'featured-practice');
@@ -291,10 +307,13 @@ function renderMarketing(root = 'dist') {
     specialty: practiceConfig.practice?.tagline || '',
     heroImage: `./assets/featured-practice/${path.basename(heroTarget)}`,
     previewImage: `./assets/featured-practice/${path.basename(previewTarget)}`,
+    beforeImage: `./${path.relative(path.resolve('marketing'), sourceBefore).split(path.sep).join('/')}`,
+    afterImage: `./${path.relative(path.resolve('marketing'), sourceAfter).split(path.sep).join('/')}`,
     caseStudyUrl: `./case-studies/${siteId}/`,
     domain: siteUrl,
     metrics,
     description,
+    proofSource,
   };
 
   const replacements = {
@@ -306,8 +325,16 @@ function renderMarketing(root = 'dist') {
     '{{FEATURED_PRACTICE_PREVIEW_IMAGE}}': featured.previewImage,
     '{{FEATURED_PRACTICE_METRIC_1_VALUE}}': featured.metrics[0].value,
     '{{FEATURED_PRACTICE_METRIC_1_LABEL}}': featured.metrics[0].label,
+    '{{FEATURED_PRACTICE_METRIC_1_DETAIL}}': featured.metrics[0].detail,
     '{{FEATURED_PRACTICE_METRIC_2_VALUE}}': featured.metrics[1].value,
     '{{FEATURED_PRACTICE_METRIC_2_LABEL}}': featured.metrics[1].label,
+    '{{FEATURED_PRACTICE_METRIC_2_DETAIL}}': featured.metrics[1].detail,
+    '{{FEATURED_PRACTICE_METRIC_3_VALUE}}': featured.metrics[2].value,
+    '{{FEATURED_PRACTICE_METRIC_3_LABEL}}': featured.metrics[2].label,
+    '{{FEATURED_PRACTICE_METRIC_3_DETAIL}}': featured.metrics[2].detail,
+    '{{FEATURED_PRACTICE_BEFORE_IMAGE}}': featured.beforeImage,
+    '{{FEATURED_PRACTICE_AFTER_IMAGE}}': featured.afterImage,
+    '{{FEATURED_PRACTICE_PROOF_SOURCE}}': featured.proofSource,
     '{{FEATURED_PRACTICE_NAME}}': featured.practiceName,
     '{{FEATURED_PRACTICE_SPECIALTY}}': featured.specialty,
     '{{FEATURED_PRACTICE_DESCRIPTION}}': featured.description,

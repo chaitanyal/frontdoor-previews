@@ -19,13 +19,23 @@
   "featuredPracticeMetrics": [
     {
       "value": "5.5×",
-      "label": "Monthly website visitors"
+      "label": "Monthly website visitors",
+      "detail": "~40/month before → ~220/month current run rate"
     },
     {
       "value": "+87%",
-      "label": "Google referrals"
+      "label": "Google referral traffic",
+      "detail": "Week-over-week increase after launch"
+    },
+    {
+      "value": "810",
+      "label": "Google Search impressions",
+      "detail": "37 Google Search clicks in the first 28 days"
     }
   ],
   "featuredPracticeDescription": "Real results from a complete website redesign.",
-  "featuredPracticePreviewImage": "marketing/assets/featured-practice/dronavalli-phone-preview.webp"
+  "featuredPracticePreviewImage": "marketing/assets/featured-practice/dronavalli-phone-preview.webp",
+  "featuredPracticeBeforeImage": "marketing/assets/featured-practice/dronavalli-before-comparison.webp",
+  "featuredPracticeAfterImage": "marketing/assets/featured-practice/dronavalli-after-comparison.webp",
+  "featuredPracticeProofSource": "Measured with Cloudflare Web Analytics and Google Search Console"
 }
