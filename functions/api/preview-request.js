@@ -3,6 +3,34 @@ const TURNSTILE_ENDPOINT = "https://challenges.cloudflare.com/turnstile/v0/sitev
 const REQUEST_TO = "chaitanya@frontdoor.health";
 const REQUEST_FROM = "FrontDoor Health <chaitanya@frontdoor.health>";
 
+// Keep this allowlist synchronized with the specialty options in marketing/index.html.
+const ALLOWED_SPECIALTIES = new Set([
+  "Cardiology",
+  "Dermatology",
+  "Endocrinology",
+  "ENT / Otolaryngology",
+  "Gastroenterology",
+  "Internal Medicine",
+  "Neurology",
+  "OB/GYN",
+  "Ophthalmology",
+  "Orthopedics",
+  "Pain Management",
+  "Pediatrics",
+  "Physical Therapy",
+  "Plastic Surgery",
+  "Primary Care / Family Medicine",
+  "Psychiatry",
+  "Psychology",
+  "Pulmonology",
+  "Rheumatology",
+  "Sleep Medicine",
+  "Therapy / Counseling",
+  "Urgent Care",
+  "Urology",
+  "Other",
+]);
+
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
@@ -13,6 +41,10 @@ function jsonResponse(body, status = 200) {
   });
 }
 
+function normalizeSingleLine(value) {
+  return typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "";
+}
+
 function normalizeWebsiteUrl(value) {
   const raw = String(value || "").trim();
   if (!raw) return "";
@@ -20,7 +52,7 @@ function normalizeWebsiteUrl(value) {
   try {
     const url = new URL(candidate);
     if (!["http:", "https:"].includes(url.protocol)) return "";
-    if (!url.hostname.includes(".")) return "";
+    if (!url.hostname.includes(".") || url.username || url.password) return "";
     url.hash = "";
     return url.toString();
   } catch (_error) {
@@ -34,17 +66,19 @@ function isValidEmail(value) {
 }
 
 function normalizeUtmCampaign(value) {
-  const campaign = String(value || "").trim();
+  const campaign = normalizeSingleLine(value);
   return campaign ? campaign.slice(0, 500) : null;
 }
 
-function textEmail({ name, email, websiteUrl, utmCampaign, submittedAt }) {
+function textEmail({ name, practiceName, specialty, email, website, utmCampaign, submittedAt }) {
   return [
     "New preview request",
     "",
     `Name: ${name}`,
+    `Practice: ${practiceName}`,
+    `Specialty: ${specialty}`,
     `Email: ${email}`,
-    `Website: ${websiteUrl}`,
+    `Website: ${website || "Not provided"}`,
     "",
     "Source: frontdoor.health",
     `UTM Campaign: ${utmCampaign || "None"}`,
@@ -68,7 +102,16 @@ async function verifyTurnstile({ token, secret, ip }) {
   return result.success === true;
 }
 
-async function sendPreviewRequestEmail({ apiKey, name, email, websiteUrl, utmCampaign, submittedAt }) {
+async function sendPreviewRequestEmail({
+  apiKey,
+  name,
+  practiceName,
+  specialty,
+  email,
+  website,
+  utmCampaign,
+  submittedAt,
+}) {
   const response = await fetch(RESEND_ENDPOINT, {
     method: "POST",
     headers: {
@@ -79,8 +122,16 @@ async function sendPreviewRequestEmail({ apiKey, name, email, websiteUrl, utmCam
       from: REQUEST_FROM,
       to: [REQUEST_TO],
       reply_to: email,
-      subject: `[Preview Request] ${websiteUrl}`,
-      text: textEmail({ name, email, websiteUrl, utmCampaign, submittedAt }),
+      subject: `[Preview Request] ${practiceName}`,
+      text: textEmail({
+        name,
+        practiceName,
+        specialty,
+        email,
+        website,
+        utmCampaign,
+        submittedAt,
+      }),
     }),
   });
 
@@ -117,20 +168,32 @@ export async function onRequestPost(context) {
     return jsonResponse({ ok: true, accepted: false });
   }
 
-  const name = String(payload.name || "").trim();
-  const email = String(payload.email || "").trim();
-  const websiteUrl = normalizeWebsiteUrl(payload.websiteUrl);
+  const name = normalizeSingleLine(payload.name);
+  const practiceName = normalizeSingleLine(payload.practiceName);
+  const specialty = normalizeSingleLine(payload.specialty);
+  const email = normalizeSingleLine(payload.email);
+  const websiteInput = String(payload.websiteUrl || "").trim();
+  const website = normalizeWebsiteUrl(websiteInput);
   const utmCampaign = normalizeUtmCampaign(payload.utm_campaign);
   const turnstileToken = String(payload.turnstileToken || "").trim();
 
   if (!name || name.length > 100) {
     return jsonResponse({ ok: false, error: "Enter your name." }, 400);
   }
+  if (!practiceName) {
+    return jsonResponse({ ok: false, error: "Please enter your practice name." }, 400);
+  }
+  if (practiceName.length > 150) {
+    return jsonResponse({ ok: false, error: "Practice name must be 150 characters or fewer." }, 400);
+  }
+  if (specialty.length > 100 || !ALLOWED_SPECIALTIES.has(specialty)) {
+    return jsonResponse({ ok: false, error: "Please select a specialty." }, 400);
+  }
   if (!isValidEmail(email) || email.length > 254) {
     return jsonResponse({ ok: false, error: "Enter a valid email address." }, 400);
   }
-  if (!websiteUrl || websiteUrl.length > 500) {
-    return jsonResponse({ ok: false, error: "Enter a valid practice website URL." }, 400);
+  if ((websiteInput && !website) || website.length > 500) {
+    return jsonResponse({ ok: false, error: "Please enter a valid website URL." }, 400);
   }
   if (!turnstileToken) {
     return jsonResponse({ ok: false, error: "Verification is required." }, 400);
@@ -151,8 +214,10 @@ export async function onRequestPost(context) {
   const sent = await sendPreviewRequestEmail({
     apiKey: env.RESEND_API_KEY,
     name,
+    practiceName,
+    specialty,
     email,
-    websiteUrl,
+    website,
     utmCampaign,
     submittedAt,
   });

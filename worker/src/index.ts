@@ -28,6 +28,9 @@ type EventPayload = {
   visitor_id?: unknown;
   timestamp?: unknown;
   utm_campaign?: unknown;
+  practice_name?: unknown;
+  specialty?: unknown;
+  has_website?: unknown;
 };
 
 function corsHeaders(): HeadersInit {
@@ -132,6 +135,12 @@ export default {
     const visitorId = optionalString(payload.visitor_id);
     const eventTimestamp = optionalString(payload.timestamp);
     const utmCampaign = optionalString(payload.utm_campaign);
+    const practiceName = optionalString(payload.practice_name)?.slice(0, 150) ?? null;
+    const specialty = optionalString(payload.specialty)?.slice(0, 100) ?? null;
+    const hasWebsite =
+      typeof payload.has_website === "boolean"
+        ? Number(payload.has_website)
+        : null;
     const userAgent = request.headers.get("User-Agent");
     const country = request.cf?.country ?? null;
     const city = request.cf?.city ?? null;
@@ -150,11 +159,14 @@ INSERT INTO events (
   visitor_id,
   event_timestamp,
   utm_campaign,
+  practice_name,
+  specialty,
+  has_website,
   user_agent,
   country,
   city
 )
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `)
       .bind(
         practiceSlug,
@@ -168,6 +180,9 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         visitorId,
         eventTimestamp,
         utmCampaign,
+        practiceName,
+        specialty,
+        hasWebsite,
         userAgent,
         country,
         city,

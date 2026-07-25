@@ -15,12 +15,15 @@ This Worker only stores:
 - `visitor_id`
 - `event_timestamp`
 - `utm_campaign`
+- `practice_name`
+- `specialty`
+- `has_website`
 - `user_agent`
 - `country`
 - `city`
 - timestamp
 
-It does not store IP addresses, cookies, names, email addresses, form contents, or PHI. Page-view events may include pseudonymous browser-generated `visitor_id` and `session_id` values.
+For accepted preview requests, analytics may include the practice name, specialty, and whether a website was provided. It does not store IP addresses, cookies, personal names, email addresses, full submitted website URLs, other form contents, or PHI. Page-view events may include pseudonymous browser-generated `visitor_id` and `session_id` values.
 
 ## Install Dependencies
 

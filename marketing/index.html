@@ -285,12 +285,48 @@
               <input id="name" name="name" autocomplete="name" required maxlength="100" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="Your name" />
             </div>
             <div>
+              <label for="practiceName" class="text-sm font-medium text-slate-700">Practice name</label>
+              <input id="practiceName" name="practiceName" autocomplete="organization" required maxlength="150" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="Your practice name" />
+            </div>
+            <div>
+              <label for="specialty" class="text-sm font-medium text-slate-700">Specialty</label>
+              <!-- Keep these options synchronized with ALLOWED_SPECIALTIES in functions/api/preview-request.js. -->
+              <select id="specialty" name="specialty" required class="mt-2 h-[58px] w-full rounded-2xl border border-slate-300 bg-white px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50">
+                <option value="" selected disabled>Select a specialty</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Dermatology">Dermatology</option>
+                <option value="Endocrinology">Endocrinology</option>
+                <option value="ENT / Otolaryngology">ENT / Otolaryngology</option>
+                <option value="Gastroenterology">Gastroenterology</option>
+                <option value="Internal Medicine">Internal Medicine</option>
+                <option value="Neurology">Neurology</option>
+                <option value="OB/GYN">OB/GYN</option>
+                <option value="Ophthalmology">Ophthalmology</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Pain Management">Pain Management</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Physical Therapy">Physical Therapy</option>
+                <option value="Plastic Surgery">Plastic Surgery</option>
+                <option value="Primary Care / Family Medicine">Primary Care / Family Medicine</option>
+                <option value="Psychiatry">Psychiatry</option>
+                <option value="Psychology">Psychology</option>
+                <option value="Pulmonology">Pulmonology</option>
+                <option value="Rheumatology">Rheumatology</option>
+                <option value="Sleep Medicine">Sleep Medicine</option>
+                <option value="Therapy / Counseling">Therapy / Counseling</option>
+                <option value="Urgent Care">Urgent Care</option>
+                <option value="Urology">Urology</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
               <label for="email" class="text-sm font-medium text-slate-700">Email</label>
               <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="you@example.com" />
             </div>
             <div>
-              <label for="website" class="text-sm font-medium text-slate-700">Current practice website</label>
-              <input id="website" name="websiteUrl" inputmode="url" autocomplete="url" required maxlength="500" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="https://examplepractice.com" />
+              <label for="website" class="text-sm font-medium text-slate-700">Current practice website (optional)</label>
+              <input id="website" name="websiteUrl" inputmode="url" autocomplete="url" maxlength="500" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="https://yourpractice.com" />
+              <p class="mt-2 text-sm text-slate-500">Don't have a website yet? Leave this blank.</p>
             </div>
             <div class="hidden" aria-hidden="true">
               <label for="companyWebsite">Company website</label>
@@ -344,6 +380,22 @@
         return window.FrontdoorAttribution?.getUtmCampaign?.() || null;
       }
 
+      function normalizeWebsiteUrl(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+        const candidate = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+
+        try {
+          const url = new URL(candidate);
+          if (!['http:', 'https:'].includes(url.protocol)) return null;
+          if (!url.hostname.includes('.') || url.username || url.password) return null;
+          url.hash = '';
+          return url.toString();
+        } catch (_error) {
+          return null;
+        }
+      }
+
       function isLocalPreview() {
         return (
           window.location.protocol === 'file:' ||
@@ -354,7 +406,7 @@
         );
       }
 
-      function sendPreviewRequestedEvent(utmCampaign) {
+      function sendPreviewRequestedEvent(utmCampaign, practiceName, specialty, website) {
         if (isLocalPreview()) return;
 
         fetch('https://analytics.frontdoor.health/event', {
@@ -369,6 +421,9 @@
             referrer: document.referrer || '',
             title: document.title || '',
             timestamp: new Date().toISOString(),
+            practice_name: practiceName,
+            specialty,
+            has_website: Boolean(website),
           }),
           keepalive: true,
         }).catch(() => {});
@@ -384,6 +439,35 @@
         event.preventDefault();
         if (isSubmitting || hasSubmitted) return;
 
+        const formData = new FormData(form);
+        const name = String(formData.get('name') || '').trim();
+        const practiceName = String(formData.get('practiceName') || '').trim();
+        const specialty = String(formData.get('specialty') || '').trim();
+        const email = String(formData.get('email') || '').trim();
+        const websiteInput = String(formData.get('websiteUrl') || '').trim();
+        const website = normalizeWebsiteUrl(websiteInput);
+
+        if (!name) {
+          showStatus('Please enter your name.', 'error');
+          return;
+        }
+        if (!practiceName) {
+          showStatus('Please enter your practice name.', 'error');
+          return;
+        }
+        if (!specialty) {
+          showStatus('Please select a specialty.', 'error');
+          return;
+        }
+        if (!email || !form.elements.email.checkValidity()) {
+          showStatus('Please enter a valid email address.', 'error');
+          return;
+        }
+        if (websiteInput && !website) {
+          showStatus('Please enter a valid website URL.', 'error');
+          return;
+        }
+
         const turnstileToken = window.turnstile?.getResponse();
         if (!turnstileToken) {
           showStatus('Please complete the verification check.', 'error');
@@ -396,15 +480,16 @@
         status.className = 'hidden rounded-2xl px-4 py-3 text-sm font-medium';
 
         try {
-          const formData = new FormData(form);
           const utmCampaign = getUtmCampaign();
           const response = await fetch('/api/preview-request', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({
-              name: formData.get('name'),
-              email: formData.get('email'),
-              websiteUrl: formData.get('websiteUrl'),
+              name,
+              practiceName,
+              specialty,
+              email,
+              websiteUrl: website,
               companyWebsite: formData.get('companyWebsite'),
               utm_campaign: utmCampaign,
               turnstileToken,
@@ -414,8 +499,8 @@
           if (!response.ok || result.ok !== true) {
             throw new Error(result.error || 'Unable to send your request right now.');
           }
-          sendPreviewRequestedEvent(utmCampaign);
           if (result.accepted === true) {
+            sendPreviewRequestedEvent(utmCampaign, practiceName, specialty, website);
             trackGoogleAdsPreviewRequestConversion();
           }
           form.reset();
