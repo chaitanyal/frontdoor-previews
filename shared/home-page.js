@@ -379,7 +379,7 @@
     const isPdf = isPdfUrl(resource.url);
     const fileIcon = isPdf ? 'FileText' : 'Link';
     const pdfBadge = isPdf ? '<span class="rounded-full bg-slate-50/60 px-1.5 py-0.5 text-[0.65rem] font-medium text-slate-500">PDF</span>' : '';
-    return `<a href="${esc(resource.url)}" target="_blank" rel="noopener noreferrer" class="group/resource -mx-2 flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-xl px-2 py-1 text-base font-medium leading-6 text-slate-700 transition duration-200 hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"><span class="shrink-0 text-slate-500 group-hover/resource:text-brand-primary">${icon(fileIcon, 'h-5 w-5')}</span><span class="min-w-0 flex-1">${esc(resource.title)}</span>${pdfBadge}${external ? icon('ExternalLink', 'h-4 w-4 shrink-0 text-slate-500') : ''}</a>`;
+    return `<a href="${esc(resource.url)}"${ctaAttr('resource')} target="_blank" rel="noopener noreferrer" class="group/resource -mx-2 flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-xl px-2 py-1 text-base font-medium leading-6 text-slate-700 transition duration-200 hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"><span class="shrink-0 text-slate-500 group-hover/resource:text-brand-primary">${icon(fileIcon, 'h-5 w-5')}</span><span class="min-w-0 flex-1">${esc(resource.title)}</span>${pdfBadge}${external ? icon('ExternalLink', 'h-4 w-4 shrink-0 text-slate-500') : ''}</a>`;
   }
 
   function PatientResourceCard(resource) {
@@ -387,7 +387,7 @@
     const isPdf = isPdfUrl(resource.url);
     const fileIcon = isPdf ? 'FileText' : 'Link';
     const pdfBadge = isPdf ? '<span class="rounded-full bg-slate-50/60 px-1.5 py-0.5 text-[0.65rem] font-medium text-slate-500">PDF</span>' : '';
-    return `<a href="${esc(resource.url)}" target="_blank" rel="noopener noreferrer" class="group/resource mt-4 flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-[28px] border border-slate-100/70 bg-white px-5 py-3.5 text-base font-medium leading-6 text-slate-700 transition duration-200 hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 sm:px-7"><span class="shrink-0 text-slate-500 group-hover/resource:text-brand-primary">${icon(fileIcon, 'h-5 w-5')}</span><span class="min-w-0 flex-1">${esc(resource.title)}</span>${pdfBadge}${external ? icon('ExternalLink', 'h-4 w-4 shrink-0 text-slate-500') : ''}</a>`;
+    return `<a href="${esc(resource.url)}"${ctaAttr('resource')} target="_blank" rel="noopener noreferrer" class="group/resource mt-4 flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-[28px] border border-slate-100/70 bg-white px-5 py-3.5 text-base font-medium leading-6 text-slate-700 transition duration-200 hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 sm:px-7"><span class="shrink-0 text-slate-500 group-hover/resource:text-brand-primary">${icon(fileIcon, 'h-5 w-5')}</span><span class="min-w-0 flex-1">${esc(resource.title)}</span>${pdfBadge}${external ? icon('ExternalLink', 'h-4 w-4 shrink-0 text-slate-500') : ''}</a>`;
   }
 
   function PatientResourceGroup(group) {

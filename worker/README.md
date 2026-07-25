@@ -60,10 +60,11 @@ https://frontdoor-analytics.<account>.workers.dev
 ```bash
 curl -X POST \
   https://frontdoor-analytics.<account>.workers.dev/event \
+  -H "Origin: https://frontdoor.health" \
   -H "Content-Type: application/json" \
   -d '{
     "practice_slug":"drdronavalli",
-    "event_type":"appointment_click",
+    "event_type":"new_patient_click",
     "page_path":"/",
     "destination_url":"https://healow.com/",
     "referrer":"https://www.google.com/"
@@ -98,6 +99,7 @@ A successful CURL test should produce one row.
 ```bash
 curl -X POST \
   https://frontdoor-analytics.<account>.workers.dev/event \
+  -H "Origin: https://frontdoor.health" \
   -H "Content-Type: application/json" \
   -d '{
     "event":"page_view",
@@ -110,6 +112,12 @@ curl -X POST \
     "timestamp":"2026-06-26T21:00:00.000Z"
   }'
 ```
+
+Browser requests are accepted only from the origins and practice slugs configured
+in `wrangler.toml`. Update `ALLOWED_ORIGINS` and `ALLOWED_PRACTICE_SLUGS` when a
+new production practice domain is added. The Worker limits each allowed origin to
+300 requests per minute, limits JSON request size, and caps stored string lengths
+before writing to D1.
 
 Expected response:
 

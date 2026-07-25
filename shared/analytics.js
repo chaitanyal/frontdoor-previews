@@ -6,6 +6,7 @@
     newPatient: "new_patient_click",
     existingPatient: "existing_patient_click",
     directions: "directions_click",
+    resource: "resource_download",
   };
 
   function isLocalPreview() {
@@ -65,6 +66,19 @@
     return window.FrontdoorAttribution?.getUtmCampaign?.() || null;
   }
 
+  function commonContext() {
+    const context = {
+      referrer: document.referrer || null,
+      title: document.title || null,
+      session_id: getOrCreateId("sessionStorage", "fdh_session_id"),
+      visitor_id: getOrCreateId("localStorage", "fdh_visitor_id"),
+      timestamp: new Date().toISOString(),
+    };
+    const utmCampaign = getUtmCampaign();
+    if (utmCampaign) context.utm_campaign = utmCampaign;
+    return context;
+  }
+
   function trackPreviewPageView() {
     try {
       if (isLocalPreview()) return;
@@ -77,14 +91,8 @@
         event: "page_view",
         path,
         practice_slug: practiceSlug,
-        referrer: document.referrer || null,
-        title: document.title || null,
-        session_id: getOrCreateId("sessionStorage", "fdh_session_id"),
-        visitor_id: getOrCreateId("localStorage", "fdh_visitor_id"),
-        timestamp: new Date().toISOString(),
+        ...commonContext(),
       };
-      const utmCampaign = getUtmCampaign();
-      if (utmCampaign) payload.utm_campaign = utmCampaign;
 
       sendEvent(payload);
     } catch (e) {
@@ -101,7 +109,7 @@
         event_type: eventType,
         page_path: window.location.pathname,
         destination_url: destinationUrl || "",
-        referrer: document.referrer || "",
+        ...commonContext(),
       };
 
       sendEvent(payload);

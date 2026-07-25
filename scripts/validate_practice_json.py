@@ -259,6 +259,16 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         for key in ["slug", "name", "image", "tagline"]:
             require_string_key(provider, key, provider_path)
         validate_asset_path(provider["image"], f"{provider_path}.image")
+        if "bioParagraphs" in provider:
+            validate_string_list(provider["bioParagraphs"], f"{provider_path}.bioParagraphs", min_items=1)
+        if "bio" in provider:
+            require_string(provider["bio"], f"{provider_path}.bio")
+        if "bioParagraphs" not in provider and "bio" not in provider:
+            fail(f"{provider_path} must include bioParagraphs or bio")
+        if "aboutHeading" in provider:
+            require_string(provider["aboutHeading"], f"{provider_path}.aboutHeading")
+        if "whatToExpect" in provider:
+            validate_string_list(provider["whatToExpect"], f"{provider_path}.whatToExpect", min_items=1)
         if "medicalSpecialty" in provider:
             validate_medical_specialty(provider["medicalSpecialty"], f"{provider_path}.medicalSpecialty")
         if "acceptsNewPatients" in provider and not isinstance(provider["acceptsNewPatients"], bool):

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
-const { socialMeta } = require('../shared/render/seo');
+const { canonicalLink, socialMeta } = require('../shared/render/seo');
 
 function loadJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -92,10 +92,12 @@ function injectSocialMetadata(htmlText, filePath, root, seo) {
   const pagePath = marketingPagePath(root, filePath);
   const siteUrl = String(seo.siteUrl || '').replace(/\/+$/, '');
   const image = new URL(String(seo.ogImage || '').replace(/^\.\//, ''), `${siteUrl}/`).toString();
-  const metadata = socialMeta({
+  const metadataConfig = {
     seo: { siteUrl, locale: seo.locale },
     practice: { name: seo.siteName },
-  }, {
+  };
+  const canonical = canonicalLink(metadataConfig, pagePath);
+  const metadata = socialMeta(metadataConfig, {
     title,
     description,
     pagePath,
@@ -107,7 +109,7 @@ function injectSocialMetadata(htmlText, filePath, root, seo) {
   if (!descriptionTag) {
     throw new Error(`Missing meta description tag in marketing page: ${filePath}`);
   }
-  return htmlText.replace(descriptionTag, `${descriptionTag}\n${metadata}`);
+  return htmlText.replace(descriptionTag, `${descriptionTag}\n${canonical}${metadata}`);
 }
 
 function injectSocialMetadataIntoMarketingPages(root, seo, currentDirectory = root) {

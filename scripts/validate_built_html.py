@@ -32,7 +32,9 @@ class BuiltHtmlParser(HTMLParser):
         self.ids: dict[str, int] = {}
         self.title_count = 0
         self.h1_count = 0
+        self.canonical_count = 0
         self.meta_description = False
+        self.noindex = False
         self.assets: list[tuple[str, int, str]] = []
         self.json_ld_blocks: list[tuple[str, int]] = []
         self.classes: list[tuple[str, int]] = []
@@ -51,6 +53,10 @@ class BuiltHtmlParser(HTMLParser):
             self.h1_count += 1
         if tag == "meta" and attrs_dict.get("name") == "description" and attrs_dict.get("content"):
             self.meta_description = True
+        if tag == "meta" and attrs_dict.get("name") == "robots":
+            self.noindex = "noindex" in (attrs_dict.get("content") or "").lower()
+        if tag == "link" and "canonical" in (attrs_dict.get("rel") or "").lower().split() and attrs_dict.get("href"):
+            self.canonical_count += 1
         if attrs_dict.get("class"):
             for class_name in (attrs_dict.get("class") or "").split():
                 self.classes.append((class_name, line))
@@ -147,6 +153,8 @@ def validate_page(path: Path, root: Path) -> list[str]:
         errors.append(f"{path}: missing meta description")
     if parser.h1_count != 1:
         errors.append(f"{path}: expected exactly one <h1>, found {parser.h1_count}")
+    if not parser.noindex and parser.canonical_count != 1:
+        errors.append(f"{path}: expected exactly one canonical link, found {parser.canonical_count}")
 
     for value, line, attr in parser.assets:
         link_error = validate_link_scheme(value, line, attr)

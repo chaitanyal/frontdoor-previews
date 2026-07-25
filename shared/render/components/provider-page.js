@@ -39,9 +39,9 @@ function defaultExpectations(config, provider) {
     ];
   }
   return [
-    'Thorough evaluation of breathing, sleep, and respiratory symptoms',
-    'Clear communication about diagnosis, testing, and next steps',
-    'Long-term treatment planning for chronic lung conditions',
+    'A thoughtful conversation about symptoms, concerns, and care goals',
+    'Clear recommendations about evaluation, treatment, and next steps',
+    'An individualized plan with time for questions and follow-up care',
   ];
 }
 
@@ -128,7 +128,11 @@ function providerPage(config, provider) {
   const description = providerSeo.description || provider.tagline || config.seo?.description || '';
   const conditions = provider.conditions || provider.specialties || config.conditions || [];
   const services = provider.services || ['Evaluation', 'Treatment Planning', 'Ongoing Care'];
-  const bioParagraphs = provider.bioParagraphs || [];
+  const bioParagraphs = provider.bioParagraphs?.length
+    ? provider.bioParagraphs
+    : provider.bio
+      ? [provider.bio]
+      : [];
   const expectations = provider.whatToExpect || defaultExpectations(config, provider);
   const hospitalAffiliations = provider.hospitalAffiliations || provider['Hospital Affiliations'] || [];
   const professionalAffiliations = provider.affiliations || [];
@@ -146,7 +150,7 @@ function providerPage(config, provider) {
   const patientPortalUrl = practice.patientPortalUrl || '';
   const emergencyNotice = practice.emergencyNotice || '';
   const medicalSpecialty = provider.medicalSpecialty || practice.medicalSpecialty;
-  const aboutHeading = provider.aboutHeading || (isPsychiatry(config, provider) ? 'Personalized Psychiatric Care' : 'Individualized Pulmonary Care');
+  const aboutHeading = provider.aboutHeading || (isPsychiatry(config, provider) ? 'Personalized Psychiatric Care' : 'Personalized Specialty Care');
   const providerSlug = provider.slug || '';
   const practiceSlug = practice.slug || '';
   const heroTitleHtml = heroTitle ? `<p class="mt-4 text-lg font-semibold text-brand-primary">${esc(heroTitle)}</p>` : '';
