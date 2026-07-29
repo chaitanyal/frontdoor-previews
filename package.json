@@ -5,16 +5,22 @@
     "build:practice": "FRONTDOOR_TARGET=practice bash scripts/build.sh",
     "build:preview": "FRONTDOOR_TARGET=preview bash scripts/build.sh",
     "build:preview:all": "FRONTDOOR_TARGET=preview SITE_ID=ALL bash scripts/build.sh",
+    "build:astro:marketing": "FRONTDOOR_TARGET=marketing node scripts/build_astro.mjs",
+    "build:astro:practice": "FRONTDOOR_TARGET=practice node scripts/build_astro.mjs",
+    "build:astro:preview": "FRONTDOOR_TARGET=preview node scripts/build_astro.mjs",
+    "build:astro:preview:all": "FRONTDOOR_TARGET=preview SITE_ID=ALL node scripts/build_astro.mjs",
     "build:css": "mkdir -p .tmp/frontdoor-build && tailwindcss -c tailwind.config.js -i ./shared/styles/frontdoor.css -o ./.tmp/frontdoor-build/styles.css --minify",
     "validate:html": "python3 scripts/validate_built_html.py dist",
     "capture:migration-baseline": "node scripts/migration/capture_legacy_contracts.mjs --update",
     "test:migration-contracts": "node scripts/migration/capture_legacy_contracts.mjs --check",
+    "test:astro:foundation": "playwright test --config=playwright.migration.config.mjs --grep @astro-foundation",
     "test:analytics": "playwright test --config=playwright.migration.config.mjs --grep @analytics",
     "test:visual": "playwright test --config=playwright.migration.config.mjs --grep @visual",
     "test:visual:update": "playwright test --config=playwright.migration.config.mjs --grep @visual --update-snapshots"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",
+    "astro": "7.1.6",
     "tailwindcss": "^3.4.17"
   }
 }

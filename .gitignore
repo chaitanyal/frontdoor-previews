@@ -1,4 +1,6 @@
 .DS_Store
+.astro/
 .tmp/
+__pycache__/
 dist/
 node_modules/

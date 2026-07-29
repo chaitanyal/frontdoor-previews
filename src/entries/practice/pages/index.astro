@@ -1,0 +1,11 @@
+---
+import MigrationProofPage from '../../../components/shared/MigrationProofPage.astro';
+
+const siteId = process.env.SITE_ID;
+---
+
+<MigrationProofPage
+  assetHref="./assets/astro-migration/frontdoor-health-logo.svg"
+  detail={`SITE_ID=${siteId}`}
+  target="Practice"
+/>

@@ -169,6 +169,33 @@ Production practice deployments use `build:practice`; the shared preview Pages p
 
 Cloudflare Pages deploys the generated `dist/` directory.
 
+## Parallel Astro Builder
+
+The Astro migration currently runs beside the legacy renderer. These commands write
+only to `.tmp/astro-dist/<target>/` and do not change the production `dist/`
+directory or the existing Cloudflare Pages build commands:
+
+```bash
+npm run build:astro:marketing
+SITE_ID=drdronavalli npm run build:astro:practice
+SITE_ID=northhillspsychiatry npm run build:astro:preview
+npm run build:astro:preview:all
+```
+
+Run the repeatable configuration and direct-file verification with:
+
+```bash
+npm run test:astro:foundation
+```
+
+Each build stages copied, unhashed public files under
+`.tmp/astro-public/<target>/`. Astro copies those files unchanged into its temporary
+output. Pages reference them with route-relative URLs: root pages use `./assets/...`,
+while the nested preview route uses `../../assets/...`. This preserves direct
+`file://` inspection and the existing URL strategy while Astro and the legacy
+renderer run in parallel. Astro-managed or hashed image imports are intentionally
+deferred until after the migration.
+
 ## Analytics
 
 CTA click tracking uses:

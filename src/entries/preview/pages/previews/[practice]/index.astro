@@ -1,0 +1,19 @@
+---
+import MigrationProofPage from '../../../../../components/shared/MigrationProofPage.astro';
+
+export function getStaticPaths() {
+  const practiceIds = JSON.parse(process.env.FRONTDOOR_ASTRO_PRACTICE_IDS ?? '[]');
+  return practiceIds.map((practice) => ({
+    params: { practice },
+    props: { practice },
+  }));
+}
+
+const { practice } = Astro.props;
+---
+
+<MigrationProofPage
+  assetHref="../../assets/astro-migration/frontdoor-health-logo.svg"
+  detail={`SITE_ID=${practice}`}
+  target="Preview"
+/>

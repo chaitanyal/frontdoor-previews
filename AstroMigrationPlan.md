@@ -48,6 +48,26 @@ The migration is complete only when:
 10. **Advance one milestone at a time.** A milestone is complete only when all of its
     exit checks pass.
 
+## Automated verification standard
+
+- Use `@playwright/test` with Playwright-managed Chromium for all automated
+  migration checks that exercise rendered pages, layouts, responsive behavior,
+  interactions, analytics, local assets, or network requests.
+- Do not make automated migration verification depend on a system-installed browser
+  or an interactive browser session.
+- On a fresh development or CI environment, install the compatible browser with
+  `npx playwright install chromium`. Do not commit browser binaries or caches.
+- Prefer `file://` URLs in Playwright for static output and relative-asset checks.
+  Use HTTP only for behavior that requires it, such as response headers, Pages
+  Functions, or staging deployment checks.
+- Keep build scripts, semantic manifest comparisons, and Python HTML validators as
+  lower-level checks. Playwright tests may invoke them, but they do not need to be
+  rewritten as browser code.
+- Intercept analytics, Google Ads, form submissions, and other external requests in
+  Playwright unless a milestone explicitly requires a controlled staging or
+  production smoke test. Manual browser review is supplementary and never replaces
+  a required Playwright check.
+
 ## Current behavior that is a migration contract
 
 ### Build targets
@@ -162,8 +182,8 @@ production practice origin and slug before a practice site is deployed.
 - Nested provider and legal pages resolve their assets correctly.
 - `practice.json`, `marketing.json`, Markdown research files, `.DS_Store`, and
   build-only files are not published.
-- Direct `file://` visual verification of built HTML remains possible for page
-  layout and local assets.
+- Playwright can load built HTML through `file://` for automated layout and
+  local-asset verification.
 - `/shared/analytics.js`, `/shared/attribution.js`, and
   `/shared/google-ads.js` remain available in deployments.
 
@@ -247,8 +267,8 @@ off the Tailwind CDN can be a separate, post-migration improvement.
 
 ### Goal
 
-Create automated evidence of current output and browser behavior before changing a
-renderer.
+Create automated evidence of current output and Playwright browser behavior before
+changing a renderer.
 
 ### Work
 
@@ -276,9 +296,9 @@ renderer.
    - Marketing preview-request accepted, honeypot, validation-failure, and
      API-failure paths.
    - Google Ads conversion invocation only after an accepted request.
-4. Intercept network requests in browser tests. Do not write migration test events to
-   production D1 and do not record real Google Ads conversions.
-5. Add representative desktop and iPhone-sized screenshots for:
+4. Intercept network requests in Playwright tests. Do not write migration test events
+   to production D1 and do not record real Google Ads conversions.
+5. Capture representative desktop and iPhone-sized screenshots with Playwright for:
    - Marketing homepage.
    - One marketing case study.
    - One practice homepage.
@@ -313,6 +333,8 @@ npm run test:visual
 
 ## Milestone 1: Add Astro as a parallel static builder
 
+**Status: Completed and verified on 2026-07-29.**
+
 ### Goal
 
 Introduce Astro without changing any existing production build command or output.
@@ -339,9 +361,9 @@ Introduce Astro without changing any existing production build command or output
    Tailwind version or theme.
 6. Create a minimal static page for each entry mode solely to prove configuration and
    output paths.
-7. Document the selected approach for preserving relative assets and `file://`
-   visual verification. Prefer copied public assets and relative URL helpers over
-   hashed root-relative assets during the migration.
+7. Document the selected approach for preserving relative assets and Playwright
+   `file://` visual verification. Prefer copied public assets and relative URL
+   helpers over hashed root-relative assets during the migration.
 
 ### Verification
 
@@ -350,10 +372,12 @@ npm run build:astro:marketing
 SITE_ID=drdronavalli npm run build:astro:practice
 SITE_ID=northhillspsychiatry npm run build:astro:preview
 npm run build:astro:preview:all
+npm run test:astro:foundation
 ```
 
-Inspect all generated HTML through `file://` and confirm there is no Astro server
-runtime or client hydration script.
+The Playwright foundation test opens all generated HTML through `file://`, verifies
+that copied relative assets load, and confirms there is no Astro server runtime or
+client hydration script.
 
 ### Exit criteria
 
@@ -403,7 +427,7 @@ script integration before migrating complete pages.
    - Supports the existing Google Ads global tag.
    - Does not add practice analytics or practice slug globals by default.
 7. Create an Astro fixture page containing one of every tracked CTA type.
-8. Run the Milestone 0 analytics suite against the Astro fixture.
+8. Run the Milestone 0 Playwright analytics suite against the Astro fixture.
 
 ### Verification
 
@@ -534,8 +558,9 @@ npm run test:visual -- --scope=practice --site=drdronavalli --target=astro
 python3 scripts/validate_built_html.py .tmp/astro-dist/practice
 ```
 
-Manually inspect the Astro output using `file://` at desktop and iPhone viewport
-sizes, including the provider page and every resource link.
+Use Playwright with `file://` URLs at desktop and iPhone viewport sizes to verify the
+homepage, provider page, local assets, and every resource link. Manual visual review
+may supplement this check but is not a milestone gate by itself.
 
 ### Exit criteria
 
@@ -543,7 +568,7 @@ sizes, including the provider page and every resource link.
 - There is no horizontal overflow at the primary mobile viewport.
 - All links, provider keyboard navigation, copy-email behavior, and downloads work.
 - The build contains no `practice.json`, Markdown source, or Astro runtime.
-- Analytics browser tests pass without modifying the analytics Worker.
+- Playwright analytics tests pass without modifying the analytics Worker.
 
 ## Milestone 5: Restore shared preview generation and indexing protection
 
@@ -596,6 +621,7 @@ npm run build:astro:preview:all
 npm run build:astro:marketing
 npm run test:migration-contracts -- --scope=preview
 npm run test:analytics -- --scope=preview --target=astro
+npm run test:visual -- --scope=preview --target=astro
 python3 scripts/validate_built_html.py .tmp/astro-dist/preview
 ```
 
@@ -619,8 +645,9 @@ No practice.json or Markdown file is published.
   all-preview and marketing-plus-preview builds were exercised.
 - Meta robots and `_headers` protection cover every generated preview page.
 - Preview sitemap exclusion is enforced by an automated test.
-- Preview page-view and CTA payloads match the legacy browser tests.
-- Preview layouts and assets work through direct `file://` inspection.
+- Preview page-view and CTA payloads match the legacy Playwright tests.
+- Preview layouts and assets pass Playwright `file://` checks at desktop and iPhone
+  viewports.
 
 ## Milestone 6: Complete standalone practice production builds
 
@@ -661,6 +688,7 @@ python3 scripts/validate_practice_json.py sites/<slug>/practice.json
 SITE_ID=<slug> npm run build:astro:practice
 python3 scripts/validate_built_html.py .tmp/astro-dist/practice
 npm run test:migration-contracts -- --scope=practice --site=<slug>
+npm run test:visual -- --scope=practice --site=<slug> --target=astro
 ```
 
 For `drdronavalli`, additionally verify:
@@ -697,11 +725,12 @@ Astro the default builder.
    - JSON-LD.
    - CTA annotations and destinations.
    - Static asset availability.
-   - Desktop and mobile screenshots.
-3. Run all HTML, analytics, interaction, and visual tests.
+   - Playwright desktop and mobile screenshots.
+3. Run all HTML checks and Playwright analytics, interaction, asset, and visual
+   tests.
 4. Deploy Astro output to a non-production Cloudflare Pages branch/staging
    deployment.
-5. On staging, verify:
+5. On staging, use Playwright to verify:
    - Marketing navigation and assets.
    - Preview navigation and nested provider assets.
    - Noindex HTML.
@@ -709,9 +738,9 @@ Astro the default builder.
    - `robots.txt` and `sitemap.xml`.
    - The preview-request Function using non-production/mocked email handling where
      available.
-6. Verify analytics staging requests with network inspection. If the staging origin
-   is not intentionally allowlisted, verify the exact request payload without
-   changing the production allowlist solely for the test.
+6. Verify analytics staging requests with Playwright network inspection. If the
+   staging origin is not intentionally allowlisted, verify the exact request payload
+   without changing the production allowlist solely for the test.
 7. Change existing npm commands to call Astro while preserving their names and
    environment-variable interfaces.
 8. Update `githooks/pre-commit` to run the Astro builds and contract checks.
@@ -725,13 +754,13 @@ Astro the default builder.
     - Confirm expected routes return 200.
     - Confirm preview routes return the `X-Robots-Tag`.
     - Confirm sitemap and robots contents.
-    - Trigger one non-PHI practice CTA test.
+    - Use Playwright to trigger one non-PHI practice CTA test.
     - Confirm the corresponding D1 event has the expected practice slug, event type,
       page path, and destination.
     - Confirm no increase in Worker CORS or invalid-event errors.
 12. Do not fire a real Google Ads conversion merely as a migration test. Verify its
-    invocation locally through interception and confirm the production tag/config is
-    present.
+    invocation locally through Playwright interception and confirm the production
+    tag/config is present.
 
 ### Verification
 
@@ -794,7 +823,7 @@ production.
    - Cloudflare build-command documentation
    - New-practice instructions
    - Analytics allowlist instructions
-   - Local visual-verification instructions
+   - Local Playwright `file://` visual-verification instructions
 6. Document how to:
    - Add a new practice.
    - Build one production practice.
@@ -810,6 +839,7 @@ Run the complete verification suite from a clean checkout:
 
 ```bash
 npm ci
+npx playwright install chromium
 npm run build:marketing
 SITE_ID=drdronavalli npm run build:practice
 SITE_ID=northhillspsychiatry npm run build:preview
@@ -842,7 +872,8 @@ Until Milestone 8:
 5. For a production rendering or analytics regression:
    - Roll back the affected Cloudflare Pages deployment.
    - Rebuild and deploy with the legacy renderer if necessary.
-   - Preserve the failed Astro output and browser/network evidence for diagnosis.
+   - Preserve the failed Astro output and Playwright trace/network evidence for
+     diagnosis.
 6. Do not modify or roll back D1 data as part of a frontend rollback.
 
 ## Final definition of done
@@ -852,7 +883,7 @@ The migration is done when all of the following are true:
 - Astro is the default static builder for marketing, previews, and practices.
 - Existing build command interfaces still work.
 - Marketing, preview, and standalone-practice route manifests are complete.
-- Analytics contract tests pass with exact payload assertions.
+- Playwright analytics contract tests pass with exact payload assertions.
 - Accepted preview requests still trigger the non-PHI analytics event and Google Ads
   hook exactly once.
 - CTA events are confirmed from both a production preview and a production practice.
@@ -860,7 +891,8 @@ The migration is done when all of the following are true:
 - No preview is listed in any sitemap.
 - Indexable production sites have correct canonicals, robots, sitemaps, social
   metadata, and JSON-LD.
-- Static assets and nested routes work through deployment and local file inspection.
+- Static assets and nested routes work through deployment checks and Playwright
+  local-file verification.
 - No practice or marketing source JSON is published.
 - The analytics Worker, D1 storage contract, and preview-request Pages Function
   continue operating without a migration-induced rewrite.
