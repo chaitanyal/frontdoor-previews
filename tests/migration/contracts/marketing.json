@@ -1,0 +1,649 @@
+{
+  "target": "marketing",
+  "pages": [
+    {
+      "route": "/",
+      "outputFile": "index.html",
+      "title": "FrontDoor Health | Modern websites for independent healthcare practices",
+      "description": "FrontDoor Health helps independent healthcare practices create modern websites that better reflect the quality of care they already provide.",
+      "robots": null,
+      "canonical": "https://frontdoor.health/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png",
+        "url": "https://frontdoor.health/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "Organization",
+          "Service",
+          "WebSite"
+        ]
+      },
+      "localAssetUrls": [
+        "./assets/featured-practice/dronavalli-after-comparison.webp",
+        "./assets/featured-practice/dronavalli-before-comparison.webp",
+        "./assets/featured-practice/dronavalli-phone-preview.webp",
+        "./assets/featured-practice/hero.webp",
+        "./assets/frontdoor-health-favicon.svg",
+        "./assets/frontdoor-health-logo.svg",
+        "./case-studies/drdronavalli/",
+        "./privacy/",
+        "/shared/attribution.js",
+        "/shared/google-ads.js"
+      ],
+      "runtimeScripts": [
+        "https://cdn.tailwindcss.com",
+        "https://unpkg.com/lucide@latest",
+        "https://challenges.cloudflare.com/turnstile/v0/api.js",
+        "/shared/attribution.js",
+        "/shared/google-ads.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/404.html",
+      "outputFile": "404.html",
+      "title": "Page Not Found | FrontDoor Health",
+      "description": "The requested FrontDoor Health page could not be found.",
+      "robots": "noindex,nofollow",
+      "canonical": null,
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "./assets/frontdoor-health-favicon.svg",
+        "./assets/marketing-tailwind-config.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "https://cdn.tailwindcss.com",
+        "./assets/marketing-tailwind-config.js",
+        "/shared/attribution.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/about/",
+      "outputFile": "about/index.html",
+      "title": "About | FrontDoor Health",
+      "description": "About FrontDoor Health and its work modernizing independent healthcare practice websites.",
+      "robots": null,
+      "canonical": "https://frontdoor.health/about/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png",
+        "url": "https://frontdoor.health/about/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png"
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../assets/frontdoor-health-favicon.svg",
+        "../assets/marketing-tailwind-config.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "https://cdn.tailwindcss.com",
+        "../assets/marketing-tailwind-config.js",
+        "/shared/attribution.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/case-studies/",
+      "outputFile": "case-studies/index.html",
+      "title": "Case Studies | FrontDoor Health",
+      "description": "Practice website transformation case studies from FrontDoor Health.",
+      "robots": null,
+      "canonical": "https://frontdoor.health/case-studies/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png",
+        "url": "https://frontdoor.health/case-studies/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png"
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../assets/frontdoor-health-favicon.svg",
+        "../assets/marketing-tailwind-config.js",
+        "./drdronavalli/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "https://cdn.tailwindcss.com",
+        "../assets/marketing-tailwind-config.js",
+        "/shared/attribution.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/case-studies/drdronavalli/",
+      "outputFile": "case-studies/drdronavalli/index.html",
+      "title": "Physician Website Redesign Case Study | Dr. Goutham Dronavalli",
+      "description": "A FrontDoor Health case study showing how a clearer practice website can help patients understand care, find answers, and confidently reach out.",
+      "robots": null,
+      "canonical": "https://frontdoor.health/case-studies/drdronavalli/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png",
+        "url": "https://frontdoor.health/case-studies/drdronavalli/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png"
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../../assets/frontdoor-health-favicon.svg",
+        "../../assets/frontdoor-health-logo.svg",
+        "../../assets/marketing/goutham-dronavalli.jpg",
+        "../../index.html",
+        "../../index.html#contact",
+        "../../index.html#what",
+        "../../privacy/",
+        "./dronavalli_after.webp",
+        "./dronavalli_before.webp",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "https://cdn.tailwindcss.com",
+        "/shared/attribution.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+      ],
+      "inlineScriptCount": 2,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/mariposa/",
+      "outputFile": "previews/mariposa/index.html",
+      "title": "Mariposa Psychiatry | Dr. Alba Lara, M.D. | Austin, TX",
+      "description": "Adult psychiatry and psychodynamic psychotherapy in Austin and online, led by Dr. Alba Lara.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://preview.frontdoor.health/mariposa/",
+      "openGraphUrls": {
+        "image": "https://preview.frontdoor.health/mariposa/images/hero/hero.webp",
+        "url": "https://preview.frontdoor.health/mariposa/"
+      },
+      "twitterUrls": {
+        "image": "https://preview.frontdoor.health/mariposa/images/hero/hero.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "MedicalClinic"
+        ]
+      },
+      "localAssetUrls": [
+        "./accessibility/",
+        "./assets/styles.css",
+        "./images/hero/hero.webp",
+        "./images/office/office.webp",
+        "./images/providers/alba-lara.webp",
+        "./privacy/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 6,
+      "ctaCounts": {
+        "directions": 1,
+        "email": 1,
+        "newPatient": 1,
+        "phone": 3
+      }
+    },
+    {
+      "route": "/previews/mariposa/accessibility/",
+      "outputFile": "previews/mariposa/accessibility/index.html",
+      "title": "Accessibility | Mariposa Psychiatry",
+      "description": "Accessibility information for Mariposa Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://preview.frontdoor.health/mariposa/accessibility/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/mariposa/privacy/",
+      "outputFile": "previews/mariposa/privacy/index.html",
+      "title": "Privacy | Mariposa Psychiatry",
+      "description": "Privacy information for Mariposa Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://preview.frontdoor.health/mariposa/privacy/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/mariposa/providers/alba-lara/",
+      "outputFile": "previews/mariposa/providers/alba-lara/index.html",
+      "title": "Dr. Alba Lara | Mariposa Psychiatry",
+      "description": "Bilingual psychiatrist specializing in psychosomatic medicine, complex mood disorders, and insight-oriented psychotherapy.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://preview.frontdoor.health/mariposa/providers/alba-lara/",
+      "openGraphUrls": {
+        "image": "https://preview.frontdoor.health/mariposa/images/providers/alba-lara.webp",
+        "url": "https://preview.frontdoor.health/mariposa/providers/alba-lara/"
+      },
+      "twitterUrls": {
+        "image": "https://preview.frontdoor.health/mariposa/images/providers/alba-lara.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "Physician"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/alba-lara.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {
+        "email": 1,
+        "newPatient": 1,
+        "phone": 4
+      }
+    },
+    {
+      "route": "/previews/northhillspsychiatry/",
+      "outputFile": "previews/northhillspsychiatry/index.html",
+      "title": "North Hills Psychiatry | Compassionate Psychiatric Care in Austin",
+      "description": "Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp",
+        "url": "https://frontdoor.health/previews/northhillspsychiatry/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "MedicalClinic"
+        ]
+      },
+      "localAssetUrls": [
+        "./accessibility/",
+        "./assets/resources/new-patient-registration.pdf",
+        "./assets/styles.css",
+        "./images/hero/Austin_Hero_Image.webp",
+        "./images/office/office_entrance.webp",
+        "./images/providers/diana_samuel.webp",
+        "./images/providers/zita_samuel.webp",
+        "./privacy/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 6,
+      "ctaCounts": {
+        "directions": 1,
+        "email": 1,
+        "phone": 3,
+        "resource": 1
+      }
+    },
+    {
+      "route": "/previews/northhillspsychiatry/accessibility/",
+      "outputFile": "previews/northhillspsychiatry/accessibility/index.html",
+      "title": "Accessibility | North Hills Psychiatry",
+      "description": "Accessibility information for North Hills Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/accessibility/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/northhillspsychiatry/privacy/",
+      "outputFile": "previews/northhillspsychiatry/privacy/index.html",
+      "title": "Privacy | North Hills Psychiatry",
+      "description": "Privacy information for North Hills Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/privacy/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/northhillspsychiatry/providers/diana-samuel/",
+      "outputFile": "previews/northhillspsychiatry/providers/diana-samuel/index.html",
+      "title": "Dr. Diana Samuel | North Hills Psychiatry",
+      "description": "Compassionate psychiatric care for children, teens, and families managing anxiety, mood concerns, ADHD, and life stressors.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/providers/diana-samuel/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/diana_samuel.webp",
+        "url": "https://frontdoor.health/previews/northhillspsychiatry/providers/diana-samuel/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/diana_samuel.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "Physician"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/diana_samuel.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {
+        "email": 1,
+        "phone": 4
+      }
+    },
+    {
+      "route": "/previews/northhillspsychiatry/providers/zita-samuel/",
+      "outputFile": "previews/northhillspsychiatry/providers/zita-samuel/index.html",
+      "title": "Dr. Zita Samuel | North Hills Psychiatry",
+      "description": "Combining deep clinical expertise with a supportive, holistic approach to help individuals navigate complex mental health challenges, life transitions, and emotional stressors.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/providers/zita-samuel/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/zita_samuel.webp",
+        "url": "https://frontdoor.health/previews/northhillspsychiatry/providers/zita-samuel/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/zita_samuel.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "Physician"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/zita_samuel.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {
+        "email": 1,
+        "phone": 4
+      }
+    },
+    {
+      "route": "/privacy/",
+      "outputFile": "privacy/index.html",
+      "title": "Privacy Policy | FrontDoor Health",
+      "description": "Privacy Policy for FrontDoor Health website preview requests, analytics, cookies, and Google Ads Conversion Tracking.",
+      "robots": null,
+      "canonical": "https://frontdoor.health/privacy/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png",
+        "url": "https://frontdoor.health/privacy/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png"
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../",
+        "../#contact",
+        "../#what",
+        "../assets/frontdoor-health-favicon.svg",
+        "../assets/frontdoor-health-logo.svg",
+        "../case-studies/drdronavalli/",
+        "./",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "https://cdn.tailwindcss.com",
+        "/shared/attribution.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+      ],
+      "inlineScriptCount": 2,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/transformations/",
+      "outputFile": "transformations/index.html",
+      "title": "Transformations | FrontDoor Health",
+      "description": "Practice website transformations from FrontDoor Health.",
+      "robots": null,
+      "canonical": "https://frontdoor.health/transformations/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png",
+        "url": "https://frontdoor.health/transformations/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/assets/frontdoor-health-social.png"
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../assets/frontdoor-health-favicon.svg",
+        "../assets/marketing-tailwind-config.js",
+        "../case-studies/drdronavalli/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "https://cdn.tailwindcss.com",
+        "../assets/marketing-tailwind-config.js",
+        "/shared/attribution.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    }
+  ],
+  "outputFiles": [
+    "404.html",
+    "_headers",
+    "about/index.html",
+    "assets/featured-practice/dronavalli-after-comparison.webp",
+    "assets/featured-practice/dronavalli-before-comparison.webp",
+    "assets/featured-practice/dronavalli-phone-preview.webp",
+    "assets/featured-practice/hero.webp",
+    "assets/fonts/inter-latin.woff2",
+    "assets/frontdoor-health-favicon.svg",
+    "assets/frontdoor-health-logo-square.png",
+    "assets/frontdoor-health-logo.svg",
+    "assets/frontdoor-health-social.png",
+    "assets/frontdoor-health-social.svg",
+    "assets/marketing-tailwind-config.js",
+    "assets/marketing/goutham-dronavalli.jpg",
+    "case-studies/drdronavalli/dronavalli_after.webp",
+    "case-studies/drdronavalli/dronavalli_before.webp",
+    "case-studies/drdronavalli/index.html",
+    "case-studies/index.html",
+    "index.html",
+    "previews/mariposa/accessibility/index.html",
+    "previews/mariposa/assets/fonts/inter-latin.woff2",
+    "previews/mariposa/assets/styles.css",
+    "previews/mariposa/images/hero/hero.png",
+    "previews/mariposa/images/hero/hero.webp",
+    "previews/mariposa/images/office/office.png",
+    "previews/mariposa/images/office/office.webp",
+    "previews/mariposa/images/providers/alba-lara.webp",
+    "previews/mariposa/index.html",
+    "previews/mariposa/privacy/index.html",
+    "previews/mariposa/providers/alba-lara/index.html",
+    "previews/northhillspsychiatry/accessibility/index.html",
+    "previews/northhillspsychiatry/assets/fonts/inter-latin.woff2",
+    "previews/northhillspsychiatry/assets/resources/new-patient-registration.pdf",
+    "previews/northhillspsychiatry/assets/styles.css",
+    "previews/northhillspsychiatry/images/hero/Austin_Hero_Image.jpg",
+    "previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp",
+    "previews/northhillspsychiatry/images/office/office_entrance.jpeg",
+    "previews/northhillspsychiatry/images/office/office_entrance.webp",
+    "previews/northhillspsychiatry/images/providers/diana_samuel.png",
+    "previews/northhillspsychiatry/images/providers/diana_samuel.webp",
+    "previews/northhillspsychiatry/images/providers/zita_samuel.png",
+    "previews/northhillspsychiatry/images/providers/zita_samuel.webp",
+    "previews/northhillspsychiatry/index.html",
+    "previews/northhillspsychiatry/privacy/index.html",
+    "previews/northhillspsychiatry/providers/diana-samuel/index.html",
+    "previews/northhillspsychiatry/providers/zita-samuel/index.html",
+    "privacy/index.html",
+    "robots.txt",
+    "shared/analytics.js",
+    "shared/attribution.js",
+    "shared/google-ads.js",
+    "sitemap.xml",
+    "transformations/index.html"
+  ],
+  "headers": "/previews/mariposa/*\n  X-Robots-Tag: noindex, nofollow\n/previews/northhillspsychiatry/*\n  X-Robots-Tag: noindex, nofollow",
+  "robots": "User-agent: *\nAllow: /\n\nSitemap: https://frontdoor.health/sitemap.xml",
+  "sitemapLocations": [
+    "https://frontdoor.health/",
+    "https://frontdoor.health/about/",
+    "https://frontdoor.health/case-studies/",
+    "https://frontdoor.health/case-studies/drdronavalli/",
+    "https://frontdoor.health/privacy/",
+    "https://frontdoor.health/transformations/"
+  ]
+}

@@ -6,9 +6,15 @@
     "build:preview": "FRONTDOOR_TARGET=preview bash scripts/build.sh",
     "build:preview:all": "FRONTDOOR_TARGET=preview SITE_ID=ALL bash scripts/build.sh",
     "build:css": "mkdir -p .tmp/frontdoor-build && tailwindcss -c tailwind.config.js -i ./shared/styles/frontdoor.css -o ./.tmp/frontdoor-build/styles.css --minify",
-    "validate:html": "python3 scripts/validate_built_html.py dist"
+    "validate:html": "python3 scripts/validate_built_html.py dist",
+    "capture:migration-baseline": "node scripts/migration/capture_legacy_contracts.mjs --update",
+    "test:migration-contracts": "node scripts/migration/capture_legacy_contracts.mjs --check",
+    "test:analytics": "playwright test --config=playwright.migration.config.mjs --grep @analytics",
+    "test:visual": "playwright test --config=playwright.migration.config.mjs --grep @visual",
+    "test:visual:update": "playwright test --config=playwright.migration.config.mjs --grep @visual --update-snapshots"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.0",
     "tailwindcss": "^3.4.17"
   }
 }

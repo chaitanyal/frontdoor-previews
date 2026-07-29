@@ -1,0 +1,190 @@
+{
+  "target": "practice-drdronavalli",
+  "pages": [
+    {
+      "route": "/",
+      "outputFile": "index.html",
+      "title": "Dr. Goutham Dronavalli, MD | Pulmonologist in Sugar Land, TX",
+      "description": "Dr. Goutham Dronavalli is a board-certified pulmonologist and critical care physician serving Sugar Land and the greater Houston area. Learn about services, insurance, and appointments.",
+      "robots": null,
+      "canonical": "https://drdronavalli.com/",
+      "openGraphUrls": {
+        "image": "https://drdronavalli.com/images/hero/hero.webp",
+        "url": "https://drdronavalli.com/"
+      },
+      "twitterUrls": {
+        "image": "https://drdronavalli.com/images/hero/hero.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "MedicalClinic"
+        ]
+      },
+      "localAssetUrls": [
+        "./accessibility/",
+        "./assets/resources/asthama_test.pdf",
+        "./assets/resources/cat_test_form.pdf",
+        "./assets/resources/hipaa_release.pdf",
+        "./assets/resources/medicationstoavoid.pdf",
+        "./assets/resources/newpatientregistration.pdf",
+        "./assets/resources/sleepinterviewquesttionare.pdf",
+        "./assets/styles.css",
+        "./images/hero/hero.webp",
+        "./images/office/office.webp",
+        "./images/providers/goutham_dronavalli.webp",
+        "./privacy/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 6,
+      "ctaCounts": {
+        "directions": 1,
+        "email": 2,
+        "existingPatient": 1,
+        "newPatient": 1,
+        "phone": 4,
+        "resource": 6
+      }
+    },
+    {
+      "route": "/accessibility/",
+      "outputFile": "accessibility/index.html",
+      "title": "Accessibility | Goutham Dronavalli, MD",
+      "description": "Accessibility information for Goutham Dronavalli, MD.",
+      "robots": null,
+      "canonical": "https://drdronavalli.com/accessibility/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/privacy/",
+      "outputFile": "privacy/index.html",
+      "title": "Privacy | Goutham Dronavalli, MD",
+      "description": "Privacy information for Goutham Dronavalli, MD.",
+      "robots": null,
+      "canonical": "https://drdronavalli.com/privacy/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/providers/goutham-dronavalli/",
+      "outputFile": "providers/goutham-dronavalli/index.html",
+      "title": "Dr. Goutham Dronavalli | Goutham Dronavalli, MD",
+      "description": "Combining advanced academic insight with personalized care, Dr. Dronavalli helps patients overcome complex breathing disorders and chronic sleep conditions. Welcoming new patients at our Sugar Land clinic.",
+      "robots": null,
+      "canonical": "https://drdronavalli.com/providers/goutham-dronavalli/",
+      "openGraphUrls": {
+        "image": "https://drdronavalli.com/images/providers/goutham_dronavalli.webp",
+        "url": "https://drdronavalli.com/providers/goutham-dronavalli/"
+      },
+      "twitterUrls": {
+        "image": "https://drdronavalli.com/images/providers/goutham_dronavalli.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "Physician"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/goutham_dronavalli.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {
+        "email": 1,
+        "existingPatient": 1,
+        "newPatient": 1,
+        "phone": 4
+      }
+    }
+  ],
+  "outputFiles": [
+    "_redirects",
+    "accessibility/index.html",
+    "assets/fonts/inter-latin.woff2",
+    "assets/resources/asthama_test.pdf",
+    "assets/resources/cat_test_form.pdf",
+    "assets/resources/hipaa_release.pdf",
+    "assets/resources/medicationstoavoid.pdf",
+    "assets/resources/newpatientregistration.pdf",
+    "assets/resources/sleepinterviewquesttionare.pdf",
+    "assets/styles.css",
+    "images/hero/hero.webp",
+    "images/office/office.webp",
+    "images/providers/goutham_dronavalli.jpg",
+    "images/providers/goutham_dronavalli.webp",
+    "index.html",
+    "privacy/index.html",
+    "providers/goutham-dronavalli/index.html",
+    "robots.txt",
+    "shared/analytics.js",
+    "shared/attribution.js",
+    "shared/google-ads.js",
+    "sitemap.xml"
+  ],
+  "headers": null,
+  "robots": "User-agent: *\nAllow: /\n\nSitemap: https://drdronavalli.com/sitemap.xml",
+  "sitemapLocations": [
+    "https://drdronavalli.com/",
+    "https://drdronavalli.com/accessibility/",
+    "https://drdronavalli.com/privacy/",
+    "https://drdronavalli.com/providers/goutham-dronavalli/"
+  ]
+}

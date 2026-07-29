@@ -1,0 +1,216 @@
+{
+  "target": "preview-northhillspsychiatry",
+  "pages": [
+    {
+      "route": "/previews/northhillspsychiatry/",
+      "outputFile": "previews/northhillspsychiatry/index.html",
+      "title": "North Hills Psychiatry | Compassionate Psychiatric Care in Austin",
+      "description": "Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp",
+        "url": "https://frontdoor.health/previews/northhillspsychiatry/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "MedicalClinic"
+        ]
+      },
+      "localAssetUrls": [
+        "./accessibility/",
+        "./assets/resources/new-patient-registration.pdf",
+        "./assets/styles.css",
+        "./images/hero/Austin_Hero_Image.webp",
+        "./images/office/office_entrance.webp",
+        "./images/providers/diana_samuel.webp",
+        "./images/providers/zita_samuel.webp",
+        "./privacy/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 6,
+      "ctaCounts": {
+        "directions": 1,
+        "email": 1,
+        "phone": 3,
+        "resource": 1
+      }
+    },
+    {
+      "route": "/previews/northhillspsychiatry/accessibility/",
+      "outputFile": "previews/northhillspsychiatry/accessibility/index.html",
+      "title": "Accessibility | North Hills Psychiatry",
+      "description": "Accessibility information for North Hills Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/accessibility/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/northhillspsychiatry/privacy/",
+      "outputFile": "previews/northhillspsychiatry/privacy/index.html",
+      "title": "Privacy | North Hills Psychiatry",
+      "description": "Privacy information for North Hills Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/privacy/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/northhillspsychiatry/providers/diana-samuel/",
+      "outputFile": "previews/northhillspsychiatry/providers/diana-samuel/index.html",
+      "title": "Dr. Diana Samuel | North Hills Psychiatry",
+      "description": "Compassionate psychiatric care for children, teens, and families managing anxiety, mood concerns, ADHD, and life stressors.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/providers/diana-samuel/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/diana_samuel.webp",
+        "url": "https://frontdoor.health/previews/northhillspsychiatry/providers/diana-samuel/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/diana_samuel.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "Physician"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/diana_samuel.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {
+        "email": 1,
+        "phone": 4
+      }
+    },
+    {
+      "route": "/previews/northhillspsychiatry/providers/zita-samuel/",
+      "outputFile": "previews/northhillspsychiatry/providers/zita-samuel/index.html",
+      "title": "Dr. Zita Samuel | North Hills Psychiatry",
+      "description": "Combining deep clinical expertise with a supportive, holistic approach to help individuals navigate complex mental health challenges, life transitions, and emotional stressors.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/providers/zita-samuel/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/zita_samuel.webp",
+        "url": "https://frontdoor.health/previews/northhillspsychiatry/providers/zita-samuel/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/zita_samuel.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "Physician"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/zita_samuel.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {
+        "email": 1,
+        "phone": 4
+      }
+    }
+  ],
+  "outputFiles": [
+    "_headers",
+    "previews/northhillspsychiatry/accessibility/index.html",
+    "previews/northhillspsychiatry/assets/fonts/inter-latin.woff2",
+    "previews/northhillspsychiatry/assets/resources/new-patient-registration.pdf",
+    "previews/northhillspsychiatry/assets/styles.css",
+    "previews/northhillspsychiatry/images/hero/Austin_Hero_Image.jpg",
+    "previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp",
+    "previews/northhillspsychiatry/images/office/office_entrance.jpeg",
+    "previews/northhillspsychiatry/images/office/office_entrance.webp",
+    "previews/northhillspsychiatry/images/providers/diana_samuel.png",
+    "previews/northhillspsychiatry/images/providers/diana_samuel.webp",
+    "previews/northhillspsychiatry/images/providers/zita_samuel.png",
+    "previews/northhillspsychiatry/images/providers/zita_samuel.webp",
+    "previews/northhillspsychiatry/index.html",
+    "previews/northhillspsychiatry/privacy/index.html",
+    "previews/northhillspsychiatry/providers/diana-samuel/index.html",
+    "previews/northhillspsychiatry/providers/zita-samuel/index.html",
+    "robots.txt",
+    "shared/analytics.js",
+    "shared/attribution.js",
+    "shared/google-ads.js"
+  ],
+  "headers": "/previews/northhillspsychiatry/*\n  X-Robots-Tag: noindex, nofollow",
+  "robots": "User-agent: *\nAllow: /\n\nSitemap: https://frontdoor.health/sitemap.xml",
+  "sitemapLocations": []
+}
