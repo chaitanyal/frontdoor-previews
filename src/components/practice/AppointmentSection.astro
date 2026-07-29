@@ -1,0 +1,120 @@
+---
+import ContactCards from './ContactCards.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  appointmentUrl?: string;
+  patientPortalUrl?: string;
+  phone: string;
+  phoneHref: string;
+  email?: string;
+  emergencyNotice?: string;
+  sectionId?: string;
+  homeVariant?: boolean;
+}
+
+const {
+  appointmentUrl = '',
+  patientPortalUrl = '',
+  phone,
+  phoneHref,
+  email = '',
+  emergencyNotice = '',
+  sectionId = 'appointment',
+  homeVariant = false,
+} = Astro.props;
+const actions = [
+  appointmentUrl
+    ? {
+        label: 'New Patient Appointment',
+        url: appointmentUrl,
+        primary: true,
+        iconName: 'CalendarCheck',
+      }
+    : null,
+  patientPortalUrl
+    ? {
+        label: 'Existing Patient? Log In',
+        url: patientPortalUrl,
+        primary: false,
+        iconName: 'LogIn',
+      }
+    : null,
+].filter(Boolean);
+const sectionClass = homeVariant
+  ? 'fade-in-up section relative overflow-hidden border-t border-white/60 bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary py-20'
+  : 'relative overflow-hidden bg-gradient-to-br from-brand-900 via-brand-800 to-brand-primary px-6 py-16 md:py-24 lg:px-8';
+const containerClass = homeVariant
+  ? 'section-shell relative grid grid-cols-1 gap-12 lg:grid-cols-2'
+  : 'mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center';
+---
+
+<section
+  id={sectionId}
+  class={sectionClass}
+  aria-labelledby={homeVariant ? 'contact-title' : undefined}
+>
+  <div class={containerClass}>
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-wide text-sage-100">
+        REQUEST CARE
+      </p>
+      <h2
+        id={homeVariant ? 'contact-title' : undefined}
+        class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl"
+      >
+        Ready to schedule a visit?
+      </h2>
+      <p
+        class:list={[
+          'mt-6 text-lg leading-8 text-slate-300',
+          homeVariant && 'max-w-2xl',
+        ]}
+      >
+        Contact the office directly or request an appointment online.
+      </p>
+    </div>
+    <div class="dark-section-card p-7 md:p-8">
+      {
+        actions.length > 0 && (
+          <div class="space-y-3">
+            {actions.map((action) => (
+              <a
+                href={action.url}
+                data-frontdoor-cta={
+                  action.primary ? 'newPatient' : 'existingPatient'
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`${
+                  action.primary ? 'btn-primary' : 'btn-secondary'
+                } w-full justify-center px-5 py-4 text-base`}
+              >
+                <Icon name={action.iconName} />
+                {action.label}
+                <Icon name="ExternalLink" class="h-3.5 w-3.5" />
+              </a>
+            ))}
+          </div>
+        )
+      }
+      <div
+        class:list={[
+          actions.length > 0 && 'mt-8 border-t border-slate-200 pt-7',
+        ]}
+      >
+        <h3 class="text-2xl font-semibold tracking-tight text-slate-950">
+          Contact the Office
+        </h3>
+        <ContactCards practice={{ phone, phoneHref, email }} />
+      </div>
+      {
+        emergencyNotice && (
+          <p class="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium leading-6 text-amber-900">
+            {emergencyNotice}
+          </p>
+        )
+      }
+    </div>
+  </div>
+</section>

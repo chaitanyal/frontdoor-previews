@@ -1,0 +1,61 @@
+---
+interface Props {
+  config: Record<string, any>;
+  providerLabels?: Record<string, string>;
+  providerPage?: boolean;
+}
+
+const {
+  config,
+  providerLabels = {},
+  providerPage = false,
+} = Astro.props;
+const { practice, hero } = config;
+---
+
+{
+  !providerPage && (
+    <footer class="border-t border-white/60 bg-warm-200 px-6 py-10 lg:px-8">
+      <nav
+        class="mx-auto flex max-w-7xl justify-center gap-8 text-sm font-medium text-slate-600"
+        aria-label="Footer navigation"
+      >
+        <a class="transition hover:text-slate-950" href="./privacy/">Privacy</a>
+        <a class="transition hover:text-slate-950" href="./accessibility/">
+          Accessibility
+        </a>
+      </nav>
+    </footer>
+  )
+}
+<div
+  class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"
+>
+  <div class="mx-auto grid max-w-md grid-cols-2 gap-3">
+    <a
+      href={providerPage ? '#appointment' : '#contact'}
+      class="btn-primary min-h-[44px] px-3 py-2 text-sm"
+    >
+      {
+        providerPage
+          ? providerLabels.bookAppointment || 'Book Appointment'
+          : hero.primaryCta
+      }
+    </a>
+    <a
+      href={practice.phoneHref}
+      data-frontdoor-cta="phone"
+      class="btn-secondary min-h-[44px] px-3 py-2 text-sm"
+    >
+      {providerPage ? providerLabels.callOffice || 'Call Office' : 'Call Office'}
+    </a>
+  </div>
+</div>
+<div
+  data-copy-toast
+  class="pointer-events-none fixed inset-x-4 bottom-24 z-[60] mx-auto hidden max-w-sm rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center text-sm font-semibold text-slate-950 shadow-lg md:bottom-6"
+  role="status"
+  aria-live="polite"
+>
+  {providerPage ? 'Email copied' : '✓ Email copied'}
+</div>

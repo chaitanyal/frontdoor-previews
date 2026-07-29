@@ -1,0 +1,10 @@
+---
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className = 'h-4 w-4' } = Astro.props;
+---
+
+<i data-lucide={name} class={className} aria-hidden="true"></i>

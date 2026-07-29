@@ -524,6 +524,8 @@ Additionally test the preview-request form with mocked responses:
 
 ## Milestone 4: Migrate one complete practice as a pilot
 
+**Status: Completed and verified on 2026-07-29.**
+
 ### Goal
 
 Render `drdronavalli` through shared Astro practice components at the standalone

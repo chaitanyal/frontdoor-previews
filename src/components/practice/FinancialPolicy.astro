@@ -1,0 +1,156 @@
+---
+import {
+  financialTitle,
+  normalizedFees,
+  paymentMethodIcon,
+  paymentMethodLabel,
+  policyParagraphs,
+} from '../../lib/practice-view.mjs';
+import ContactCards from './ContactCards.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  config: Record<string, any>;
+}
+
+const { config } = Astro.props;
+const { insurance, practice } = config;
+const policy = config.financialPolicy;
+const useInsurance =
+  insurance?.enabled &&
+  (!policy ||
+    ['insurance', 'hybrid', 'mixed'].includes(policy.paymentModel));
+const title = policy?.paymentModel === 'cash_only'
+  ? 'Private Pay'
+  : financialTitle(policy);
+const summary = policy?.summary || {
+  cash_only:
+    'This practice operates on a self-pay basis and does not participate in insurance networks.',
+  out_of_network: 'This practice is out-of-network with insurance providers.',
+  hybrid:
+    'This practice accepts select insurance plans and also offers self-pay options.',
+  mixed:
+    'This practice accepts select insurance plans and also offers self-pay options.',
+  insurance:
+    'Please contact the office to confirm insurance and payment options.',
+}[policy?.paymentModel] ||
+  'Please contact the office to confirm insurance and payment options.';
+const fees = normalizedFees(policy);
+const note = policy?.contactForRatesMessage
+  ? policyParagraphs(policy.contactForRatesMessage)
+  : policy?.superbillAvailable
+    ? [
+        'Superbills are available for patients seeking reimbursement through out-of-network benefits.',
+      ]
+    : [];
+---
+
+{
+  useInsurance ? (
+    <section
+      id="insurance"
+      class="section border-t border-white/60 bg-sage-100"
+    >
+      <div class="section-shell soft-card p-8 md:p-12">
+        <div class="max-w-3xl">
+          <p class="eyebrow">{insurance.section_label || ''}</p>
+          <h2 class="section-title">{insurance.headline || ''}</h2>
+          <p class="mt-6 text-lg leading-8 text-slate-600">
+            {insurance.summary || ''}
+          </p>
+        </div>
+        {insurance.coverage_types?.length > 0 && (
+          <div class="mt-6 flex flex-wrap gap-3">
+            {insurance.coverage_types.map((type) => (
+              <span class="badge-brand px-5 py-2.5 text-[0.95rem]">
+                {type}
+              </span>
+            ))}
+          </div>
+        )}
+        {insurance.carrier_sentence && (
+          <p class="mt-6 max-w-[800px] text-[0.95rem] leading-[1.6] text-slate-600 opacity-85">
+            {insurance.carrier_sentence}
+          </p>
+        )}
+        {insurance.verification?.enabled && (
+          <div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-warm-50 px-6 pb-6 pt-6 md:px-8 md:pb-6 md:pt-6">
+            <p class="text-base leading-7 text-slate-700">
+              {insurance.verification.description || ''}
+            </p>
+            <ContactCards practice={practice} variant="sm" />
+          </div>
+        )}
+        {insurance.disclaimer && (
+          <p class="mt-6 text-sm leading-6 text-slate-500">
+            {insurance.disclaimer}
+          </p>
+        )}
+      </div>
+    </section>
+  ) : (
+    <section
+      id="insurance"
+      class="section border-t border-white/60 bg-sage-100"
+    >
+      <div class="section-shell soft-card p-8 md:p-12">
+        <div class="max-w-3xl">
+          <h2 class="section-title">{title}</h2>
+          <p class="mt-6 text-lg leading-8 text-slate-600">{summary}</p>
+        </div>
+        {['listed', 'published'].includes(policy?.pricingDisplay) &&
+          fees.length > 0 && (
+            <div class="mt-6 space-y-4">
+              {fees.map((fee) => (
+                <div class="rounded-[28px] border border-slate-200 bg-white px-5 py-3.5 md:px-5 md:py-4">
+                  <div class="flex items-start justify-between gap-4">
+                    <p class="text-base font-semibold leading-7 text-slate-950">
+                      {fee.label}
+                    </p>
+                    <p class="shrink-0 text-right text-xl font-semibold text-brand-primary">
+                      {fee.amount}
+                    </p>
+                  </div>
+                  {fee.duration && (
+                    <p class="mt-1 text-sm leading-6 text-slate-500">
+                      {fee.duration}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        {policy?.pricingDisplay === 'contact_for_rates' && (
+          <div class="mt-6 max-w-[800px] rounded-[28px] border border-slate-200 bg-white px-5 py-3.5 md:py-4">
+            <p class="text-base leading-7 text-slate-700">
+              Please call the office for current rates and payment options.
+            </p>
+          </div>
+        )}
+        {policy?.paymentMethods?.length > 0 && (
+          <div class="mt-8 border-t border-slate-200 pt-6">
+            <p class="text-sm font-medium leading-6 text-slate-500">
+              Payment Methods
+            </p>
+            <div class="mt-1 flex flex-wrap gap-2.5">
+              {policy.paymentMethods.map((method) => (
+                <span class="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-transparent px-4 py-2 text-[0.875rem] font-medium text-slate-600 transition hover:bg-warm-50">
+                  <Icon
+                    name={paymentMethodIcon(method)}
+                    class="h-3.5 w-3.5"
+                  />
+                  {paymentMethodLabel(method)}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+        {note.length > 0 && (
+          <div class="mt-6 max-w-2xl space-y-3 text-sm leading-6 text-slate-500">
+            {note.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}

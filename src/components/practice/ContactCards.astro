@@ -1,0 +1,43 @@
+---
+import ContactCard from './ContactCard.astro';
+
+interface Props {
+  practice: Record<string, any>;
+  variant?: 'lg' | 'sm';
+  labels?: {
+    email?: string;
+    phone?: string;
+  };
+}
+
+const {
+  practice,
+  variant = 'lg',
+  labels = {},
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'mt-5 grid gap-3',
+    variant === 'sm' && practice.email && 'sm:grid-cols-2',
+  ]}
+>
+  <ContactCard
+    type="phone"
+    label={labels.phone || 'Call Office'}
+    value={practice.phone}
+    href={practice.phoneHref}
+    variant={variant}
+  />
+  {
+    practice.email && (
+      <ContactCard
+        type="email"
+        label={labels.email || 'Email'}
+        value={practice.email}
+        variant={variant}
+      />
+    )
+  }
+</div>

@@ -1,33 +1,140 @@
 ---
-import AnalyticsFixture from '../../../components/shared/AnalyticsFixture.astro';
+import AppointmentSection from '../../../components/practice/AppointmentSection.astro';
+import FinancialPolicy from '../../../components/practice/FinancialPolicy.astro';
+import HomeHero from '../../../components/practice/HomeHero.astro';
+import LocationFaq from '../../../components/practice/LocationFaq.astro';
+import PatientResources from '../../../components/practice/PatientResources.astro';
+import PracticeFooter from '../../../components/practice/PracticeFooter.astro';
+import PracticeHeader from '../../../components/practice/PracticeHeader.astro';
+import ProviderConditions from '../../../components/practice/ProviderConditions.astro';
 import PracticeLayout from '../../../layouts/PracticeLayout.astro';
-import { practiceAssetUrl } from '../../../lib/assets.mjs';
 import { loadPracticeData } from '../../../lib/practice-data.mjs';
+import { practiceSchema } from '../../../lib/practice-view.mjs';
 
 const siteId = process.env.SITE_ID;
 const { config, theme } = await loadPracticeData(process.cwd(), siteId);
 ---
 
 <PracticeLayout
+  bodyClass="bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0"
   config={config}
-  jsonLd={{
-    '@context': 'https://schema.org',
-    '@type': 'MedicalClinic',
-    name: config.practice.name,
-    description: 'Astro foundation <migration fixture>',
-    url: config.seo.siteUrl,
-  }}
+  jsonLd={practiceSchema(config)}
   pageKind="home"
+  stylesheetHref="./assets/styles.css"
   theme={theme}
 >
-  <main>
-    <img
-      src={practiceAssetUrl(config.hero.image)}
-      alt={config.hero.imageAlt}
-      width="640"
+  <PracticeHeader config={config} />
+  <main id="main-content" tabindex="-1">
+    <HomeHero config={config} />
+    <ProviderConditions config={config} />
+    <FinancialPolicy config={config} />
+    <AppointmentSection
+      appointmentUrl={config.practice.defaultAppointmentUrl}
+      patientPortalUrl={config.practice.patientPortalUrl}
+      phone={config.practice.phone}
+      phoneHref={config.practice.phoneHref}
+      email={config.practice.email}
+      emergencyNotice={config.practice.emergencyNotice}
+      sectionId="contact"
+      homeVariant
     />
-    <h1>Practice Astro build proof</h1>
-    <p>{`SITE_ID=${siteId}`}</p>
-    <AnalyticsFixture resourceHref="./assets/resources/asthama_test.pdf" />
+    <PatientResources config={config} />
+    <LocationFaq config={config} />
   </main>
+  <PracticeFooter config={config} />
+
+  <script is:inline slot="scripts">
+    (() => {
+      function statusFor(timeZone, weeklyHours) {
+        const parts = new Intl.DateTimeFormat('en-US', {
+          timeZone,
+          weekday: 'long',
+          hour: '2-digit',
+          minute: '2-digit',
+          hourCycle: 'h23',
+        }).formatToParts(new Date());
+        const value = (type) => parts.find((part) => part.type === type)?.value;
+        const today = weeklyHours?.[value('weekday')];
+        if (!today) return { label: 'Call for Hours', className: 'bg-slate-100 text-slate-600' };
+        if (today.closed) return { label: 'Closed Today', className: 'bg-slate-100 text-slate-600' };
+        if (today.telehealthOnly) return { label: 'Telehealth Today', className: 'bg-sage-50 text-brand-accent' };
+        if (!today.open || !today.close) return { label: 'Call for Hours', className: 'bg-slate-100 text-slate-600' };
+        const nowMinutes = Number(value('hour')) * 60 + Number(value('minute'));
+        const toMinutes = (time) => {
+          const [hours, minutes] = time.split(':').map(Number);
+          return hours * 60 + minutes;
+        };
+        return nowMinutes >= toMinutes(today.open) && nowMinutes < toMinutes(today.close)
+          ? { label: 'Open Now', className: 'bg-sage-50 text-brand-accent' }
+          : { label: 'Closed Now', className: 'bg-slate-100 text-slate-600' };
+      }
+
+      const element = document.querySelector('[data-office-status]');
+      if (!element) return;
+      try {
+        const status = statusFor(element.dataset.timeZone, JSON.parse(element.dataset.weeklyHours || '{}'));
+        element.textContent = status.label;
+        element.className = 'rounded-full px-3 py-1 text-sm font-medium ' + status.className;
+      } catch (error) {
+        console.warn('Unable to update office status', error);
+      }
+    })();
+  </script>
+  <script is:inline slot="scripts">
+    (() => {
+      document.querySelectorAll('[data-card-href]').forEach((card) => {
+        card.addEventListener('click', () => {
+          window.location.href = card.getAttribute('data-card-href');
+        });
+        card.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          window.location.href = card.getAttribute('data-card-href');
+        });
+      });
+    })();
+  </script>
+  <script is:inline slot="scripts">
+    (() => {
+      async function copyText(value) {
+        if (navigator.clipboard?.writeText && window.isSecureContext) {
+          await navigator.clipboard.writeText(value);
+          return true;
+        }
+
+        const textarea = document.createElement('textarea');
+        textarea.value = value;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        textarea.setSelectionRange(0, textarea.value.length);
+        const copied = document.execCommand('copy');
+        textarea.remove();
+        return copied;
+      }
+
+      function showCopyToast() {
+        const toast = document.querySelector('[data-copy-toast]');
+        if (!toast) return;
+        toast.classList.remove('hidden');
+        window.clearTimeout(showCopyToast.timeoutId);
+        showCopyToast.timeoutId = window.setTimeout(() => toast.classList.add('hidden'), 2500);
+      }
+
+      document.querySelectorAll('[data-copy-email]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const email = button.getAttribute('data-copy-email') || '';
+          try {
+            if (!await copyText(email)) throw new Error('Copy command failed');
+            showCopyToast();
+          } catch (_error) {
+            window.prompt('Copy email address:', email);
+          }
+        });
+      });
+    })();
+  </script>
+  <script is:inline slot="scripts">lucide.createIcons();</script>
 </PracticeLayout>

@@ -20,9 +20,13 @@ function runAstroBuild(script, siteId) {
 
 export default function globalSetup() {
   if (process.env.FRONTDOOR_MIGRATION_TARGET === 'astro') {
-    runAstroBuild('build:astro:marketing');
-    if (process.env.FRONTDOOR_MIGRATION_SCOPE === 'marketing') return;
+    const scope = process.env.FRONTDOOR_MIGRATION_SCOPE;
+    if (!scope || scope === 'marketing') {
+      runAstroBuild('build:astro:marketing');
+    }
+    if (scope === 'marketing') return;
     runAstroBuild('build:astro:practice', 'drdronavalli');
+    if (scope === 'practice') return;
     runAstroBuild('build:astro:preview', 'northhillspsychiatry');
     return;
   }

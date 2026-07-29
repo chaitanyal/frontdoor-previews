@@ -339,21 +339,62 @@ export function compareAstroMarketingContract() {
   process.stdout.write('Astro marketing contract matches the legacy marketing pages.\n');
 }
 
+export function compareAstroPracticeContract(site = 'drdronavalli') {
+  if (site !== 'drdronavalli') {
+    fail(`No practice migration contract baseline exists for ${site}.`);
+  }
+  const targetName = `practice-${site}`;
+  const baselinePath = path.join(CONTRACT_ROOT, `${targetName}.json`);
+  if (!existsSync(baselinePath)) {
+    fail(`Missing practice migration contract baseline: ${targetName}.json.`);
+  }
+  const astroRoot = path.join(ROOT, '.tmp', 'astro-dist', 'practice');
+  if (!existsSync(astroRoot)) {
+    fail('Missing Astro practice output. Run npm run build:astro:practice first.');
+  }
+
+  const expected = JSON.parse(readFileSync(baselinePath, 'utf8'));
+  const actual = contractFor(astroRoot, targetName);
+  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
+  const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
+  if (actualText !== expectedText) {
+    const actualPath = path.join(
+      ROOT,
+      '.tmp',
+      'migration-contracts',
+      'actual',
+      `astro-${targetName}.json`,
+    );
+    mkdirSync(path.dirname(actualPath), { recursive: true });
+    writeFileSync(actualPath, actualText);
+    fail(
+      `Astro practice contract differs from legacy. Compare ${path.relative(ROOT, baselinePath)} with ${path.relative(ROOT, actualPath)}.`,
+    );
+  }
+  process.stdout.write(`Astro ${site} contract matches the legacy practice.\n`);
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const update = process.argv.includes('--update');
   const check = process.argv.includes('--check');
   const scopeArgument = process.argv.find((argument) => argument.startsWith('--scope='));
   const scope = scopeArgument?.slice('--scope='.length);
+  const siteArgument = process.argv.find((argument) => argument.startsWith('--site='));
+  const site = siteArgument?.slice('--site='.length);
   if (update === check) {
     console.error('Use exactly one of --update or --check.');
     process.exit(2);
   }
   try {
     if (scope) {
-      if (update || scope !== 'marketing') {
-        fail('Scoped migration contract checks currently support --check --scope=marketing.');
+      if (update || !['marketing', 'practice'].includes(scope)) {
+        fail('Scoped migration contract checks support --check with marketing or practice.');
       }
-      compareAstroMarketingContract();
+      if (scope === 'marketing') {
+        compareAstroMarketingContract();
+      } else {
+        compareAstroPracticeContract(site);
+      }
     } else {
       captureLegacyContracts({ update });
     }

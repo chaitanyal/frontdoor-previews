@@ -1,0 +1,114 @@
+---
+import { homeContent } from '../../lib/practice-view.mjs';
+import Icon from './Icon.astro';
+
+interface Props {
+  config: Record<string, any>;
+}
+
+const { config } = Astro.props;
+const { providers = [], conditions = [], conditionsIntro = '' } = config;
+const content = homeContent(config);
+---
+
+{
+  providers.length > 0 && (
+    <section
+      id="providers"
+      class="section border-t border-white/60 bg-warm-50"
+    >
+      <div class="section-shell">
+        <div class="max-w-2xl">
+          <p class="eyebrow">{content.providerEyebrow}</p>
+          <h2 class="section-title">{content.providerTitle}</h2>
+          <p class="section-copy">{content.providerCopy}</p>
+        </div>
+        <div class="mt-12 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-2">
+          {providers.map((provider) => (
+            <article
+              class="fade-in-up editorial-card interactive-card cursor-pointer transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.995] focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"
+              tabindex="0"
+              role="link"
+              data-card-href={`./providers/${provider.slug}/`}
+              aria-label={`View profile for ${provider.name}`}
+            >
+              <div class="aspect-[5/4] overflow-hidden rounded-[28px]">
+                <img
+                  loading="lazy"
+                  src={provider.image}
+                  alt={provider.name}
+                  class="image-treatment h-full w-full object-cover object-top"
+                />
+              </div>
+              <div class="mt-6">
+                <h3 class="text-2xl font-semibold text-slate-950">
+                  {provider.name}
+                </h3>
+                <p class="mt-1 text-sm leading-6 text-slate-500">
+                  {provider.credentials}
+                </p>
+                <p class="mt-4 text-lg leading-8 text-slate-700">
+                  {provider.tagline || ''}
+                </p>
+                <div class="mt-5 flex flex-wrap gap-2">
+                  {(provider.heroTrustItems || provider.specialties || [])
+                    .slice(0, 3)
+                    .map((item) => (
+                      <span class="badge-brand">
+                        <Icon name="CheckCircle" class="h-3.5 w-3.5" />
+                        {item}
+                      </span>
+                    ))}
+                </div>
+                <span
+                  class="btn-secondary mt-6 px-4 py-2.5 text-sm"
+                  aria-hidden="true"
+                >
+                  View Profile
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+<section
+  id="conditions"
+  class="section relative overflow-hidden border-t border-white/60 bg-warm-50"
+>
+  <svg
+    aria-hidden="true"
+    class="conditions-leaf pointer-events-none absolute right-4 top-8 h-72 w-72 text-slate-950 opacity-[0.05] md:right-12 md:top-12"
+    viewBox="0 0 220 220"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M109 188C109 133 109 76 109 32" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+    <path d="M109 82C86 58 64 47 42 49C45 74 62 91 109 102" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M110 110C139 78 164 66 190 69C186 98 165 119 110 132" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M109 145C82 120 58 109 35 113C40 140 61 158 109 166" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+  </svg>
+  <div class="section-shell relative">
+    <div class="max-w-3xl">
+      <p class="eyebrow">Areas of care</p>
+      <h2 class="section-title">Conditions We Treat</h2>
+      <p class="section-copy">{conditionsIntro}</p>
+    </div>
+    <ul
+      class="mt-14 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-3"
+      aria-label="Conditions treated"
+    >
+      {
+        conditions.map((condition) => (
+          <li class="border-t border-slate-200 py-5">
+            <h3 class="text-lg font-semibold tracking-tight text-slate-950">
+              {condition}
+            </h3>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

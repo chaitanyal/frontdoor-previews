@@ -93,7 +93,7 @@ test.describe.serial('Astro migration foundation', () => {
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/practice/index.html',
-      'SITE_ID=drdronavalli',
+      'Breathe easier with expert pulmonary care.',
     );
 
     runNpmBuild('build:astro:preview', 'northhillspsychiatry');

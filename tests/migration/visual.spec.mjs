@@ -1,3 +1,6 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { test, expect } from '@playwright/test';
 import {
   installDeterministicBrowser,
@@ -28,6 +31,7 @@ const pages = [
   },
 ];
 const scope = process.env.FRONTDOOR_MIGRATION_SCOPE;
+const target = process.env.FRONTDOOR_MIGRATION_TARGET;
 const scopedPages = scope
   ? pages.filter((pageCase) => pageCase.name.startsWith(`${scope}-`))
   : pages;
@@ -49,7 +53,20 @@ for (const pageCase of scopedPages) {
       await page.setViewportSize(viewport.size);
       await installDeterministicBrowser(page);
       const network = await installMockNetwork(page);
-      await page.goto(pageCase.url);
+      const url = target === 'astro' && scope === 'practice'
+        ? pathToFileURL(
+            path.join(
+              process.cwd(),
+              '.tmp',
+              'astro-dist',
+              'practice',
+              pageCase.name === 'practice-provider'
+                ? 'providers/goutham-dronavalli/index.html'
+                : 'index.html',
+            ),
+          ).href
+        : pageCase.url;
+      await page.goto(url);
       await waitForStablePage(page);
 
       await expect(page).toHaveScreenshot(`${pageCase.name}-${viewport.name}.png`, {
@@ -59,3 +76,53 @@ for (const pageCase of scopedPages) {
     });
   }
 }
+
+test('@visual practice local assets, resources, and mobile layout are valid', async ({
+  page,
+}) => {
+  test.skip(
+    target !== 'astro' || scope !== 'practice',
+    'This check is specific to the Astro practice pilot.',
+  );
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await installDeterministicBrowser(page);
+  const network = await installMockNetwork(page);
+  const root = path.join(
+    process.cwd(),
+    '.tmp',
+    'astro-dist',
+    'practice',
+  );
+  const localPages = [
+    path.join(root, 'index.html'),
+    path.join(root, 'providers', 'goutham-dronavalli', 'index.html'),
+  ];
+
+  for (const localPage of localPages) {
+    await page.goto(pathToFileURL(localPage).href);
+    await waitForStablePage(page);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBe(true);
+    expect(
+      await page
+        .locator('img')
+        .evaluateAll((images) =>
+          images.every((image) => image.complete && image.naturalWidth > 0)),
+    ).toBe(true);
+  }
+
+  await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
+  const resourceUrls = await page
+    .locator('[data-frontdoor-cta="resource"]')
+    .evaluateAll((links) => links.map((link) => link.href));
+  expect(resourceUrls).toHaveLength(6);
+  for (const resourceUrl of resourceUrls) {
+    expect(resourceUrl.startsWith('file:')).toBe(true);
+    expect(existsSync(fileURLToPath(resourceUrl))).toBe(true);
+  }
+  expect(network.unexpectedRequests).toEqual([]);
+});

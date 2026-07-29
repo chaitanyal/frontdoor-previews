@@ -83,6 +83,12 @@ if (target === 'marketing') {
 const publicDir = path.join(repoRoot, '.tmp', 'astro-public', target);
 const outDir = path.join(repoRoot, '.tmp', 'astro-dist', target);
 const sharedRuntimeDir = path.join(publicDir, 'shared');
+const tailwindExecutable = path.join(
+  repoRoot,
+  'node_modules',
+  '.bin',
+  process.platform === 'win32' ? 'tailwindcss.cmd' : 'tailwindcss',
+);
 
 await rm(publicDir, { recursive: true, force: true });
 await rm(outDir, { recursive: true, force: true });
@@ -137,10 +143,61 @@ for (const practiceId of practiceIds) {
     target === 'preview'
       ? path.join(publicDir, 'previews', practiceId)
       : publicDir;
+  await mkdir(path.join(destinationRoot, 'assets'), { recursive: true });
+
+  const cssResult = spawnSync(
+    tailwindExecutable,
+    [
+      '-c',
+      'tailwind.config.js',
+      '-i',
+      './shared/styles/frontdoor.css',
+      '-o',
+      path.join(destinationRoot, 'assets', 'styles.css'),
+      '--minify',
+    ],
+    {
+      cwd: repoRoot,
+      env: { ...process.env, BROWSERSLIST_IGNORE_OLD_DATA: 'true' },
+      stdio: 'inherit',
+    },
+  );
+  if (cssResult.error) {
+    fail(`Unable to start Tailwind CSS: ${cssResult.error.message}`);
+  }
+  if (cssResult.status !== 0) {
+    process.exit(cssResult.status ?? 1);
+  }
+
   for (const assetDirectory of ['assets', 'images']) {
     const source = path.join(repoRoot, 'sites', practiceId, assetDirectory);
     if (!existsSync(source)) continue;
-    await cp(source, path.join(destinationRoot, assetDirectory), { recursive: true });
+    await cp(source, path.join(destinationRoot, assetDirectory), {
+      recursive: true,
+      filter(sourcePath) {
+        return path.basename(sourcePath) !== '.DS_Store';
+      },
+    });
+  }
+
+  const fontSource = path.join(repoRoot, 'shared', 'fonts');
+  if (existsSync(fontSource)) {
+    await cp(fontSource, path.join(destinationRoot, 'assets', 'fonts'), {
+      recursive: true,
+      filter(sourcePath) {
+        return path.basename(sourcePath) !== '.DS_Store';
+      },
+    });
+  }
+
+  const redirectsSource = path.join(
+    repoRoot,
+    'sites',
+    practiceId,
+    '_redirects',
+  );
+  if (existsSync(redirectsSource)) {
+    await cp(redirectsSource, path.join(destinationRoot, '_redirects'));
   }
 }
 
@@ -180,6 +237,19 @@ if (target === 'marketing') {
     path.join(outDir, 'robots.txt'),
     `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`,
   );
+} else if (target === 'practice') {
+  const { config } = await readPractice(siteId);
+  if (config.seo?.allowIndexing === true) {
+    const sitemapRoutes = await discoverIndexRoutes(outDir);
+    await writeFile(
+      path.join(outDir, 'sitemap.xml'),
+      renderSitemap(site, sitemapRoutes),
+    );
+    await writeFile(
+      path.join(outDir, 'robots.txt'),
+      `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`,
+    );
+  }
 }
 
 console.log(`Astro ${target} output: ${path.relative(repoRoot, outDir)}`);

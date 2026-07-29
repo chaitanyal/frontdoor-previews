@@ -9,12 +9,12 @@ const { config, theme } = await loadPracticeData(process.cwd(), siteId);
 
 <PracticeLayout
   config={config}
-  description={`Privacy information for ${config.practice.name}.`}
-  pageKind="privacy"
-  pagePath="privacy"
+  description={`Accessibility information for ${config.practice.name}.`}
+  pageKind="accessibility"
+  pagePath="accessibility"
   stylesheetHref="../assets/styles.css"
   theme={theme}
-  title={`Privacy | ${config.practice.name}`}
+  title={`Accessibility | ${config.practice.name}`}
 >
-  <LegalPage config={config} page="privacy" />
+  <LegalPage config={config} page="accessibility" />
 </PracticeLayout>

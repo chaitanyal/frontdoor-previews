@@ -11,10 +11,13 @@ const FIXED_SESSION_ID = 'migration-session-id';
 const FIXED_VISITOR_ID = 'migration-visitor-id';
 const UTM_CAMPAIGN = 'migration-contract-campaign';
 const UTM_EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
-const MARKETING_ONLY = process.env.FRONTDOOR_MIGRATION_SCOPE === 'marketing';
+const SCOPE = process.env.FRONTDOOR_MIGRATION_SCOPE;
 
-function skipOutsideMarketingScope() {
-  test.skip(MARKETING_ONLY, 'Not part of the marketing migration scope.');
+function skipUnless(...scopes) {
+  test.skip(
+    Boolean(SCOPE) && !scopes.includes(SCOPE),
+    `Not part of the ${SCOPE} migration scope.`,
+  );
 }
 
 async function installKnownStorage(page, { campaign = UTM_CAMPAIGN } = {}) {
@@ -74,7 +77,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('@analytics sends the complete preview page-view payload', async ({ page }) => {
-  skipOutsideMarketingScope();
+  skipUnless('preview');
   const network = await installMockNetwork(page);
   await installKnownStorage(page);
 
@@ -103,7 +106,7 @@ test('@analytics sends the complete preview page-view payload', async ({ page })
 });
 
 test('@analytics preserves every CTA mapping, destination, context, and ID reuse', async ({ page }) => {
-  skipOutsideMarketingScope();
+  skipUnless('practice');
   const network = await installMockNetwork(page);
   await installKnownStorage(page);
   await page.goto('https://drdronavalli.com/');
@@ -155,7 +158,7 @@ test('@analytics preserves every CTA mapping, destination, context, and ID reuse
 });
 
 test('@analytics copy-email tracking does not break clipboard and toast behavior', async ({ page }) => {
-  skipOutsideMarketingScope();
+  skipUnless('practice');
   const network = await installMockNetwork(page);
   await installKnownStorage(page);
   await page.goto('https://drdronavalli.com/');
@@ -171,7 +174,7 @@ test('@analytics copy-email tracking does not break clipboard and toast behavior
 });
 
 test('@analytics creates and reuses pseudonymous session and visitor IDs', async ({ page }) => {
-  skipOutsideMarketingScope();
+  skipUnless('practice');
   const network = await installMockNetwork(page);
   await page.goto('https://drdronavalli.com/');
 
@@ -197,6 +200,7 @@ test('@analytics creates and reuses pseudonymous session and visitor IDs', async
 });
 
 test('@analytics captures, persists, retrieves, and expires UTM attribution', async ({ page }) => {
+  skipUnless('marketing');
   const network = await installMockNetwork(page);
   await page.goto(`https://frontdoor.health/?utm_campaign=${UTM_CAMPAIGN}`);
 
@@ -244,20 +248,22 @@ for (const [label, url] of [
 }
 
 test('@analytics provider cards support mouse and keyboard navigation', async ({ page }) => {
-  skipOutsideMarketingScope();
+  skipUnless('practice', 'preview');
   const freshPage = await page.context().newPage();
   await installDeterministicBrowser(freshPage, { preventExternalNavigation: false });
   const network = await installMockNetwork(freshPage);
 
-  const previewUrl = 'https://frontdoor.health/previews/northhillspsychiatry/';
-  await freshPage.goto(previewUrl);
+  const practiceUrl = SCOPE === 'practice'
+    ? 'https://drdronavalli.com/'
+    : 'https://frontdoor.health/previews/northhillspsychiatry/';
+  await freshPage.goto(practiceUrl);
   const firstCard = freshPage.locator('[data-card-href]').first();
   const providerPath = await firstCard.getAttribute('data-card-href');
-  const providerUrl = new URL(providerPath, previewUrl).href;
+  const providerUrl = new URL(providerPath, practiceUrl).href;
   await firstCard.click();
   await expect(freshPage).toHaveURL(providerUrl);
 
-  await freshPage.goto(previewUrl);
+  await freshPage.goto(practiceUrl);
   await freshPage.locator('[data-card-href]').first().focus();
   await freshPage.keyboard.press('Enter');
   await expect(freshPage).toHaveURL(providerUrl);
@@ -266,6 +272,7 @@ test('@analytics provider cards support mouse and keyboard navigation', async ({
 });
 
 test('@analytics accepted preview requests emit one non-PHI event and one conversion', async ({ page }) => {
+  skipUnless('marketing');
   const network = await installMockNetwork(page);
   await openMarketingForm(page, network, { status: 200, json: { ok: true, accepted: true } });
   await fillMarketingForm(page);
@@ -309,6 +316,7 @@ test('@analytics accepted preview requests emit one non-PHI event and one conver
 });
 
 test('@analytics honeypot accepted-false responses emit no event or conversion', async ({ page }) => {
+  skipUnless('marketing');
   const network = await installMockNetwork(page);
   await openMarketingForm(page, network, { status: 200, json: { ok: true, accepted: false } });
   await fillMarketingForm(page, { companyWebsite: 'bot.example' });
@@ -322,6 +330,7 @@ test('@analytics honeypot accepted-false responses emit no event or conversion',
 });
 
 test('@analytics client validation failures emit no API call, event, or conversion', async ({ page }) => {
+  skipUnless('marketing');
   const network = await installMockNetwork(page);
   await openMarketingForm(page, network, { status: 200, json: { ok: true, accepted: true } });
   await fillMarketingForm(page, { websiteUrl: 'not a valid website' });
@@ -333,6 +342,7 @@ test('@analytics client validation failures emit no API call, event, or conversi
 });
 
 test('@analytics API failures emit no event or conversion and remain retryable', async ({ page }) => {
+  skipUnless('marketing');
   const network = await installMockNetwork(page);
   await openMarketingForm(page, network, {
     status: 500,
