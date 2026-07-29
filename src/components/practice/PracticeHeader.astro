@@ -3,12 +3,14 @@ import { financialTitle, homeContent } from '../../lib/practice-view.mjs';
 
 interface Props {
   config: Record<string, any>;
+  phoneHref?: string;
   providerLabels?: Record<string, string>;
   providerPage?: boolean;
 }
 
 const {
   config,
+  phoneHref = config.practice.phoneHref,
   providerLabels = {},
   providerPage = false,
 } = Astro.props;
@@ -57,7 +59,7 @@ const content = homeContent(config);
             </a>
           </nav>
           <a
-            href={practice.phoneHref}
+            href={phoneHref}
             data-frontdoor-cta="phone"
             class="btn-secondary min-h-[44px] px-3 py-2 text-sm md:hidden"
           >

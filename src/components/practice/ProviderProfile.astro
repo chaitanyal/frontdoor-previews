@@ -1,6 +1,9 @@
 ---
 import { practiceAssetUrl } from '../../lib/assets.mjs';
-import { providerProfile } from '../../lib/practice-view.mjs';
+import {
+  providerAffiliationMode,
+  providerProfile,
+} from '../../lib/practice-view.mjs';
 import AppointmentSection from './AppointmentSection.astro';
 import Icon from './Icon.astro';
 import PracticeFooter from './PracticeFooter.astro';
@@ -22,15 +25,12 @@ const educationRows = [
   value
     ? [{ label, values: Array.isArray(value) ? value : [value] }]
     : []);
-const affiliationMode = profile.hospitalAffiliations.length
-  ? 'hospital'
-  : profile.professionalCredentials.length
-    ? 'professional'
-    : '';
+const affiliationMode = providerAffiliationMode(profile);
 ---
 
 <PracticeHeader
   config={config}
+  phoneHref={profile.phoneHref}
   providerLabels={profile.labels}
   providerPage
 />
@@ -237,6 +237,7 @@ const affiliationMode = profile.hospitalAffiliations.length
 </main>
 <PracticeFooter
   config={config}
+  phoneHref={profile.phoneHref}
   providerLabels={profile.labels}
   providerPage
 />

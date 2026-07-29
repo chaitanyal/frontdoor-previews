@@ -20,6 +20,18 @@ export function financialTitle(policy) {
   return 'Insurance';
 }
 
+export function financialSectionMode(config) {
+  const policy = config.financialPolicy;
+  if (!policy) return config.insurance?.enabled ? 'insurance' : null;
+  if (
+    config.insurance?.enabled &&
+    ['insurance', 'hybrid', 'mixed'].includes(policy.paymentModel)
+  ) {
+    return 'insurance';
+  }
+  return 'policy';
+}
+
 export function normalizedFees(policy) {
   if (policy?.fees?.length) return policy.fees;
   return (policy?.rates || []).map((rate) => ({
@@ -214,6 +226,7 @@ export function providerProfile(config, provider) {
     emergencyNotice: practice.emergencyNotice || '',
     expectations,
     hospitalAffiliations,
+    isPsychiatry: psychiatry,
     labels,
     name,
     patientPortalUrl: practice.patientPortalUrl || '',
@@ -247,6 +260,14 @@ export function providerProfile(config, provider) {
       },
     },
   };
+}
+
+export function providerAffiliationMode(profile) {
+  if (profile.hospitalAffiliations.length) return 'hospital';
+  if (!profile.isPsychiatry && profile.professionalCredentials.length) {
+    return 'professional';
+  }
+  return '';
 }
 
 export function practiceSchema(config) {

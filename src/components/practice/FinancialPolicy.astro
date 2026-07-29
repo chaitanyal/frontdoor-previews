@@ -1,5 +1,6 @@
 ---
 import {
+  financialSectionMode,
   financialTitle,
   normalizedFees,
   paymentMethodIcon,
@@ -16,10 +17,7 @@ interface Props {
 const { config } = Astro.props;
 const { insurance, practice } = config;
 const policy = config.financialPolicy;
-const useInsurance =
-  insurance?.enabled &&
-  (!policy ||
-    ['insurance', 'hybrid', 'mixed'].includes(policy.paymentModel));
+const sectionMode = financialSectionMode(config);
 const title = policy?.paymentModel === 'cash_only'
   ? 'Private Pay'
   : financialTitle(policy);
@@ -46,7 +44,7 @@ const note = policy?.contactForRatesMessage
 ---
 
 {
-  useInsurance ? (
+  sectionMode === 'insurance' ? (
     <section
       id="insurance"
       class="section border-t border-white/60 bg-sage-100"
@@ -88,7 +86,7 @@ const note = policy?.contactForRatesMessage
         )}
       </div>
     </section>
-  ) : (
+  ) : sectionMode === 'policy' ? (
     <section
       id="insurance"
       class="section border-t border-white/60 bg-sage-100"
@@ -152,5 +150,5 @@ const note = policy?.contactForRatesMessage
         )}
       </div>
     </section>
-  )
+  ) : null
 }

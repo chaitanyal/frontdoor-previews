@@ -4,6 +4,12 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { assertMarketingCaseStudyRoute } from '../../src/lib/marketing-data.mjs';
+import { loadPracticeData } from '../../src/lib/practice-data.mjs';
+import {
+  financialSectionMode,
+  providerAffiliationMode,
+  providerProfile,
+} from '../../src/lib/practice-view.mjs';
 import {
   discoverIndexRoutes,
   renderSitemap,
@@ -163,6 +169,98 @@ test.describe.serial('Astro migration foundation', () => {
     expect(previewPrivacyHtml).toContain('/shared/attribution.js');
     expect(previewPrivacyHtml).not.toContain('/shared/analytics.js');
     expect(previewPrivacyHtml).not.toContain('FRONTDOOR_PRACTICE_SLUG');
+    expect(previewPrivacyHtml).toContain(
+      '<link rel="stylesheet" href="../assets/styles.css">',
+    );
+
+    const previewHomeHtml = readFileSync(
+      path.join(
+        repoRoot,
+        '.tmp',
+        'astro-dist',
+        'preview',
+        'previews',
+        'northhillspsychiatry',
+        'index.html',
+      ),
+      'utf8',
+    );
+    const previewProviderHtml = readFileSync(
+      path.join(
+        repoRoot,
+        '.tmp',
+        'astro-dist',
+        'preview',
+        'previews',
+        'northhillspsychiatry',
+        'providers',
+        'analytics-fixture',
+        'index.html',
+      ),
+      'utf8',
+    );
+    expect(previewHomeHtml).toContain(
+      '<link rel="stylesheet" href="./assets/styles.css">',
+    );
+    expect(previewProviderHtml).toContain(
+      '<link rel="stylesheet" href="../../assets/styles.css">',
+    );
+  });
+
+  test('@astro-foundation preserves reusable practice configuration variants', async () => {
+    const { config: northHills } = await loadPracticeData(
+      repoRoot,
+      'northhillspsychiatry',
+    );
+    expect(northHills.financialPolicy.paymentModel).toBe('cash_only');
+    expect(financialSectionMode(northHills)).toBe('policy');
+    expect(financialSectionMode({
+      ...northHills,
+      financialPolicy: undefined,
+    })).toBeNull();
+    runNpmBuild('build:astro:practice', 'northhillspsychiatry');
+    const northHillsHome = readFileSync(
+      path.join(repoRoot, '.tmp', 'astro-dist', 'practice', 'index.html'),
+      'utf8',
+    );
+    expect(northHillsHome).toContain('Private Pay');
+    expect(northHillsHome).toContain(
+      'Please call the office for current rates and payment options.',
+    );
+    expect(northHillsHome).not.toContain('Insurance Coverage');
+
+    const { config: mariposa } = await loadPracticeData(repoRoot, 'mariposa');
+    const provider = mariposa.providers[0];
+    const profile = providerProfile(mariposa, provider);
+    expect(profile.isPsychiatry).toBe(true);
+    expect(providerAffiliationMode(profile)).toBe('');
+    runNpmBuild('build:astro:practice', 'mariposa');
+    const mariposaProvider = readFileSync(
+      path.join(
+        repoRoot,
+        '.tmp',
+        'astro-dist',
+        'practice',
+        'providers',
+        'alba-lara',
+        'index.html',
+      ),
+      'utf8',
+    );
+    expect(mariposaProvider).not.toContain('Professional Affiliations');
+    expect(mariposaProvider).not.toContain(
+      'American Academy of Geriatric Psychiatry',
+    );
+
+    const overrideProfile = providerProfile(mariposa, {
+      ...provider,
+      contactOverride: {
+        phone: '(512) 555-0199',
+        phoneHref: 'tel:+15125550199',
+      },
+    });
+    expect(overrideProfile.phone).toBe('(512) 555-0199');
+    expect(overrideProfile.phoneHref).toBe('tel:+15125550199');
   });
 
   test('@astro-foundation rejects invalid target and SITE_ID combinations', () => {
