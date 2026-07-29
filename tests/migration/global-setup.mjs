@@ -21,6 +21,7 @@ function runAstroBuild(script, siteId) {
 export default function globalSetup() {
   if (process.env.FRONTDOOR_MIGRATION_TARGET === 'astro') {
     runAstroBuild('build:astro:marketing');
+    if (process.env.FRONTDOOR_MIGRATION_SCOPE === 'marketing') return;
     runAstroBuild('build:astro:practice', 'drdronavalli');
     runAstroBuild('build:astro:preview', 'northhillspsychiatry');
     return;

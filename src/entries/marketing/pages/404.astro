@@ -1,0 +1,22 @@
+---
+import MarketingLayout from '../../../layouts/MarketingLayout.astro';
+
+const title = 'Page Not Found | FrontDoor Health';
+const description = 'The requested FrontDoor Health page could not be found.';
+---
+
+<MarketingLayout
+  assetPrefix="."
+  bodyClass="bg-warm-50 font-sans text-slate-950 antialiased"
+  description={description}
+  robots="noindex,nofollow"
+  social={false}
+  title={title}
+>
+  <main class="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-5 py-16 text-center">
+    <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">404</p>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-5xl">Page not found</h1>
+    <p class="mt-5 text-lg leading-8 text-slate-600">This page is not part of the FrontDoor Health marketing site.</p>
+    <a class="mx-auto mt-8 inline-flex rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white" href="https://frontdoor.health/">Return home</a>
+  </main>
+</MarketingLayout>

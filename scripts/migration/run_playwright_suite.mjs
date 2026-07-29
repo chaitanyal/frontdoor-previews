@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const suite = process.argv[2];
-const supportedSuites = new Set(['analytics']);
+const supportedSuites = new Set(['analytics', 'visual']);
 
 if (!supportedSuites.has(suite)) {
   console.error(`ERROR: Unsupported migration Playwright suite: ${suite || '(missing)'}`);
@@ -12,10 +12,16 @@ if (!supportedSuites.has(suite)) {
 }
 
 let target = 'legacy';
+let scope = '';
+let site = '';
 const passthroughArgs = [];
 for (const argument of process.argv.slice(3)) {
   if (argument.startsWith('--target=')) {
     target = argument.slice('--target='.length);
+  } else if (argument.startsWith('--scope=')) {
+    scope = argument.slice('--scope='.length);
+  } else if (argument.startsWith('--site=')) {
+    site = argument.slice('--site='.length);
   } else {
     passthroughArgs.push(argument);
   }
@@ -23,6 +29,10 @@ for (const argument of process.argv.slice(3)) {
 
 if (!['astro', 'legacy'].includes(target)) {
   console.error(`ERROR: --target must be astro or legacy, received: ${target}`);
+  process.exit(1);
+}
+if (scope && !['marketing', 'practice', 'preview'].includes(scope)) {
+  console.error(`ERROR: --scope must be marketing, practice, or preview, received: ${scope}`);
   process.exit(1);
 }
 
@@ -46,6 +56,8 @@ const result = spawnSync(
     env: {
       ...process.env,
       FRONTDOOR_MIGRATION_TARGET: target,
+      FRONTDOOR_MIGRATION_SCOPE: scope,
+      FRONTDOOR_MIGRATION_SITE: site,
     },
     stdio: 'inherit',
   },

@@ -11,6 +11,11 @@ const FIXED_SESSION_ID = 'migration-session-id';
 const FIXED_VISITOR_ID = 'migration-visitor-id';
 const UTM_CAMPAIGN = 'migration-contract-campaign';
 const UTM_EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
+const MARKETING_ONLY = process.env.FRONTDOOR_MIGRATION_SCOPE === 'marketing';
+
+function skipOutsideMarketingScope() {
+  test.skip(MARKETING_ONLY, 'Not part of the marketing migration scope.');
+}
 
 async function installKnownStorage(page, { campaign = UTM_CAMPAIGN } = {}) {
   await page.addInitScript(({ sessionId, visitorId, utmCampaign, expiresAt }) => {
@@ -69,6 +74,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('@analytics sends the complete preview page-view payload', async ({ page }) => {
+  skipOutsideMarketingScope();
   const network = await installMockNetwork(page);
   await installKnownStorage(page);
 
@@ -97,6 +103,7 @@ test('@analytics sends the complete preview page-view payload', async ({ page })
 });
 
 test('@analytics preserves every CTA mapping, destination, context, and ID reuse', async ({ page }) => {
+  skipOutsideMarketingScope();
   const network = await installMockNetwork(page);
   await installKnownStorage(page);
   await page.goto('https://drdronavalli.com/');
@@ -148,6 +155,7 @@ test('@analytics preserves every CTA mapping, destination, context, and ID reuse
 });
 
 test('@analytics copy-email tracking does not break clipboard and toast behavior', async ({ page }) => {
+  skipOutsideMarketingScope();
   const network = await installMockNetwork(page);
   await installKnownStorage(page);
   await page.goto('https://drdronavalli.com/');
@@ -163,6 +171,7 @@ test('@analytics copy-email tracking does not break clipboard and toast behavior
 });
 
 test('@analytics creates and reuses pseudonymous session and visitor IDs', async ({ page }) => {
+  skipOutsideMarketingScope();
   const network = await installMockNetwork(page);
   await page.goto('https://drdronavalli.com/');
 
@@ -235,6 +244,7 @@ for (const [label, url] of [
 }
 
 test('@analytics provider cards support mouse and keyboard navigation', async ({ page }) => {
+  skipOutsideMarketingScope();
   const freshPage = await page.context().newPage();
   await installDeterministicBrowser(freshPage, { preventExternalNavigation: false });
   const network = await installMockNetwork(freshPage);

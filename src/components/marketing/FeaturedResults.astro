@@ -1,0 +1,63 @@
+---
+const { featured } = Astro.props;
+---
+
+<section id="results" class="border-y border-slate-200/70 bg-white px-5 py-16 lg:px-8 lg:py-24" aria-labelledby="results-title">
+  <div class="mx-auto max-w-7xl">
+    <div class="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+      <div class="max-w-4xl">
+        <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">Real practice. Measurable results.</p>
+        <h2 id="results-title" class="mt-5 text-3xl font-bold leading-tight tracking-tight md:text-5xl">
+          A clearer website helped more patients find the practice.
+        </h2>
+      </div>
+      <div class="max-w-2xl lg:pb-1">
+        <p class="text-lg leading-8 text-slate-600">
+          For {featured.practiceName}, the redesign made expertise, services, and next steps easier to understand—and improved online visibility after launch.
+        </p>
+        <a href={featured.caseStudyUrl} class="mt-5 inline-flex items-center gap-2 text-base font-semibold text-brand-700 hover:text-brand-900">
+          Read the full case study <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-12 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch">
+      <div class="rounded-[32px] bg-brand-50 p-4 sm:p-6">
+        <div class="grid grid-cols-2 gap-3 sm:gap-5">
+          <figure class="overflow-hidden rounded-[22px] border border-slate-200 bg-white">
+            <figcaption class="flex items-center justify-between border-b border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700">
+              Before
+            </figcaption>
+            <div class="aspect-[4/5] overflow-hidden bg-white">
+              <img src={featured.beforeImage} alt={`Previous ${featured.practiceName} website before the FrontDoor Health redesign`} loading="lazy" class="h-full w-full object-cover object-top" />
+            </div>
+          </figure>
+
+          <figure class="overflow-hidden rounded-[22px] border border-sage-100 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.10)]">
+            <figcaption class="flex items-center justify-between border-b border-slate-200 px-4 py-3 text-sm font-semibold text-brand-700">
+              <span>After</span>
+              <span class="text-xs font-medium uppercase tracking-wide text-sage-700">FrontDoor</span>
+            </figcaption>
+            <div class="aspect-[4/5] overflow-hidden bg-white">
+              <img src={featured.afterImage} alt={`Redesigned ${featured.practiceName} website by FrontDoor Health`} loading="lazy" class="h-full w-full object-cover object-top" />
+            </div>
+          </figure>
+        </div>
+        <p class="mt-5 px-1 text-sm leading-6 text-slate-600">
+          The redesign brings specialty care, credentials, patient information, and appointment access into a clearer first-screen experience.
+        </p>
+      </div>
+
+      <div class="grid gap-4">
+        {featured.metrics.map((metric) => (
+          <article class="rounded-[26px] border border-slate-200 bg-warm-50 p-6">
+            <p class="text-4xl font-bold tracking-tight text-brand-700">{metric.value}</p>
+            <h3 class="mt-3 text-lg font-bold tracking-tight">{metric.label}</h3>
+            <p class="mt-2 text-sm leading-6 text-slate-600">{metric.detail}</p>
+          </article>
+        ))}
+        <p class="px-2 text-xs font-medium leading-5 text-slate-500">{featured.proofSource}</p>
+      </div>
+    </div>
+  </div>
+</section>

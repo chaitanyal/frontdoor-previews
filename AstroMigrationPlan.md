@@ -455,6 +455,8 @@ python3 scripts/validate_built_html.py .tmp/astro-dist/preview
 
 ## Milestone 3: Migrate the FrontDoor Health marketing pages
 
+**Status: Completed and verified on 2026-07-29.**
+
 ### Goal
 
 Render all `frontdoor.health` marketing pages through Astro while retaining the

@@ -2,25 +2,76 @@
 import { safeJsonLd } from '../lib/seo.mjs';
 
 interface Props {
-  canonical: string;
+  assetPrefix?: string;
+  bodyClass?: string;
+  canonical?: string;
   description: string;
-  googleAds?: boolean;
+  includeGoogleAdsConversion?: boolean;
+  includeLucide?: boolean;
+  includeTurnstile?: boolean;
   image?: string;
   imageAlt?: string;
   jsonLd?: object | object[];
+  robots?: string;
+  social?: boolean;
+  tailwindConfig?: 'external' | 'inline';
   title: string;
 }
 
 const {
+  assetPrefix = '.',
+  bodyClass = '',
   canonical,
   description,
-  googleAds = false,
+  includeGoogleAdsConversion = false,
+  includeLucide = false,
+  includeTurnstile = false,
   image,
   jsonLd,
+  robots,
+  social = true,
+  tailwindConfig = 'external',
   title,
   imageAlt = title,
 } = Astro.props;
 const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const tailwindConfigScript = `
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
+      colors: {
+        brand: {
+          50: '#EEF4FA',
+          100: '#DCE8E2',
+          700: '#1E3A5F',
+          900: '#16304F',
+        },
+        warm: {
+          50: '#FAF8F5',
+          100: '#F7F4EF',
+          200: '#F3EFE9',
+        },
+        sage: {
+          100: '#DCE8E2',
+          700: '#5C8A79',
+        },
+        slate: {
+          500: '#475569',
+        },
+        border: {
+          100: '#E2E8F0',
+        },
+        success: {
+          600: '#2F855A',
+        },
+      },
+    },
+  },
+};
+`;
 const googleAdsInit = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
@@ -36,39 +87,62 @@ gtag('config', 'AW-18297020270');
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
-    <meta property="og:title" content={title} />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:site_name" content="FrontDoor Health" />
-    <meta property="og:locale" content="en_US" />
-    {image && <meta property="og:image" content={image} />}
-    {image && <meta property="og:image:alt" content={imageAlt} />}
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    {image && <meta name="twitter:image" content={image} />}
-    {image && <meta name="twitter:image:alt" content={imageAlt} />}
+    {robots && <meta name="robots" content={robots} />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    {social && canonical && (
+      <>
+        <meta property="og:title" content={title} />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:site_name" content="FrontDoor Health" />
+        <meta property="og:locale" content="en_US" />
+        {image && <meta property="og:image" content={image} />}
+        {image && <meta property="og:image:alt" content={imageAlt} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        {image && <meta name="twitter:image" content={image} />}
+        {image && <meta name="twitter:image:alt" content={imageAlt} />}
+      </>
+    )}
+    <link rel="icon" href={`${assetPrefix}/assets/frontdoor-health-favicon.svg`} type="image/svg+xml" />
+    <slot name="head" />
+    <script is:inline src="https://cdn.tailwindcss.com"></script>
+    {includeLucide && <script is:inline src="https://unpkg.com/lucide@latest"></script>}
+    {includeTurnstile && (
+      <script
+        is:inline
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer
+      ></script>
+    )}
+    {tailwindConfig === 'external' && (
+      <script
+        is:inline
+        src={`${assetPrefix}/assets/marketing-tailwind-config.js`}
+      ></script>
+    )}
+    <script is:inline src="/shared/attribution.js"></script>
+    {includeGoogleAdsConversion && (
+      <script is:inline src="/shared/google-ads.js"></script>
+    )}
+    {tailwindConfig === 'inline' && (
+      <script is:inline set:html={tailwindConfigScript}></script>
+    )}
     {jsonLdBlocks.map((block) => (
       <script type="application/ld+json" set:html={safeJsonLd(block)} />
     ))}
-    <slot name="head" />
+    <script
+      async
+      is:inline
+      src="https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+    ></script>
+    <script is:inline set:html={googleAdsInit}></script>
   </head>
-  <body>
+  <body class={bodyClass}>
     <slot />
-    <script is:inline src="/shared/attribution.js"></script>
-    {googleAds && (
-      <>
-        <script
-          async
-          is:inline
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
-        ></script>
-        <script is:inline set:html={googleAdsInit}></script>
-        <script is:inline src="/shared/google-ads.js"></script>
-      </>
-    )}
     <slot name="scripts" />
   </body>
 </html>

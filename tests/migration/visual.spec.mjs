@@ -27,6 +27,10 @@ const pages = [
     url: 'https://frontdoor.health/previews/northhillspsychiatry/',
   },
 ];
+const scope = process.env.FRONTDOOR_MIGRATION_SCOPE;
+const scopedPages = scope
+  ? pages.filter((pageCase) => pageCase.name.startsWith(`${scope}-`))
+  : pages;
 
 const viewports = [
   {
@@ -39,7 +43,7 @@ const viewports = [
   },
 ];
 
-for (const pageCase of pages) {
+for (const pageCase of scopedPages) {
   for (const viewport of viewports) {
     test(`@visual ${pageCase.name} ${viewport.name}`, async ({ page }) => {
       await page.setViewportSize(viewport.size);

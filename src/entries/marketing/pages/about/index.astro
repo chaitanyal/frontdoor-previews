@@ -1,18 +1,28 @@
 ---
 import MarketingLayout from '../../../../layouts/MarketingLayout.astro';
+import {
+  loadMarketingData,
+  marketingCanonical,
+  marketingSocialImage,
+} from '../../../../lib/marketing-data.mjs';
+
+const { marketing } = await loadMarketingData(process.cwd());
+const title = 'About | FrontDoor Health';
+const description = 'About FrontDoor Health and its work modernizing independent healthcare practice websites.';
 ---
 
 <MarketingLayout
-  canonical="https://frontdoor.health/about/"
-  description="FrontDoor Health Astro attribution fixture."
-  title="About FrontDoor Health"
+  assetPrefix=".."
+  bodyClass="bg-warm-50 font-sans text-slate-950 antialiased"
+  canonical={marketingCanonical(marketing, 'about')}
+  description={description}
+  image={marketingSocialImage(marketing)}
+  imageAlt={marketing.seo.ogImageAlt}
+  title={title}
 >
-  <main>
-    <img
-      src="../assets/astro-migration/frontdoor-health-logo.svg"
-      alt="FrontDoor Health"
-      width="240"
-    />
-    <h1>About FrontDoor Health</h1>
+  <main class="mx-auto max-w-4xl px-5 py-16">
+    <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">About</p>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight md:text-5xl">Modern websites for independent healthcare practices.</h1>
+    <p class="mt-5 text-lg leading-8 text-slate-600">FrontDoor Health helps small practices create fast, accessible, SEO-friendly websites that reflect the quality of care they already provide.</p>
   </main>
 </MarketingLayout>

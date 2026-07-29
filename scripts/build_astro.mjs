@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { cp, mkdir, rm } from 'node:fs/promises';
+import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -7,6 +7,7 @@ import {
   listEligiblePreviewSlugs,
   loadPracticeData,
 } from '../src/lib/practice-data.mjs';
+import { loadMarketingData } from '../src/lib/marketing-data.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const target = process.env.FRONTDOOR_TARGET ?? '';
@@ -77,17 +78,72 @@ if (target === 'marketing') {
 
 const publicDir = path.join(repoRoot, '.tmp', 'astro-public', target);
 const outDir = path.join(repoRoot, '.tmp', 'astro-dist', target);
-const proofAssetDir = path.join(publicDir, 'assets', 'astro-migration');
 const sharedRuntimeDir = path.join(publicDir, 'shared');
 
 await rm(publicDir, { recursive: true, force: true });
 await rm(outDir, { recursive: true, force: true });
-await mkdir(proofAssetDir, { recursive: true });
+if (target === 'marketing') {
+  const { marketing, practice } = await loadMarketingData(repoRoot);
+  await cp(
+    path.join(repoRoot, 'marketing', 'assets'),
+    path.join(publicDir, 'assets'),
+    { recursive: true },
+  );
+  await cp(
+    path.join(repoRoot, 'marketing', 'case-studies', marketing.featuredPractice),
+    path.join(publicDir, 'case-studies', marketing.featuredPractice),
+    {
+      recursive: true,
+      filter(source) {
+        return !source.endsWith('index.html');
+      },
+    },
+  );
+
+  const heroSource = path.resolve(
+    repoRoot,
+    'sites',
+    marketing.featuredPractice,
+    practice.hero.image,
+  );
+  await mkdir(path.join(publicDir, 'assets', 'featured-practice'), {
+    recursive: true,
+  });
+  await cp(
+    heroSource,
+    path.join(
+      publicDir,
+      'assets',
+      'featured-practice',
+      path.basename(practice.hero.image),
+    ),
+  );
+
+  const sitemapRoutes = [
+    '',
+    'about/',
+    'case-studies/',
+    `case-studies/${marketing.featuredPractice}/`,
+    'privacy/',
+    'transformations/',
+  ];
+  const sitemap = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...sitemapRoutes
+      .map((route) => `${site}/${route}`)
+      .sort()
+      .map((url) => `  <url><loc>${url}</loc></url>`),
+    '</urlset>',
+    '',
+  ].join('\n');
+  await writeFile(path.join(publicDir, 'sitemap.xml'), sitemap);
+  await writeFile(
+    path.join(publicDir, 'robots.txt'),
+    `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`,
+  );
+}
 await mkdir(sharedRuntimeDir, { recursive: true });
-await cp(
-  path.join(repoRoot, 'shared', 'frontdoor-health-logo.svg'),
-  path.join(proofAssetDir, 'frontdoor-health-logo.svg'),
-);
 for (const runtimeFile of ['analytics.js', 'attribution.js', 'google-ads.js']) {
   await cp(
     path.join(repoRoot, 'shared', runtimeFile),

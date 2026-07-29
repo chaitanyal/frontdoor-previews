@@ -244,6 +244,17 @@ function contractFor(root, target) {
   };
 }
 
+function marketingOnly(contract) {
+  return {
+    ...contract,
+    pages: contract.pages.filter((page) => !page.route.startsWith('/previews/')),
+    outputFiles: contract.outputFiles.filter(
+      (file) => file !== '_headers' && !file.startsWith('previews/'),
+    ),
+    headers: null,
+  };
+}
+
 function compileMarketingTestCss() {
   const executable = path.join(ROOT, 'node_modules', '.bin', 'tailwindcss');
   run(executable, [
@@ -297,15 +308,55 @@ export function captureLegacyContracts({ update = false } = {}) {
   process.stdout.write(update ? 'Legacy migration contract baselines updated.\n' : 'Legacy migration contracts match.\n');
 }
 
+export function compareAstroMarketingContract() {
+  const baselinePath = path.join(CONTRACT_ROOT, 'marketing.json');
+  if (!existsSync(baselinePath)) {
+    fail('Missing marketing migration contract baseline.');
+  }
+  const astroRoot = path.join(ROOT, '.tmp', 'astro-dist', 'marketing');
+  if (!existsSync(astroRoot)) {
+    fail('Missing Astro marketing output. Run npm run build:astro:marketing first.');
+  }
+
+  const expected = marketingOnly(JSON.parse(readFileSync(baselinePath, 'utf8')));
+  const actual = marketingOnly(contractFor(astroRoot, 'marketing'));
+  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
+  const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
+  if (actualText !== expectedText) {
+    const actualPath = path.join(
+      ROOT,
+      '.tmp',
+      'migration-contracts',
+      'actual',
+      'astro-marketing.json',
+    );
+    mkdirSync(path.dirname(actualPath), { recursive: true });
+    writeFileSync(actualPath, actualText);
+    fail(
+      `Astro marketing contract differs from legacy. Compare ${path.relative(ROOT, baselinePath)} with ${path.relative(ROOT, actualPath)}.`,
+    );
+  }
+  process.stdout.write('Astro marketing contract matches the legacy marketing pages.\n');
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const update = process.argv.includes('--update');
   const check = process.argv.includes('--check');
+  const scopeArgument = process.argv.find((argument) => argument.startsWith('--scope='));
+  const scope = scopeArgument?.slice('--scope='.length);
   if (update === check) {
     console.error('Use exactly one of --update or --check.');
     process.exit(2);
   }
   try {
-    captureLegacyContracts({ update });
+    if (scope) {
+      if (update || scope !== 'marketing') {
+        fail('Scoped migration contract checks currently support --check --scope=marketing.');
+      }
+      compareAstroMarketingContract();
+    } else {
+      captureLegacyContracts({ update });
+    }
   } catch (error) {
     console.error(error.message);
     process.exit(1);

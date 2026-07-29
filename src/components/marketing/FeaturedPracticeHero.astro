@@ -1,0 +1,80 @@
+---
+const { featured } = Astro.props;
+const [firstMetric, secondMetric] = featured.metrics;
+---
+
+<section class="relative overflow-hidden bg-gradient-to-br from-warm-100 via-brand-50 to-sage-100">
+  <div class="absolute right-[-8rem] top-[-8rem] h-96 w-96 rounded-full bg-white/50 blur-3xl"></div>
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-5 py-20 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:px-8 lg:py-28">
+    <div class="relative max-w-3xl">
+      <div class="mb-6 inline-flex whitespace-nowrap rounded-full border border-white/70 bg-white/70 px-3 py-2 text-[0.8125rem] font-medium text-brand-700 shadow-sm backdrop-blur min-[360px]:px-4 min-[360px]:text-sm">
+        Built for independent medical practices.
+      </div>
+
+      <h1 class="font-sans text-[2.9rem] font-bold leading-[0.96] tracking-[-0.03em] text-slate-950 md:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem]">
+        Help the right patients choose your practice.
+      </h1>
+
+      <p class="mt-6 max-w-2xl text-xl leading-8 text-slate-600 md:text-2xl md:leading-9">
+        70% of patients research you online first. Your website should answer their questions before they ever call.
+      </p>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="#contact" class="inline-flex justify-center rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-brand-900">
+          Request Your Free Preview
+        </a>
+        <a href={featured.caseStudyUrl} class="inline-flex justify-center rounded-2xl border border-slate-300 bg-white/80 px-6 py-3.5 text-base font-semibold text-slate-700 shadow-sm transition hover:bg-white">
+          Read the Case Study
+        </a>
+      </div>
+      <p class="mt-4 text-base font-medium text-slate-600">
+        A personalized preview. No commitment required.
+      </p>
+    </div>
+
+    <div id="example" class="relative">
+      <a href={featured.caseStudyUrl} aria-label={featured.caseStudyAriaLabel} class="group block cursor-pointer rounded-[2rem] border border-white/80 bg-white/80 p-3 shadow-[0_28px_90px_rgba(15,23,42,0.16)] backdrop-blur-xl transition duration-200 hover:-translate-y-1 hover:shadow-[0_34px_100px_rgba(15,23,42,0.2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-700 sm:p-4 lg:max-w-[46rem] lg:justify-self-end xl:max-w-[50rem]">
+        <div class="relative overflow-hidden rounded-[1.65rem] border border-white/80 bg-gradient-to-br from-white via-brand-50 to-sage-100 p-5 shadow-sm sm:p-6 lg:overflow-visible lg:p-7">
+          <img src={featured.heroImage} alt="" aria-hidden="true" class="absolute inset-y-0 right-0 h-full w-1/2 object-cover opacity-10 blur-[1px] saturate-75" />
+          <div class="relative grid gap-7 lg:min-h-[340px] lg:grid-cols-[minmax(0,1fr)_15rem] lg:items-center xl:grid-cols-[minmax(0,1fr)_16rem]">
+            <div class="min-w-0">
+              <p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-sage-700 sm:text-sm">
+                <span class="grid size-8 place-items-center rounded-full bg-white/80 text-sage-700 shadow-sm" aria-hidden="true">☆</span>
+                Featured Practice
+              </p>
+              <h2 class="mt-4 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{featured.practiceName}</h2>
+              <p class="mt-2 text-sm font-semibold text-brand-700 sm:text-base">{featured.specialty}</p>
+
+              <div class="mt-6 grid max-w-sm grid-cols-2 divide-x divide-slate-200">
+                <div class="pr-5">
+                  <p class="text-4xl font-bold tracking-tight text-sage-700 sm:text-5xl">{firstMetric.value}</p>
+                  <p class="mt-1 text-sm font-medium leading-5 text-slate-700">{firstMetric.label}</p>
+                </div>
+                <div class="pl-5">
+                  <p class="text-4xl font-bold tracking-tight text-sage-700 sm:text-5xl">{secondMetric.value}</p>
+                  <p class="mt-1 text-sm font-medium leading-5 text-slate-700">{secondMetric.label}</p>
+                </div>
+              </div>
+
+              <p class="mt-6 max-w-md text-sm leading-6 text-slate-600 sm:text-base sm:leading-7">
+                {featured.description}
+              </p>
+            </div>
+
+            <div class="mx-auto w-full max-w-[12rem] lg:absolute lg:-right-5 lg:top-1/2 lg:max-w-[15rem] lg:-translate-y-1/2 xl:-right-9 xl:max-w-[16rem]" aria-hidden="true">
+              <div class="rounded-[1.85rem] border-[3px] border-slate-950 bg-slate-950 p-0.5 shadow-[0_24px_55px_rgba(15,23,42,0.24)] rotate-0 lg:rotate-[5deg]">
+                <div class="relative aspect-[9/18.8] overflow-hidden rounded-[1.55rem] bg-white">
+                  <img src={featured.previewImage} alt="" class="h-full w-full object-cover object-top" />
+                </div>
+              </div>
+            </div>
+
+            <p class="inline-flex items-center gap-2 text-base font-semibold text-brand-700 lg:col-start-1 lg:row-start-2 lg:-mt-4">
+              Read the Case Study <span class="transition group-hover:translate-x-1" aria-hidden="true">→</span>
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>

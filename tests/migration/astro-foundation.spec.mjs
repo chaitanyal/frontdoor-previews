@@ -38,7 +38,7 @@ async function expectStaticFilePage(page, relativePath, expectedDetail) {
   expect(await page.locator('script[src*="/_astro/"]').count()).toBe(0);
   expect(await page.locator('script[type="module"]').count()).toBe(0);
 
-  const imageState = await page.locator('img').evaluate((image) => ({
+  const imageState = await page.locator('img').first().evaluate((image) => ({
     complete: image.complete,
     naturalWidth: image.naturalWidth,
   }));
@@ -65,7 +65,7 @@ test.describe.serial('Astro migration foundation', () => {
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/marketing/index.html',
-      'Marketing Astro build proof',
+      'Help the right patients choose your practice.',
     );
 
     runNpmBuild('build:astro:practice', 'drdronavalli');
@@ -104,7 +104,10 @@ test.describe.serial('Astro migration foundation', () => {
     expect(marketingHtml).toContain('/shared/google-ads.js');
     expect(marketingHtml).not.toContain('/shared/analytics.js');
     expect(marketingHtml).not.toContain('FRONTDOOR_PRACTICE_SLUG');
-    expect(marketingHtml).toContain('\\u003cmigration fixture>');
+    expect(marketingHtml).toContain('"@type":"Organization"');
+    expect(marketingHtml).toContain('"@type":"WebSite"');
+    expect(marketingHtml).toContain('"@type":"Service"');
+    expect(marketingHtml).not.toContain('migration fixture');
 
     const practiceHtml = readFileSync(
       path.join(repoRoot, '.tmp', 'astro-dist', 'practice', 'index.html'),

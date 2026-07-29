@@ -1,0 +1,24 @@
+---
+const {
+  homeHref,
+  privacyHref,
+  contactHref,
+  showHome = false,
+} = Astro.props;
+---
+
+<footer class="bg-warm-200 px-5 py-8 lg:px-8">
+  <div class="mx-auto flex max-w-7xl flex-col gap-5 border-t border-slate-200 pt-6 md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="font-semibold">FrontDoor Health</p>
+      <p class="mt-1 text-sm text-slate-500">
+        A Website That Feels Like Your Practice
+      </p>
+    </div>
+    <div class="flex gap-6 text-sm text-slate-500">
+      {showHome && <a href={homeHref}>Home</a>}
+      <a href={privacyHref}>Privacy</a>
+      <a href={contactHref}>Contact</a>
+    </div>
+  </div>
+</footer>
