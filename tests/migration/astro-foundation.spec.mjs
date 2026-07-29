@@ -1,4 +1,5 @@
 import { spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
@@ -33,8 +34,9 @@ async function expectStaticFilePage(page, relativePath, expectedDetail) {
 
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.getByText(expectedDetail, { exact: true })).toBeVisible();
-  expect(await page.locator('script').count()).toBe(0);
   expect(await page.locator('astro-island').count()).toBe(0);
+  expect(await page.locator('script[src*="/_astro/"]').count()).toBe(0);
+  expect(await page.locator('script[type="module"]').count()).toBe(0);
 
   const imageState = await page.locator('img').evaluate((image) => ({
     complete: image.complete,
@@ -44,11 +46,22 @@ async function expectStaticFilePage(page, relativePath, expectedDetail) {
   expect(imageState.naturalWidth).toBeGreaterThan(0);
 }
 
-test.describe.serial('Milestone 1 Astro foundation', () => {
+function expectRuntimeCopies(target) {
+  for (const runtimeFile of ['analytics.js', 'attribution.js', 'google-ads.js']) {
+    const source = readFileSync(path.join(repoRoot, 'shared', runtimeFile));
+    const output = readFileSync(
+      path.join(repoRoot, '.tmp', 'astro-dist', target, 'shared', runtimeFile),
+    );
+    expect(output.equals(source), `${target}/${runtimeFile} changed while copying`).toBe(true);
+  }
+}
+
+test.describe.serial('Astro migration foundation', () => {
   test('@astro-foundation builds every target and loads copied assets through file URLs', async ({
     page,
   }) => {
     runNpmBuild('build:astro:marketing');
+    expectRuntimeCopies('marketing');
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/marketing/index.html',
@@ -56,6 +69,7 @@ test.describe.serial('Milestone 1 Astro foundation', () => {
     );
 
     runNpmBuild('build:astro:practice', 'drdronavalli');
+    expectRuntimeCopies('practice');
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/practice/index.html',
@@ -63,6 +77,7 @@ test.describe.serial('Milestone 1 Astro foundation', () => {
     );
 
     runNpmBuild('build:astro:preview', 'northhillspsychiatry');
+    expectRuntimeCopies('preview');
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
@@ -80,6 +95,51 @@ test.describe.serial('Milestone 1 Astro foundation', () => {
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
       'SITE_ID=northhillspsychiatry',
     );
+
+    const marketingHtml = readFileSync(
+      path.join(repoRoot, '.tmp', 'astro-dist', 'marketing', 'index.html'),
+      'utf8',
+    );
+    expect(marketingHtml).toContain('/shared/attribution.js');
+    expect(marketingHtml).toContain('/shared/google-ads.js');
+    expect(marketingHtml).not.toContain('/shared/analytics.js');
+    expect(marketingHtml).not.toContain('FRONTDOOR_PRACTICE_SLUG');
+    expect(marketingHtml).toContain('\\u003cmigration fixture>');
+
+    const practiceHtml = readFileSync(
+      path.join(repoRoot, '.tmp', 'astro-dist', 'practice', 'index.html'),
+      'utf8',
+    );
+    const practicePrivacyHtml = readFileSync(
+      path.join(repoRoot, '.tmp', 'astro-dist', 'practice', 'privacy', 'index.html'),
+      'utf8',
+    );
+    const slugIndex = practiceHtml.indexOf('FRONTDOOR_PRACTICE_SLUG');
+    const attributionIndex = practiceHtml.indexOf('/shared/attribution.js');
+    const analyticsIndex = practiceHtml.indexOf('/shared/analytics.js');
+    expect(slugIndex).toBeGreaterThan(-1);
+    expect(attributionIndex).toBeGreaterThan(slugIndex);
+    expect(analyticsIndex).toBeGreaterThan(attributionIndex);
+    expect(practicePrivacyHtml).toContain('/shared/attribution.js');
+    expect(practicePrivacyHtml).not.toContain('/shared/analytics.js');
+    expect(practicePrivacyHtml).not.toContain('FRONTDOOR_PRACTICE_SLUG');
+
+    const previewPrivacyHtml = readFileSync(
+      path.join(
+        repoRoot,
+        '.tmp',
+        'astro-dist',
+        'preview',
+        'previews',
+        'northhillspsychiatry',
+        'privacy',
+        'index.html',
+      ),
+      'utf8',
+    );
+    expect(previewPrivacyHtml).toContain('/shared/attribution.js');
+    expect(previewPrivacyHtml).not.toContain('/shared/analytics.js');
+    expect(previewPrivacyHtml).not.toContain('FRONTDOOR_PRACTICE_SLUG');
   });
 
   test('@astro-foundation rejects invalid target and SITE_ID combinations', () => {
@@ -102,6 +162,10 @@ test.describe.serial('Milestone 1 Astro foundation', () => {
       [
         { FRONTDOOR_TARGET: 'practice', SITE_ID: 'does-not-exist' },
         'Unknown SITE_ID: does-not-exist',
+      ],
+      [
+        { FRONTDOOR_TARGET: 'practice', SITE_ID: 'template' },
+        'Unknown SITE_ID: template',
       ],
     ];
 

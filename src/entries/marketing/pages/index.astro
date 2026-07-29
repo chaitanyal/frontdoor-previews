@@ -1,8 +1,30 @@
 ---
-import MigrationProofPage from '../../../components/shared/MigrationProofPage.astro';
+import PreviewRequestFixture from '../../../components/marketing/PreviewRequestFixture.astro';
+import MarketingLayout from '../../../layouts/MarketingLayout.astro';
 ---
 
-<MigrationProofPage
-  assetHref="./assets/astro-migration/frontdoor-health-logo.svg"
-  target="Marketing"
-/>
+<MarketingLayout
+  canonical="https://frontdoor.health/"
+  description="Modern websites for independent healthcare practices."
+  googleAds
+  image="https://frontdoor.health/assets/frontdoor-health-social.png"
+  imageAlt="FrontDoor Health"
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'FrontDoor Health',
+    description: 'Astro foundation <migration fixture>',
+    url: 'https://frontdoor.health/',
+  }}
+  title="FrontDoor Health | Modern websites for independent healthcare practices"
+>
+  <main>
+    <img
+      src="./assets/astro-migration/frontdoor-health-logo.svg"
+      alt="FrontDoor Health"
+      width="240"
+    />
+    <h1>Marketing Astro build proof</h1>
+    <PreviewRequestFixture />
+  </main>
+</MarketingLayout>

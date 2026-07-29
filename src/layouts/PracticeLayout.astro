@@ -1,0 +1,70 @@
+---
+import { robotsMeta, safeJsonLd, socialMetadata } from '../lib/seo.mjs';
+import { themeCssProperties } from '../lib/themes.mjs';
+
+interface Props {
+  config: Record<string, any>;
+  jsonLd?: object | object[];
+  pageKind: 'accessibility' | 'home' | 'privacy' | 'provider';
+  pagePath?: string;
+  theme: Record<string, string>;
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const {
+  config,
+  description,
+  image,
+  imageAlt,
+  jsonLd,
+  pageKind,
+  pagePath = '',
+  theme,
+  title,
+} = Astro.props;
+const social = socialMetadata(config, { description, image, imageAlt, pagePath, title });
+const robots = robotsMeta(config);
+const tracksPractice = pageKind === 'home' || pageKind === 'provider';
+const practiceSlugScript =
+  `window.FRONTDOOR_PRACTICE_SLUG = ${JSON.stringify(config.practice.slug)};`;
+const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<!doctype html>
+<html lang="en" style={themeCssProperties(theme)}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{social.title}</title>
+    <meta name="description" content={social.description} />
+    {robots && <meta name="robots" content={robots} />}
+    {social.canonical && <link rel="canonical" href={social.canonical} />}
+    <meta property="og:title" content={social.title} />
+    <meta property="og:type" content={social.type} />
+    <meta property="og:description" content={social.description} />
+    {social.canonical && <meta property="og:url" content={social.canonical} />}
+    <meta property="og:site_name" content={social.siteName} />
+    <meta property="og:locale" content={social.locale} />
+    {social.image && <meta property="og:image" content={social.image} />}
+    {social.image && <meta property="og:image:alt" content={social.imageAlt} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={social.title} />
+    <meta name="twitter:description" content={social.description} />
+    {social.image && <meta name="twitter:image" content={social.image} />}
+    {social.image && <meta name="twitter:image:alt" content={social.imageAlt} />}
+    {jsonLdBlocks.map((block) => (
+      <script type="application/ld+json" set:html={safeJsonLd(block)} />
+    ))}
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+    {tracksPractice && <script is:inline set:html={practiceSlugScript}></script>}
+    <script is:inline src="/shared/attribution.js"></script>
+    {tracksPractice && <script is:inline src="/shared/analytics.js"></script>}
+    <slot name="scripts" />
+  </body>
+</html>

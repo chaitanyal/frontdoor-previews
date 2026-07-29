@@ -1,8 +1,12 @@
 import { existsSync } from 'node:fs';
-import { cp, mkdir, readFile, readdir, rm } from 'node:fs/promises';
+import { cp, mkdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import {
+  listEligiblePreviewSlugs,
+  loadPracticeData,
+} from '../src/lib/practice-data.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const target = process.env.FRONTDOOR_TARGET ?? '';
@@ -14,52 +18,15 @@ function fail(message) {
   process.exit(1);
 }
 
-function practicePath(practiceId) {
-  return path.join(repoRoot, 'sites', practiceId);
-}
-
 async function readPractice(practiceId) {
-  const practiceDir = practicePath(practiceId);
-  const configPath = path.join(practiceDir, 'practice.json');
-
-  if (!existsSync(practiceDir)) {
-    fail(`Unknown SITE_ID: ${practiceId}`);
-  }
-  if (!existsSync(configPath)) {
-    fail(`Missing sites/${practiceId}/practice.json`);
-  }
-
-  const validation = spawnSync(
-    'python3',
-    [path.join(repoRoot, 'scripts', 'validate_practice_json.py'), configPath],
-    { cwd: repoRoot, encoding: 'utf8' },
-  );
-  if (validation.status !== 0) {
-    process.stderr.write(validation.stderr);
-    fail(`Invalid sites/${practiceId}/practice.json`);
-  }
-
-  return JSON.parse(await readFile(configPath, 'utf8'));
-}
-
-async function eligiblePreviewIds() {
-  const entries = await readdir(path.join(repoRoot, 'sites'), { withFileTypes: true });
-  const ids = [];
-
-  for (const entry of entries.sort((a, b) => a.name.localeCompare(b.name))) {
-    if (!entry.isDirectory() || entry.name === 'template') {
-      continue;
+  try {
+    return await loadPracticeData(repoRoot, practiceId);
+  } catch (error) {
+    if (error.message === `Unknown practice slug: ${practiceId}`) {
+      fail(`Unknown SITE_ID: ${practiceId}`);
     }
-    const practice = await readPractice(entry.name);
-    if (practice.seo?.allowIndexing === false) {
-      ids.push(entry.name);
-    }
+    fail(error.message);
   }
-
-  if (ids.length === 0) {
-    fail('Preview build found no sites with seo.allowIndexing=false.');
-  }
-  return ids;
 }
 
 if (!validTargets.has(target)) {
@@ -82,7 +49,7 @@ if (target === 'marketing') {
     fail('SITE_ID=ALL is only valid for preview builds.');
   }
 
-  const practice = await readPractice(siteId);
+  const { config: practice } = await readPractice(siteId);
   site = practice.seo?.siteUrl?.replace(/\/+$/, '');
   if (!site) {
     fail(`seo.siteUrl is required in sites/${siteId}/practice.json.`);
@@ -94,9 +61,12 @@ if (target === 'marketing') {
   }
 
   if (siteId === 'ALL') {
-    practiceIds = await eligiblePreviewIds();
+    practiceIds = await listEligiblePreviewSlugs(repoRoot);
+    if (practiceIds.length === 0) {
+      fail('Preview build found no sites with seo.allowIndexing=false.');
+    }
   } else {
-    const practice = await readPractice(siteId);
+    const { config: practice } = await readPractice(siteId);
     if (practice.seo?.allowIndexing !== false) {
       fail(`Preview builds require seo.allowIndexing=false in sites/${siteId}/practice.json.`);
     }
@@ -108,14 +78,34 @@ if (target === 'marketing') {
 const publicDir = path.join(repoRoot, '.tmp', 'astro-public', target);
 const outDir = path.join(repoRoot, '.tmp', 'astro-dist', target);
 const proofAssetDir = path.join(publicDir, 'assets', 'astro-migration');
+const sharedRuntimeDir = path.join(publicDir, 'shared');
 
 await rm(publicDir, { recursive: true, force: true });
 await rm(outDir, { recursive: true, force: true });
 await mkdir(proofAssetDir, { recursive: true });
+await mkdir(sharedRuntimeDir, { recursive: true });
 await cp(
   path.join(repoRoot, 'shared', 'frontdoor-health-logo.svg'),
   path.join(proofAssetDir, 'frontdoor-health-logo.svg'),
 );
+for (const runtimeFile of ['analytics.js', 'attribution.js', 'google-ads.js']) {
+  await cp(
+    path.join(repoRoot, 'shared', runtimeFile),
+    path.join(sharedRuntimeDir, runtimeFile),
+  );
+}
+
+for (const practiceId of practiceIds) {
+  const destinationRoot =
+    target === 'preview'
+      ? path.join(publicDir, 'previews', practiceId)
+      : publicDir;
+  for (const assetDirectory of ['assets', 'images']) {
+    const source = path.join(repoRoot, 'sites', practiceId, assetDirectory);
+    if (!existsSync(source)) continue;
+    await cp(source, path.join(destinationRoot, assetDirectory), { recursive: true });
+  }
+}
 
 const astroExecutable = path.join(
   repoRoot,

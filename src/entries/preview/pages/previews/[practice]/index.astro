@@ -1,5 +1,8 @@
 ---
-import MigrationProofPage from '../../../../../components/shared/MigrationProofPage.astro';
+import AnalyticsFixture from '../../../../../components/shared/AnalyticsFixture.astro';
+import PracticeLayout from '../../../../../layouts/PracticeLayout.astro';
+import { practiceAssetUrl } from '../../../../../lib/assets.mjs';
+import { loadPracticeData } from '../../../../../lib/practice-data.mjs';
 
 export function getStaticPaths() {
   const practiceIds = JSON.parse(process.env.FRONTDOOR_ASTRO_PRACTICE_IDS ?? '[]');
@@ -10,10 +13,32 @@ export function getStaticPaths() {
 }
 
 const { practice } = Astro.props;
+const { config, theme } = await loadPracticeData(process.cwd(), practice);
 ---
 
-<MigrationProofPage
-  assetHref="../../assets/astro-migration/frontdoor-health-logo.svg"
-  detail={`SITE_ID=${practice}`}
-  target="Preview"
-/>
+<PracticeLayout
+  config={config}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'MedicalClinic',
+    name: config.practice.name,
+    url: config.seo.siteUrl,
+  }}
+  pageKind="home"
+  theme={theme}
+>
+  <main>
+    <img
+      src={practiceAssetUrl(config.hero.image)}
+      alt={config.hero.imageAlt}
+      width="640"
+    />
+    <h1>Preview Astro build proof</h1>
+    <p>{`SITE_ID=${practice}`}</p>
+    <AnalyticsFixture
+      includeCtas={false}
+      includeProviderCard
+      providerHref="./providers/analytics-fixture/"
+    />
+  </main>
+</PracticeLayout>

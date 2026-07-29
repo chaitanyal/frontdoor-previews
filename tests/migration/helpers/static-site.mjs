@@ -2,9 +2,17 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
+const MIGRATION_TARGET = process.env.FRONTDOOR_MIGRATION_TARGET || 'legacy';
 const FIXTURE_ROOT = path.join(ROOT, '.tmp', 'migration-contracts', 'legacy');
-const MARKETING_ROOT = path.join(FIXTURE_ROOT, 'marketing');
-const PRACTICE_ROOT = path.join(FIXTURE_ROOT, 'practice-drdronavalli');
+const MARKETING_ROOT = MIGRATION_TARGET === 'astro'
+  ? path.join(ROOT, '.tmp', 'astro-dist', 'marketing')
+  : path.join(FIXTURE_ROOT, 'marketing');
+const PRACTICE_ROOT = MIGRATION_TARGET === 'astro'
+  ? path.join(ROOT, '.tmp', 'astro-dist', 'practice')
+  : path.join(FIXTURE_ROOT, 'practice-drdronavalli');
+const PREVIEW_ROOT = MIGRATION_TARGET === 'astro'
+  ? path.join(ROOT, '.tmp', 'astro-dist', 'preview')
+  : MARKETING_ROOT;
 const MARKETING_CSS = path.join(ROOT, '.tmp', 'migration-contracts', 'marketing.css');
 const ANALYTICS_URL = 'https://analytics.frontdoor.health/event';
 const FIXED_TIME = '2026-07-29T15:00:00.000Z';
@@ -224,7 +232,7 @@ export async function installMockNetwork(page, options = {}) {
 
     let staticRoot = null;
     if (['frontdoor.health', 'www.frontdoor.health'].includes(url.hostname)) {
-      staticRoot = MARKETING_ROOT;
+      staticRoot = url.pathname.startsWith('/previews/') ? PREVIEW_ROOT : MARKETING_ROOT;
     } else if (['drdronavalli.com', 'www.drdronavalli.com'].includes(url.hostname)) {
       staticRoot = PRACTICE_ROOT;
     }

@@ -389,6 +389,8 @@ client hydration script.
 
 ## Milestone 2: Build shared Astro foundations and lock analytics parity
 
+**Status: Completed and verified on 2026-07-29.**
+
 ### Goal
 
 Create shared layouts, data loaders, SEO helpers, themes, asset handling, and runtime
@@ -434,8 +436,12 @@ script integration before migrating complete pages.
 ```bash
 npm run build:astro:marketing
 SITE_ID=drdronavalli npm run build:astro:practice
+SITE_ID=northhillspsychiatry npm run build:astro:preview
+npm run test:astro:foundation
 npm run test:analytics -- --target=astro
-python3 scripts/validate_built_html.py .tmp/astro-dist
+python3 scripts/validate_built_html.py .tmp/astro-dist/marketing
+python3 scripts/validate_built_html.py .tmp/astro-dist/practice
+python3 scripts/validate_built_html.py .tmp/astro-dist/preview
 ```
 
 ### Exit criteria

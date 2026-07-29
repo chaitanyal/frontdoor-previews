@@ -1,0 +1,40 @@
+---
+import PracticeLayout from '../../../../../../../layouts/PracticeLayout.astro';
+import { practiceAssetUrl } from '../../../../../../../lib/assets.mjs';
+import { loadPracticeData } from '../../../../../../../lib/practice-data.mjs';
+
+export function getStaticPaths() {
+  const practiceIds = JSON.parse(process.env.FRONTDOOR_ASTRO_PRACTICE_IDS ?? '[]');
+  return practiceIds.map((practice) => ({
+    params: { practice },
+    props: { practice },
+  }));
+}
+
+const { practice } = Astro.props;
+const { config, theme } = await loadPracticeData(process.cwd(), practice);
+---
+
+<PracticeLayout
+  config={config}
+  description={`Provider analytics fixture for ${config.practice.name}.`}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'Physician',
+    name: 'Analytics Fixture Provider',
+    url: `${config.seo.siteUrl.replace(/\/+$/, '')}/providers/analytics-fixture/`,
+  }}
+  pageKind="provider"
+  pagePath="providers/analytics-fixture"
+  theme={theme}
+  title={`Analytics Fixture Provider | ${config.practice.name}`}
+>
+  <main>
+    <img
+      src={practiceAssetUrl(config.hero.image, 2)}
+      alt={config.hero.imageAlt}
+      width="640"
+    />
+    <h1>Analytics Fixture Provider</h1>
+  </main>
+</PracticeLayout>

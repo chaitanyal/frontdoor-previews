@@ -188,6 +188,19 @@ Run the repeatable configuration and direct-file verification with:
 npm run test:astro:foundation
 ```
 
+The shared Astro layouts, practice-data loader, SEO/theme/asset helpers, and
+analytics fixtures can be verified without changing the production renderer:
+
+```bash
+npm run test:analytics -- --target=astro
+```
+
+This command builds isolated Astro marketing, `drdronavalli`, and
+`northhillspsychiatry` fixtures, then runs the same exact-payload Playwright
+analytics suite used for legacy output. The fixtures prove layout and runtime
+integration only; complete marketing and practice pages are migrated in later
+milestones.
+
 Each build stages copied, unhashed public files under
 `.tmp/astro-public/<target>/`. Astro copies those files unchanged into its temporary
 output. Pages reference them with route-relative URLs: root pages use `./assets/...`,
@@ -195,6 +208,12 @@ while the nested preview route uses `../../assets/...`. This preserves direct
 `file://` inspection and the existing URL strategy while Astro and the legacy
 renderer run in parallel. Astro-managed or hashed image imports are intentionally
 deferred until after the migration.
+
+The Astro wrapper also copies `shared/analytics.js`, `shared/attribution.js`, and
+`shared/google-ads.js` byte-for-byte into each temporary target. Practice home and
+provider fixtures load attribution before practice analytics; privacy fixtures load
+attribution only. Marketing fixtures can load the existing Google Ads integration
+without adding practice analytics.
 
 ## Analytics
 

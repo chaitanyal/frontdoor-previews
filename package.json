@@ -14,7 +14,7 @@
     "capture:migration-baseline": "node scripts/migration/capture_legacy_contracts.mjs --update",
     "test:migration-contracts": "node scripts/migration/capture_legacy_contracts.mjs --check",
     "test:astro:foundation": "playwright test --config=playwright.migration.config.mjs --grep @astro-foundation",
-    "test:analytics": "playwright test --config=playwright.migration.config.mjs --grep @analytics",
+    "test:analytics": "node scripts/migration/run_playwright_suite.mjs analytics",
     "test:visual": "playwright test --config=playwright.migration.config.mjs --grep @visual",
     "test:visual:update": "playwright test --config=playwright.migration.config.mjs --grep @visual --update-snapshots"
   },

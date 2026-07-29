@@ -1,11 +1,33 @@
 ---
-import MigrationProofPage from '../../../components/shared/MigrationProofPage.astro';
+import AnalyticsFixture from '../../../components/shared/AnalyticsFixture.astro';
+import PracticeLayout from '../../../layouts/PracticeLayout.astro';
+import { practiceAssetUrl } from '../../../lib/assets.mjs';
+import { loadPracticeData } from '../../../lib/practice-data.mjs';
 
 const siteId = process.env.SITE_ID;
+const { config, theme } = await loadPracticeData(process.cwd(), siteId);
 ---
 
-<MigrationProofPage
-  assetHref="./assets/astro-migration/frontdoor-health-logo.svg"
-  detail={`SITE_ID=${siteId}`}
-  target="Practice"
-/>
+<PracticeLayout
+  config={config}
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'MedicalClinic',
+    name: config.practice.name,
+    description: 'Astro foundation <migration fixture>',
+    url: config.seo.siteUrl,
+  }}
+  pageKind="home"
+  theme={theme}
+>
+  <main>
+    <img
+      src={practiceAssetUrl(config.hero.image)}
+      alt={config.hero.imageAlt}
+      width="640"
+    />
+    <h1>Practice Astro build proof</h1>
+    <p>{`SITE_ID=${siteId}`}</p>
+    <AnalyticsFixture resourceHref="./assets/resources/asthama_test.pdf" />
+  </main>
+</PracticeLayout>

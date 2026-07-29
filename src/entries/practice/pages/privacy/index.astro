@@ -1,0 +1,26 @@
+---
+import PracticeLayout from '../../../../layouts/PracticeLayout.astro';
+import { practiceAssetUrl } from '../../../../lib/assets.mjs';
+import { loadPracticeData } from '../../../../lib/practice-data.mjs';
+
+const siteId = process.env.SITE_ID;
+const { config, theme } = await loadPracticeData(process.cwd(), siteId);
+---
+
+<PracticeLayout
+  config={config}
+  description={`Privacy information for ${config.practice.name}.`}
+  pageKind="privacy"
+  pagePath="privacy"
+  theme={theme}
+  title={`Privacy | ${config.practice.name}`}
+>
+  <main>
+    <img
+      src={practiceAssetUrl(config.hero.image, 1)}
+      alt={config.hero.imageAlt}
+      width="640"
+    />
+    <h1>Privacy</h1>
+  </main>
+</PracticeLayout>
