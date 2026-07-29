@@ -8,6 +8,10 @@ import {
   loadPracticeData,
 } from '../src/lib/practice-data.mjs';
 import { loadMarketingData } from '../src/lib/marketing-data.mjs';
+import {
+  discoverIndexRoutes,
+  renderSitemap,
+} from '../src/lib/sitemap.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const target = process.env.FRONTDOOR_TARGET ?? '';
@@ -119,29 +123,6 @@ if (target === 'marketing') {
     ),
   );
 
-  const sitemapRoutes = [
-    '',
-    'about/',
-    'case-studies/',
-    `case-studies/${marketing.featuredPractice}/`,
-    'privacy/',
-    'transformations/',
-  ];
-  const sitemap = [
-    '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...sitemapRoutes
-      .map((route) => `${site}/${route}`)
-      .sort()
-      .map((url) => `  <url><loc>${url}</loc></url>`),
-    '</urlset>',
-    '',
-  ].join('\n');
-  await writeFile(path.join(publicDir, 'sitemap.xml'), sitemap);
-  await writeFile(
-    path.join(publicDir, 'robots.txt'),
-    `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`,
-  );
 }
 await mkdir(sharedRuntimeDir, { recursive: true });
 for (const runtimeFile of ['analytics.js', 'attribution.js', 'google-ads.js']) {
@@ -185,6 +166,20 @@ if (result.error) {
 }
 if (result.status !== 0) {
   process.exit(result.status ?? 1);
+}
+
+if (target === 'marketing') {
+  const sitemapRoutes = await discoverIndexRoutes(outDir, {
+    excludePrefixes: ['previews/'],
+  });
+  await writeFile(
+    path.join(outDir, 'sitemap.xml'),
+    renderSitemap(site, sitemapRoutes),
+  );
+  await writeFile(
+    path.join(outDir, 'robots.txt'),
+    `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`,
+  );
 }
 
 console.log(`Astro ${target} output: ${path.relative(repoRoot, outDir)}`);

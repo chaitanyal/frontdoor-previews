@@ -3,6 +3,11 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
+import { assertMarketingCaseStudyRoute } from '../../src/lib/marketing-data.mjs';
+import {
+  discoverIndexRoutes,
+  renderSitemap,
+} from '../../src/lib/sitemap.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
@@ -66,6 +71,21 @@ test.describe.serial('Astro migration foundation', () => {
       page,
       '.tmp/astro-dist/marketing/index.html',
       'Help the right patients choose your practice.',
+    );
+    const marketingRoot = path.join(repoRoot, '.tmp', 'astro-dist', 'marketing');
+    const marketingRoutes = await discoverIndexRoutes(marketingRoot, {
+      excludePrefixes: ['previews/'],
+    });
+    expect(marketingRoutes).toEqual([
+      '',
+      'about/',
+      'case-studies/',
+      'case-studies/drdronavalli/',
+      'privacy/',
+      'transformations/',
+    ]);
+    expect(readFileSync(path.join(marketingRoot, 'sitemap.xml'), 'utf8')).toBe(
+      renderSitemap('https://frontdoor.health', marketingRoutes),
     );
 
     runNpmBuild('build:astro:practice', 'drdronavalli');
@@ -146,6 +166,15 @@ test.describe.serial('Astro migration foundation', () => {
   });
 
   test('@astro-foundation rejects invalid target and SITE_ID combinations', () => {
+    expect(() =>
+      assertMarketingCaseStudyRoute(repoRoot, 'drdronavalli'),
+    ).not.toThrow();
+    expect(() =>
+      assertMarketingCaseStudyRoute(repoRoot, 'northhillspsychiatry'),
+    ).toThrow(
+      'Missing Astro marketing case study route for featured practice: northhillspsychiatry',
+    );
+
     const cases = [
       [{}, 'FRONTDOOR_TARGET is required'],
       [

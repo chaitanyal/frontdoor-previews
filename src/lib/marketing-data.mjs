@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -15,11 +16,30 @@ function featuredPracticeName(practice) {
     : practiceName;
 }
 
+export function assertMarketingCaseStudyRoute(repoRoot, practiceId) {
+  const entryPath = path.join(
+    repoRoot,
+    'src',
+    'entries',
+    'marketing',
+    'pages',
+    'case-studies',
+    practiceId,
+    'index.astro',
+  );
+  if (!existsSync(entryPath)) {
+    throw new Error(
+      `Missing Astro marketing case study route for featured practice: ${practiceId}`,
+    );
+  }
+}
+
 export async function loadMarketingData(repoRoot) {
   const marketingPath = path.join(repoRoot, 'marketing', 'marketing.json');
   const marketing = JSON.parse(await readFile(marketingPath, 'utf8'));
   const practiceId = marketing.featuredPractice;
   if (!practiceId) throw new Error('Missing marketing.featuredPractice');
+  assertMarketingCaseStudyRoute(repoRoot, practiceId);
 
   const practicePath = path.join(repoRoot, 'sites', practiceId, 'practice.json');
   const practice = JSON.parse(await readFile(practicePath, 'utf8'));

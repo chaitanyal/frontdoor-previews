@@ -12,8 +12,10 @@ interface Props {
   image?: string;
   imageAlt?: string;
   jsonLd?: object | object[];
+  locale?: string;
   robots?: string;
   social?: boolean;
+  siteName?: string;
   tailwindConfig?: 'external' | 'inline';
   title: string;
 }
@@ -28,8 +30,10 @@ const {
   includeTurnstile = false,
   image,
   jsonLd,
+  locale = 'en_US',
   robots,
   social = true,
+  siteName = 'FrontDoor Health',
   tailwindConfig = 'external',
   title,
   imageAlt = title,
@@ -95,8 +99,8 @@ gtag('config', 'AW-18297020270');
         <meta property="og:type" content="website" />
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonical} />
-        <meta property="og:site_name" content="FrontDoor Health" />
-        <meta property="og:locale" content="en_US" />
+        <meta property="og:site_name" content={siteName} />
+        <meta property="og:locale" content={locale} />
         {image && <meta property="og:image" content={image} />}
         {image && <meta property="og:image:alt" content={imageAlt} />}
         <meta name="twitter:card" content="summary_large_image" />
