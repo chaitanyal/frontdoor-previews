@@ -11,7 +11,7 @@ if (!supportedSuites.has(suite)) {
   process.exit(1);
 }
 
-let target = 'legacy';
+let target = 'astro';
 let scope = '';
 let site = '';
 const passthroughArgs = [];

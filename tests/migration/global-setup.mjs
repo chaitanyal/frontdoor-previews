@@ -19,6 +19,7 @@ function runAstroBuild(script, siteId) {
 }
 
 export default function globalSetup() {
+  if (process.env.FRONTDOOR_STAGING === '1') return;
   if (process.env.FRONTDOOR_MIGRATION_TARGET === 'astro') {
     const scope = process.env.FRONTDOOR_MIGRATION_SCOPE;
     if (!scope || scope === 'marketing') {

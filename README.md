@@ -72,13 +72,14 @@ The preview and marketing sites do not include authenticated application code or
 
 ## Content and Build Process
 
-Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared palette definitions live in `shared/themes.json`, and each practice selects one with its `theme` field. Practice-associated pages are rendered at build time by `scripts/render_practice_pages.js`, which delegates to JavaScript renderers for the homepage, provider pages, privacy page, and accessibility page. Reusable build-time components live under `shared/render/`, and shared Tailwind source styles live in `shared/styles/frontdoor.css`. The checked-in practice `index.html` files are generic local-preview shells; practice-specific metadata, palette variables, and page content are prerendered from `practice.json` during the build.
+Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared palette definitions live in `shared/themes.json`, and each practice selects one with its `theme` field. Astro renders the homepage, provider pages, privacy page, and accessibility page at build time from reusable components under `src/`. Shared Tailwind source styles live in `shared/styles/frontdoor.css`. The legacy JavaScript renderers remain available through Milestone 7 as a rollback path.
 
 Build flow:
 
 ```text
-sites/<practice>/practice.json + shared/themes.json + shared/home-page.js + shared/styles/frontdoor.css
-  -> scripts/render_practice_pages.js
+sites/<practice>/practice.json + shared/themes.json + shared/styles/frontdoor.css
+  -> reusable Astro components under src/
+  -> scripts/build_astro.mjs
   -> scripts/validate_built_html.py
   -> rendered HTML/CSS in dist/
   -> Cloudflare Pages
@@ -93,10 +94,10 @@ Marketing build flow:
 1. Compiles Tailwind CSS from `shared/styles/frontdoor.css`.
 2. Cleans `dist/`.
 3. Copies `marketing/` into `dist/`.
-4. Renders the featured practice from `marketing/marketing.json` and `sites/<site-id>/practice.json`.
+4. Renders marketing routes and the featured practice from `marketing/marketing.json` and `sites/<site-id>/practice.json` with Astro.
 5. Copies the selected featured practice hero image into `dist/assets/featured-practice/`.
 6. Copies noindex preview sites into `dist/previews/<practice-slug>/`.
-7. Generates preview provider, privacy, and accessibility pages.
+7. Generates preview provider, privacy, and accessibility pages with the shared Astro practice components.
 8. Generates `_headers`, `robots.txt`, and `sitemap.xml` for `https://frontdoor.health`.
 9. Validates built HTML for basic structure and local asset paths.
 
@@ -108,8 +109,8 @@ Practice build flow:
 4. Validates `sites/<SITE_ID>/practice.json`.
 5. Copies only `sites/<SITE_ID>/` into `dist/`.
 6. Copies compiled CSS to `dist/assets/styles.css` and shared fonts to `dist/assets/fonts/`.
-7. Generates static provider, privacy, and accessibility pages.
-8. Prerenders the practice homepage from `practice.json`.
+7. Generates the static homepage, provider, privacy, and accessibility pages with Astro.
+8. Preserves the existing relative route and asset contract.
 9. Generates deployment-specific `robots.txt`, `_headers` for noindex sites, and `sitemap.xml` for indexable production practice builds.
 10. Removes source-only files such as `practice.json`, Markdown files, and build-only artifacts from `dist/`.
 11. Validates built HTML for basic structure, SEO smoke checks, JSON-LD parsing, and local asset paths.
@@ -162,18 +163,18 @@ Preview practice deployments:
 
 - Shared preview URL: `https://frontdoor.health/previews/<practice-slug>/`
 - Build command: `npm run build:preview:all`
-- Equivalent explicit command: `FRONTDOOR_TARGET=preview SITE_ID=ALL ./scripts/build.sh`
+- Equivalent explicit command: `FRONTDOOR_TARGET=preview SITE_ID=ALL FRONTDOOR_ASTRO_DEPLOY=1 node scripts/build_astro.mjs`
 - Build output directory: `dist`
 
 Production practice deployments use `build:practice`; the shared preview Pages project uses `build:preview:all`; the marketing site uses `build:marketing`.
 
 Cloudflare Pages deploys the generated `dist/` directory.
 
-## Parallel Astro Builder
+## Astro Builder and Legacy Rollback
 
-The Astro migration currently runs beside the legacy renderer. These commands write
-only to `.tmp/astro-dist/<target>/` and do not change the production `dist/`
-directory or the existing Cloudflare Pages build commands:
+The public build commands above use Astro and write deployable output to `dist/`.
+These verification commands run the same Astro builder in isolation and write only
+to `.tmp/astro-dist/<target>/`:
 
 ```bash
 npm run build:astro:marketing
@@ -189,30 +190,43 @@ npm run test:astro:foundation
 ```
 
 The shared Astro layouts, practice-data loader, SEO/theme/asset helpers, and
-analytics fixtures can be verified without changing the production renderer:
+analytics fixtures are verified with:
 
 ```bash
-npm run test:analytics -- --target=astro
+npm run test:analytics
 ```
 
 This command builds isolated Astro marketing, `drdronavalli`, and
 `northhillspsychiatry` fixtures, then runs the same exact-payload Playwright
-analytics suite used for legacy output. The fixtures prove layout and runtime
-integration only; complete marketing and practice pages are migrated in later
-milestones.
+analytics suite used for the legacy baselines. Tests intercept analytics, email,
+Turnstile, and Google Ads requests.
+
+Until the Milestone 8 cleanup, the previous renderer remains available through:
+
+```bash
+npm run build:legacy:marketing
+SITE_ID=drdronavalli npm run build:legacy:practice
+SITE_ID=northhillspsychiatry npm run build:legacy:preview
+npm run build:legacy:preview:all
+```
+
+The `astro-milestone-7` Cloudflare Pages branch deployments can be checked with
+`npm run test:staging`. This verifies real HTTP routes, response-header indexing
+protection, sitemaps, robots files, nested assets, analytics payloads, and the
+preview-request Function's non-email OPTIONS path.
 
 Each build stages copied, unhashed public files under
-`.tmp/astro-public/<target>/`. Astro copies those files unchanged into its temporary
-output. Pages reference them with route-relative URLs: root pages use `./assets/...`,
+`.tmp/astro-public/<target>/`. Astro copies those files unchanged into the selected
+`dist/` or verification output. Pages reference them with route-relative URLs: root pages use `./assets/...`,
 while the nested preview route uses `../../assets/...`. This preserves direct
-`file://` inspection and the existing URL strategy while Astro and the legacy
-renderer run in parallel. Astro-managed or hashed image imports are intentionally
+`file://` inspection and the existing URL strategy while the legacy renderer remains
+available for rollback. Astro-managed or hashed image imports are intentionally
 deferred until after the migration.
 
 The Astro wrapper also copies `shared/analytics.js`, `shared/attribution.js`, and
-`shared/google-ads.js` byte-for-byte into each temporary target. Practice home and
-provider fixtures load attribution before practice analytics; privacy fixtures load
-attribution only. Marketing fixtures can load the existing Google Ads integration
+`shared/google-ads.js` byte-for-byte into each target. Practice home and provider
+pages load attribution before practice analytics; privacy pages load attribution
+only. Marketing pages load the existing Google Ads integration
 without adding practice analytics.
 
 ## Analytics

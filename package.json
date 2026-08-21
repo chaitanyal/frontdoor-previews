@@ -1,10 +1,15 @@
 {
   "scripts": {
-    "build": "bash scripts/build.sh",
-    "build:marketing": "FRONTDOOR_TARGET=marketing bash scripts/build.sh",
-    "build:practice": "FRONTDOOR_TARGET=practice bash scripts/build.sh",
-    "build:preview": "FRONTDOOR_TARGET=preview bash scripts/build.sh",
-    "build:preview:all": "FRONTDOOR_TARGET=preview SITE_ID=ALL bash scripts/build.sh",
+    "build": "FRONTDOOR_ASTRO_DEPLOY=1 node scripts/build_astro.mjs",
+    "build:marketing": "FRONTDOOR_TARGET=marketing FRONTDOOR_ASTRO_DEPLOY=1 node scripts/build_astro.mjs",
+    "build:practice": "FRONTDOOR_TARGET=practice FRONTDOOR_ASTRO_DEPLOY=1 node scripts/build_astro.mjs",
+    "build:preview": "FRONTDOOR_TARGET=preview FRONTDOOR_ASTRO_DEPLOY=1 node scripts/build_astro.mjs",
+    "build:preview:all": "FRONTDOOR_TARGET=preview SITE_ID=ALL FRONTDOOR_ASTRO_DEPLOY=1 node scripts/build_astro.mjs",
+    "build:legacy": "bash scripts/build.sh",
+    "build:legacy:marketing": "FRONTDOOR_TARGET=marketing bash scripts/build.sh",
+    "build:legacy:practice": "FRONTDOOR_TARGET=practice bash scripts/build.sh",
+    "build:legacy:preview": "FRONTDOOR_TARGET=preview bash scripts/build.sh",
+    "build:legacy:preview:all": "FRONTDOOR_TARGET=preview SITE_ID=ALL bash scripts/build.sh",
     "build:astro:marketing": "FRONTDOOR_TARGET=marketing node scripts/build_astro.mjs",
     "build:astro:practice": "FRONTDOOR_TARGET=practice node scripts/build_astro.mjs",
     "build:astro:preview": "FRONTDOOR_TARGET=preview node scripts/build_astro.mjs",
@@ -18,7 +23,8 @@
     "test:astro:preview": "FRONTDOOR_MIGRATION_TARGET=astro FRONTDOOR_MIGRATION_SCOPE=preview playwright test --config=playwright.migration.config.mjs --grep @astro-preview",
     "test:analytics": "node scripts/migration/run_playwright_suite.mjs analytics",
     "test:visual": "node scripts/migration/run_playwright_suite.mjs visual",
-    "test:visual:update": "node scripts/migration/run_playwright_suite.mjs visual --update-snapshots"
+    "test:visual:update": "node scripts/migration/run_playwright_suite.mjs visual --update-snapshots",
+    "test:staging": "FRONTDOOR_STAGING=1 playwright test --config=playwright.migration.config.mjs --grep @staging"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.0",
