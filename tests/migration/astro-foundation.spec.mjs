@@ -257,10 +257,22 @@ test.describe.serial('Astro migration foundation', () => {
       contactOverride: {
         phone: '(512) 555-0199',
         phoneHref: 'tel:+15125550199',
+        addressLines: ['100 New Office Road', 'Austin, TX 78701'],
       },
     });
     expect(overrideProfile.phone).toBe('(512) 555-0199');
     expect(overrideProfile.phoneHref).toBe('tel:+15125550199');
+    expect(overrideProfile.address).toBe(
+      '100 New Office Road, Austin, TX 78701',
+    );
+
+    const structuredSpecialtyProfile = providerProfile(mariposa, {
+      ...provider,
+      specialty: undefined,
+      credentials: undefined,
+      medicalSpecialty: 'https://schema.org/Psychiatry',
+    });
+    expect(structuredSpecialtyProfile.isPsychiatry).toBe(true);
   });
 
   test('@astro-foundation rejects invalid target and SITE_ID combinations', () => {

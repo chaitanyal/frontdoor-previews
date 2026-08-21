@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { test, expect } from '@playwright/test';
@@ -32,6 +32,13 @@ const pages = [
 ];
 const scope = process.env.FRONTDOOR_MIGRATION_SCOPE;
 const target = process.env.FRONTDOOR_MIGRATION_TARGET;
+const practiceSite = process.env.FRONTDOOR_MIGRATION_SITE || 'drdronavalli';
+const practiceConfig = JSON.parse(
+  readFileSync(
+    path.join(process.cwd(), 'sites', practiceSite, 'practice.json'),
+    'utf8',
+  ),
+);
 const scopedPages = scope
   ? pages.filter((pageCase) => pageCase.name.startsWith(`${scope}-`))
   : pages;
@@ -50,6 +57,12 @@ const viewports = [
 for (const pageCase of scopedPages) {
   for (const viewport of viewports) {
     test(`@visual ${pageCase.name} ${viewport.name}`, async ({ page }) => {
+      test.skip(
+        target === 'astro' &&
+          scope === 'practice' &&
+          practiceSite !== 'drdronavalli',
+        'Pixel snapshots are locked to the Dr. Dronavalli migration pilot.',
+      );
       await page.setViewportSize(viewport.size);
       await installDeterministicBrowser(page);
       const network = await installMockNetwork(page);
@@ -62,7 +75,7 @@ for (const pageCase of scopedPages) {
             'astro-dist',
             'practice',
             pageCase.name === 'practice-provider'
-              ? 'providers/goutham-dronavalli/index.html'
+              ? `providers/${practiceConfig.providers[0].slug}/index.html`
               : 'index.html',
           ),
         ).href;
@@ -109,7 +122,10 @@ test('@visual practice local assets, resources, and mobile layout are valid', as
   );
   const localPages = [
     path.join(root, 'index.html'),
-    path.join(root, 'providers', 'goutham-dronavalli', 'index.html'),
+    path.join(root, 'privacy', 'index.html'),
+    path.join(root, 'accessibility', 'index.html'),
+    ...practiceConfig.providers.map((provider) =>
+      path.join(root, 'providers', provider.slug, 'index.html')),
   ];
 
   for (const localPage of localPages) {
@@ -132,7 +148,13 @@ test('@visual practice local assets, resources, and mobile layout are valid', as
   const resourceUrls = await page
     .locator('[data-frontdoor-cta="resource"]')
     .evaluateAll((links) => links.map((link) => link.href));
-  expect(resourceUrls).toHaveLength(6);
+  const expectedResourceCount = practiceConfig.resourceGroups?.length
+    ? practiceConfig.resourceGroups.reduce(
+        (count, group) => count + (group.resources?.length || 0),
+        0,
+      )
+    : practiceConfig.resources?.length || 0;
+  expect(resourceUrls).toHaveLength(expectedResourceCount);
   for (const resourceUrl of resourceUrls) {
     expect(resourceUrl.startsWith('file:')).toBe(true);
     expect(existsSync(fileURLToPath(resourceUrl))).toBe(true);

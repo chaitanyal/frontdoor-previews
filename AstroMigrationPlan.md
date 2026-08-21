@@ -663,6 +663,8 @@ No practice.json or Markdown file is published.
 
 ## Milestone 6: Complete standalone practice production builds
 
+**Status: Completed and verified on 2026-08-20.**
+
 ### Goal
 
 Make Astro support every current practice configuration and production SEO mode.

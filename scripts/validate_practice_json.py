@@ -190,6 +190,8 @@ def validate_provider_contact_override(value: Any, path: str) -> None:
         require_string_key(contact, "phone", path)
     if "phoneHref" in contact:
         require_string_key(contact, "phoneHref", path)
+    if ("phone" in contact) != ("phoneHref" in contact):
+        fail(f"{path}.phone and {path}.phoneHref must be provided together")
     if "email" in contact:
         require_string_key(contact, "email", path)
     if "addressLines" in contact:
@@ -267,6 +269,31 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
             fail(f"{provider_path} must include bioParagraphs or bio")
         if "aboutHeading" in provider:
             require_string(provider["aboutHeading"], f"{provider_path}.aboutHeading")
+        for key in ["credentials", "specialty", "heroTitle"]:
+            if key in provider:
+                require_string(provider[key], f"{provider_path}.{key}")
+        for key in [
+            "conditions",
+            "specialties",
+            "services",
+            "certifications",
+            "heroTrustItems",
+            "hospitalAffiliations",
+            "Hospital Affiliations",
+            "affiliations",
+            "academicAppointments",
+            "awards",
+        ]:
+            if key in provider:
+                validate_string_list(provider[key], f"{provider_path}.{key}")
+        if "education" in provider:
+            education = require_mapping(provider["education"], f"{provider_path}.education")
+            for key, education_value in education.items():
+                education_path = f"{provider_path}.education.{key}"
+                if isinstance(education_value, list):
+                    validate_string_list(education_value, education_path, min_items=1)
+                else:
+                    require_string(education_value, education_path)
         if "whatToExpect" in provider:
             validate_string_list(provider["whatToExpect"], f"{provider_path}.whatToExpect", min_items=1)
         if "medicalSpecialty" in provider:

@@ -360,21 +360,24 @@ export function compareAstroMarketingContract() {
 }
 
 export function compareAstroPracticeContract(site = 'drdronavalli') {
-  if (site !== 'drdronavalli') {
-    fail(`No practice migration contract baseline exists for ${site}.`);
-  }
   const targetName = `practice-${site}`;
   const baselinePath = path.join(CONTRACT_ROOT, `${targetName}.json`);
-  if (!existsSync(baselinePath)) {
-    fail(`Missing practice migration contract baseline: ${targetName}.json.`);
-  }
   const astroRoot = path.join(ROOT, '.tmp', 'astro-dist', 'practice');
   if (!existsSync(astroRoot)) {
     fail('Missing Astro practice output. Run npm run build:astro:practice first.');
   }
 
-  const expected = JSON.parse(readFileSync(baselinePath, 'utf8'));
   const actual = contractFor(astroRoot, targetName);
+  let expected;
+  let expectedDescription;
+  if (existsSync(baselinePath)) {
+    expected = JSON.parse(readFileSync(baselinePath, 'utf8'));
+    expectedDescription = path.relative(ROOT, baselinePath);
+  } else {
+    run('npm', ['run', 'build:practice'], { SITE_ID: site });
+    expected = contractFor(DIST, targetName);
+    expectedDescription = `fresh legacy SITE_ID=${site} output`;
+  }
   const actualText = `${JSON.stringify(actual, null, 2)}\n`;
   const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
   if (actualText !== expectedText) {
@@ -388,7 +391,7 @@ export function compareAstroPracticeContract(site = 'drdronavalli') {
     mkdirSync(path.dirname(actualPath), { recursive: true });
     writeFileSync(actualPath, actualText);
     fail(
-      `Astro practice contract differs from legacy. Compare ${path.relative(ROOT, baselinePath)} with ${path.relative(ROOT, actualPath)}.`,
+      `Astro practice contract differs from ${expectedDescription}. Compare with ${path.relative(ROOT, actualPath)}.`,
     );
   }
   process.stdout.write(`Astro ${site} contract matches the legacy practice.\n`);

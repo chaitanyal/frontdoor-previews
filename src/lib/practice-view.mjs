@@ -108,10 +108,16 @@ export function providerProfile(config, provider) {
   const name = provider.name || 'Provider';
   const nameParts = name.split(/\s+/).filter(Boolean);
   const lastName = nameParts.at(-1) || 'Provider';
-  const psychiatry = [provider.specialty || '', provider.credentials || '']
-    .join(' ')
-    .toLowerCase()
-    .includes('psychiat');
+  const configuredSpecialties = [
+    provider.medicalSpecialty,
+    practice.medicalSpecialty,
+  ].flat().filter(Boolean);
+  const psychiatry = configuredSpecialties.some((value) =>
+    String(value).toLowerCase().includes('psychiat')) ||
+    [provider.specialty || '', provider.credentials || '']
+      .join(' ')
+      .toLowerCase()
+      .includes('psychiat');
   const labels = {
     bookAppointment: 'Book Appointment',
     callOffice: 'Call Office',
@@ -168,11 +174,13 @@ export function providerProfile(config, provider) {
   const phone = contactOverride.phone || practice.phone || '';
   const phoneHref = contactOverride.phoneHref || practice.phoneHref || '';
   const email = contactOverride.email || practice.email || '';
-  const officeLines =
-    contactOverride.addressLines || practice.addressLines || [];
-  const address = contactOverride.address || practice.address
-    ? { '@type': 'PostalAddress', ...(contactOverride.address || practice.address) }
-    : officeLines.join(', ');
+  const address = contactOverride.address
+    ? { '@type': 'PostalAddress', ...contactOverride.address }
+    : contactOverride.addressLines?.length
+      ? contactOverride.addressLines.join(', ')
+      : practice.address
+        ? { '@type': 'PostalAddress', ...practice.address }
+        : (practice.addressLines || []).join(', ');
   const appointmentUrl =
     provider.appointmentUrl || practice.defaultAppointmentUrl || '';
   const location = config.location || {};

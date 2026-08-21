@@ -25,7 +25,10 @@ export default function globalSetup() {
       runAstroBuild('build:astro:marketing');
     }
     if (scope === 'marketing') return;
-    runAstroBuild('build:astro:practice', 'drdronavalli');
+    runAstroBuild(
+      'build:astro:practice',
+      process.env.FRONTDOOR_MIGRATION_SITE || 'drdronavalli',
+    );
     if (scope === 'practice') return;
     runAstroBuild('build:astro:preview', 'northhillspsychiatry');
     return;

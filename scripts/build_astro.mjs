@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -8,6 +8,13 @@ import {
   loadPracticeData,
 } from '../src/lib/practice-data.mjs';
 import { loadMarketingData } from '../src/lib/marketing-data.mjs';
+import {
+  assertAnalyticsDeploymentAllowed,
+  practiceRobots,
+  productionSiteUrl,
+  standaloneNoindexHeaders,
+  validatePracticeOutput,
+} from '../src/lib/practice-production.mjs';
 import {
   discoverIndexRoutes,
   renderSitemap,
@@ -49,6 +56,7 @@ if (!validTargets.has(target)) {
 
 let site;
 let practiceIds = [];
+let productionPractice;
 
 if (target === 'marketing') {
   if (siteId) {
@@ -68,9 +76,16 @@ if (target === 'marketing') {
   }
 
   const { config: practice } = await readPractice(siteId);
-  site = practice.seo?.siteUrl?.replace(/\/+$/, '');
-  if (!site) {
-    fail(`seo.siteUrl is required in sites/${siteId}/practice.json.`);
+  productionPractice = practice;
+  try {
+    site = productionSiteUrl(practice, siteId);
+    const workerConfig = await readFile(
+      path.join(repoRoot, 'worker', 'wrangler.toml'),
+      'utf8',
+    );
+    assertAnalyticsDeploymentAllowed(practice, workerConfig);
+  } catch (error) {
+    fail(error.message);
   }
   practiceIds = [siteId];
 } else {
@@ -255,8 +270,7 @@ if (target === 'marketing') {
     `${renderPreviewHeaders(practiceIds)}\n`,
   );
 } else if (target === 'practice') {
-  const { config } = await readPractice(siteId);
-  if (config.seo?.allowIndexing === true) {
+  if (productionPractice.seo?.allowIndexing === true) {
     const sitemapRoutes = await discoverIndexRoutes(outDir);
     await writeFile(
       path.join(outDir, 'sitemap.xml'),
@@ -264,8 +278,22 @@ if (target === 'marketing') {
     );
     await writeFile(
       path.join(outDir, 'robots.txt'),
-      `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`,
+      practiceRobots(productionPractice, site),
     );
+  } else {
+    await writeFile(
+      path.join(outDir, '_headers'),
+      standaloneNoindexHeaders(),
+    );
+    await writeFile(
+      path.join(outDir, 'robots.txt'),
+      practiceRobots(productionPractice, site),
+    );
+  }
+  try {
+    await validatePracticeOutput(outDir, productionPractice);
+  } catch (error) {
+    fail(error.message);
   }
 } else {
   await writeFile(
