@@ -1,0 +1,25 @@
+---
+import LegalPage from '../../components/practice/LegalPage.astro';
+import PracticeLayout from '../../layouts/PracticeLayout.astro';
+
+interface Props {
+  config: Record<string, any>;
+  page: 'accessibility' | 'privacy';
+  theme: Record<string, string>;
+}
+
+const { config, page, theme } = Astro.props;
+const title = page === 'privacy' ? 'Privacy' : 'Accessibility';
+---
+
+<PracticeLayout
+  config={config}
+  description={`${title} information for ${config.practice.name}.`}
+  pageKind={page}
+  pagePath={page}
+  stylesheetHref="../assets/styles.css"
+  theme={theme}
+  title={`${title} | ${config.practice.name}`}
+>
+  <LegalPage config={config} page={page} />
+</PracticeLayout>

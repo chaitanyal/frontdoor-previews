@@ -107,19 +107,19 @@ test.describe.serial('Astro migration foundation', () => {
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
-      'SITE_ID=northhillspsychiatry',
+      'Care that starts with understanding.',
     );
 
     runNpmBuild('build:astro:preview:all');
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/mariposa/index.html',
-      'SITE_ID=mariposa',
+      'Insight-oriented psychiatric care.',
     );
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
-      'SITE_ID=northhillspsychiatry',
+      'Care that starts with understanding.',
     );
 
     const marketingHtml = readFileSync(
@@ -194,7 +194,7 @@ test.describe.serial('Astro migration foundation', () => {
         'previews',
         'northhillspsychiatry',
         'providers',
-        'analytics-fixture',
+        'zita-samuel',
         'index.html',
       ),
       'utf8',

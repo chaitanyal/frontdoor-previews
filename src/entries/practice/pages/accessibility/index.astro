@@ -1,20 +1,9 @@
 ---
-import LegalPage from '../../../../components/practice/LegalPage.astro';
-import PracticeLayout from '../../../../layouts/PracticeLayout.astro';
+import PracticeLegal from '../../../../pages/shared/PracticeLegal.astro';
 import { loadPracticeData } from '../../../../lib/practice-data.mjs';
 
 const siteId = process.env.SITE_ID;
 const { config, theme } = await loadPracticeData(process.cwd(), siteId);
 ---
 
-<PracticeLayout
-  config={config}
-  description={`Accessibility information for ${config.practice.name}.`}
-  pageKind="accessibility"
-  pagePath="accessibility"
-  stylesheetHref="../assets/styles.css"
-  theme={theme}
-  title={`Accessibility | ${config.practice.name}`}
->
-  <LegalPage config={config} page="accessibility" />
-</PracticeLayout>
+<PracticeLegal config={config} page="accessibility" theme={theme} />

@@ -1,0 +1,34 @@
+---
+import CopyEmailScript from '../../components/practice/CopyEmailScript.astro';
+import ProviderProfile from '../../components/practice/ProviderProfile.astro';
+import PracticeLayout from '../../layouts/PracticeLayout.astro';
+import { providerProfile } from '../../lib/practice-view.mjs';
+
+interface Props {
+  config: Record<string, any>;
+  provider: Record<string, any>;
+  theme: Record<string, string>;
+}
+
+const { config, provider, theme } = Astro.props;
+const profile = providerProfile(config, provider);
+---
+
+<PracticeLayout
+  bodyClass="bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0"
+  config={config}
+  description={profile.description}
+  image={provider.seo?.ogImage || provider.image}
+  imageAlt={provider.seo?.ogImageAlt || `Portrait of ${profile.name}`}
+  jsonLd={profile.schema}
+  pageKind="provider"
+  pagePath={`providers/${provider.slug}`}
+  socialType="profile"
+  stylesheetHref="../../assets/styles.css"
+  theme={theme}
+  title={profile.title}
+>
+  <ProviderProfile config={config} provider={provider} />
+  <CopyEmailScript slot="scripts" />
+  <script is:inline slot="scripts">lucide.createIcons();</script>
+</PracticeLayout>

@@ -1,0 +1,14 @@
+---
+import ProviderPage from '../../../../../../../pages/shared/ProviderPage.astro';
+import { loadPracticeData } from '../../../../../../../lib/practice-data.mjs';
+import { previewProviderPaths } from '../../../../../../../lib/preview-paths.mjs';
+
+export async function getStaticPaths() {
+  return previewProviderPaths(process.cwd());
+}
+
+const { practice, provider } = Astro.props;
+const { config, theme } = await loadPracticeData(process.cwd(), practice);
+---
+
+<ProviderPage config={config} provider={provider} theme={theme} />

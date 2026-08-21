@@ -582,6 +582,8 @@ may supplement this check but is not a milestone gate by itself.
 
 ## Milestone 5: Restore shared preview generation and indexing protection
 
+**Status: Completed and verified on 2026-08-20.**
+
 ### Goal
 
 Generate single and all-practice previews through Astro with defense-in-depth

@@ -23,6 +23,15 @@ function fail(message) {
   process.exit(1);
 }
 
+function renderPreviewHeaders(practiceSlugs) {
+  return practiceSlugs
+    .map(
+      (practiceSlug) =>
+        `/previews/${practiceSlug}/*\n  X-Robots-Tag: noindex, nofollow`,
+    )
+    .join('\n');
+}
+
 async function readPractice(practiceId) {
   try {
     return await loadPracticeData(repoRoot, practiceId);
@@ -46,6 +55,10 @@ if (target === 'marketing') {
     fail('SITE_ID is not used for marketing builds.');
   }
   site = 'https://frontdoor.health';
+  practiceIds = await listEligiblePreviewSlugs(repoRoot);
+  if (practiceIds.length === 0) {
+    fail('Marketing build found no preview sites with seo.allowIndexing=false.');
+  }
 } else if (target === 'practice') {
   if (!siteId) {
     fail('SITE_ID is required for practice builds.');
@@ -140,9 +153,9 @@ for (const runtimeFile of ['analytics.js', 'attribution.js', 'google-ads.js']) {
 
 for (const practiceId of practiceIds) {
   const destinationRoot =
-    target === 'preview'
-      ? path.join(publicDir, 'previews', practiceId)
-      : publicDir;
+    target === 'practice'
+      ? publicDir
+      : path.join(publicDir, 'previews', practiceId);
   await mkdir(path.join(destinationRoot, 'assets'), { recursive: true });
 
   const cssResult = spawnSync(
@@ -237,6 +250,10 @@ if (target === 'marketing') {
     path.join(outDir, 'robots.txt'),
     `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`,
   );
+  await writeFile(
+    path.join(outDir, '_headers'),
+    `${renderPreviewHeaders(practiceIds)}\n`,
+  );
 } else if (target === 'practice') {
   const { config } = await readPractice(siteId);
   if (config.seo?.allowIndexing === true) {
@@ -250,6 +267,15 @@ if (target === 'marketing') {
       `User-agent: *\nAllow: /\n\nSitemap: ${site}/sitemap.xml\n`,
     );
   }
+} else {
+  await writeFile(
+    path.join(outDir, '_headers'),
+    `${renderPreviewHeaders(practiceIds)}\n`,
+  );
+  await writeFile(
+    path.join(outDir, 'robots.txt'),
+    'User-agent: *\nAllow: /\n\nSitemap: https://frontdoor.health/sitemap.xml\n',
+  );
 }
 
 console.log(`Astro ${target} output: ${path.relative(repoRoot, outDir)}`);

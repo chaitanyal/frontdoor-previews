@@ -53,19 +53,32 @@ for (const pageCase of scopedPages) {
       await page.setViewportSize(viewport.size);
       await installDeterministicBrowser(page);
       const network = await installMockNetwork(page);
-      const url = target === 'astro' && scope === 'practice'
-        ? pathToFileURL(
-            path.join(
-              process.cwd(),
-              '.tmp',
-              'astro-dist',
-              'practice',
-              pageCase.name === 'practice-provider'
-                ? 'providers/goutham-dronavalli/index.html'
-                : 'index.html',
-            ),
-          ).href
-        : pageCase.url;
+      let url = pageCase.url;
+      if (target === 'astro' && scope === 'practice') {
+        url = pathToFileURL(
+          path.join(
+            process.cwd(),
+            '.tmp',
+            'astro-dist',
+            'practice',
+            pageCase.name === 'practice-provider'
+              ? 'providers/goutham-dronavalli/index.html'
+              : 'index.html',
+          ),
+        ).href;
+      } else if (target === 'astro' && scope === 'preview') {
+        url = pathToFileURL(
+          path.join(
+            process.cwd(),
+            '.tmp',
+            'astro-dist',
+            'preview',
+            'previews',
+            'northhillspsychiatry',
+            'index.html',
+          ),
+        ).href;
+      }
       await page.goto(url);
       await waitForStablePage(page);
 

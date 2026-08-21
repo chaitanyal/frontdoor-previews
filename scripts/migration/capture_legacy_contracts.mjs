@@ -255,6 +255,26 @@ function marketingOnly(contract) {
   };
 }
 
+function previewsFromMarketing(contract) {
+  const retainedFiles = new Set([
+    '_headers',
+    'robots.txt',
+    'shared/analytics.js',
+    'shared/attribution.js',
+    'shared/google-ads.js',
+  ]);
+  return {
+    target: 'preview-all',
+    pages: contract.pages.filter((page) => page.route.startsWith('/previews/')),
+    outputFiles: contract.outputFiles.filter(
+      (file) => file.startsWith('previews/') || retainedFiles.has(file),
+    ),
+    headers: contract.headers,
+    robots: contract.robots,
+    sitemapLocations: [],
+  };
+}
+
 function compileMarketingTestCss() {
   const executable = path.join(ROOT, 'node_modules', '.bin', 'tailwindcss');
   run(executable, [
@@ -374,6 +394,66 @@ export function compareAstroPracticeContract(site = 'drdronavalli') {
   process.stdout.write(`Astro ${site} contract matches the legacy practice.\n`);
 }
 
+export function compareAstroPreviewContract(site = 'northhillspsychiatry') {
+  const targetName = site === 'ALL' ? 'preview-all' : `preview-${site}`;
+  const baselinePath = path.join(CONTRACT_ROOT, `${targetName}.json`);
+  if (!existsSync(baselinePath)) {
+    fail(`Missing preview migration contract baseline: ${targetName}.json.`);
+  }
+  const astroRoot = path.join(ROOT, '.tmp', 'astro-dist', 'preview');
+  if (!existsSync(astroRoot)) {
+    fail('Missing Astro preview output. Run npm run build:astro:preview first.');
+  }
+
+  const expected = JSON.parse(readFileSync(baselinePath, 'utf8'));
+  const actual = contractFor(astroRoot, targetName);
+  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
+  const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
+  if (actualText !== expectedText) {
+    const actualPath = path.join(
+      ROOT,
+      '.tmp',
+      'migration-contracts',
+      'actual',
+      `astro-${targetName}.json`,
+    );
+    mkdirSync(path.dirname(actualPath), { recursive: true });
+    writeFileSync(actualPath, actualText);
+    fail(
+      `Astro preview contract differs from legacy. Compare ${path.relative(ROOT, baselinePath)} with ${path.relative(ROOT, actualPath)}.`,
+    );
+  }
+  process.stdout.write(`Astro ${targetName} contract matches the legacy preview.\n`);
+}
+
+export function compareAstroMarketingPreviewContract() {
+  const baselinePath = path.join(CONTRACT_ROOT, 'preview-all.json');
+  const astroRoot = path.join(ROOT, '.tmp', 'astro-dist', 'marketing');
+  if (!existsSync(astroRoot)) {
+    fail('Missing Astro marketing output. Run npm run build:astro:marketing first.');
+  }
+
+  const expected = JSON.parse(readFileSync(baselinePath, 'utf8'));
+  const actual = previewsFromMarketing(contractFor(astroRoot, 'marketing'));
+  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
+  const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
+  if (actualText !== expectedText) {
+    const actualPath = path.join(
+      ROOT,
+      '.tmp',
+      'migration-contracts',
+      'actual',
+      'astro-marketing-previews.json',
+    );
+    mkdirSync(path.dirname(actualPath), { recursive: true });
+    writeFileSync(actualPath, actualText);
+    fail(
+      `Astro marketing previews differ from legacy. Compare ${path.relative(ROOT, baselinePath)} with ${path.relative(ROOT, actualPath)}.`,
+    );
+  }
+  process.stdout.write('Astro marketing previews match the legacy all-preview output.\n');
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const update = process.argv.includes('--update');
   const check = process.argv.includes('--check');
@@ -387,11 +467,13 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
   try {
     if (scope) {
-      if (update || !['marketing', 'practice'].includes(scope)) {
-        fail('Scoped migration contract checks support --check with marketing or practice.');
+      if (update || !['marketing', 'practice', 'preview'].includes(scope)) {
+        fail('Scoped migration contract checks support --check with marketing, practice, or preview.');
       }
       if (scope === 'marketing') {
         compareAstroMarketingContract();
+      } else if (scope === 'preview') {
+        compareAstroPreviewContract(site);
       } else {
         compareAstroPracticeContract(site);
       }

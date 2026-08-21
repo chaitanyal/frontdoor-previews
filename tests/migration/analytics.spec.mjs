@@ -105,6 +105,48 @@ test('@analytics sends the complete preview page-view payload', async ({ page })
   expect(network.unexpectedRequests).toEqual([]);
 });
 
+test('@analytics preserves preview CTA events and destinations', async ({ page }) => {
+  skipUnless('preview');
+  const network = await installMockNetwork(page);
+  await installKnownStorage(page);
+  await page.goto('https://frontdoor.health/previews/northhillspsychiatry/');
+  await expect.poll(() => network.analyticsRequests.length).toBe(1);
+
+  const cases = [
+    ['email', 'email_click'],
+    ['phone', 'phone_click'],
+    ['directions', 'directions_click'],
+    ['resource', 'resource_download'],
+  ];
+
+  for (const [index, [ctaType, eventType]] of cases.entries()) {
+    const cta = page.locator(`[data-frontdoor-cta="${ctaType}"]`).first();
+    const destination = await cta.evaluate((element) => {
+      if (element.dataset.frontdoorDestination) return element.dataset.frontdoorDestination;
+      if (element.href) return element.href;
+      if (element.dataset.copyEmail) return `mailto:${element.dataset.copyEmail}`;
+      return '';
+    });
+
+    await cta.click();
+    await expect.poll(() => network.analyticsRequests.length).toBe(index + 2);
+    expect(network.analyticsRequests.at(-1).payload).toEqual({
+      practice_slug: 'northhillspsychiatry',
+      event_type: eventType,
+      page_path: '/previews/northhillspsychiatry/',
+      destination_url: destination,
+      referrer: null,
+      title: 'North Hills Psychiatry | Compassionate Psychiatric Care in Austin',
+      session_id: FIXED_SESSION_ID,
+      visitor_id: FIXED_VISITOR_ID,
+      timestamp: fixedTimestamp(),
+      utm_campaign: UTM_CAMPAIGN,
+    });
+  }
+
+  expect(network.unexpectedRequests).toEqual([]);
+});
+
 test('@analytics preserves every CTA mapping, destination, context, and ID reuse', async ({ page }) => {
   skipUnless('practice');
   const network = await installMockNetwork(page);

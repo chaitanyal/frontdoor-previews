@@ -1,9 +1,6 @@
 ---
-import CopyEmailScript from '../../../../../components/practice/CopyEmailScript.astro';
-import ProviderProfile from '../../../../../components/practice/ProviderProfile.astro';
-import PracticeLayout from '../../../../../layouts/PracticeLayout.astro';
+import ProviderPage from '../../../../../pages/shared/ProviderPage.astro';
 import { loadPracticeData } from '../../../../../lib/practice-data.mjs';
-import { providerProfile } from '../../../../../lib/practice-view.mjs';
 
 export async function getStaticPaths() {
   const siteId = process.env.SITE_ID;
@@ -17,24 +14,6 @@ export async function getStaticPaths() {
 const { provider } = Astro.props;
 const siteId = process.env.SITE_ID;
 const { config, theme } = await loadPracticeData(process.cwd(), siteId);
-const profile = providerProfile(config, provider);
 ---
 
-<PracticeLayout
-  bodyClass="bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0"
-  config={config}
-  description={profile.description}
-  image={provider.seo?.ogImage || provider.image}
-  imageAlt={provider.seo?.ogImageAlt || `Portrait of ${profile.name}`}
-  jsonLd={profile.schema}
-  pageKind="provider"
-  pagePath={`providers/${provider.slug}`}
-  socialType="profile"
-  stylesheetHref="../../assets/styles.css"
-  theme={theme}
-  title={profile.title}
->
-  <ProviderProfile config={config} provider={provider} />
-  <CopyEmailScript slot="scripts" />
-  <script is:inline slot="scripts">lucide.createIcons();</script>
-</PracticeLayout>
+<ProviderPage config={config} provider={provider} theme={theme} />
