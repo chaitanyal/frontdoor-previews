@@ -725,8 +725,8 @@ The analytics Worker origin and slug allowlists contain the production values.
 
 ## Milestone 7: Full parity, staging deployment, and cutover
 
-**Status: In progress on branch `astro-milestone-7`; local cutover and Cloudflare
-Pages staging verification passed on 2026-08-21. Production cutover gates remain.**
+**Status: Complete as of 2026-08-21. Local, Cloudflare Pages staging, and production
+cutover verification passed.**
 
 ### Goal
 
@@ -793,6 +793,20 @@ npm run test:visual
 
 Production HTTP checks must include representative `curl -I` requests for a marketing
 page, preview homepage, preview provider page, and production-practice provider page.
+
+### Production cutover record (2026-08-21)
+
+- PR #4 was merged to `main` as `43b6ee2`; FrontDoor marketing, shared previews, and
+  DrDronavalli production deployments completed successfully from that commit.
+- Playwright verified production routes, assets, responsive layout, canonicals,
+  robots, sitemaps, preview noindex headers, and preview noindex metadata.
+- Controlled non-PHI North Hills preview and DrDronavalli phone-click events returned
+  HTTP 200 and were confirmed in production D1 with the expected slugs, paths,
+  destinations, and unique migration UTM markers.
+- No phone call, email, preview request, or Google Ads conversion was triggered by
+  production migration verification.
+- The prior DrDronavalli deployment from `0c5e677` and all legacy build commands remain
+  available during the Milestone 8 observation period.
 
 ### Exit criteria
 
