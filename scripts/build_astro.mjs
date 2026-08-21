@@ -313,4 +313,19 @@ if (target === 'marketing') {
   );
 }
 
+const validationResult = spawnSync(
+  'python3',
+  [path.join(repoRoot, 'scripts', 'validate_built_html.py'), outDir],
+  {
+    cwd: repoRoot,
+    stdio: 'inherit',
+  },
+);
+if (validationResult.error) {
+  fail(`Unable to start built HTML validation: ${validationResult.error.message}`);
+}
+if (validationResult.status !== 0) {
+  process.exit(validationResult.status ?? 1);
+}
+
 console.log(`Astro ${target} output: ${path.relative(repoRoot, outDir)}`);

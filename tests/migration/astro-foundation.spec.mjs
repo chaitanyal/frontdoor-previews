@@ -275,6 +275,18 @@ test.describe.serial('Astro migration foundation', () => {
     expect(structuredSpecialtyProfile.isPsychiatry).toBe(true);
   });
 
+  test('@astro-foundation validates generated HTML before reporting build success', () => {
+    const buildSource = readFileSync(
+      path.join(repoRoot, 'scripts', 'build_astro.mjs'),
+      'utf8',
+    );
+    const validationIndex = buildSource.indexOf('validate_built_html.py');
+    const successIndex = buildSource.indexOf('console.log(`Astro ${target} output:');
+
+    expect(validationIndex).toBeGreaterThan(-1);
+    expect(successIndex).toBeGreaterThan(validationIndex);
+  });
+
   test('@astro-foundation rejects invalid target and SITE_ID combinations', () => {
     expect(() =>
       assertMarketingCaseStudyRoute(repoRoot, 'drdronavalli'),
