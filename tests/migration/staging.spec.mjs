@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { waitForStablePage } from './helpers/static-site.mjs';
 
 const urls = {
   marketing:
@@ -192,6 +193,7 @@ test('@staging loads nested assets at mobile width and preserves analytics paylo
     '/previews/mariposa/providers/alba-lara/',
   ]) {
     await page.goto(at(urls.previews, route), { waitUntil: 'load' });
+    await waitForStablePage(page);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= window.innerWidth,
