@@ -725,6 +725,9 @@ The analytics Worker origin and slug allowlists contain the production values.
 
 ## Milestone 7: Full parity, staging deployment, and cutover
 
+**Status: In progress on branch `astro-milestone-7`; local cutover and Cloudflare
+Pages staging verification passed on 2026-08-21. Production cutover gates remain.**
+
 ### Goal
 
 Prove the complete Astro system in a Cloudflare Pages staging environment, then make

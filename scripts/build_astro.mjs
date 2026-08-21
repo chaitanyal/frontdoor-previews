@@ -23,6 +23,7 @@ import {
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const target = process.env.FRONTDOOR_TARGET ?? '';
 const siteId = process.env.SITE_ID ?? '';
+const deployOutput = process.env.FRONTDOOR_ASTRO_DEPLOY === '1';
 const validTargets = new Set(['marketing', 'practice', 'preview']);
 
 function fail(message) {
@@ -109,7 +110,12 @@ if (target === 'marketing') {
 }
 
 const publicDir = path.join(repoRoot, '.tmp', 'astro-public', target);
-const outDir = path.join(repoRoot, '.tmp', 'astro-dist', target);
+const outDir = deployOutput
+  ? path.join(repoRoot, 'dist')
+  : path.join(repoRoot, '.tmp', 'astro-dist', target);
+const astroOutDir = deployOutput
+  ? './dist'
+  : `./.tmp/astro-dist/${target}`;
 const sharedRuntimeDir = path.join(publicDir, 'shared');
 const tailwindExecutable = path.join(
   repoRoot,
@@ -241,6 +247,7 @@ const result = spawnSync(astroExecutable, ['build', '--config', 'astro.config.mj
     ...process.env,
     ASTRO_TELEMETRY_DISABLED: '1',
     FRONTDOOR_ASTRO_SITE: site,
+    FRONTDOOR_ASTRO_OUT_DIR: astroOutDir,
     FRONTDOOR_ASTRO_PRACTICE_IDS: JSON.stringify(practiceIds),
   },
   stdio: 'inherit',

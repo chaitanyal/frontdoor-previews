@@ -14,22 +14,22 @@ const MARKETING_CSS = path.join(ROOT, '.tmp', 'migration-contracts', 'marketing.
 const TARGETS = [
   {
     name: 'marketing',
-    command: ['run', 'build:marketing'],
+    command: ['run', 'build:legacy:marketing'],
     environment: {},
   },
   {
     name: 'practice-drdronavalli',
-    command: ['run', 'build:practice'],
+    command: ['run', 'build:legacy:practice'],
     environment: { SITE_ID: 'drdronavalli' },
   },
   {
     name: 'preview-northhillspsychiatry',
-    command: ['run', 'build:preview'],
+    command: ['run', 'build:legacy:preview'],
     environment: { SITE_ID: 'northhillspsychiatry' },
   },
   {
     name: 'preview-all',
-    command: ['run', 'build:preview:all'],
+    command: ['run', 'build:legacy:preview:all'],
     environment: {},
   },
 ];
@@ -374,7 +374,7 @@ export function compareAstroPracticeContract(site = 'drdronavalli') {
     expected = JSON.parse(readFileSync(baselinePath, 'utf8'));
     expectedDescription = path.relative(ROOT, baselinePath);
   } else {
-    run('npm', ['run', 'build:practice'], { SITE_ID: site });
+    run('npm', ['run', 'build:legacy:practice'], { SITE_ID: site });
     expected = contractFor(DIST, targetName);
     expectedDescription = `fresh legacy SITE_ID=${site} output`;
   }
