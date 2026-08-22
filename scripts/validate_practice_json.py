@@ -234,8 +234,10 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         require_string(seo["locale"], "seo.locale")
 
     practice = require_mapping(require_key(config, "practice", "root"), "practice")
-    for key in ["slug", "name", "tagline", "locationLabel", "phone", "phoneHref", "email"]:
+    for key in ["slug", "name", "tagline", "locationLabel", "phone", "phoneHref"]:
         require_string_key(practice, key, "practice")
+    if "email" not in practice or not isinstance(practice["email"], str):
+        fail("practice.email is required and must be a string; use an empty string when unknown")
     if not re.fullmatch(r"[a-z0-9-]+", practice["slug"]):
         fail("practice.slug must contain only lowercase letters, numbers, and hyphens")
     validate_string_list(require_key(practice, "addressLines", "practice"), "practice.addressLines", min_items=1)
@@ -250,6 +252,11 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         require_http_url(practice["defaultAppointmentUrl"], "practice.defaultAppointmentUrl")
     if "patientPortalUrl" in practice:
         require_http_url(practice["patientPortalUrl"], "practice.patientPortalUrl")
+    if (
+        "disableExternalActionLinksInPreview" in practice
+        and not isinstance(practice["disableExternalActionLinksInPreview"], bool)
+    ):
+        fail("practice.disableExternalActionLinksInPreview must be a boolean")
 
     hero = require_mapping(require_key(config, "hero", "root"), "hero")
     for key in ["image", "imageAlt", "title", "copy", "primaryCta", "secondaryCta"]:
