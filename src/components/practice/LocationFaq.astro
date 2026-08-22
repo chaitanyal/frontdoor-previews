@@ -1,5 +1,6 @@
 ---
 import { homeContent } from '../../lib/practice-view.mjs';
+import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 import ContactCard from './ContactCard.astro';
 import Icon from './Icon.astro';
 
@@ -10,16 +11,23 @@ interface Props {
 const { config } = Astro.props;
 const { practice, location, faqs = [] } = config;
 const content = homeContent(config);
+const locationSummary =
+  location.summary ||
+  'Find office details, hours, directions, and contact information.';
+const faqSummary =
+  config.faqIntro ||
+  'Answers to common questions about appointments, care, and practice policies.';
 ---
 
 <section
-  id="location"
+  id={HOME_SECTION_IDS.location}
   class="section section-surface-location border-t border-white/60"
 >
   <div class="section-shell">
     <div class="max-w-2xl">
       <p class="eyebrow">Visit the office</p>
       <h2 class="section-title">{location.title}</h2>
+      <p data-section-summary class="section-copy">{locationSummary}</p>
     </div>
     <div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
       <div class="soft-card overflow-hidden">
@@ -133,39 +141,45 @@ const content = homeContent(config);
     </div>
   </div>
 </section>
-<section id="faq" class="section border-t border-white/60 bg-warm-50">
-  <div class="mx-auto max-w-4xl">
-    <div class="max-w-2xl">
-      <p class="eyebrow">FAQ</p>
-      <h2 class="section-title">Common questions</h2>
-    </div>
-    <div
-      class="mt-12 soft-card divide-y divide-slate-100/80 overflow-hidden"
+{
+  faqs.length > 0 && (
+    <section
+      id={HOME_SECTION_IDS.faq}
+      class="section border-t border-white/60 bg-warm-50"
     >
-      {
-        faqs.map((faq, index) => (
-          <details
-            class="group p-7 transition-all duration-300 hover:bg-white/70"
-            open={index === 0}
-          >
-            <summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-xl text-base font-semibold text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300">
-              {faq.question}
-              <span
-                class="icon-chip h-8 w-8 transition duration-300 group-open:rotate-45"
-                aria-hidden="true"
-              >
-                +
-              </span>
-            </summary>
-            <div class="mt-4 space-y-3 text-base leading-7 text-slate-600">
-              {String(faq.answer || '')
-                .split('\n')
-                .filter(Boolean)
-                .map((line) => <p>{line}</p>)}
-            </div>
-          </details>
-        ))
-      }
-    </div>
-  </div>
-</section>
+      <div class="mx-auto max-w-4xl">
+        <div class="max-w-2xl">
+          <p class="eyebrow">FAQ</p>
+          <h2 class="section-title">Common questions</h2>
+          <p data-section-summary class="section-copy">{faqSummary}</p>
+        </div>
+        <div
+          class="mt-12 soft-card divide-y divide-slate-100/80 overflow-hidden"
+        >
+          {faqs.map((faq, index) => (
+            <details
+              class="group p-7 transition-all duration-300 hover:bg-white/70"
+              open={index === 0}
+            >
+              <summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-xl text-base font-semibold text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300">
+                {faq.question}
+                <span
+                  class="icon-chip h-8 w-8 transition duration-300 group-open:rotate-45"
+                  aria-hidden="true"
+                >
+                  +
+                </span>
+              </summary>
+              <div class="mt-4 space-y-3 text-base leading-7 text-slate-600">
+                {String(faq.answer || '')
+                  .split('\n')
+                  .filter(Boolean)
+                  .map((line) => <p>{line}</p>)}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

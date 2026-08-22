@@ -9,6 +9,7 @@ import PracticeFooter from '../../components/practice/PracticeFooter.astro';
 import PracticeHeader from '../../components/practice/PracticeHeader.astro';
 import ProviderConditions from '../../components/practice/ProviderConditions.astro';
 import PracticeLayout from '../../layouts/PracticeLayout.astro';
+import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 import { practiceSchema } from '../../lib/practice-view.mjs';
 
 interface Props {
@@ -39,7 +40,7 @@ const { config, theme } = Astro.props;
       phoneHref={config.practice.phoneHref}
       email={config.practice.email}
       emergencyNotice={config.practice.emergencyNotice}
-      sectionId="contact"
+      sectionId={HOME_SECTION_IDS.contact}
       homeVariant
     />
     <PatientResources config={config} />

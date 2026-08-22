@@ -4,6 +4,7 @@ import {
   isPdfUrl,
   patientResourceGroups,
 } from '../../lib/practice-view.mjs';
+import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -25,7 +26,7 @@ const rows = resourceCount === 1
 {
   resourceCount > 0 && (
     <section
-      id="patient-resources"
+      id={HOME_SECTION_IDS.resources}
       class="border-t border-white/60 bg-warm-50 px-6 py-8 lg:px-8 lg:py-9"
     >
       <div class="mx-auto max-w-4xl">
@@ -33,7 +34,7 @@ const rows = resourceCount === 1
           <h2 class="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl">
             Patient Resources
           </h2>
-          <p class="mt-2 text-base leading-7 text-slate-600">{resourceCopy}</p>
+          <p data-section-summary class="mt-2 text-base leading-7 text-slate-600">{resourceCopy}</p>
         </div>
         {resourceCount === 1 ? (
           rows.map((resource) => (
@@ -98,7 +99,7 @@ const rows = resourceCount === 1
         ) : (
           <div class="mt-4 overflow-hidden rounded-[28px] border border-slate-100/70 bg-white">
             {groups.map((group) => (
-              <section class="border-t border-slate-100/70 px-5 py-3.5 first:border-t-0 sm:px-7">
+              <div class="border-t border-slate-100/70 px-5 py-3.5 first:border-t-0 sm:px-7">
                 <h3 class="text-[0.95rem] font-semibold leading-6 text-slate-950">
                   {group.title}
                 </h3>
@@ -132,7 +133,7 @@ const rows = resourceCount === 1
                     </a>
                   ))}
                 </div>
-              </section>
+              </div>
             ))}
           </div>
         )}

@@ -1,5 +1,8 @@
 ---
-import { financialTitle, homeContent } from '../../lib/practice-view.mjs';
+import {
+  HOME_SECTION_IDS,
+  homeSectionNavigation,
+} from '../../lib/home-sections.mjs';
 
 interface Props {
   config: Record<string, any>;
@@ -14,15 +17,19 @@ const {
   providerLabels = {},
   providerPage = false,
 } = Astro.props;
-const { practice, hero } = config;
-const content = homeContent(config);
+const { practice } = config;
+const homeSections = homeSectionNavigation(config);
+const primarySections = homeSections.filter(
+  (section) => section.header && !section.cta,
+);
+const contactSection = homeSections.find((section) => section.cta);
 ---
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/95">
   <div class="page-shell flex items-center justify-between py-3 md:py-4">
     <a
-      href={providerPage ? '../../' : '#'}
+      href={providerPage ? '../../' : '#main-content'}
       class="flex items-center gap-3"
       aria-label={`${practice.name} home`}
     >
@@ -48,10 +55,10 @@ const content = homeContent(config);
             class="hidden items-center gap-8 md:flex"
             aria-label="Provider navigation"
           >
-            <a href="../../#providers" class="nav-link">
+            <a href={`../../#${HOME_SECTION_IDS.providers}`} class="nav-link">
               {providerLabels.providers || 'Providers'}
             </a>
-            <a href="../../#conditions" class="nav-link">
+            <a href={`../../#${HOME_SECTION_IDS.conditions}`} class="nav-link">
               {providerLabels.conditions || 'Conditions'}
             </a>
             <a href="#appointment" class="btn-primary px-4 py-2.5 text-sm">
@@ -72,19 +79,27 @@ const content = homeContent(config);
             class="hidden items-center gap-8 md:flex"
             aria-label="Primary navigation"
           >
-            <a href="#providers" class="nav-link">{content.navProvidersLabel}</a>
-            <a href="#conditions" class="nav-link">Conditions</a>
-            <a href="#insurance" class="nav-link">
-              {financialTitle(config.financialPolicy)}
-            </a>
-            <a href="#faq" class="nav-link">FAQ</a>
-            <a href="#contact" class="btn-primary px-4 py-2.5 text-sm">
-              {hero.primaryCta}
+            {primarySections.map((section) => (
+              <a
+                href={`#${section.id}`}
+                class="nav-link"
+                data-home-section-link={section.id}
+              >
+                {section.label}
+              </a>
+            ))}
+            <a
+              href={`#${contactSection.id}`}
+              class="btn-primary px-4 py-2.5 text-sm"
+              data-home-section-link={contactSection.id}
+            >
+              {contactSection.label}
             </a>
           </nav>
           <a
-            href="#contact"
+            href={`#${contactSection.id}`}
             class="btn-secondary min-h-[44px] px-3 py-2 text-sm md:hidden"
+            data-home-section-link={contactSection.id}
           >
             Contact
           </a>

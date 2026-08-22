@@ -1,5 +1,6 @@
 ---
 import { homeContent } from '../../lib/practice-view.mjs';
+import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -51,11 +52,11 @@ const content = homeContent(config);
           {hero.copy}
         </p>
         <div class="mt-8 flex flex-col gap-4 sm:flex-row">
-          <a href="#contact" class="btn-primary w-full sm:w-auto">
+          <a href={`#${HOME_SECTION_IDS.contact}`} class="btn-primary w-full sm:w-auto">
             <Icon name="CalendarCheck" />
             {hero.primaryCta}
           </a>
-          <a href="#providers" class="btn-secondary w-full sm:w-auto">
+          <a href={`#${HOME_SECTION_IDS.providers}`} class="btn-secondary w-full sm:w-auto">
             {hero.secondaryCta}
           </a>
         </div>
@@ -65,7 +66,7 @@ const content = homeContent(config);
 </section>
 {
   trustItems.length > 0 && (
-    <section class="border-y border-white/60 bg-gradient-to-r from-warm-50 via-white to-sage-50">
+    <div class="border-y border-white/60 bg-gradient-to-r from-warm-50 via-white to-sage-50">
       <div class="page-shell grid grid-cols-1 gap-3 py-6 sm:grid-cols-2 md:grid-cols-4 md:py-8">
         {trustItems.map((item) => (
           <div class="reassurance-row">
@@ -74,6 +75,6 @@ const content = homeContent(config);
           </div>
         ))}
       </div>
-    </section>
+    </div>
   )
 }

@@ -7,6 +7,7 @@ import {
   paymentMethodLabel,
   policyParagraphs,
 } from '../../lib/practice-view.mjs';
+import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 import ContactCards from './ContactCards.astro';
 import Icon from './Icon.astro';
 
@@ -46,14 +47,14 @@ const note = policy?.contactForRatesMessage
 {
   sectionMode === 'insurance' ? (
     <section
-      id="insurance"
+      id={HOME_SECTION_IDS.financial}
       class="section border-t border-white/60 bg-sage-100"
     >
       <div class="section-shell soft-card p-8 md:p-12">
         <div class="max-w-3xl">
           <p class="eyebrow">{insurance.section_label || ''}</p>
           <h2 class="section-title">{insurance.headline || ''}</h2>
-          <p class="mt-6 text-lg leading-8 text-slate-600">
+          <p data-section-summary class="mt-6 text-lg leading-8 text-slate-600">
             {insurance.summary || ''}
           </p>
         </div>
@@ -88,13 +89,13 @@ const note = policy?.contactForRatesMessage
     </section>
   ) : sectionMode === 'policy' ? (
     <section
-      id="insurance"
+      id={HOME_SECTION_IDS.financial}
       class="section border-t border-white/60 bg-sage-100"
     >
       <div class="section-shell soft-card p-8 md:p-12">
         <div class="max-w-3xl">
           <h2 class="section-title">{title}</h2>
-          <p class="mt-6 text-lg leading-8 text-slate-600">{summary}</p>
+          <p data-section-summary class="mt-6 text-lg leading-8 text-slate-600">{summary}</p>
         </div>
         {['listed', 'published'].includes(policy?.pricingDisplay) &&
           fees.length > 0 && (

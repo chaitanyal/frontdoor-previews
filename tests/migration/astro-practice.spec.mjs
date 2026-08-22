@@ -12,6 +12,7 @@ import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { compareAstroPracticeContract } from '../../scripts/migration/capture_legacy_contracts.mjs';
+import { homeSectionNavigation } from '../../src/lib/home-sections.mjs';
 import {
   assertAnalyticsDeploymentAllowed,
   productionSiteUrl,
@@ -51,6 +52,70 @@ function buildPractice(practiceId) {
     SITE_ID: practiceId,
   });
   expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
+}
+
+async function verifyHomeSectionNavigation(page, config, homeFile) {
+  await page.goto(pathToFileURL(homeFile).href);
+  await waitForStablePage(page);
+
+  const expectedSections = homeSectionNavigation(config);
+  const expectedIds = expectedSections.map((section) => section.id);
+  const expectedHeaderSections = expectedSections.filter(
+    (section) => section.header,
+  );
+  const expectedHeaderIds = [
+    ...expectedHeaderSections.filter((section) => !section.cta),
+    ...expectedHeaderSections.filter((section) => section.cta),
+  ].map((section) => section.id);
+
+  expect(
+    await page
+      .locator('nav[aria-label="Practice sections"] [data-home-section-link]')
+      .evaluateAll((links) =>
+        links.map((link) => link.getAttribute('data-home-section-link'))),
+  ).toEqual(expectedIds);
+  expect(
+    await page
+      .locator('nav[aria-label="Primary navigation"] [data-home-section-link]')
+      .evaluateAll((links) =>
+        links.map((link) => link.getAttribute('data-home-section-link'))),
+  ).toEqual(expectedHeaderIds);
+
+  const brokenAnchors = await page.locator('a[href^="#"]').evaluateAll((links) =>
+    links.flatMap((link) => {
+      const href = link.getAttribute('href') || '';
+      const id = decodeURIComponent(href.slice(1));
+      return id && document.getElementById(id) ? [] : [href];
+    }),
+  );
+  expect(brokenAnchors).toEqual([]);
+
+  const sectionHeadings = [];
+  for (const section of expectedSections) {
+    const target = page.locator(`#${section.id}`);
+    await expect(target).toHaveCount(1);
+    await expect(target.locator('h2')).toHaveCount(1);
+    await expect(target.locator('[data-section-summary]')).toHaveCount(1);
+    const heading = (await target.locator('h2').textContent()).trim();
+    const summary = (
+      await target.locator('[data-section-summary]').textContent()
+    ).trim();
+    expect(heading).not.toBe('');
+    expect(summary).not.toBe('');
+    sectionHeadings.push(heading);
+
+    const footerLink = page.locator(
+      `nav[aria-label="Practice sections"] [data-home-section-link="${section.id}"]`,
+    );
+    await footerLink.focus();
+    await expect(footerLink).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect.poll(() => new URL(page.url()).hash).toBe(`#${section.id}`);
+    await page.evaluate(() => {
+      history.replaceState(null, '', location.href.split('#')[0]);
+    });
+  }
+  expect(new Set(sectionHeadings).size).toBe(sectionHeadings.length);
 }
 
 test.describe.serial('Astro production practice builds', () => {
@@ -182,6 +247,10 @@ test.describe.serial('Astro production practice builds', () => {
           )),
       ];
 
+      for (const sectionRoute of ['services', 'insurance', 'faq']) {
+        expect(existsSync(path.join(practiceRoot, sectionRoute))).toBe(false);
+      }
+
       for (const htmlFile of htmlFiles) {
         const html = readFileSync(htmlFile, 'utf8');
         expect(html).not.toMatch(/pages\.dev|frontdoor-previews/i);
@@ -201,6 +270,12 @@ test.describe.serial('Astro production practice builds', () => {
               images.every((image) => image.complete && image.naturalWidth > 0)),
         ).toBe(true);
       }
+
+      await verifyHomeSectionNavigation(
+        page,
+        config,
+        path.join(practiceRoot, 'index.html'),
+      );
 
       if (config.seo.allowIndexing === true) {
         assertAnalyticsDeploymentAllowed(config, workerConfig);

@@ -1,4 +1,9 @@
 ---
+import {
+  HOME_SECTION_IDS,
+  homeSectionNavigation,
+} from '../../lib/home-sections.mjs';
+
 interface Props {
   config: Record<string, any>;
   phoneHref?: string;
@@ -12,21 +17,38 @@ const {
   providerLabels = {},
   providerPage = false,
 } = Astro.props;
-const { practice, hero } = config;
+const { hero } = config;
+const homeSections = homeSectionNavigation(config);
 ---
 
 {
   !providerPage && (
     <footer class="border-t border-white/60 bg-warm-200 px-6 py-10 lg:px-8">
-      <nav
-        class="mx-auto flex max-w-7xl justify-center gap-8 text-sm font-medium text-slate-600"
-        aria-label="Footer navigation"
-      >
-        <a class="transition hover:text-slate-950" href="./privacy/">Privacy</a>
-        <a class="transition hover:text-slate-950" href="./accessibility/">
-          Accessibility
-        </a>
-      </nav>
+      <div class="mx-auto max-w-7xl space-y-6">
+        <nav
+          class="flex flex-wrap justify-center gap-x-7 gap-y-3 text-sm font-medium text-slate-600"
+          aria-label="Practice sections"
+        >
+          {homeSections.map((section) => (
+            <a
+              class="transition hover:text-slate-950"
+              href={`#${section.id}`}
+              data-home-section-link={section.id}
+            >
+              {section.label}
+            </a>
+          ))}
+        </nav>
+        <nav
+          class="flex justify-center gap-8 border-t border-slate-300/60 pt-5 text-sm text-slate-500"
+          aria-label="Legal navigation"
+        >
+          <a class="transition hover:text-slate-950" href="./privacy/">Privacy</a>
+          <a class="transition hover:text-slate-950" href="./accessibility/">
+            Accessibility
+          </a>
+        </nav>
+      </div>
     </footer>
   )
 }
@@ -35,7 +57,7 @@ const { practice, hero } = config;
 >
   <div class="mx-auto grid max-w-md grid-cols-2 gap-3">
     <a
-      href={providerPage ? '#appointment' : '#contact'}
+      href={providerPage ? '#appointment' : `#${HOME_SECTION_IDS.contact}`}
       class="btn-primary min-h-[44px] px-3 py-2 text-sm"
     >
       {
