@@ -228,6 +228,8 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         validate_asset_path(seo["ogImage"], "seo.ogImage")
     if "ogImageAlt" in seo:
         require_string(seo["ogImageAlt"], "seo.ogImageAlt")
+    if "defaultOgImage" in seo:
+        fail("seo.defaultOgImage is no longer supported; use seo.ogImage")
     if "locale" in seo:
         require_string(seo["locale"], "seo.locale")
 
@@ -258,7 +260,7 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
     for index, provider_value in enumerate(providers):
         provider = require_mapping(provider_value, f"providers[{index}]")
         provider_path = f"providers[{index}]"
-        for key in ["slug", "name", "image", "tagline"]:
+        for key in ["slug", "name", "image", "imageAlt", "tagline"]:
             require_string_key(provider, key, provider_path)
         validate_asset_path(provider["image"], f"{provider_path}.image")
         if "bioParagraphs" in provider:
@@ -307,6 +309,12 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
                     require_string(provider_seo[key], f"{provider_path}.seo.{key}")
             if "ogImage" in provider_seo:
                 validate_asset_path(provider_seo["ogImage"], f"{provider_path}.seo.ogImage")
+        if seo.get("allowIndexing") is True:
+            provider_seo = require_mapping(
+                require_key(provider, "seo", provider_path),
+                f"{provider_path}.seo",
+            )
+            require_string_key(provider_seo, "title", f"{provider_path}.seo")
         if "appointmentUrl" in provider:
             require_http_url(provider["appointmentUrl"], f"{provider_path}.appointmentUrl")
         if "contactOverride" in provider:

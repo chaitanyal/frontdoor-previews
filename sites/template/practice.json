@@ -66,6 +66,11 @@
       "name": "Dr. Provider Name",
       "credentials": "MD · Specialty",
       "image": "./images/providers/provider-name.webp",
+      "imageAlt": "Dr. Provider Name, specialty physician in City, State",
+      "seo": {
+        "title": "Dr. Provider Name | Specialty Physician in City, State",
+        "description": "Meet Dr. Provider Name and learn about available specialty care, services, and appointments."
+      },
       "medicalSpecialty": "https://schema.org/PrimaryCare",
       "tagline": "A concise summary of the provider's clinical focus, care style, and patient population.",
       "specialties": [

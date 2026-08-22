@@ -85,14 +85,44 @@ test.describe.serial('Astro production practice builds', () => {
         phone: '(512) 555-0199',
       };
       const fixturePath = path.join(fixtureDirectory, 'practice.json');
-      writeFileSync(fixturePath, JSON.stringify(invalidConfig));
-      const validation = run('python3', [
-        'scripts/validate_practice_json.py',
-        fixturePath,
-      ]);
+      const validate = (config) => {
+        writeFileSync(fixturePath, JSON.stringify(config));
+        return run('python3', [
+          'scripts/validate_practice_json.py',
+          fixturePath,
+        ]);
+      };
+      const validation = validate(invalidConfig);
       expect(validation.status).not.toBe(0);
       expect(validation.stderr).toContain(
         'phone and providers[0].contactOverride.phoneHref must be provided together',
+      );
+
+      const missingImageAlt = structuredClone(invalidConfig);
+      delete missingImageAlt.providers[0].contactOverride;
+      delete missingImageAlt.providers[0].imageAlt;
+      const imageAltValidation = validate(missingImageAlt);
+      expect(imageAltValidation.status).not.toBe(0);
+      expect(imageAltValidation.stderr).toContain(
+        'providers[0].imageAlt is required',
+      );
+
+      const missingProductionTitle = structuredClone(invalidConfig);
+      delete missingProductionTitle.providers[0].contactOverride;
+      delete missingProductionTitle.providers[0].seo.title;
+      const titleValidation = validate(missingProductionTitle);
+      expect(titleValidation.status).not.toBe(0);
+      expect(titleValidation.stderr).toContain(
+        'providers[0].seo.title is required',
+      );
+
+      const legacyImageKey = structuredClone(invalidConfig);
+      delete legacyImageKey.providers[0].contactOverride;
+      legacyImageKey.seo.defaultOgImage = legacyImageKey.seo.ogImage;
+      const legacyImageValidation = validate(legacyImageKey);
+      expect(legacyImageValidation.status).not.toBe(0);
+      expect(legacyImageValidation.stderr).toContain(
+        'seo.defaultOgImage is no longer supported',
       );
     } finally {
       rmSync(fixtureDirectory, { recursive: true, force: true });

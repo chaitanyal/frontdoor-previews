@@ -11,6 +11,12 @@ import {
   providerProfile,
 } from '../../src/lib/practice-view.mjs';
 import {
+  homepageImageMetadata,
+  providerImageMetadata,
+  socialMetadata,
+  webPageSchema,
+} from '../../src/lib/seo.mjs';
+import {
   discoverIndexRoutes,
   renderSitemap,
 } from '../../src/lib/sitemap.mjs';
@@ -305,6 +311,83 @@ test.describe.serial('Astro migration foundation', () => {
       medicalSpecialty: 'https://schema.org/Psychiatry',
     });
     expect(structuredSpecialtyProfile.isPsychiatry).toBe(true);
+  });
+
+  test('@astro-foundation resolves single and multi-physician page images', () => {
+    const provider = {
+      name: 'Dr. Single Provider',
+      image: './images/providers/single.webp',
+      imageAlt: 'Dr. Single Provider in Austin, Texas',
+    };
+    const baseConfig = {
+      seo: {
+        title: 'Example Practice',
+        description: 'Example practice description.',
+        siteUrl: 'https://example.com',
+      },
+      hero: {
+        image: './images/hero/practice.webp',
+        imageAlt: 'Example Practice office',
+      },
+      practice: { name: 'Example Practice' },
+      providers: [provider],
+    };
+
+    expect(homepageImageMetadata(baseConfig)).toEqual({
+      image: provider.image,
+      imageAlt: provider.imageAlt,
+    });
+    expect(socialMetadata(baseConfig).image).toBe(
+      'https://example.com/images/providers/single.webp',
+    );
+
+    const multiProvider = {
+      ...baseConfig,
+      providers: [
+        provider,
+        {
+          name: 'Dr. Second Provider',
+          image: './images/providers/second.webp',
+          imageAlt: 'Dr. Second Provider in Austin, Texas',
+        },
+      ],
+    };
+    expect(homepageImageMetadata(multiProvider)).toEqual({
+      image: multiProvider.hero.image,
+      imageAlt: multiProvider.hero.imageAlt,
+    });
+
+    const explicitHomepage = {
+      ...multiProvider,
+      seo: {
+        ...multiProvider.seo,
+        ogImage: './images/practice/team.webp',
+        ogImageAlt: 'The Example Practice care team',
+      },
+    };
+    expect(homepageImageMetadata(explicitHomepage)).toEqual({
+      image: './images/practice/team.webp',
+      imageAlt: 'The Example Practice care team',
+    });
+
+    const providerOverride = {
+      ...provider,
+      seo: {
+        ogImage: './images/providers/single-social.webp',
+        ogImageAlt: 'Dr. Single Provider portrait',
+      },
+    };
+    expect(providerImageMetadata(providerOverride)).toEqual({
+      image: providerOverride.seo.ogImage,
+      imageAlt: providerOverride.seo.ogImageAlt,
+    });
+
+    const social = socialMetadata(baseConfig);
+    expect(webPageSchema(social, 'https://example.com/#clinic')).toMatchObject({
+      '@type': 'WebPage',
+      primaryImageOfPage: social.image,
+      mainEntity: { '@id': 'https://example.com/#clinic' },
+    });
   });
 
   test('@astro-foundation validates generated HTML before reporting build success', () => {

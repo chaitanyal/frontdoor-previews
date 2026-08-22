@@ -5,7 +5,7 @@
     "description": "Adult psychiatry and psychodynamic psychotherapy in Austin and online, led by Dr. Alba Lara.",
     "siteUrl": "https://frontdoor.health/previews/mariposa",
     "ogImage": "./images/hero/hero.webp",
-    "defaultOgImage": "./images/hero/hero.webp",
+    "ogImageAlt": "Calm natural setting for Mariposa Psychiatry",
     "allowIndexing": false
   },
   "practice": {
@@ -60,6 +60,11 @@
       "name": "Dr. Alba Lara",
       "heroTitle": "Alba Lara, M.D.",
       "image": "./images/providers/alba-lara.webp",
+      "imageAlt": "Dr. Alba Lara, psychiatrist and psychodynamic psychotherapist in Austin, Texas",
+      "seo": {
+        "title": "Dr. Alba Lara | Psychiatrist and Psychotherapist in Austin",
+        "description": "Meet Dr. Alba Lara and learn about her psychodynamic psychiatry, psychotherapy, and medication management services for adults."
+      },
       "specialty": "Psychiatrist, MD",
       "specialties": [
         "Psychodynamic Psychotherapy",

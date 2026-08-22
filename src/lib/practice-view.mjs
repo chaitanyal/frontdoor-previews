@@ -1,4 +1,9 @@
-import { absoluteUrl, canonicalUrl } from './seo.mjs';
+import {
+  absoluteUrl,
+  canonicalUrl,
+  homepageImageMetadata,
+  providerImageMetadata,
+} from './seo.mjs';
 
 export function homeContent(config) {
   return {
@@ -217,6 +222,7 @@ export function providerProfile(config, provider) {
   const providerSlug = provider.slug || '';
   const medicalSpecialty =
     provider.medicalSpecialty || practice.medicalSpecialty;
+  const socialImage = providerImageMetadata(provider);
 
   return {
     aboutHeading:
@@ -237,6 +243,8 @@ export function providerProfile(config, provider) {
     isPsychiatry: psychiatry,
     labels,
     name,
+    image: socialImage.image,
+    imageAlt: socialImage.imageAlt,
     patientPortalUrl: practice.patientPortalUrl || '',
     phone,
     phoneHref,
@@ -251,7 +259,7 @@ export function providerProfile(config, provider) {
       name,
       url: canonicalUrl(config, `providers/${providerSlug}`),
       description,
-      image: absoluteUrl(config, provider.image),
+      image: absoluteUrl(config, socialImage.image),
       telephone: phone,
       email,
       address,
@@ -298,10 +306,7 @@ export function practiceSchema(config) {
     }];
   });
   const canonical = canonicalUrl(config);
-  const image = absoluteUrl(
-    config,
-    config.seo?.ogImage || config.hero?.image,
-  );
+  const image = absoluteUrl(config, homepageImageMetadata(config).image);
 
   return {
     '@context': 'https://schema.org',

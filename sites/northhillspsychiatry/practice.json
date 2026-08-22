@@ -4,7 +4,7 @@
     "title": "North Hills Psychiatry | Compassionate Psychiatric Care in Austin",
     "description": "Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.",
     "ogImage": "./images/hero/Austin_Hero_Image.webp",
-    "defaultOgImage": "./images/hero/Austin_Hero_Image.webp",
+    "ogImageAlt": "Austin skyline at sunset",
     "siteUrl": "https://frontdoor.health/previews/northhillspsychiatry/",
     "allowIndexing": false
   },
@@ -61,6 +61,11 @@
       "name": "Dr. Zita Samuel",
       "heroTitle": "Compassionate, Evidence-Based Psychiatric Care.",
       "image": "./images/providers/zita_samuel.webp",
+      "imageAlt": "Dr. Zita Samuel, adult psychiatrist in Austin, Texas",
+      "seo": {
+        "title": "Dr. Zita Samuel | Adult Psychiatrist in Austin, TX",
+        "description": "Meet Dr. Zita Samuel and learn about her evidence-based psychiatric care for adults with ADHD, anxiety, depression, and mood concerns."
+      },
       "specialties": [
         "Adult Psychiatry",
         "ADHD",
@@ -120,6 +125,11 @@
       "name": "Dr. Diana Samuel",
       "heroTitle": "Psychiatric Care for Children, Teens, Adults, and Families.",
       "image": "./images/providers/diana_samuel.webp",
+      "imageAlt": "Dr. Diana Samuel, child and adolescent psychiatrist in Austin, Texas",
+      "seo": {
+        "title": "Dr. Diana Samuel | Child & Adolescent Psychiatrist in Austin",
+        "description": "Meet Dr. Diana Samuel and learn about her psychiatric care for children, adolescents, young adults, and families in Austin."
+      },
       "specialties": [
         "Children & Teens",
         "Families"

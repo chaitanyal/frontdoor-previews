@@ -1,6 +1,13 @@
 import { existsSync } from 'node:fs';
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
+import {
+  absoluteUrl,
+  canonicalUrl,
+  homepageImageMetadata,
+  providerImageMetadata,
+} from './seo.mjs';
+import { discoverIndexRoutes, renderSitemap } from './sitemap.mjs';
 
 const PUBLIC_ROBOTS = (siteUrl) =>
   `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`;
@@ -86,6 +93,83 @@ function canonicalHref(html) {
   return '';
 }
 
+function tagAttribute(tag, name) {
+  return tag.match(new RegExp(`\\b${name}=["']([^"']*)["']`, 'i'))?.[1] || '';
+}
+
+function metaContent(html, attribute, value) {
+  for (const match of html.matchAll(/<meta\b[^>]*>/gi)) {
+    if (tagAttribute(match[0], attribute) === value) {
+      return tagAttribute(match[0], 'content');
+    }
+  }
+  return '';
+}
+
+function jsonLdObjects(html, relativePath) {
+  const objects = [];
+  for (const match of html.matchAll(
+    /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi,
+  )) {
+    try {
+      objects.push(JSON.parse(match[1]));
+    } catch (error) {
+      throw new Error(`Invalid JSON-LD in ${relativePath}: ${error.message}`);
+    }
+  }
+  return objects;
+}
+
+function imageSources(html) {
+  return [...html.matchAll(/<img\b[^>]*>/gi)].map((match) =>
+    tagAttribute(match[0], 'src'),
+  );
+}
+
+function assertPageImageMetadata(
+  html,
+  relativePath,
+  expectedCanonical,
+  expectedImage,
+  entityType,
+) {
+  const canonical = canonicalHref(html);
+  if (canonical !== expectedCanonical) {
+    throw new Error(
+      `Canonical must be ${expectedCanonical} in ${relativePath}; found ${canonical || 'none'}.`,
+    );
+  }
+
+  for (const [attribute, key] of [
+    ['property', 'og:image'],
+    ['name', 'twitter:image'],
+  ]) {
+    const image = metaContent(html, attribute, key);
+    if (image !== expectedImage) {
+      throw new Error(
+        `${key} must be ${expectedImage} in ${relativePath}; found ${image || 'none'}.`,
+      );
+    }
+  }
+
+  const jsonLd = jsonLdObjects(html, relativePath);
+  const webPage = jsonLd.find((block) => block['@type'] === 'WebPage');
+  if (webPage?.primaryImageOfPage !== expectedImage) {
+    throw new Error(
+      `WebPage.primaryImageOfPage must be ${expectedImage} in ${relativePath}.`,
+    );
+  }
+  const entity = jsonLd.find((block) => block['@type'] === entityType);
+  if (entity?.image !== expectedImage) {
+    throw new Error(
+      `${entityType}.image must be ${expectedImage} in ${relativePath}.`,
+    );
+  }
+  if (webPage?.mainEntity?.['@id'] !== entity?.['@id']) {
+    throw new Error(`WebPage.mainEntity must reference the ${entityType} in ${relativePath}.`);
+  }
+}
+
 export async function validatePracticeOutput(outDir, config) {
   const siteUrl = productionSiteUrl(config, config.practice?.slug);
   const files = await walkFiles(outDir);
@@ -96,9 +180,13 @@ export async function validatePracticeOutput(outDir, config) {
     const html = await readFile(htmlFile, 'utf8');
     const relativePath = path.relative(outDir, htmlFile);
     const canonical = canonicalHref(html);
-    if (!canonical.startsWith(`${siteUrl}/`)) {
+    const pagePath = relativePath === 'index.html'
+      ? ''
+      : relativePath.replace(/(?:^|\/)index\.html$/, '');
+    const expectedCanonical = canonicalUrl(config, pagePath);
+    if (canonical !== expectedCanonical) {
       throw new Error(
-        `Production canonical must begin with ${siteUrl}/ in ${relativePath}.`,
+        `Canonical must be ${expectedCanonical} in ${relativePath}; found ${canonical || 'none'}.`,
       );
     }
     if (config.seo?.allowIndexing === true) {
@@ -107,6 +195,46 @@ export async function validatePracticeOutput(outDir, config) {
       }
     } else if (!/<meta\s+name=["']robots["']\s+content=["']noindex, nofollow["']\s*\/?>/i.test(html)) {
       throw new Error(`Non-indexable production output is missing noindex in ${relativePath}.`);
+    }
+  }
+
+  const homePath = path.join(outDir, 'index.html');
+  const homeImage = absoluteUrl(config, homepageImageMetadata(config).image);
+  assertPageImageMetadata(
+    await readFile(homePath, 'utf8'),
+    'index.html',
+    canonicalUrl(config),
+    homeImage,
+    'MedicalClinic',
+  );
+
+  for (const provider of config.providers || []) {
+    const relativePath = path.join(
+      'providers',
+      provider.slug,
+      'index.html',
+    );
+    const providerPath = path.join(outDir, relativePath);
+    if (!existsSync(providerPath)) {
+      throw new Error(`Production output is missing ${relativePath}.`);
+    }
+    const html = await readFile(providerPath, 'utf8');
+    const providerImage = absoluteUrl(
+      config,
+      providerImageMetadata(provider).image,
+    );
+    assertPageImageMetadata(
+      html,
+      relativePath,
+      canonicalUrl(config, `providers/${provider.slug}`),
+      providerImage,
+      'Physician',
+    );
+    const visiblePortrait = String(provider.image).replace(/^\.\//, '');
+    if (!imageSources(html).some((source) => source.endsWith(visiblePortrait))) {
+      throw new Error(
+        `Provider page ${relativePath} must visibly render ${provider.image}.`,
+      );
     }
   }
 
@@ -136,6 +264,17 @@ export async function validatePracticeOutput(outDir, config) {
     }
     if (existsSync(headersPath)) {
       throw new Error('Indexable production output must not publish noindex headers.');
+    }
+    const routes = await discoverIndexRoutes(outDir);
+    const sitemap = await readFile(sitemapPath, 'utf8');
+    if (sitemap !== renderSitemap(siteUrl, routes)) {
+      throw new Error('Indexable production sitemap.xml does not match generated routes.');
+    }
+    for (const provider of config.providers || []) {
+      const providerUrl = canonicalUrl(config, `providers/${provider.slug}`);
+      if (!sitemap.includes(`<loc>${providerUrl}</loc>`)) {
+        throw new Error(`Indexable production sitemap.xml is missing ${providerUrl}.`);
+      }
     }
   } else {
     if (existsSync(sitemapPath)) {

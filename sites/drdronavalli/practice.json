@@ -5,7 +5,6 @@
     "description": "Dr. Goutham Dronavalli is a board-certified pulmonologist and critical care physician serving Sugar Land and the greater Houston area. Learn about services, insurance, and appointments.",
     "ogImage": "./images/providers/goutham_dronavalli.webp",
     "ogImageAlt": "Dr. Goutham Dronavalli, pulmonologist in Sugar Land, Texas",
-    "defaultOgImage": "./images/providers/goutham_dronavalli.webp",
     "locale": "en_US",
     "siteUrl": "https://drdronavalli.com",
     "allowIndexing": true
@@ -79,6 +78,11 @@
       "name": "Dr. Goutham Dronavalli",
       "heroTitle": "Expert Pulmonary & Sleep Care.",
       "image": "./images/providers/goutham_dronavalli.webp",
+      "imageAlt": "Dr. Goutham Dronavalli, pulmonologist in Sugar Land, Texas",
+      "seo": {
+        "title": "Dr. Goutham Dronavalli | Pulmonary & Sleep Medicine",
+        "description": "Meet Dr. Goutham Dronavalli and learn about his pulmonary, critical care, and sleep medicine services in Sugar Land, Texas."
+      },
       "specialties": [
         "Pulmonary disease",
         "Critical care",

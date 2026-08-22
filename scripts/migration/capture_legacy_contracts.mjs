@@ -289,6 +289,25 @@ function previewsFromMarketing(contract) {
   };
 }
 
+function expectedAstroPracticePageSchema(contract) {
+  const expected = JSON.parse(JSON.stringify(contract));
+  for (const page of expected.pages) {
+    const practiceHome = page.route === '/';
+    const providerPage = /^\/providers\/[^/]+\/$/.test(page.route);
+    const previewPracticePage =
+      /^\/previews\/[^/]+\/$/.test(page.route) ||
+      /^\/previews\/[^/]+\/providers\/[^/]+\/$/.test(page.route);
+    if (!practiceHome && !providerPage && !previewPracticePage) continue;
+
+    page.jsonLd.count += 1;
+    page.inlineScriptCount += 1;
+    page.jsonLd.topLevelTypes = [
+      ...new Set([...page.jsonLd.topLevelTypes, 'WebPage']),
+    ].sort();
+  }
+  return expected;
+}
+
 function compileMarketingTestCss() {
   const executable = path.join(ROOT, 'node_modules', '.bin', 'tailwindcss');
   run(executable, [
@@ -394,6 +413,7 @@ export function compareAstroPracticeContract(site = 'drdronavalli') {
     expected = contractFor(DIST, targetName);
     expectedDescription = `fresh legacy SITE_ID=${site} output`;
   }
+  expected = expectedAstroPracticePageSchema(expected);
   const actualText = `${JSON.stringify(actual, null, 2)}\n`;
   const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
   if (actualText !== expectedText) {
@@ -424,7 +444,9 @@ export function compareAstroPreviewContract(site = 'northhillspsychiatry') {
     fail('Missing Astro preview output. Run npm run build:astro:preview first.');
   }
 
-  const expected = JSON.parse(readFileSync(baselinePath, 'utf8'));
+  const expected = expectedAstroPracticePageSchema(
+    JSON.parse(readFileSync(baselinePath, 'utf8')),
+  );
   const actual = contractFor(astroRoot, targetName);
   const actualText = `${JSON.stringify(actual, null, 2)}\n`;
   const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
@@ -452,7 +474,9 @@ export function compareAstroMarketingPreviewContract() {
     fail('Missing Astro marketing output. Run npm run build:astro:marketing first.');
   }
 
-  const expected = JSON.parse(readFileSync(baselinePath, 'utf8'));
+  const expected = expectedAstroPracticePageSchema(
+    JSON.parse(readFileSync(baselinePath, 'utf8')),
+  );
   const actual = previewsFromMarketing(contractFor(astroRoot, 'marketing'));
   const actualText = `${JSON.stringify(actual, null, 2)}\n`;
   const expectedText = `${JSON.stringify(expected, null, 2)}\n`;

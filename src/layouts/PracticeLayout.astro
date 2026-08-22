@@ -1,5 +1,10 @@
 ---
-import { robotsMeta, safeJsonLd, socialMetadata } from '../lib/seo.mjs';
+import {
+  robotsMeta,
+  safeJsonLd,
+  socialMetadata,
+  webPageSchema,
+} from '../lib/seo.mjs';
 import { themeCssProperties } from '../lib/themes.mjs';
 
 interface Props {
@@ -43,7 +48,11 @@ const robots = robotsMeta(config);
 const tracksPractice = pageKind === 'home' || pageKind === 'provider';
 const practiceSlugScript =
   `window.FRONTDOOR_PRACTICE_SLUG = ${JSON.stringify(config.practice.slug)};`;
-const jsonLdBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const entityBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const mainEntityId = entityBlocks.find((block) => block?.['@id'])?.['@id'] || '';
+const jsonLdBlocks = tracksPractice
+  ? [webPageSchema(social, mainEntityId), ...entityBlocks]
+  : entityBlocks;
 ---
 
 <!doctype html>

@@ -85,6 +85,19 @@ sites/<practice>/practice.json + shared/themes.json + shared/styles/frontdoor.cs
   -> Cloudflare Pages
 ```
 
+### Practice and provider search images
+
+`seo.ogImage` and `seo.ogImageAlt` describe the practice homepage. When
+`seo.ogImage` is omitted, a single-provider practice uses that provider's image;
+a multi-provider practice uses `hero.image`. An explicit homepage image always
+wins. `seo.defaultOgImage` is not supported.
+
+Every provider requires `image` and `imageAlt`. Provider pages use
+`provider.seo.ogImage` when configured and otherwise use `provider.image`.
+Provider-specific `seo.title` is required when `seo.allowIndexing` is true.
+This keeps a multi-provider practice image on the homepage while giving each
+indexable `/providers/<slug>/` page its physician portrait and metadata.
+
 Browser analytics are copied from `shared/analytics.js` into `dist/shared/analytics.js` during builds. Rendered homepage and provider pages set `window.FRONTDOOR_PRACTICE_SLUG` and include the shared analytics script so CTA clicks marked with `data-frontdoor-cta` can be sent to `https://analytics.frontdoor.health/event`. The same client sends `page_view` events only when the browser path starts with `/previews/`. Local `file://`, `localhost`, and loopback previews do not send analytics events.
 
 Builds are intentionally target-specific. Shared preview deployments use `SITE_ID=ALL` to build configured noindex practice previews into `dist/previews/<practice-slug>/`.

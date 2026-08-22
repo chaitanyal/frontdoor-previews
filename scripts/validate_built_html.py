@@ -155,6 +155,8 @@ def validate_page(path: Path, root: Path) -> list[str]:
         errors.append(f"{path}: missing meta description")
     if parser.h1_count != 1:
         errors.append(f"{path}: expected exactly one <h1>, found {parser.h1_count}")
+    if "previews" in path.relative_to(root).parts and not parser.noindex:
+        errors.append(f"{path}: preview page missing noindex")
     if not parser.noindex and parser.canonical_count != 1:
         errors.append(f"{path}: expected exactly one canonical link, found {parser.canonical_count}")
 
