@@ -7,13 +7,13 @@
       "title": "Mariposa Psychiatry | Dr. Alba Lara, M.D. | Austin, TX",
       "description": "Adult psychiatry and psychodynamic psychotherapy in Austin and online, led by Dr. Alba Lara.",
       "robots": "noindex, nofollow",
-      "canonical": "https://preview.frontdoor.health/mariposa/",
+      "canonical": "https://frontdoor.health/previews/mariposa/",
       "openGraphUrls": {
-        "image": "https://preview.frontdoor.health/mariposa/images/hero/hero.webp",
-        "url": "https://preview.frontdoor.health/mariposa/"
+        "image": "https://frontdoor.health/previews/mariposa/images/hero/hero.webp",
+        "url": "https://frontdoor.health/previews/mariposa/"
       },
       "twitterUrls": {
-        "image": "https://preview.frontdoor.health/mariposa/images/hero/hero.webp"
+        "image": "https://frontdoor.health/previews/mariposa/images/hero/hero.webp"
       },
       "jsonLd": {
         "count": 1,
@@ -50,7 +50,7 @@
       "title": "Accessibility | Mariposa Psychiatry",
       "description": "Accessibility information for Mariposa Psychiatry.",
       "robots": "noindex, nofollow",
-      "canonical": "https://preview.frontdoor.health/mariposa/accessibility/",
+      "canonical": "https://frontdoor.health/previews/mariposa/accessibility/",
       "openGraphUrls": {
         "image": null,
         "url": null
@@ -80,7 +80,7 @@
       "title": "Privacy | Mariposa Psychiatry",
       "description": "Privacy information for Mariposa Psychiatry.",
       "robots": "noindex, nofollow",
-      "canonical": "https://preview.frontdoor.health/mariposa/privacy/",
+      "canonical": "https://frontdoor.health/previews/mariposa/privacy/",
       "openGraphUrls": {
         "image": null,
         "url": null
@@ -110,13 +110,13 @@
       "title": "Dr. Alba Lara | Mariposa Psychiatry",
       "description": "Bilingual psychiatrist specializing in psychosomatic medicine, complex mood disorders, and insight-oriented psychotherapy.",
       "robots": "noindex, nofollow",
-      "canonical": "https://preview.frontdoor.health/mariposa/providers/alba-lara/",
+      "canonical": "https://frontdoor.health/previews/mariposa/providers/alba-lara/",
       "openGraphUrls": {
-        "image": "https://preview.frontdoor.health/mariposa/images/providers/alba-lara.webp",
-        "url": "https://preview.frontdoor.health/mariposa/providers/alba-lara/"
+        "image": "https://frontdoor.health/previews/mariposa/images/providers/alba-lara.webp",
+        "url": "https://frontdoor.health/previews/mariposa/providers/alba-lara/"
       },
       "twitterUrls": {
-        "image": "https://preview.frontdoor.health/mariposa/images/providers/alba-lara.webp"
+        "image": "https://frontdoor.health/previews/mariposa/images/providers/alba-lara.webp"
       },
       "jsonLd": {
         "count": 1,

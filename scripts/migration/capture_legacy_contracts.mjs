@@ -255,6 +255,20 @@ function marketingOnly(contract) {
   };
 }
 
+function expectedAstroMarketingContract(contract) {
+  const expected = marketingOnly(contract);
+  const notFoundPage = expected.pages.find((page) => page.route === '/404.html');
+  if (notFoundPage) {
+    notFoundPage.localAssetUrls = notFoundPage.localAssetUrls.map((url) =>
+      url.startsWith('./assets/') ? url.slice(1) : url,
+    );
+    notFoundPage.runtimeScripts = notFoundPage.runtimeScripts.map((url) =>
+      url.startsWith('./assets/') ? url.slice(1) : url,
+    );
+  }
+  return expected;
+}
+
 function previewsFromMarketing(contract) {
   const retainedFiles = new Set([
     '_headers',
@@ -338,7 +352,9 @@ export function compareAstroMarketingContract() {
     fail('Missing Astro marketing output. Run npm run build:astro:marketing first.');
   }
 
-  const expected = marketingOnly(JSON.parse(readFileSync(baselinePath, 'utf8')));
+  const expected = expectedAstroMarketingContract(
+    JSON.parse(readFileSync(baselinePath, 'utf8')),
+  );
   const actual = marketingOnly(contractFor(astroRoot, 'marketing'));
   const actualText = `${JSON.stringify(actual, null, 2)}\n`;
   const expectedText = `${JSON.stringify(expected, null, 2)}\n`;

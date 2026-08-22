@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { test, expect } from '@playwright/test';
 import {
@@ -12,6 +14,15 @@ const FIXED_VISITOR_ID = 'migration-visitor-id';
 const UTM_CAMPAIGN = 'migration-contract-campaign';
 const UTM_EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
 const SCOPE = process.env.FRONTDOOR_MIGRATION_SCOPE;
+const repoRoot = path.resolve(import.meta.dirname, '../..');
+
+async function loadPreviewRequestFunction() {
+  const source = readFileSync(
+    path.join(repoRoot, 'functions', 'api', 'preview-request.js'),
+    'utf8',
+  );
+  return import(`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`);
+}
 
 function skipUnless(...scopes) {
   test.skip(
@@ -74,6 +85,42 @@ async function fillMarketingForm(page, overrides = {}) {
 
 test.beforeEach(async ({ page }) => {
   await installDeterministicBrowser(page);
+});
+
+test('@analytics bounds preview-request bodies without Content-Length', async () => {
+  skipUnless('marketing');
+  const { onRequestPost } = await loadPreviewRequestFunction();
+  const oversizedRequest = new Request('https://frontdoor.health/api/preview-request', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ padding: 'é'.repeat(9_000) }),
+  });
+  expect(oversizedRequest.headers.get('content-length')).toBeNull();
+
+  const oversizedResponse = await onRequestPost({
+    request: oversizedRequest,
+    env: {},
+  });
+  expect(oversizedResponse.status).toBe(413);
+  expect(await oversizedResponse.json()).toEqual({
+    ok: false,
+    error: 'Request too large.',
+  });
+
+  const smallRequest = new Request('https://frontdoor.health/api/preview-request', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ companyWebsite: 'bot.example' }),
+  });
+  const smallResponse = await onRequestPost({
+    request: smallRequest,
+    env: {
+      RESEND_API_KEY: 'migration-test',
+      TURNSTILE_SECRET_KEY: 'migration-test',
+    },
+  });
+  expect(smallResponse.status).toBe(200);
+  expect(await smallResponse.json()).toEqual({ ok: true, accepted: false });
 });
 
 test('@analytics sends the complete preview page-view payload', async ({ page }) => {

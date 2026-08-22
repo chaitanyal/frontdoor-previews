@@ -93,6 +93,19 @@ test.describe.serial('Astro migration foundation', () => {
     expect(readFileSync(path.join(marketingRoot, 'sitemap.xml'), 'utf8')).toBe(
       renderSitemap('https://frontdoor.health', marketingRoutes),
     );
+    const notFoundHtml = readFileSync(
+      path.join(marketingRoot, '404.html'),
+      'utf8',
+    );
+    expect(notFoundHtml).toContain(
+      'href="/assets/frontdoor-health-favicon.svg"',
+    );
+    expect(notFoundHtml).toContain(
+      'src="/assets/marketing-tailwind-config.js"',
+    );
+    expect(
+      new URL('/assets/frontdoor-health-favicon.svg', 'https://frontdoor.health/foo/bar/').href,
+    ).toBe('https://frontdoor.health/assets/frontdoor-health-favicon.svg');
 
     runNpmBuild('build:astro:practice', 'drdronavalli');
     expectRuntimeCopies('practice');
@@ -121,6 +134,25 @@ test.describe.serial('Astro migration foundation', () => {
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
       'Care that starts with understanding.',
     );
+    const mariposaHtml = readFileSync(
+      path.join(
+        repoRoot,
+        '.tmp',
+        'astro-dist',
+        'preview',
+        'previews',
+        'mariposa',
+        'index.html',
+      ),
+      'utf8',
+    );
+    expect(mariposaHtml).toContain(
+      '<link rel="canonical" href="https://frontdoor.health/previews/mariposa/"',
+    );
+    expect(mariposaHtml).toContain(
+      'https://frontdoor.health/previews/mariposa/images/hero/hero.webp',
+    );
+    expect(mariposaHtml).not.toContain('preview.frontdoor.health');
 
     const marketingHtml = readFileSync(
       path.join(repoRoot, '.tmp', 'astro-dist', 'marketing', 'index.html'),

@@ -2,6 +2,7 @@ const RESEND_ENDPOINT = "https://api.resend.com/emails";
 const TURNSTILE_ENDPOINT = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const REQUEST_TO = "chaitanya@frontdoor.health";
 const REQUEST_FROM = "FrontDoor Health <chaitanya@frontdoor.health>";
+const MAX_REQUEST_BODY_BYTES = 16_384;
 
 // Keep this allowlist synchronized with the specialty options in marketing/index.html.
 const ALLOWED_SPECIALTIES = new Set([
@@ -68,6 +69,48 @@ function isValidEmail(value) {
 function normalizeUtmCampaign(value) {
   const campaign = normalizeSingleLine(value);
   return campaign ? campaign.slice(0, 500) : null;
+}
+
+async function readJsonBody(request) {
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (Number.isFinite(contentLength) && contentLength > MAX_REQUEST_BODY_BYTES) {
+    return { error: "too_large" };
+  }
+  if (!request.body) return { error: "invalid" };
+
+  const reader = request.body.getReader();
+  const chunks = [];
+  let totalBytes = 0;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > MAX_REQUEST_BODY_BYTES) {
+        await reader.cancel();
+        return { error: "too_large" };
+      }
+      chunks.push(value);
+    }
+  } catch (_error) {
+    return { error: "invalid" };
+  } finally {
+    reader.releaseLock();
+  }
+
+  const body = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+
+  try {
+    return { payload: JSON.parse(new TextDecoder().decode(body)) };
+  } catch (_error) {
+    return { error: "invalid" };
+  }
 }
 
 function textEmail({ name, practiceName, specialty, email, website, utmCampaign, submittedAt }) {
@@ -146,9 +189,12 @@ async function sendPreviewRequestEmail({
 
 export async function onRequestPost(context) {
   const { request, env } = context;
-  const contentLength = Number(request.headers.get("content-length") || 0);
-  if (contentLength > 16_384) {
+  const bodyResult = await readJsonBody(request);
+  if (bodyResult.error === "too_large") {
     return jsonResponse({ ok: false, error: "Request too large." }, 413);
+  }
+  if (bodyResult.error === "invalid") {
+    return jsonResponse({ ok: false, error: "Invalid request." }, 400);
   }
 
   if (!env.RESEND_API_KEY || !env.TURNSTILE_SECRET_KEY) {
@@ -156,12 +202,7 @@ export async function onRequestPost(context) {
     return jsonResponse({ ok: false, error: "Preview requests are temporarily unavailable." }, 500);
   }
 
-  let payload;
-  try {
-    payload = await request.json();
-  } catch (_error) {
-    return jsonResponse({ ok: false, error: "Invalid request." }, 400);
-  }
+  const payload = bodyResult.payload;
 
   const honeypot = String(payload.companyWebsite || "").trim();
   if (honeypot) {
