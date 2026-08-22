@@ -1,36 +1,47 @@
 #!/usr/bin/env node
 
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import process from 'node:process';
 
 const ROOT = process.cwd();
-const DIST = path.join(ROOT, 'dist');
-const FIXTURE_ROOT = path.join(ROOT, '.tmp', 'migration-contracts', 'legacy');
+const ASTRO_ROOT = path.join(ROOT, '.tmp', 'astro-dist');
 const CONTRACT_ROOT = path.join(ROOT, 'tests', 'migration', 'contracts');
-const MARKETING_CSS = path.join(ROOT, '.tmp', 'migration-contracts', 'marketing.css');
+const practiceIds = readdirSync(path.join(ROOT, 'sites'), { withFileTypes: true })
+  .filter(
+    (entry) =>
+      entry.isDirectory() &&
+      entry.name !== 'template' &&
+      existsSync(path.join(ROOT, 'sites', entry.name, 'practice.json')),
+  )
+  .map((entry) => entry.name)
+  .sort();
 
 const TARGETS = [
   {
     name: 'marketing',
-    command: ['run', 'build:legacy:marketing'],
+    command: ['run', 'build:astro:marketing'],
     environment: {},
+    output: path.join(ASTRO_ROOT, 'marketing'),
   },
-  {
-    name: 'practice-drdronavalli',
-    command: ['run', 'build:legacy:practice'],
-    environment: { SITE_ID: 'drdronavalli' },
-  },
+  ...practiceIds.map((practiceId) => ({
+    name: `practice-${practiceId}`,
+    command: ['run', 'build:astro:practice'],
+    environment: { SITE_ID: practiceId },
+    output: path.join(ASTRO_ROOT, 'practice'),
+  })),
   {
     name: 'preview-northhillspsychiatry',
-    command: ['run', 'build:legacy:preview'],
+    command: ['run', 'build:astro:preview'],
     environment: { SITE_ID: 'northhillspsychiatry' },
+    output: path.join(ASTRO_ROOT, 'preview'),
   },
   {
     name: 'preview-all',
-    command: ['run', 'build:legacy:preview:all'],
+    command: ['run', 'build:astro:preview:all'],
     environment: {},
+    output: path.join(ASTRO_ROOT, 'preview'),
   },
 ];
 
@@ -244,31 +255,6 @@ function contractFor(root, target) {
   };
 }
 
-function marketingOnly(contract) {
-  return {
-    ...contract,
-    pages: contract.pages.filter((page) => !page.route.startsWith('/previews/')),
-    outputFiles: contract.outputFiles.filter(
-      (file) => file !== '_headers' && !file.startsWith('previews/'),
-    ),
-    headers: null,
-  };
-}
-
-function expectedAstroMarketingContract(contract) {
-  const expected = marketingOnly(contract);
-  const notFoundPage = expected.pages.find((page) => page.route === '/404.html');
-  if (notFoundPage) {
-    notFoundPage.localAssetUrls = notFoundPage.localAssetUrls.map((url) =>
-      url.startsWith('./assets/') ? url.slice(1) : url,
-    );
-    notFoundPage.runtimeScripts = notFoundPage.runtimeScripts.map((url) =>
-      url.startsWith('./assets/') ? url.slice(1) : url,
-    );
-  }
-  return expected;
-}
-
 function previewsFromMarketing(contract) {
   const retainedFiles = new Set([
     '_headers',
@@ -289,41 +275,9 @@ function previewsFromMarketing(contract) {
   };
 }
 
-function expectedAstroPracticePageSchema(contract) {
-  const expected = JSON.parse(JSON.stringify(contract));
-  for (const page of expected.pages) {
-    const practiceHome = page.route === '/';
-    const providerPage = /^\/providers\/[^/]+\/$/.test(page.route);
-    const previewPracticePage =
-      /^\/previews\/[^/]+\/$/.test(page.route) ||
-      /^\/previews\/[^/]+\/providers\/[^/]+\/$/.test(page.route);
-    if (!practiceHome && !providerPage && !previewPracticePage) continue;
-
-    page.jsonLd.count += 1;
-    page.inlineScriptCount += 1;
-    page.jsonLd.topLevelTypes = [
-      ...new Set([...page.jsonLd.topLevelTypes, 'WebPage']),
-    ].sort();
-  }
-  return expected;
-}
-
-function compileMarketingTestCss() {
-  const executable = path.join(ROOT, 'node_modules', '.bin', 'tailwindcss');
-  run(executable, [
-    '-c',
-    'tests/migration/fixtures/marketing-tailwind.config.cjs',
-    '-i',
-    'tests/migration/fixtures/marketing-tailwind-input.css',
-    '-o',
-    MARKETING_CSS,
-    '--minify',
-  ]);
-}
-
 function compareContract(actual, expectedPath) {
   if (!existsSync(expectedPath)) {
-    fail(`Missing contract baseline: ${path.relative(ROOT, expectedPath)}. Run npm run capture:migration-baseline.`);
+    fail(`Missing contract baseline: ${path.relative(ROOT, expectedPath)}. Run npm run capture:output-contracts.`);
   }
   const expected = JSON.parse(readFileSync(expectedPath, 'utf8'));
   const actualText = `${JSON.stringify(actual, null, 2)}\n`;
@@ -334,21 +288,17 @@ function compareContract(actual, expectedPath) {
   mkdirSync(path.dirname(actualPath), { recursive: true });
   writeFileSync(actualPath, actualText);
   fail(
-    `Legacy contract changed for ${actual.target}. Compare ${path.relative(ROOT, expectedPath)} with ${path.relative(ROOT, actualPath)}.`,
+    `Output contract changed for ${actual.target}. Compare ${path.relative(ROOT, expectedPath)} with ${path.relative(ROOT, actualPath)}.`,
   );
 }
 
-export function captureLegacyContracts({ update = false } = {}) {
-  rmSync(FIXTURE_ROOT, { recursive: true, force: true });
-  mkdirSync(FIXTURE_ROOT, { recursive: true });
+export function verifyOutputContracts({ update = false } = {}) {
   mkdirSync(CONTRACT_ROOT, { recursive: true });
 
   for (const target of TARGETS) {
-    process.stdout.write(`Building legacy contract target: ${target.name}\n`);
+    process.stdout.write(`Building Astro output contract target: ${target.name}\n`);
     run('npm', target.command, target.environment);
-    const fixturePath = path.join(FIXTURE_ROOT, target.name);
-    cpSync(DIST, fixturePath, { recursive: true });
-    const contract = contractFor(fixturePath, target.name);
+    const contract = contractFor(target.output, target.name);
     const baselinePath = path.join(CONTRACT_ROOT, `${target.name}.json`);
     if (update) {
       writeFileSync(baselinePath, `${JSON.stringify(contract, null, 2)}\n`);
@@ -357,144 +307,50 @@ export function captureLegacyContracts({ update = false } = {}) {
     }
   }
 
-  compileMarketingTestCss();
-  process.stdout.write(update ? 'Legacy migration contract baselines updated.\n' : 'Legacy migration contracts match.\n');
+  process.stdout.write(update ? 'Astro output contracts updated.\n' : 'Astro output contracts match.\n');
 }
 
-export function compareAstroMarketingContract() {
+export function verifyMarketingOutputContract() {
   const baselinePath = path.join(CONTRACT_ROOT, 'marketing.json');
-  if (!existsSync(baselinePath)) {
-    fail('Missing marketing migration contract baseline.');
-  }
-  const astroRoot = path.join(ROOT, '.tmp', 'astro-dist', 'marketing');
+  const astroRoot = path.join(ASTRO_ROOT, 'marketing');
   if (!existsSync(astroRoot)) {
     fail('Missing Astro marketing output. Run npm run build:astro:marketing first.');
   }
-
-  const expected = expectedAstroMarketingContract(
-    JSON.parse(readFileSync(baselinePath, 'utf8')),
-  );
-  const actual = marketingOnly(contractFor(astroRoot, 'marketing'));
-  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
-  const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
-  if (actualText !== expectedText) {
-    const actualPath = path.join(
-      ROOT,
-      '.tmp',
-      'migration-contracts',
-      'actual',
-      'astro-marketing.json',
-    );
-    mkdirSync(path.dirname(actualPath), { recursive: true });
-    writeFileSync(actualPath, actualText);
-    fail(
-      `Astro marketing contract differs from legacy. Compare ${path.relative(ROOT, baselinePath)} with ${path.relative(ROOT, actualPath)}.`,
-    );
-  }
-  process.stdout.write('Astro marketing contract matches the legacy marketing pages.\n');
+  compareContract(contractFor(astroRoot, 'marketing'), baselinePath);
+  process.stdout.write('Astro marketing output contract matches.\n');
 }
 
-export function compareAstroPracticeContract(site = 'drdronavalli') {
+export function verifyPracticeOutputContract(site = 'drdronavalli') {
   const targetName = `practice-${site}`;
   const baselinePath = path.join(CONTRACT_ROOT, `${targetName}.json`);
-  const astroRoot = path.join(ROOT, '.tmp', 'astro-dist', 'practice');
+  const astroRoot = path.join(ASTRO_ROOT, 'practice');
   if (!existsSync(astroRoot)) {
     fail('Missing Astro practice output. Run npm run build:astro:practice first.');
   }
-
-  const actual = contractFor(astroRoot, targetName);
-  let expected;
-  let expectedDescription;
-  if (existsSync(baselinePath)) {
-    expected = JSON.parse(readFileSync(baselinePath, 'utf8'));
-    expectedDescription = path.relative(ROOT, baselinePath);
-  } else {
-    run('npm', ['run', 'build:legacy:practice'], { SITE_ID: site });
-    expected = contractFor(DIST, targetName);
-    expectedDescription = `fresh legacy SITE_ID=${site} output`;
-  }
-  expected = expectedAstroPracticePageSchema(expected);
-  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
-  const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
-  if (actualText !== expectedText) {
-    const actualPath = path.join(
-      ROOT,
-      '.tmp',
-      'migration-contracts',
-      'actual',
-      `astro-${targetName}.json`,
-    );
-    mkdirSync(path.dirname(actualPath), { recursive: true });
-    writeFileSync(actualPath, actualText);
-    fail(
-      `Astro practice contract differs from ${expectedDescription}. Compare with ${path.relative(ROOT, actualPath)}.`,
-    );
-  }
-  process.stdout.write(`Astro ${site} contract matches the legacy practice.\n`);
+  compareContract(contractFor(astroRoot, targetName), baselinePath);
+  process.stdout.write(`Astro ${site} output contract matches.\n`);
 }
 
-export function compareAstroPreviewContract(site = 'northhillspsychiatry') {
+export function verifyPreviewOutputContract(site = 'northhillspsychiatry') {
   const targetName = site === 'ALL' ? 'preview-all' : `preview-${site}`;
   const baselinePath = path.join(CONTRACT_ROOT, `${targetName}.json`);
-  if (!existsSync(baselinePath)) {
-    fail(`Missing preview migration contract baseline: ${targetName}.json.`);
-  }
-  const astroRoot = path.join(ROOT, '.tmp', 'astro-dist', 'preview');
+  const astroRoot = path.join(ASTRO_ROOT, 'preview');
   if (!existsSync(astroRoot)) {
     fail('Missing Astro preview output. Run npm run build:astro:preview first.');
   }
-
-  const expected = expectedAstroPracticePageSchema(
-    JSON.parse(readFileSync(baselinePath, 'utf8')),
-  );
-  const actual = contractFor(astroRoot, targetName);
-  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
-  const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
-  if (actualText !== expectedText) {
-    const actualPath = path.join(
-      ROOT,
-      '.tmp',
-      'migration-contracts',
-      'actual',
-      `astro-${targetName}.json`,
-    );
-    mkdirSync(path.dirname(actualPath), { recursive: true });
-    writeFileSync(actualPath, actualText);
-    fail(
-      `Astro preview contract differs from legacy. Compare ${path.relative(ROOT, baselinePath)} with ${path.relative(ROOT, actualPath)}.`,
-    );
-  }
-  process.stdout.write(`Astro ${targetName} contract matches the legacy preview.\n`);
+  compareContract(contractFor(astroRoot, targetName), baselinePath);
+  process.stdout.write(`Astro ${targetName} output contract matches.\n`);
 }
 
-export function compareAstroMarketingPreviewContract() {
+export function verifyMarketingPreviewOutputContract() {
   const baselinePath = path.join(CONTRACT_ROOT, 'preview-all.json');
-  const astroRoot = path.join(ROOT, '.tmp', 'astro-dist', 'marketing');
+  const astroRoot = path.join(ASTRO_ROOT, 'marketing');
   if (!existsSync(astroRoot)) {
     fail('Missing Astro marketing output. Run npm run build:astro:marketing first.');
   }
-
-  const expected = expectedAstroPracticePageSchema(
-    JSON.parse(readFileSync(baselinePath, 'utf8')),
-  );
   const actual = previewsFromMarketing(contractFor(astroRoot, 'marketing'));
-  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
-  const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
-  if (actualText !== expectedText) {
-    const actualPath = path.join(
-      ROOT,
-      '.tmp',
-      'migration-contracts',
-      'actual',
-      'astro-marketing-previews.json',
-    );
-    mkdirSync(path.dirname(actualPath), { recursive: true });
-    writeFileSync(actualPath, actualText);
-    fail(
-      `Astro marketing previews differ from legacy. Compare ${path.relative(ROOT, baselinePath)} with ${path.relative(ROOT, actualPath)}.`,
-    );
-  }
-  process.stdout.write('Astro marketing previews match the legacy all-preview output.\n');
+  compareContract(actual, baselinePath);
+  process.stdout.write('Astro marketing preview output contract matches.\n');
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
@@ -511,17 +367,17 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   try {
     if (scope) {
       if (update || !['marketing', 'practice', 'preview'].includes(scope)) {
-        fail('Scoped migration contract checks support --check with marketing, practice, or preview.');
+        fail('Scoped output contract checks support --check with marketing, practice, or preview.');
       }
       if (scope === 'marketing') {
-        compareAstroMarketingContract();
+        verifyMarketingOutputContract();
       } else if (scope === 'preview') {
-        compareAstroPreviewContract(site);
+        verifyPreviewOutputContract(site);
       } else {
-        compareAstroPracticeContract(site);
+        verifyPracticeOutputContract(site);
       }
     } else {
-      captureLegacyContracts({ update });
+      verifyOutputContracts({ update });
     }
   } catch (error) {
     console.error(error.message);

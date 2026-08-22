@@ -11,7 +11,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
-import { compareAstroPracticeContract } from '../../scripts/migration/capture_legacy_contracts.mjs';
+import { verifyPracticeOutputContract } from '../../scripts/migration/verify_output_contracts.mjs';
 import { homeSectionNavigation } from '../../src/lib/home-sections.mjs';
 import {
   assertAnalyticsDeploymentAllowed,
@@ -181,12 +181,12 @@ test.describe.serial('Astro production practice builds', () => {
         'providers[0].seo.title is required',
       );
 
-      const legacyImageKey = structuredClone(invalidConfig);
-      delete legacyImageKey.providers[0].contactOverride;
-      legacyImageKey.seo.defaultOgImage = legacyImageKey.seo.ogImage;
-      const legacyImageValidation = validate(legacyImageKey);
-      expect(legacyImageValidation.status).not.toBe(0);
-      expect(legacyImageValidation.stderr).toContain(
+      const unsupportedImageKey = structuredClone(invalidConfig);
+      delete unsupportedImageKey.providers[0].contactOverride;
+      unsupportedImageKey.seo.defaultOgImage = unsupportedImageKey.seo.ogImage;
+      const unsupportedImageValidation = validate(unsupportedImageKey);
+      expect(unsupportedImageValidation.status).not.toBe(0);
+      expect(unsupportedImageValidation.stderr).toContain(
         'seo.defaultOgImage is no longer supported',
       );
     } finally {
@@ -231,7 +231,7 @@ test.describe.serial('Astro production practice builds', () => {
         practiceRoot,
       ]);
       expect(htmlValidation.status, htmlValidation.stderr).toBe(0);
-      compareAstroPracticeContract(practiceId);
+      verifyPracticeOutputContract(practiceId);
 
       const siteUrl = productionSiteUrl(config, practiceId);
       const htmlFiles = [

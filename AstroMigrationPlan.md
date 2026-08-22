@@ -305,7 +305,7 @@ changing a renderer.
    - One provider page.
    - One preview homepage.
 6. Add script commands with stable names:
-   - `test:migration-contracts`
+   - `test:output-contracts` (renamed from `test:migration-contracts` in Milestone 8)
    - `test:analytics`
    - `test:visual`
 
@@ -317,7 +317,7 @@ SITE_ID=drdronavalli npm run build:practice
 SITE_ID=northhillspsychiatry npm run build:preview
 npm run build:preview:all
 npm run validate:html
-npm run test:migration-contracts
+npm run test:output-contracts
 npm run test:analytics
 npm run test:visual
 ```
@@ -496,7 +496,7 @@ legacy marketing build for comparison.
 ```bash
 npm run build:marketing
 npm run build:astro:marketing
-npm run test:migration-contracts -- --scope=marketing
+npm run test:output-contracts -- --scope=marketing
 npm run test:analytics -- --scope=marketing --target=astro
 npm run test:visual -- --scope=marketing --target=astro
 python3 scripts/validate_built_html.py .tmp/astro-dist/marketing
@@ -562,7 +562,7 @@ domain root.
 ```bash
 SITE_ID=drdronavalli npm run build:practice
 SITE_ID=drdronavalli npm run build:astro:practice
-npm run test:migration-contracts -- --scope=practice --site=drdronavalli
+npm run test:output-contracts -- --scope=practice --site=drdronavalli
 npm run test:analytics -- --scope=practice --site=drdronavalli --target=astro
 npm run test:visual -- --scope=practice --site=drdronavalli --target=astro
 python3 scripts/validate_built_html.py .tmp/astro-dist/practice
@@ -631,7 +631,7 @@ first preview pilot.
 SITE_ID=northhillspsychiatry npm run build:astro:preview
 npm run build:astro:preview:all
 npm run build:astro:marketing
-npm run test:migration-contracts -- --scope=preview
+npm run test:output-contracts -- --scope=preview
 npm run test:analytics -- --scope=preview --target=astro
 npm run test:visual -- --scope=preview --target=astro
 python3 scripts/validate_built_html.py .tmp/astro-dist/preview
@@ -701,7 +701,7 @@ For every real site directory:
 python3 scripts/validate_practice_json.py sites/<slug>/practice.json
 SITE_ID=<slug> npm run build:astro:practice
 python3 scripts/validate_built_html.py .tmp/astro-dist/practice
-npm run test:migration-contracts -- --scope=practice --site=<slug>
+npm run test:output-contracts -- --scope=practice --site=<slug>
 npm run test:visual -- --scope=practice --site=<slug> --target=astro
 ```
 
@@ -786,7 +786,7 @@ npm run build:marketing
 SITE_ID=drdronavalli npm run build:practice
 npm run build:preview:all
 npm run validate:html
-npm run test:migration-contracts
+npm run test:output-contracts
 npm run test:analytics
 npm run test:visual
 ```
@@ -819,6 +819,13 @@ page, preview homepage, preview provider page, and production-practice provider 
   documented rollback for the observation period.
 
 ## Milestone 8: Remove legacy rendering code and finish documentation
+
+**Status: Completed and verified on 2026-08-22.** The user approved an accelerated
+cleanup after manually confirming accepted preview requests; Google Search Console
+live tests confirmed `noindex` on the North Hills homepage and a nested provider
+route; and all four DrDronavalli CTA types were recorded in production D1 with
+Google attribution. The full Astro-only local suite passed after a clean dependency
+install.
 
 ### Goal
 
@@ -876,12 +883,28 @@ SITE_ID=drdronavalli npm run build:practice
 SITE_ID=northhillspsychiatry npm run build:preview
 npm run build:preview:all
 npm run validate:html
-npm run test:migration-contracts
+npm run test:output-contracts
 npm run test:analytics
 npm run test:visual
 ```
 
 Search the repository for references to removed renderers and obsolete build paths.
+
+### Completion record (2026-08-22)
+
+- Removed the legacy build script, marketing/practice/provider/legal renderers,
+  shared renderer modules, obsolete marketing HTML sources, practice HTML shells,
+  and replaced legal templates.
+- Replaced legacy-build comparisons with frozen Astro output contracts covering
+  marketing, every configured practice, the North Hills pilot, and all previews.
+- Updated the pre-commit hook, repository guidance, Cloudflare build documentation,
+  new-practice workflow, CTA/allowlist instructions, sitemap/noindex checks, and
+  local Playwright instructions.
+- `npm ci`, the four deploy build interfaces, HTML validation, Astro foundation,
+  practice and preview suites, analytics tests, visual tests, output contracts, and
+  Worker typechecking passed.
+- A repository search found no active build or test reference to the removed legacy
+  renderer paths.
 
 ### Exit criteria
 

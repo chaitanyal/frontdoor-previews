@@ -2,18 +2,15 @@ import { existsSync, readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const MIGRATION_TARGET = process.env.FRONTDOOR_MIGRATION_TARGET || 'legacy';
-const FIXTURE_ROOT = path.join(ROOT, '.tmp', 'migration-contracts', 'legacy');
-const MARKETING_ROOT = MIGRATION_TARGET === 'astro'
-  ? path.join(ROOT, '.tmp', 'astro-dist', 'marketing')
-  : path.join(FIXTURE_ROOT, 'marketing');
-const PRACTICE_ROOT = MIGRATION_TARGET === 'astro'
-  ? path.join(ROOT, '.tmp', 'astro-dist', 'practice')
-  : path.join(FIXTURE_ROOT, 'practice-drdronavalli');
-const PREVIEW_ROOT = MIGRATION_TARGET === 'astro'
-  ? path.join(ROOT, '.tmp', 'astro-dist', 'preview')
-  : MARKETING_ROOT;
-const MARKETING_CSS = path.join(ROOT, '.tmp', 'migration-contracts', 'marketing.css');
+const MARKETING_ROOT = path.join(ROOT, '.tmp', 'astro-dist', 'marketing');
+const PRACTICE_ROOT = path.join(ROOT, '.tmp', 'astro-dist', 'practice');
+const PREVIEW_ROOT = path.join(ROOT, '.tmp', 'astro-dist', 'preview');
+const MARKETING_CSS = path.join(
+  ROOT,
+  '.tmp',
+  'playwright-fixtures',
+  'marketing.css',
+);
 const ANALYTICS_URL = 'https://analytics.frontdoor.health/event';
 const FIXED_TIME = '2026-07-29T15:00:00.000Z';
 
@@ -304,10 +301,6 @@ export async function installMockNetwork(page, options = {}) {
 
 export function fixedTimestamp() {
   return FIXED_TIME;
-}
-
-export function fixturePath(...parts) {
-  return path.join(FIXTURE_ROOT, ...parts);
 }
 
 export async function waitForStablePage(page) {

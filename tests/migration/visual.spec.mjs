@@ -31,7 +31,6 @@ const pages = [
   },
 ];
 const scope = process.env.FRONTDOOR_MIGRATION_SCOPE;
-const target = process.env.FRONTDOOR_MIGRATION_TARGET;
 const practiceSite = process.env.FRONTDOOR_MIGRATION_SITE || 'drdronavalli';
 const practiceConfig = JSON.parse(
   readFileSync(
@@ -58,8 +57,7 @@ for (const pageCase of scopedPages) {
   for (const viewport of viewports) {
     test(`@visual ${pageCase.name} ${viewport.name}`, async ({ page }) => {
       test.skip(
-        target === 'astro' &&
-          scope === 'practice' &&
+        scope === 'practice' &&
           practiceSite !== 'drdronavalli',
         'Pixel snapshots are locked to the Dr. Dronavalli migration pilot.',
       );
@@ -67,7 +65,7 @@ for (const pageCase of scopedPages) {
       await installDeterministicBrowser(page);
       const network = await installMockNetwork(page);
       let url = pageCase.url;
-      if (target === 'astro' && scope === 'practice') {
+      if (scope === 'practice') {
         url = pathToFileURL(
           path.join(
             process.cwd(),
@@ -79,7 +77,7 @@ for (const pageCase of scopedPages) {
               : 'index.html',
           ),
         ).href;
-      } else if (target === 'astro' && scope === 'preview') {
+      } else if (scope === 'preview') {
         url = pathToFileURL(
           path.join(
             process.cwd(),
@@ -107,7 +105,7 @@ test('@visual practice local assets, resources, and mobile layout are valid', as
   page,
 }) => {
   test.skip(
-    target !== 'astro' || scope !== 'practice',
+    scope !== 'practice',
     'This check is specific to the Astro practice pilot.',
   );
 

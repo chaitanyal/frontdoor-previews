@@ -16,9 +16,10 @@
         "image": "https://frontdoor.health/previews/mariposa/images/hero/hero.webp"
       },
       "jsonLd": {
-        "count": 1,
+        "count": 2,
         "topLevelTypes": [
-          "MedicalClinic"
+          "MedicalClinic",
+          "WebPage"
         ]
       },
       "localAssetUrls": [
@@ -36,7 +37,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 6,
+      "inlineScriptCount": 7,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -119,9 +120,10 @@
         "image": "https://frontdoor.health/previews/mariposa/images/providers/alba-lara.webp"
       },
       "jsonLd": {
-        "count": 1,
+        "count": 2,
         "topLevelTypes": [
-          "Physician"
+          "Physician",
+          "WebPage"
         ]
       },
       "localAssetUrls": [
@@ -138,7 +140,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 4,
+      "inlineScriptCount": 5,
       "ctaCounts": {
         "email": 1,
         "newPatient": 1,
@@ -160,9 +162,10 @@
         "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp"
       },
       "jsonLd": {
-        "count": 1,
+        "count": 2,
         "topLevelTypes": [
-          "MedicalClinic"
+          "MedicalClinic",
+          "WebPage"
         ]
       },
       "localAssetUrls": [
@@ -182,7 +185,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 6,
+      "inlineScriptCount": 7,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -265,9 +268,10 @@
         "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/diana_samuel.webp"
       },
       "jsonLd": {
-        "count": 1,
+        "count": 2,
         "topLevelTypes": [
-          "Physician"
+          "Physician",
+          "WebPage"
         ]
       },
       "localAssetUrls": [
@@ -284,7 +288,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 4,
+      "inlineScriptCount": 5,
       "ctaCounts": {
         "email": 1,
         "phone": 4
@@ -305,9 +309,10 @@
         "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/zita_samuel.webp"
       },
       "jsonLd": {
-        "count": 1,
+        "count": 2,
         "topLevelTypes": [
-          "Physician"
+          "Physician",
+          "WebPage"
         ]
       },
       "localAssetUrls": [
@@ -324,7 +329,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 4,
+      "inlineScriptCount": 5,
       "ctaCounts": {
         "email": 1,
         "phone": 4

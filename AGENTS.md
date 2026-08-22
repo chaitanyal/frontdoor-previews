@@ -16,8 +16,8 @@ https://frontdoor.health/previews/northhillspsychiatry/
 The preview sites are intentionally simple:
 - static HTML output
 - static assets
-- no framework build system
-- JavaScript renderers used at build time
+- Astro static builds
+- reusable Astro components driven by `practice.json`
 - minimal browser JavaScript for interactions and analytics
 
 The goal is:
@@ -39,15 +39,19 @@ Example:
 frontdoor-previews/
   sites/
     northhillspsychiatry/
-      index.html
       practice.json
       images/
         providers/
         hero/
+  src/
+    components/
+    entries/
+    layouts/
+    lib/
+    pages/shared/
   shared/
-    home-page.js
-    render/
     styles/frontdoor.css
+    themes.json
   worker/
    
 ```
@@ -80,7 +84,7 @@ Frontend:
 - Static HTML
 - Tailwind CSS compiled at build time
 - Minimal JavaScript
-- JavaScript build-time renderers
+- Astro components rendered at build time
 
 Assets:
 - SVG logos preferred
@@ -158,12 +162,8 @@ The HTML structure should support:
 - fast page loads
 - Core Web Vitals optimization
 
-Future enhancements may include:
-- sitemap generation
-- JSON-LD schema
-- FAQ schema
-- provider pages
-- blog/article infrastructure
+Current builds include sitemap generation, JSON-LD, FAQ schema, and provider pages.
+Blog/article infrastructure may be added separately when required.
 
 ---
 
@@ -230,7 +230,7 @@ Use Playwright screenshots against `file://` URLs for local visual verification.
 
 Prefer:
 - `file:///Users/chaitanya/Projects/frontdoor-previews/dist/previews/<site>/index.html` for built preview output
-- `file:///Users/chaitanya/Projects/frontdoor-previews/sites/<site>/index.html` when checking source preview shells
+- `file:///Users/chaitanya/Projects/frontdoor-previews/dist/index.html` for a built standalone practice or marketing site
 
 Do not start a local HTTP server unless a specific task requires HTTP behavior.
 

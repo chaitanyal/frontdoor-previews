@@ -9,10 +9,10 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
 import {
-  compareAstroMarketingContract,
-  compareAstroMarketingPreviewContract,
-  compareAstroPreviewContract,
-} from '../../scripts/migration/capture_legacy_contracts.mjs';
+  verifyMarketingOutputContract,
+  verifyMarketingPreviewOutputContract,
+  verifyPreviewOutputContract,
+} from '../../scripts/migration/verify_output_contracts.mjs';
 import {
   installDeterministicBrowser,
   installMockNetwork,
@@ -67,7 +67,7 @@ test.describe.serial('Astro preview migration', () => {
   test('@astro-preview passes the North Hills single-preview gate first', async ({
     page,
   }) => {
-    compareAstroPreviewContract('northhillspsychiatry');
+    verifyPreviewOutputContract('northhillspsychiatry');
     expectNoindexCoverage(previewRoot, ['northhillspsychiatry']);
     expect(existsSync(path.join(previewRoot, 'sitemap.xml'))).toBe(false);
 
@@ -134,7 +134,7 @@ test.describe.serial('Astro preview migration', () => {
   test('@astro-preview generates all and only eligible previews', () => {
     const result = runBuild('build:astro:preview:all');
     expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
-    compareAstroPreviewContract('ALL');
+    verifyPreviewOutputContract('ALL');
     expectNoindexCoverage(previewRoot, ['mariposa', 'northhillspsychiatry']);
     expect(existsSync(path.join(previewRoot, 'sitemap.xml'))).toBe(false);
 
@@ -149,8 +149,8 @@ test.describe.serial('Astro preview migration', () => {
   test('@astro-preview includes protected previews in the marketing build', () => {
     const result = runBuild('build:astro:marketing');
     expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
-    compareAstroMarketingContract();
-    compareAstroMarketingPreviewContract();
+    verifyMarketingOutputContract();
+    verifyMarketingPreviewOutputContract();
 
     const marketingRoot = path.join(repoRoot, '.tmp', 'astro-dist', 'marketing');
     expectNoindexCoverage(marketingRoot, [

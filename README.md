@@ -20,29 +20,29 @@ Practice source files live under `sites/`. The folder name is the `SITE_ID` used
 
 ```text
 frontdoor-previews/
-  marketing/                 # frontdoor.health source pages
-    index.html
-    404.html
-    about/
-    case-studies/
-    transformations/
+  marketing/                 # frontdoor.health data and static assets
     assets/
+    case-studies/
     marketing.json           # marketing configuration
   sites/
     template/                # starter structure for new practices
     drdronavalli/
-      index.html             # shared render shell
       practice.json          # practice + provider content
       images/
       assets/fonts/
     northhillspsychiatry/
-      index.html
       practice.json
       images/
       assets/fonts/
+  src/
+    components/              # reusable Astro components
+    entries/                 # target-specific Astro routes
+    layouts/
+    lib/
+    pages/shared/            # shared practice page implementations
   shared/
-    home-page.js
     styles/frontdoor.css
+    themes.json
     fonts/
     logos/
     analytics.js              # browser CTA tracking
@@ -72,7 +72,7 @@ The preview and marketing sites do not include authenticated application code or
 
 ## Content and Build Process
 
-Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared palette definitions live in `shared/themes.json`, and each practice selects one with its `theme` field. Astro renders the homepage, provider pages, privacy page, and accessibility page at build time from reusable components under `src/`. Shared Tailwind source styles live in `shared/styles/frontdoor.css`. The legacy JavaScript renderers remain available through Milestone 7 as a rollback path.
+Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared palette definitions live in `shared/themes.json`, and each practice selects one with its `theme` field. Astro renders the homepage, provider pages, privacy page, and accessibility page at build time from reusable components under `src/`. Shared Tailwind source styles live in `shared/styles/frontdoor.css`.
 
 Practice homepages keep services, financial or insurance information, patient resources, location details, and FAQs on one page. `src/lib/home-sections.mjs` defines the canonical section IDs and supplies both the header and footer navigation, while provider and legal pages remain separate routes. The practice Playwright suite verifies that every generated section link resolves, each enabled section has one heading and summary, and the links work from the keyboard.
 
@@ -108,7 +108,7 @@ Marketing build flow:
 
 1. Compiles Tailwind CSS from `shared/styles/frontdoor.css`.
 2. Cleans `dist/`.
-3. Copies `marketing/` into `dist/`.
+3. Stages marketing assets and case-study media for Astro.
 4. Renders marketing routes and the featured practice from `marketing/marketing.json` and `sites/<site-id>/practice.json` with Astro.
 5. Copies the selected featured practice hero image into `dist/assets/featured-practice/`.
 6. Copies noindex preview sites into `dist/previews/<practice-slug>/`.
@@ -185,7 +185,7 @@ Production practice deployments use `build:practice`; the shared preview Pages p
 
 Cloudflare Pages deploys the generated `dist/` directory.
 
-## Astro Builder and Legacy Rollback
+## Astro Builder and Verification
 
 The public build commands above use Astro and write deployable output to `dist/`.
 These verification commands run the same Astro builder in isolation and write only
@@ -212,37 +212,107 @@ npm run test:analytics
 ```
 
 This command builds isolated Astro marketing, `drdronavalli`, and
-`northhillspsychiatry` fixtures, then runs the same exact-payload Playwright
-analytics suite used for the legacy baselines. Tests intercept analytics, email,
-Turnstile, and Google Ads requests.
+`northhillspsychiatry` fixtures, then runs exact-payload Playwright analytics
+checks. Tests intercept analytics, email, Turnstile, and Google Ads requests.
 
-Until the Milestone 8 cleanup, the previous renderer remains available through:
+Semantic output contracts cover marketing, every configured practice, the North
+Hills pilot preview, and the all-preview build:
 
 ```bash
-npm run build:legacy:marketing
-SITE_ID=drdronavalli npm run build:legacy:practice
-SITE_ID=northhillspsychiatry npm run build:legacy:preview
-npm run build:legacy:preview:all
+npm run test:output-contracts
 ```
 
-The `astro-milestone-7` Cloudflare Pages branch deployments can be checked with
-`npm run test:staging`. This verifies real HTTP routes, response-header indexing
-protection, sitemaps, robots files, nested assets, analytics payloads, and the
-preview-request Function's non-email OPTIONS path.
+Refresh the checked-in contracts only after reviewing an intentional output change
+with `npm run capture:output-contracts`.
+
+Cloudflare Pages branch deployments can be checked with `npm run test:staging`.
+Set `FRONTDOOR_STAGING_MARKETING_URL`, `FRONTDOOR_STAGING_PREVIEW_URL`, and
+`FRONTDOOR_STAGING_PRACTICE_URL` when testing a new branch. The suite verifies real
+HTTP routes, response-header indexing protection, sitemaps, robots files, nested
+assets, analytics payloads, and the preview-request Function's non-email OPTIONS
+path.
 
 Each build stages copied, unhashed public files under
 `.tmp/astro-public/<target>/`. Astro copies those files unchanged into the selected
 `dist/` or verification output. Pages reference them with route-relative URLs: root pages use `./assets/...`,
 while the nested preview route uses `../../assets/...`. This preserves direct
-`file://` inspection and the existing URL strategy while the legacy renderer remains
-available for rollback. Astro-managed or hashed image imports are intentionally
-deferred until after the migration.
+`file://` inspection and the existing URL strategy. Astro-managed or hashed image
+imports are intentionally deferred until separately approved.
 
 The Astro wrapper also copies `shared/analytics.js`, `shared/attribution.js`, and
 `shared/google-ads.js` byte-for-byte into each target. Practice home and provider
 pages load attribution before practice analytics; privacy pages load attribution
 only. Marketing pages load the existing Google Ads integration
 without adding practice analytics.
+
+## Common Workflows
+
+### Add a practice or preview
+
+1. Copy `sites/template/` to `sites/<practice-slug>/`.
+2. Set `practice.slug` to the folder name and configure `practice.json`.
+3. Add provider, hero, office, and resource assets using relative paths.
+4. Keep preview configuration at `seo.allowIndexing: false` with
+   `seo.siteUrl: https://frontdoor.health/previews/<practice-slug>`.
+5. Validate and build the preview:
+
+```bash
+python3 scripts/validate_practice_json.py sites/<practice-slug>/practice.json
+SITE_ID=<practice-slug> npm run build:preview
+```
+
+Use `npm run build:preview:all` to build every eligible preview. To launch a
+standalone production practice, set its HTTPS production `seo.siteUrl`, set
+`seo.allowIndexing` to `true`, complete the analytics allowlist work below, and run:
+
+```bash
+SITE_ID=<practice-slug> npm run build:practice
+```
+
+### Add a marketing case study
+
+Add the route at
+`src/entries/marketing/pages/case-studies/<slug>/index.astro`, place its static
+assets under `marketing/case-studies/<slug>/`, and add its link to the case-study
+index. If it becomes the featured practice, update `marketing/marketing.json`.
+`npm run build:marketing` discovers the resulting index route for `sitemap.xml`.
+
+### Add or change a tracked CTA
+
+Use an existing `data-frontdoor-cta` value: `email`, `phone`, `newPatient`,
+`existingPatient`, `directions`, or `resource`. Preserve the destination URL and
+practice slug supplied by the shared Astro components. Do not invent a new event
+type without separately updating and testing both `shared/analytics.js` and the
+Worker allowlist in `worker/src/index.ts`.
+
+Before deploying a new production practice domain, add both HTTPS origins and the
+practice slug to `ALLOWED_ORIGINS` and `ALLOWED_PRACTICE_SLUGS` in
+`worker/wrangler.toml`, keep the fallback sets in `worker/src/index.ts` synchronized,
+deploy the Worker, and run the practice build. The production build fails when the
+Wrangler allowlists are missing the configured practice.
+
+### Verify SEO and preview indexing protection
+
+After a marketing or production-practice build, inspect `dist/sitemap.xml`,
+`dist/robots.txt`, and generated canonical metadata. Preview builds must have no
+preview sitemap, every preview page must include `noindex, nofollow`, and `_headers`
+must apply `X-Robots-Tag: noindex, nofollow` to every `/previews/<slug>/*` route.
+`npm run test:astro:preview` automates these checks. After deployment, verify a
+preview homepage and nested provider route with `curl -I` and Google Search Console's
+live URL inspection; do not request indexing.
+
+### Inspect local output
+
+Build the desired target, then open its generated HTML directly or use Playwright:
+
+```text
+file:///Users/chaitanya/Projects/frontdoor-previews/dist/index.html
+file:///Users/chaitanya/Projects/frontdoor-previews/dist/previews/<practice-slug>/index.html
+```
+
+Run `npm run test:visual` for the checked-in desktop and iPhone regression suite.
+Only run `npm run test:visual:update` after manually reviewing intentional visual
+changes.
 
 ## Analytics
 
@@ -274,8 +344,8 @@ The script scans source `images/` folders, skips SVG/WebP files, and ignores gen
 - Drive practice and provider-specific content from `practice.json`; avoid one-off HTML/CSS edits per practice or provider.
 - Drive the marketing featured practice from `marketing/marketing.json`; changing `featuredPractice` should not require homepage HTML edits.
 - Keep templates opinionated. Add new JSON knobs only when they are reusable across practices.
-- Provider profile UI labels have defaults in `shared/render/components/provider-page.js` and can be overridden with `providerProfileLabels` in `practice.json` when needed.
-- Practice rendering is JavaScript-based through `scripts/render_practice_pages.js`, `shared/home-page.js`, and `shared/render/`.
+- Provider profile UI labels have defaults in `src/lib/practice-view.mjs` and can be overridden with `providerProfileLabels` in `practice.json` when needed.
+- Practice rendering uses shared Astro components and target-specific routes under `src/`.
 - Treat per-practice `assets/styles.css` as a build output, not source. Shared CSS source lives in `shared/styles/frontdoor.css`.
 - Avoid production healthcare portal behavior or HIPAA-sensitive workflows in these previews.
 

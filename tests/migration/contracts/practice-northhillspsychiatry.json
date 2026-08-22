@@ -1,9 +1,9 @@
 {
-  "target": "preview-northhillspsychiatry",
+  "target": "practice-northhillspsychiatry",
   "pages": [
     {
-      "route": "/previews/northhillspsychiatry/",
-      "outputFile": "previews/northhillspsychiatry/index.html",
+      "route": "/",
+      "outputFile": "index.html",
       "title": "North Hills Psychiatry | Compassionate Psychiatric Care in Austin",
       "description": "Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.",
       "robots": "noindex, nofollow",
@@ -48,8 +48,8 @@
       }
     },
     {
-      "route": "/previews/northhillspsychiatry/accessibility/",
-      "outputFile": "previews/northhillspsychiatry/accessibility/index.html",
+      "route": "/accessibility/",
+      "outputFile": "accessibility/index.html",
       "title": "Accessibility | North Hills Psychiatry",
       "description": "Accessibility information for North Hills Psychiatry.",
       "robots": "noindex, nofollow",
@@ -78,8 +78,8 @@
       "ctaCounts": {}
     },
     {
-      "route": "/previews/northhillspsychiatry/privacy/",
-      "outputFile": "previews/northhillspsychiatry/privacy/index.html",
+      "route": "/privacy/",
+      "outputFile": "privacy/index.html",
       "title": "Privacy | North Hills Psychiatry",
       "description": "Privacy information for North Hills Psychiatry.",
       "robots": "noindex, nofollow",
@@ -108,8 +108,8 @@
       "ctaCounts": {}
     },
     {
-      "route": "/previews/northhillspsychiatry/providers/diana-samuel/",
-      "outputFile": "previews/northhillspsychiatry/providers/diana-samuel/index.html",
+      "route": "/providers/diana-samuel/",
+      "outputFile": "providers/diana-samuel/index.html",
       "title": "Dr. Diana Samuel | Child & Adolescent Psychiatrist in Austin",
       "description": "Meet Dr. Diana Samuel and learn about her psychiatric care for children, adolescents, young adults, and families in Austin.",
       "robots": "noindex, nofollow",
@@ -149,8 +149,8 @@
       }
     },
     {
-      "route": "/previews/northhillspsychiatry/providers/zita-samuel/",
-      "outputFile": "previews/northhillspsychiatry/providers/zita-samuel/index.html",
+      "route": "/providers/zita-samuel/",
+      "outputFile": "providers/zita-samuel/index.html",
       "title": "Dr. Zita Samuel | Adult Psychiatrist in Austin, TX",
       "description": "Meet Dr. Zita Samuel and learn about her evidence-based psychiatric care for adults with ADHD, anxiety, depression, and mood concerns.",
       "robots": "noindex, nofollow",
@@ -192,28 +192,28 @@
   ],
   "outputFiles": [
     "_headers",
-    "previews/northhillspsychiatry/accessibility/index.html",
-    "previews/northhillspsychiatry/assets/fonts/inter-latin.woff2",
-    "previews/northhillspsychiatry/assets/resources/new-patient-registration.pdf",
-    "previews/northhillspsychiatry/assets/styles.css",
-    "previews/northhillspsychiatry/images/hero/Austin_Hero_Image.jpg",
-    "previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp",
-    "previews/northhillspsychiatry/images/office/office_entrance.jpeg",
-    "previews/northhillspsychiatry/images/office/office_entrance.webp",
-    "previews/northhillspsychiatry/images/providers/diana_samuel.png",
-    "previews/northhillspsychiatry/images/providers/diana_samuel.webp",
-    "previews/northhillspsychiatry/images/providers/zita_samuel.png",
-    "previews/northhillspsychiatry/images/providers/zita_samuel.webp",
-    "previews/northhillspsychiatry/index.html",
-    "previews/northhillspsychiatry/privacy/index.html",
-    "previews/northhillspsychiatry/providers/diana-samuel/index.html",
-    "previews/northhillspsychiatry/providers/zita-samuel/index.html",
+    "accessibility/index.html",
+    "assets/fonts/inter-latin.woff2",
+    "assets/resources/new-patient-registration.pdf",
+    "assets/styles.css",
+    "images/hero/Austin_Hero_Image.jpg",
+    "images/hero/Austin_Hero_Image.webp",
+    "images/office/office_entrance.jpeg",
+    "images/office/office_entrance.webp",
+    "images/providers/diana_samuel.png",
+    "images/providers/diana_samuel.webp",
+    "images/providers/zita_samuel.png",
+    "images/providers/zita_samuel.webp",
+    "index.html",
+    "privacy/index.html",
+    "providers/diana-samuel/index.html",
+    "providers/zita-samuel/index.html",
     "robots.txt",
     "shared/analytics.js",
     "shared/attribution.js",
     "shared/google-ads.js"
   ],
-  "headers": "/previews/northhillspsychiatry/*\n  X-Robots-Tag: noindex, nofollow",
+  "headers": "/*\n  X-Robots-Tag: noindex, nofollow",
   "robots": "User-agent: *\nAllow: /\n\nSitemap: https://frontdoor.health/sitemap.xml",
   "sitemapLocations": []
 }

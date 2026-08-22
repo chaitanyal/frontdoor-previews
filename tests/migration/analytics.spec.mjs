@@ -4,7 +4,6 @@ import { pathToFileURL } from 'node:url';
 import { test, expect } from '@playwright/test';
 import {
   fixedTimestamp,
-  fixturePath,
   installDeterministicBrowser,
   installMockNetwork,
 } from './helpers/static-site.mjs';
@@ -321,7 +320,12 @@ test('@analytics captures, persists, retrieves, and expires UTM attribution', as
 });
 
 for (const [label, url] of [
-  ['file', pathToFileURL(fixturePath('..', '..', '..', 'tests', 'migration', 'fixtures', 'local-analytics.html')).href],
+  [
+    'file',
+    pathToFileURL(
+      path.join(repoRoot, 'tests', 'migration', 'fixtures', 'local-analytics.html'),
+    ).href,
+  ],
   ['localhost', 'http://localhost/local-analytics'],
   ['IPv4 loopback', 'http://127.0.0.1/local-analytics'],
   ['IPv6 loopback', 'http://[::1]/local-analytics'],

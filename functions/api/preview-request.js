@@ -4,7 +4,7 @@ const REQUEST_TO = "chaitanya@frontdoor.health";
 const REQUEST_FROM = "FrontDoor Health <chaitanya@frontdoor.health>";
 const MAX_REQUEST_BODY_BYTES = 16_384;
 
-// Keep this allowlist synchronized with the specialty options in marketing/index.html.
+// Keep this allowlist synchronized with the specialty options in PreviewRequestForm.astro.
 const ALLOWED_SPECIALTIES = new Set([
   "Cardiology",
   "Dermatology",

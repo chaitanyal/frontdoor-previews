@@ -1,27 +1,26 @@
-# Migration contract tests
+# Static output contract tests
 
-These tests capture the pre-Astro behavior that later migration milestones must
-preserve.
+These tests lock the reviewed Astro static output and browser behavior.
 
 ## Contracts
 
 `tests/migration/contracts/` contains semantic manifests for:
 
 - FrontDoor Health marketing plus eligible previews.
-- The `drdronavalli` production practice.
+- Every configured production-practice build.
 - The first preview pilot, `northhillspsychiatry`.
 - The all-previews build.
 
-Refresh these files only when an intentional legacy behavior change has been reviewed:
+Refresh these files only after reviewing an intentional Astro output change:
 
 ```bash
-npm run capture:migration-baseline
+npm run capture:output-contracts
 ```
 
 Verify them without updating:
 
 ```bash
-npm run test:migration-contracts
+npm run test:output-contracts
 ```
 
 ## Browser checks
@@ -44,7 +43,7 @@ Run visual comparisons:
 npm run test:visual
 ```
 
-Update screenshots only after visually reviewing the legacy output:
+Update screenshots only after visually reviewing the new Astro output:
 
 ```bash
 npm run test:visual:update
@@ -55,6 +54,6 @@ Analytics, preview-request, Google Ads, Turnstile, and third-party script reques
 intercepted. The suite must not write to production D1, send preview-request emails,
 or record real Google Ads conversions.
 
-Marketing pages use a test-only stylesheet compiled from their legacy HTML so visual
+Marketing pages use a test-only stylesheet compiled from their Astro HTML so visual
 checks do not depend on the Tailwind CDN. Practice pages use their normal compiled
 stylesheet. Lucide and Turnstile receive deterministic local stubs.

@@ -1,0 +1,172 @@
+{
+  "target": "practice-mariposa",
+  "pages": [
+    {
+      "route": "/",
+      "outputFile": "index.html",
+      "title": "Mariposa Psychiatry | Dr. Alba Lara, M.D. | Austin, TX",
+      "description": "Adult psychiatry and psychodynamic psychotherapy in Austin and online, led by Dr. Alba Lara.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mariposa/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/mariposa/images/hero/hero.webp",
+        "url": "https://frontdoor.health/previews/mariposa/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/mariposa/images/hero/hero.webp"
+      },
+      "jsonLd": {
+        "count": 2,
+        "topLevelTypes": [
+          "MedicalClinic",
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "./accessibility/",
+        "./assets/styles.css",
+        "./images/hero/hero.webp",
+        "./images/office/office.webp",
+        "./images/providers/alba-lara.webp",
+        "./privacy/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 7,
+      "ctaCounts": {
+        "directions": 1,
+        "email": 1,
+        "newPatient": 1,
+        "phone": 3
+      }
+    },
+    {
+      "route": "/accessibility/",
+      "outputFile": "accessibility/index.html",
+      "title": "Accessibility | Mariposa Psychiatry",
+      "description": "Accessibility information for Mariposa Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mariposa/accessibility/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/privacy/",
+      "outputFile": "privacy/index.html",
+      "title": "Privacy | Mariposa Psychiatry",
+      "description": "Privacy information for Mariposa Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mariposa/privacy/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/providers/alba-lara/",
+      "outputFile": "providers/alba-lara/index.html",
+      "title": "Dr. Alba Lara | Psychiatrist and Psychotherapist in Austin",
+      "description": "Meet Dr. Alba Lara and learn about her psychodynamic psychiatry, psychotherapy, and medication management services for adults.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mariposa/providers/alba-lara/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/mariposa/images/providers/alba-lara.webp",
+        "url": "https://frontdoor.health/previews/mariposa/providers/alba-lara/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/mariposa/images/providers/alba-lara.webp"
+      },
+      "jsonLd": {
+        "count": 2,
+        "topLevelTypes": [
+          "Physician",
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/alba-lara.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 5,
+      "ctaCounts": {
+        "email": 1,
+        "newPatient": 1,
+        "phone": 4
+      }
+    }
+  ],
+  "outputFiles": [
+    "_headers",
+    "accessibility/index.html",
+    "assets/fonts/inter-latin.woff2",
+    "assets/styles.css",
+    "images/hero/hero.png",
+    "images/hero/hero.webp",
+    "images/office/office.png",
+    "images/office/office.webp",
+    "images/providers/alba-lara.webp",
+    "index.html",
+    "privacy/index.html",
+    "providers/alba-lara/index.html",
+    "robots.txt",
+    "shared/analytics.js",
+    "shared/attribution.js",
+    "shared/google-ads.js"
+  ],
+  "headers": "/*\n  X-Robots-Tag: noindex, nofollow",
+  "robots": "User-agent: *\nAllow: /\n\nSitemap: https://frontdoor.health/sitemap.xml",
+  "sitemapLocations": []
+}

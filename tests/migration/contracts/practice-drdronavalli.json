@@ -16,9 +16,10 @@
         "image": "https://drdronavalli.com/images/providers/goutham_dronavalli.webp"
       },
       "jsonLd": {
-        "count": 1,
+        "count": 2,
         "topLevelTypes": [
-          "MedicalClinic"
+          "MedicalClinic",
+          "WebPage"
         ]
       },
       "localAssetUrls": [
@@ -42,7 +43,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 6,
+      "inlineScriptCount": 7,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -127,9 +128,10 @@
         "image": "https://drdronavalli.com/images/providers/goutham_dronavalli.webp"
       },
       "jsonLd": {
-        "count": 1,
+        "count": 2,
         "topLevelTypes": [
-          "Physician"
+          "Physician",
+          "WebPage"
         ]
       },
       "localAssetUrls": [
@@ -146,7 +148,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 4,
+      "inlineScriptCount": 5,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,

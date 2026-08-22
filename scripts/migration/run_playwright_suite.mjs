@@ -11,25 +11,17 @@ if (!supportedSuites.has(suite)) {
   process.exit(1);
 }
 
-let target = 'astro';
 let scope = '';
 let site = '';
 const passthroughArgs = [];
 for (const argument of process.argv.slice(3)) {
-  if (argument.startsWith('--target=')) {
-    target = argument.slice('--target='.length);
-  } else if (argument.startsWith('--scope=')) {
+  if (argument.startsWith('--scope=')) {
     scope = argument.slice('--scope='.length);
   } else if (argument.startsWith('--site=')) {
     site = argument.slice('--site='.length);
   } else {
     passthroughArgs.push(argument);
   }
-}
-
-if (!['astro', 'legacy'].includes(target)) {
-  console.error(`ERROR: --target must be astro or legacy, received: ${target}`);
-  process.exit(1);
 }
 if (scope && !['marketing', 'practice', 'preview'].includes(scope)) {
   console.error(`ERROR: --scope must be marketing, practice, or preview, received: ${scope}`);
@@ -55,7 +47,6 @@ const result = spawnSync(
     cwd: repoRoot,
     env: {
       ...process.env,
-      FRONTDOOR_MIGRATION_TARGET: target,
       FRONTDOOR_MIGRATION_SCOPE: scope,
       FRONTDOOR_MIGRATION_SITE: site,
     },
