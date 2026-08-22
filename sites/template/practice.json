@@ -3,7 +3,7 @@
   "seo": {
     "title": "Practice Name | Specialty Care in City",
     "description": "Patient-centered specialty care for adults and families in City, State.",
-    "siteUrl": "https://frontdoor.health/previews/practice-slug",
+    "siteUrl": "https://frontdoor.health/previews/practice-slug/",
     "allowIndexing": false,
     "ogImage": "./images/hero/hero.webp",
     "ogImageAlt": "Practice Name specialty care in City, State",
@@ -32,6 +32,7 @@
     "medicalSpecialty": "https://schema.org/PrimaryCare",
     "acceptsNewPatients": true,
     "socialLinks": [],
+    "disableExternalActionLinksInPreview": true,
     "emergencyNotice": "For medical emergencies, call 911 or go to the nearest emergency room."
   },
   "hero": {
@@ -41,6 +42,9 @@
     "copy": "Clear, patient-centered care for people seeking thoughtful support, practical next steps, and a calmer healthcare experience.",
     "primaryCta": "Request Appointment",
     "secondaryCta": "Meet the Provider"
+  },
+  "providerProfileSections": {
+    "expectations": false
   },
   "trustItems": [
     {

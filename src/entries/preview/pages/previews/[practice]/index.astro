@@ -11,4 +11,4 @@ const { practice } = Astro.props;
 const { config, theme } = await loadPracticeData(process.cwd(), practice);
 ---
 
-<PracticeHome config={config} theme={theme} />
+<PracticeHome config={config} theme={theme} isPreview />

@@ -8,9 +8,10 @@ interface Props {
   config: Record<string, any>;
   provider: Record<string, any>;
   theme: Record<string, string>;
+  isPreview?: boolean;
 }
 
-const { config, provider, theme } = Astro.props;
+const { config, provider, theme, isPreview = false } = Astro.props;
 const profile = providerProfile(config, provider);
 ---
 
@@ -28,7 +29,7 @@ const profile = providerProfile(config, provider);
   theme={theme}
   title={profile.title}
 >
-  <ProviderProfile config={config} provider={provider} />
+  <ProviderProfile config={config} provider={provider} isPreview={isPreview} />
   <CopyEmailScript slot="scripts" />
   <script is:inline slot="scripts">lucide.createIcons();</script>
 </PracticeLayout>

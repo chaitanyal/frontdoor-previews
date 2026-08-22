@@ -334,6 +334,235 @@
         "email": 1,
         "phone": 4
       }
+    },
+    {
+      "route": "/previews/northwestpsychiatry/",
+      "outputFile": "previews/northwestpsychiatry/index.html",
+      "title": "Northwest Psychiatry | Adult Psychiatry in Austin, TX",
+      "description": "Adult psychiatric evaluations, medication management, ADHD care, and treatment for mood, anxiety, trauma, and cognitive concerns in Northwest Austin.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northwestpsychiatry/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/hero/austin-skyline.webp",
+        "url": "https://frontdoor.health/previews/northwestpsychiatry/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/hero/austin-skyline.webp"
+      },
+      "jsonLd": {
+        "count": 2,
+        "topLevelTypes": [
+          "MedicalClinic",
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "./accessibility/",
+        "./assets/styles.css",
+        "./images/hero/austin-skyline.webp",
+        "./images/office/waiting-room.webp",
+        "./images/providers/arvinder-walia.webp",
+        "./images/providers/kathleen-nguyen.webp",
+        "./images/providers/khyati-delada.webp",
+        "./privacy/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 7,
+      "ctaCounts": {
+        "directions": 1,
+        "email": 2,
+        "phone": 4,
+        "resource": 5
+      }
+    },
+    {
+      "route": "/previews/northwestpsychiatry/accessibility/",
+      "outputFile": "previews/northwestpsychiatry/accessibility/index.html",
+      "title": "Accessibility | Northwest Psychiatry",
+      "description": "Accessibility information for Northwest Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northwestpsychiatry/accessibility/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/northwestpsychiatry/privacy/",
+      "outputFile": "previews/northwestpsychiatry/privacy/index.html",
+      "title": "Privacy | Northwest Psychiatry",
+      "description": "Privacy information for Northwest Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northwestpsychiatry/privacy/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/northwestpsychiatry/providers/arvinder-walia/",
+      "outputFile": "previews/northwestpsychiatry/providers/arvinder-walia/index.html",
+      "title": "Dr. Arvinder Walia | Adult Psychiatrist in Austin, TX",
+      "description": "Meet Dr. Arvinder Walia, a board-certified adult psychiatrist with expertise in mood, anxiety, cognitive, forensic, and consultation-liaison psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northwestpsychiatry/providers/arvinder-walia/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/providers/arvinder-walia.webp",
+        "url": "https://frontdoor.health/previews/northwestpsychiatry/providers/arvinder-walia/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/providers/arvinder-walia.webp"
+      },
+      "jsonLd": {
+        "count": 2,
+        "topLevelTypes": [
+          "Physician",
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/arvinder-walia.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 5,
+      "ctaCounts": {
+        "email": 1,
+        "phone": 4
+      }
+    },
+    {
+      "route": "/previews/northwestpsychiatry/providers/kathleen-nguyen/",
+      "outputFile": "previews/northwestpsychiatry/providers/kathleen-nguyen/index.html",
+      "title": "Kathleen Nguyen, PA-C | Northwest Psychiatry Austin",
+      "description": "Meet Kathleen Nguyen, a board-certified physician assistant providing adult psychiatric care, medication management, education, and individualized treatment planning.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northwestpsychiatry/providers/kathleen-nguyen/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/providers/kathleen-nguyen.webp",
+        "url": "https://frontdoor.health/previews/northwestpsychiatry/providers/kathleen-nguyen/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/providers/kathleen-nguyen.webp"
+      },
+      "jsonLd": {
+        "count": 2,
+        "topLevelTypes": [
+          "Physician",
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/kathleen-nguyen.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 5,
+      "ctaCounts": {
+        "email": 1,
+        "phone": 4
+      }
+    },
+    {
+      "route": "/previews/northwestpsychiatry/providers/khyati-delada/",
+      "outputFile": "previews/northwestpsychiatry/providers/khyati-delada/index.html",
+      "title": "Khyati Delada, MPAM, PA-C, CNIM | Northwest Psychiatry",
+      "description": "Meet Khyati Delada, a board-certified physician associate providing adult psychiatric care informed by neuropsychology, neuroscience, behavioral health, and neurology.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northwestpsychiatry/providers/khyati-delada/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/providers/khyati-delada.webp",
+        "url": "https://frontdoor.health/previews/northwestpsychiatry/providers/khyati-delada/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/providers/khyati-delada.webp"
+      },
+      "jsonLd": {
+        "count": 2,
+        "topLevelTypes": [
+          "Physician",
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#providers",
+        "../../assets/styles.css",
+        "../../images/providers/khyati-delada.webp",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 5,
+      "ctaCounts": {
+        "email": 1,
+        "phone": 4
+      }
     }
   ],
   "outputFiles": [
@@ -365,12 +594,25 @@
     "previews/northhillspsychiatry/privacy/index.html",
     "previews/northhillspsychiatry/providers/diana-samuel/index.html",
     "previews/northhillspsychiatry/providers/zita-samuel/index.html",
+    "previews/northwestpsychiatry/accessibility/index.html",
+    "previews/northwestpsychiatry/assets/fonts/inter-latin.woff2",
+    "previews/northwestpsychiatry/assets/styles.css",
+    "previews/northwestpsychiatry/images/hero/austin-skyline.webp",
+    "previews/northwestpsychiatry/images/office/waiting-room.webp",
+    "previews/northwestpsychiatry/images/providers/arvinder-walia.webp",
+    "previews/northwestpsychiatry/images/providers/kathleen-nguyen.webp",
+    "previews/northwestpsychiatry/images/providers/khyati-delada.webp",
+    "previews/northwestpsychiatry/index.html",
+    "previews/northwestpsychiatry/privacy/index.html",
+    "previews/northwestpsychiatry/providers/arvinder-walia/index.html",
+    "previews/northwestpsychiatry/providers/kathleen-nguyen/index.html",
+    "previews/northwestpsychiatry/providers/khyati-delada/index.html",
     "robots.txt",
     "shared/analytics.js",
     "shared/attribution.js",
     "shared/google-ads.js"
   ],
-  "headers": "/previews/mariposa/*\n  X-Robots-Tag: noindex, nofollow\n/previews/northhillspsychiatry/*\n  X-Robots-Tag: noindex, nofollow",
+  "headers": "/previews/mariposa/*\n  X-Robots-Tag: noindex, nofollow\n/previews/northhillspsychiatry/*\n  X-Robots-Tag: noindex, nofollow\n/previews/northwestpsychiatry/*\n  X-Robots-Tag: noindex, nofollow",
   "robots": "User-agent: *\nAllow: /\n\nSitemap: https://frontdoor.health/sitemap.xml",
   "sitemapLocations": []
 }

@@ -11,6 +11,7 @@ interface Props {
   emergencyNotice?: string;
   sectionId?: string;
   homeVariant?: boolean;
+  actionLinksDisabled?: boolean;
 }
 
 const {
@@ -22,6 +23,7 @@ const {
   emergencyNotice = '',
   sectionId = 'appointment',
   homeVariant = false,
+  actionLinksDisabled = false,
 } = Astro.props;
 const actions = [
   appointmentUrl
@@ -79,23 +81,35 @@ const containerClass = homeVariant
       {
         actions.length > 0 && (
           <div class="space-y-3">
-            {actions.map((action) => (
-              <a
-                href={action.url}
-                data-frontdoor-cta={
-                  action.primary ? 'newPatient' : 'existingPatient'
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                class={`${
-                  action.primary ? 'btn-primary' : 'btn-secondary'
-                } w-full justify-center px-5 py-4 text-base`}
-              >
-                <Icon name={action.iconName} />
-                {action.label}
-                <Icon name="ExternalLink" class="h-3.5 w-3.5" />
-              </a>
-            ))}
+            {actions.map((action) =>
+              actionLinksDisabled ? (
+                <span
+                  aria-disabled="true"
+                  class={`${
+                    action.primary ? 'btn-primary' : 'btn-secondary'
+                  } w-full cursor-default justify-center px-5 py-4 text-base`}
+                >
+                  <Icon name={action.iconName} />
+                  {action.label}
+                </span>
+              ) : (
+                <a
+                  href={action.url}
+                  data-frontdoor-cta={
+                    action.primary ? 'newPatient' : 'existingPatient'
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class={`${
+                    action.primary ? 'btn-primary' : 'btn-secondary'
+                  } w-full justify-center px-5 py-4 text-base`}
+                >
+                  <Icon name={action.iconName} />
+                  {action.label}
+                  <Icon name="ExternalLink" class="h-3.5 w-3.5" />
+                </a>
+              ),
+            )}
           </div>
         )
       }

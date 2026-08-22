@@ -15,9 +15,10 @@ import { practiceSchema } from '../../lib/practice-view.mjs';
 interface Props {
   config: Record<string, any>;
   theme: Record<string, string>;
+  isPreview?: boolean;
 }
 
-const { config, theme } = Astro.props;
+const { config, theme, isPreview = false } = Astro.props;
 ---
 
 <PracticeLayout
@@ -40,6 +41,9 @@ const { config, theme } = Astro.props;
       phoneHref={config.practice.phoneHref}
       email={config.practice.email}
       emergencyNotice={config.practice.emergencyNotice}
+      actionLinksDisabled={
+        isPreview && config.practice.disableExternalActionLinksInPreview
+      }
       sectionId={HOME_SECTION_IDS.contact}
       homeVariant
     />

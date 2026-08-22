@@ -115,14 +115,16 @@ const faqSummary =
           {
             location.hours.map(([day, hours], index) => (
               <div
-                class={
+                class={`grid grid-cols-[minmax(7rem,0.8fr)_minmax(0,1.2fr)] items-start gap-4 ${
                   index === location.hours.length - 1
-                    ? 'flex items-center justify-between'
-                    : 'hours-row'
-                }
+                    ? ''
+                    : 'border-b border-slate-200 pb-4'
+                }`}
               >
-                <p class="text-base font-medium text-slate-700">{day}</p>
-                <p class="text-base font-semibold text-slate-950">{hours}</p>
+                <p class="min-w-0 text-base font-medium text-slate-700">{day}</p>
+                <p class="min-w-0 text-right text-base font-semibold leading-6 text-slate-950">
+                  {hours}
+                </p>
               </div>
             ))
           }

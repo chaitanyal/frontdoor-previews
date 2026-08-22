@@ -12,13 +12,16 @@ import PracticeHeader from './PracticeHeader.astro';
 interface Props {
   config: Record<string, any>;
   provider: Record<string, any>;
+  isPreview?: boolean;
 }
 
-const { config, provider } = Astro.props;
+const { config, provider, isPreview = false } = Astro.props;
 const profile = providerProfile(config, provider);
 const educationRows = [
   ['Board Certification', provider.certifications],
   ['Medical School', profile.education.medicalSchool],
+  ['Physician Assistant Program', profile.education.physicianAssistantProgram],
+  ['Undergraduate Education', profile.education.undergraduate],
   ['Residency', profile.education.residency],
   ['Fellowship', profile.education.fellowship],
 ].flatMap(([label, value]) =>
@@ -67,6 +70,13 @@ const affiliationMode = providerAffiliationMode(profile);
             {profile.name}
           </h1>
           {
+            provider.credentials && (
+              <p class="mt-2 text-base font-semibold tracking-wide text-slate-500 md:text-lg">
+                {provider.credentials}
+              </p>
+            )
+          }
+          {
             provider.heroTitle && (
               <p class="mt-4 text-lg font-semibold text-brand-primary">
                 {provider.heroTitle}
@@ -114,24 +124,27 @@ const affiliationMode = providerAffiliationMode(profile);
       >
         {profile.bioParagraphs.slice(0, 2).map((paragraph) => <p>{paragraph}</p>)}
       </div>
-      <div class="mt-10 max-w-3xl rounded-3xl bg-warm-50 p-6 md:p-8">
-        <h3 class="text-xl font-bold tracking-tight text-slate-950 md:text-2xl">
-          {profile.labels.howProviderHelps}
-        </h3>
-        <ul class="mt-5 space-y-4">
-          {
-            profile.expectations.map((expectation) => (
-              <li class="flex gap-3 text-base leading-7 text-slate-700 md:text-lg md:leading-8">
-                <span
-                  class="mt-2 h-2 w-2 shrink-0 rounded-full bg-brand-accent"
-                  aria-hidden="true"
-                ></span>
-                <span>{expectation}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      {
+        config.providerProfileSections?.expectations !== false &&
+          profile.expectations.length > 0 && (
+          <div class="mt-10 max-w-3xl rounded-3xl bg-warm-50 p-6 md:p-8">
+            <h3 class="text-xl font-bold tracking-tight text-slate-950 md:text-2xl">
+              {profile.labels.howProviderHelps}
+            </h3>
+            <ul class="mt-5 space-y-4">
+              {profile.expectations.map((expectation) => (
+                <li class="flex gap-3 text-base leading-7 text-slate-700 md:text-lg md:leading-8">
+                  <span
+                    class="mt-2 h-2 w-2 shrink-0 rounded-full bg-brand-accent"
+                    aria-hidden="true"
+                  ></span>
+                  <span>{expectation}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
     </div>
   </section>
   {
@@ -232,6 +245,9 @@ const affiliationMode = providerAffiliationMode(profile);
     phoneHref={profile.phoneHref}
     email={profile.email}
     emergencyNotice={profile.emergencyNotice}
+    actionLinksDisabled={
+      isPreview && config.practice.disableExternalActionLinksInPreview
+    }
     sectionId="appointment"
   />
 </main>

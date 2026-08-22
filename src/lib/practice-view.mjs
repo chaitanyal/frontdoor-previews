@@ -261,7 +261,7 @@ export function providerProfile(config, provider) {
       description,
       image: absoluteUrl(config, socialImage.image),
       telephone: phone,
-      email,
+      ...(email ? { email } : {}),
       address,
       ...(medicalSpecialty ? { medicalSpecialty } : {}),
       ...(conditions.length ? { knowsAbout: conditions } : {}),
@@ -315,7 +315,7 @@ export function practiceSchema(config) {
     name: config.practice.name,
     description: config.seo?.description,
     telephone: config.practice.phone,
-    email: config.practice.email,
+    ...(config.practice.email ? { email: config.practice.email } : {}),
     address: config.practice.address
       ? { '@type': 'PostalAddress', ...config.practice.address }
       : config.practice.addressLines.join(', '),

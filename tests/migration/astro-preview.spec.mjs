@@ -141,7 +141,11 @@ test.describe.serial('Astro preview migration', () => {
     const generatedPractices = readdirSync(path.join(previewRoot, 'previews'))
       .filter((entry) => statSync(path.join(previewRoot, 'previews', entry)).isDirectory())
       .sort();
-    expect(generatedPractices).toEqual(['mariposa', 'northhillspsychiatry']);
+    expect(generatedPractices).toEqual([
+      'mariposa',
+      'northhillspsychiatry',
+      'northwestpsychiatry',
+    ]);
     expect(generatedPractices).not.toContain('drdronavalli');
     expect(generatedPractices).not.toContain('template');
   });
