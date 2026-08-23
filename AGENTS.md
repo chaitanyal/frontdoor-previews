@@ -72,6 +72,35 @@ https://frontdoor.health/previews/northhillspsychiatry/
 
 ---
 
+# Codex Maintenance Routing
+
+Codex reads this file automatically. For small changes, use the narrowest workflow
+that proves the requested result:
+
+- Practice copy, links, hours, credentials, assets, or an existing theme selection:
+  edit only `sites/<practice-slug>/` and run
+  `npm run verify:site -- <practice-slug>`.
+- Add a provider: place the portrait in the practice folder, prepare one provider
+  JSON object, run `npm run provider:add -- <practice-slug> <provider-json>`, then
+  run the printed contract-update command and review the generated route change.
+- Retire a provider: run
+  `npm run provider:retire -- <practice-slug> <provider-slug>`. Production sites
+  receive redirects for the retired provider route; portraits are retained.
+- Switch to an existing palette: run
+  `npm run theme:set -- <practice-slug> <theme-name>` and then verify that site.
+- Shared components, schemas, scripts, a new theme definition, or changes spanning
+  multiple subsystems: run `npm run test:output-contracts`.
+
+For factual healthcare-practice changes, update the affected evidence in
+`source_extraction.md` when one exists. Exact user-authored wording, layout, and
+theme-selection changes do not require repeating full source extraction.
+
+The pre-commit hook applies the same staged-file routing. Install it once per clone
+with `npm run hooks:install`. Do not bypass it with `--no-verify`. The hook is a
+safety net; run the relevant command yourself before reporting completion.
+
+---
+
 # Technology Stack
 
 Hosting:

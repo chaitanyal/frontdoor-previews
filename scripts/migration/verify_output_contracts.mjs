@@ -292,6 +292,19 @@ function compareContract(actual, expectedPath) {
   );
 }
 
+function updateContract(actual, baselinePath) {
+  mkdirSync(path.dirname(baselinePath), { recursive: true });
+  writeFileSync(baselinePath, `${JSON.stringify(actual, null, 2)}\n`);
+}
+
+function verifyContract(actual, baselinePath, { update = false } = {}) {
+  if (update) {
+    updateContract(actual, baselinePath);
+  } else {
+    compareContract(actual, baselinePath);
+  }
+}
+
 export function verifyOutputContracts({ update = false } = {}) {
   mkdirSync(CONTRACT_ROOT, { recursive: true });
 
@@ -300,46 +313,42 @@ export function verifyOutputContracts({ update = false } = {}) {
     run('npm', target.command, target.environment);
     const contract = contractFor(target.output, target.name);
     const baselinePath = path.join(CONTRACT_ROOT, `${target.name}.json`);
-    if (update) {
-      writeFileSync(baselinePath, `${JSON.stringify(contract, null, 2)}\n`);
-    } else {
-      compareContract(contract, baselinePath);
-    }
+    verifyContract(contract, baselinePath, { update });
   }
 
   process.stdout.write(update ? 'Astro output contracts updated.\n' : 'Astro output contracts match.\n');
 }
 
-export function verifyMarketingOutputContract() {
+export function verifyMarketingOutputContract({ update = false } = {}) {
   const baselinePath = path.join(CONTRACT_ROOT, 'marketing.json');
   const astroRoot = path.join(ASTRO_ROOT, 'marketing');
   if (!existsSync(astroRoot)) {
     fail('Missing Astro marketing output. Run npm run build:astro:marketing first.');
   }
-  compareContract(contractFor(astroRoot, 'marketing'), baselinePath);
-  process.stdout.write('Astro marketing output contract matches.\n');
+  verifyContract(contractFor(astroRoot, 'marketing'), baselinePath, { update });
+  process.stdout.write(`Astro marketing output contract ${update ? 'updated' : 'matches'}.\n`);
 }
 
-export function verifyPracticeOutputContract(site = 'drdronavalli') {
+export function verifyPracticeOutputContract(site = 'drdronavalli', { update = false } = {}) {
   const targetName = `practice-${site}`;
   const baselinePath = path.join(CONTRACT_ROOT, `${targetName}.json`);
   const astroRoot = path.join(ASTRO_ROOT, 'practice');
   if (!existsSync(astroRoot)) {
     fail('Missing Astro practice output. Run npm run build:astro:practice first.');
   }
-  compareContract(contractFor(astroRoot, targetName), baselinePath);
-  process.stdout.write(`Astro ${site} output contract matches.\n`);
+  verifyContract(contractFor(astroRoot, targetName), baselinePath, { update });
+  process.stdout.write(`Astro ${site} output contract ${update ? 'updated' : 'matches'}.\n`);
 }
 
-export function verifyPreviewOutputContract(site = 'northhillspsychiatry') {
+export function verifyPreviewOutputContract(site = 'northhillspsychiatry', { update = false } = {}) {
   const targetName = site === 'ALL' ? 'preview-all' : `preview-${site}`;
   const baselinePath = path.join(CONTRACT_ROOT, `${targetName}.json`);
   const astroRoot = path.join(ASTRO_ROOT, 'preview');
   if (!existsSync(astroRoot)) {
     fail('Missing Astro preview output. Run npm run build:astro:preview first.');
   }
-  compareContract(contractFor(astroRoot, targetName), baselinePath);
-  process.stdout.write(`Astro ${targetName} output contract matches.\n`);
+  verifyContract(contractFor(astroRoot, targetName), baselinePath, { update });
+  process.stdout.write(`Astro ${targetName} output contract ${update ? 'updated' : 'matches'}.\n`);
 }
 
 export function verifyMarketingPreviewOutputContract() {
@@ -366,15 +375,15 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
   try {
     if (scope) {
-      if (update || !['marketing', 'practice', 'preview'].includes(scope)) {
-        fail('Scoped output contract checks support --check with marketing, practice, or preview.');
+      if (!['marketing', 'practice', 'preview'].includes(scope)) {
+        fail('Scoped output contract verification supports marketing, practice, or preview.');
       }
       if (scope === 'marketing') {
-        verifyMarketingOutputContract();
+        verifyMarketingOutputContract({ update });
       } else if (scope === 'preview') {
-        verifyPreviewOutputContract(site);
+        verifyPreviewOutputContract(site, { update });
       } else {
-        verifyPracticeOutputContract(site);
+        verifyPracticeOutputContract(site, { update });
       }
     } else {
       verifyOutputContracts({ update });

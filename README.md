@@ -247,6 +247,66 @@ without adding practice analytics.
 
 ## Common Workflows
 
+Install the repository's staged-file checks once per clone:
+
+```bash
+npm run hooks:install
+```
+
+The hook skips builds for Markdown-only commits, verifies only affected practices
+for practice-local commits, checks marketing-only commits against the marketing
+contract, and reserves the full output-contract suite for shared or mixed changes.
+
+### Change one practice
+
+Edit `sites/<practice-slug>/practice.json` or its local assets, then run:
+
+```bash
+npm run verify:site -- <practice-slug>
+```
+
+This validates the configuration, builds that practice in isolation, validates its
+HTML and assets, and compares only its semantic output contract. If the practice is
+featured on the marketing site, it also verifies that dependent marketing target.
+
+Switch an existing theme without editing JSON manually:
+
+```bash
+npm run theme:set -- <practice-slug> calm-healthcare
+npm run verify:site -- <practice-slug>
+```
+
+Adding a new theme to `shared/themes.json` is a shared-platform change and requires
+`npm run test:output-contracts`.
+
+### Add or retire a provider
+
+To add a provider, first place the portrait under the practice directory and create
+a JSON file containing one complete provider object. The command validates the
+object and its portrait before changing `practice.json`:
+
+```bash
+npm run provider:add -- <practice-slug> <provider-json>
+npm run verify:site -- <practice-slug> --update-contract
+```
+
+Review the intentional provider-route change in the contract diff before committing.
+
+To retire a provider:
+
+```bash
+npm run provider:retire -- <practice-slug> <provider-slug>
+npm run verify:site -- <practice-slug> --update-contract
+```
+
+For an indexable production site, the command adds permanent redirects from both
+forms of the retired provider route to `/#providers`. Override the destination with
+`--redirect=/another-route`. The portrait is deliberately retained; remove it only
+after confirming it has no remaining references.
+
+Add `--dry-run` to any provider or theme command to validate and preview the action
+without changing practice files.
+
 ### Add a practice or preview
 
 1. Copy `sites/template/` to `sites/<practice-slug>/`.

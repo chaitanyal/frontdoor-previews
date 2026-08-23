@@ -318,28 +318,6 @@
   },
   "financialPolicy": {
     "paymentModel": "insurance",
-    "pricingDisplay": "hidden",
-    "insurancePlans": [
-      {
-        "name": "Aetna",
-        "logo": "../shared/logos/aetna.svg"
-      },
-      {
-        "name": "Anthem",
-        "logo": "../shared/logos/anthem.svg"
-      },
-      {
-        "name": "Blue Cross Blue Shield of Texas",
-        "logo": "../shared/logos/bcbstx-logo.svg"
-      },
-      {
-        "name": "Cigna Healthcare",
-        "logo": "../shared/logos/cignahlthcr.svg"
-      },
-      {
-        "name": "Humana",
-        "logo": "../shared/logos/humana.svg"
-      }
-    ]
+    "pricingDisplay": "hidden"
   }
 }
