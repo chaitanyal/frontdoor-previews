@@ -272,6 +272,16 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         validate_asset_path(provider["image"], f"{provider_path}.image")
         if "bioParagraphs" in provider:
             validate_string_list(provider["bioParagraphs"], f"{provider_path}.bioParagraphs", min_items=1)
+        if "bioLinks" in provider:
+            bio_links = require_list(provider["bioLinks"], f"{provider_path}.bioLinks")
+            bio_text = "\n".join(provider.get("bioParagraphs", []))
+            for link_index, link_value in enumerate(bio_links):
+                link_path = f"{provider_path}.bioLinks[{link_index}]"
+                link = require_mapping(link_value, link_path)
+                link_text = require_string_key(link, "text", link_path)
+                require_https_url(require_key(link, "url", link_path), f"{link_path}.url")
+                if link_text not in bio_text:
+                    fail(f"{link_path}.text must appear in {provider_path}.bioParagraphs")
         if "bio" in provider:
             require_string(provider["bio"], f"{provider_path}.bio")
         if "bioParagraphs" not in provider and "bio" not in provider:

@@ -17,6 +17,36 @@ interface Props {
 
 const { config, provider, isPreview = false } = Astro.props;
 const profile = providerProfile(config, provider);
+const bioLinks = Array.isArray(provider.bioLinks) ? provider.bioLinks : [];
+const bioParts = (paragraph: string) => {
+  const parts: Array<{ text: string; url?: string }> = [{ text: paragraph }];
+
+  for (const link of bioLinks) {
+    const matchText = String(link.text || '');
+    if (!matchText) continue;
+
+    const partIndex = parts.findIndex(
+      (part) => !part.url && part.text.includes(matchText),
+    );
+    if (partIndex === -1) continue;
+
+    const part = parts[partIndex];
+    const matchIndex = part.text.indexOf(matchText);
+    parts.splice(
+      partIndex,
+      1,
+      ...(matchIndex > 0
+        ? [{ text: part.text.slice(0, matchIndex) }]
+        : []),
+      { text: matchText, url: link.url },
+      ...(matchIndex + matchText.length < part.text.length
+        ? [{ text: part.text.slice(matchIndex + matchText.length) }]
+        : []),
+    );
+  }
+
+  return parts;
+};
 const educationRows = [
   ['Board Certification', provider.certifications],
   ['Medical School', profile.education.medicalSchool],
@@ -122,7 +152,24 @@ const affiliationMode = providerAffiliationMode(profile);
       <div
         class="mt-7 max-w-3xl space-y-5 text-lg leading-9 text-slate-700 md:text-xl md:leading-10"
       >
-        {profile.bioParagraphs.slice(0, 2).map((paragraph) => <p>{paragraph}</p>)}
+        {
+          profile.bioParagraphs.slice(0, 2).map((paragraph) => (
+            <p>
+              {bioParts(paragraph).map((part) =>
+                part.url ? (
+                  <a
+                    class="font-semibold text-brand-primary underline decoration-brand-primary/40 underline-offset-4 hover:decoration-brand-primary"
+                    href={part.url}
+                  >
+                    {part.text}
+                  </a>
+                ) : (
+                  part.text
+                ),
+              )}
+            </p>
+          ))
+        }
       </div>
       {
         config.providerProfileSections?.expectations !== false &&

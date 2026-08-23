@@ -92,8 +92,14 @@
       "medicalSpecialty": "https://schema.org/Pulmonary",
       "tagline": "Combining advanced academic insight with personalized care, Dr. Dronavalli helps patients overcome complex breathing disorders and chronic sleep conditions. Welcoming new patients at our Sugar Land clinic.",
       "bioParagraphs": [
-        "Dr. Goutham Dronavalli provides comprehensive, evidence-based care for complex lung diseases and sleep disorders. As an Associate Professor at UTHealth Houston, he bridges cutting-edge medical research with compassionate clinical practice. His extensive expertise spans both inpatient and outpatient settings, ensuring seamless continuity throughout your treatment journey.",
+        "Dr. Goutham Dronavalli provides comprehensive, evidence-based care for complex lung diseases and sleep disorders through Hillcroft Medical Center at its Sugar Land location. As an Associate Professor at UTHealth Houston, he bridges current medical research with compassionate clinical care.",
         "Specializing in advanced diagnostic evaluations, Dr. Dronavalli performs pulmonary function testing, allergy screenings, and home sleep studies. He works closely with each patient to design individualized treatment plans focused on clear communication, effective long-term management, and measurable improvements in your daily life."
+      ],
+      "bioLinks": [
+        {
+          "text": "Hillcroft Medical Center",
+          "url": "https://hmcdoctors.com/find-doctor-by-specialty/pulmonology/"
+        }
       ],
       "conditions": [
         "Asthma",
