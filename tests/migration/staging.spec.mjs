@@ -97,6 +97,7 @@ test('@staging serves the indexable practice contract behind deployment noindex'
     '/providers/goutham-dronavalli/',
     '/privacy/',
     '/accessibility/',
+    '/terms/',
   ]) {
     const page = await getHtml(request, at(urls.practice, route));
     expectCloudflarePreviewNoindex(page.headers);

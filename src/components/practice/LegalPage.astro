@@ -1,13 +1,15 @@
 ---
 interface Props {
   config: Record<string, any>;
-  page: 'accessibility' | 'privacy';
+  page: 'accessibility' | 'privacy' | 'terms';
 }
 
 const { config, page } = Astro.props;
 const practice = config.practice || {};
 const privacy = page === 'privacy';
-const title = privacy ? 'Privacy' : 'Accessibility';
+const terms = page === 'terms';
+const usesGoogleMaps = Boolean(config.location?.googleReviewSummary);
+const title = privacy ? 'Privacy' : terms ? 'Terms of Use' : 'Accessibility';
 ---
 
 <main class="section min-h-screen bg-warm-50">
@@ -20,7 +22,65 @@ const title = privacy ? 'Privacy' : 'Accessibility';
           {practice.name}
         </h2>
         {
-          privacy ? (
+          terms ? (
+            <>
+              <p>
+                This website provides general information about the practice.
+                It does not provide medical advice, diagnosis, or treatment and
+                is not a substitute for care from a qualified clinician.
+              </p>
+              <p>
+                Do not use this website for emergencies. Call 911 or go to the
+                nearest emergency room when immediate medical attention is
+                needed.
+              </p>
+              <p>
+                Links to appointment, patient portal, mapping, and other
+                third-party services are provided for convenience. Those
+                services operate under their own terms and privacy policies.
+              </p>
+              {
+                usesGoogleMaps && (
+                  <p>
+                    Google Maps features are provided subject to the{' '}
+                    <a
+                      class="font-semibold text-brand-primary underline underline-offset-4"
+                      href="https://maps.google.com/help/terms_maps/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Google Maps/Google Earth Additional Terms of Service
+                    </a>{' '}
+                    and the{' '}
+                    <a
+                      class="font-semibold text-brand-primary underline underline-offset-4"
+                      href="https://policies.google.com/privacy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Google Privacy Policy
+                    </a>.
+                  </p>
+                )
+              }
+              {
+                usesGoogleMaps && (
+                  <p>
+                    Google does not verify individual reviews, but it checks for
+                    and removes fake content when identified. Learn more in the{' '}
+                    <a
+                      class="font-semibold text-brand-primary underline underline-offset-4"
+                      href="https://support.google.com/contributionpolicy/answer/7422880"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Google Maps user-generated content policy
+                    </a>.
+                  </p>
+                )
+              }
+            </>
+          ) : privacy ? (
             <>
               <p>
                 This website provides general information about the practice and
@@ -33,6 +93,26 @@ const title = privacy ? 'Privacy' : 'Accessibility';
                 by third-party systems. Please avoid sending medical information
                 by email or through unsecured communication channels.
               </p>
+              {
+                usesGoogleMaps && (
+                  <p>
+                    When the office section approaches your screen, this site
+                    may request the practice’s current public rating from Google
+                    Maps through a FrontDoor Health service. The feature does not
+                    send appointment details, form contents, or review text, and
+                    the rating is not stored by this website. Google’s handling
+                    of data is described in the{' '}
+                    <a
+                      class="font-semibold text-brand-primary underline underline-offset-4"
+                      href="https://policies.google.com/privacy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Google Privacy Policy
+                    </a>.
+                  </p>
+                )
+              }
               <p>
                 If you have questions about privacy or how to contact the office,
                 please use the contact information below.
@@ -80,6 +160,7 @@ const title = privacy ? 'Privacy' : 'Accessibility';
     aria-label="Footer navigation"
   >
     <a class="transition hover:text-slate-950" href="../privacy/">Privacy</a>
+    <a class="transition hover:text-slate-950" href="../terms/">Terms</a>
     <a class="transition hover:text-slate-950" href="../accessibility/">
       Accessibility
     </a>

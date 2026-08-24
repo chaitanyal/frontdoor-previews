@@ -1,8 +1,15 @@
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
+import { validateGooglePlacesConfiguration } from '../../scripts/validate_google_places_config.mjs';
 import { assertMarketingCaseStudyRoute } from '../../src/lib/marketing-data.mjs';
 import { loadPracticeData } from '../../src/lib/practice-data.mjs';
 import {
@@ -118,7 +125,7 @@ test.describe.serial('Astro migration foundation', () => {
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/practice/index.html',
-      'Breathe easier with expert pulmonary care.',
+      'Expert pulmonary and sleep care.',
     );
 
     runNpmBuild('build:astro:preview', 'northhillspsychiatry');
@@ -400,6 +407,88 @@ test.describe.serial('Astro migration foundation', () => {
 
     expect(validationIndex).toBeGreaterThan(-1);
     expect(successIndex).toBeGreaterThan(validationIndex);
+  });
+
+  test('@astro-foundation scopes Google Places validation for targeted builds', async () => {
+    mkdirSync(path.join(repoRoot, '.tmp'), { recursive: true });
+    const fixtureRoot = mkdtempSync(
+      path.join(repoRoot, '.tmp', 'google-places-scope-'),
+    );
+
+    try {
+      mkdirSync(path.join(fixtureRoot, 'places-worker'), { recursive: true });
+      mkdirSync(path.join(fixtureRoot, 'sites', 'selected-practice'), {
+        recursive: true,
+      });
+      mkdirSync(path.join(fixtureRoot, 'sites', 'unrelated-practice'), {
+        recursive: true,
+      });
+      writeFileSync(
+        path.join(fixtureRoot, 'places-worker', 'wrangler.toml'),
+        [
+          'ALLOWED_ORIGINS = "https://frontdoor.health,https://selected.example"',
+          "PRACTICE_PLACE_IDS = '{\"selected-practice\":\"selected-place-id\"}'",
+          '',
+        ].join('\n'),
+      );
+      writeFileSync(
+        path.join(fixtureRoot, 'sites', 'selected-practice', 'practice.json'),
+        JSON.stringify({
+          practice: { slug: 'selected-practice' },
+          location: {
+            googleReviewSummary: { placeId: 'selected-place-id' },
+          },
+          seo: { siteUrl: 'https://selected.example' },
+        }),
+      );
+      writeFileSync(
+        path.join(fixtureRoot, 'sites', 'unrelated-practice', 'practice.json'),
+        '{ invalid json',
+      );
+
+      await expect(
+        validateGooglePlacesConfiguration(fixtureRoot, {
+          practiceIds: ['selected-practice'],
+        }),
+      ).resolves.toEqual([['selected-practice', 'selected-place-id']]);
+      await expect(
+        validateGooglePlacesConfiguration(fixtureRoot),
+      ).rejects.toThrow();
+    } finally {
+      rmSync(fixtureRoot, { recursive: true, force: true });
+    }
+  });
+
+  test('@astro-foundation routes Places Worker changes through Worker checks', () => {
+    const workerSourceResult = spawnSync(
+      process.execPath,
+      [
+        path.join(repoRoot, 'scripts', 'run_staged_checks.mjs'),
+        '--dry-run',
+        '--file=places-worker/src/index.ts',
+      ],
+      { cwd: repoRoot, encoding: 'utf8' },
+    );
+    expect(workerSourceResult.status).toBe(0);
+    expect(workerSourceResult.stdout).toContain(
+      '> npm run typecheck:places-worker',
+    );
+    expect(workerSourceResult.stdout).toContain('> npm run test:places-worker');
+    expect(workerSourceResult.stdout).not.toContain('test:output-contracts');
+
+    const workerConfigResult = spawnSync(
+      process.execPath,
+      [
+        path.join(repoRoot, 'scripts', 'run_staged_checks.mjs'),
+        '--dry-run',
+        '--file=places-worker/wrangler.toml',
+      ],
+      { cwd: repoRoot, encoding: 'utf8' },
+    );
+    expect(workerConfigResult.status).toBe(0);
+    expect(workerConfigResult.stdout).toContain(
+      '> npm run test:google-maps-config',
+    );
   });
 
   test('@astro-foundation rejects invalid target and SITE_ID combinations', () => {

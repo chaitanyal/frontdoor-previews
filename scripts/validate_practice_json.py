@@ -136,6 +136,25 @@ def validate_resource_groups(config: dict[str, Any]) -> None:
             validate_resource(resource_value, f"resources[{resource_index}]")
 
 
+def validate_google_review_summary(value: Any, path: str) -> None:
+    summary = require_mapping(value, path)
+    for retired_key in ["rating", "reviewCount"]:
+        if retired_key in summary:
+            fail(
+                f"{path}.{retired_key} is not supported; "
+                "Google rating data must be retrieved dynamically"
+            )
+
+    place_id = require_string_key(summary, "placeId", path)
+    if not re.fullmatch(r"[A-Za-z0-9_-]+", place_id):
+        fail(f"{path}.placeId contains unsupported characters")
+
+    require_https_url(
+        require_key(summary, "url", path),
+        f"{path}.url",
+    )
+
+
 def validate_financial_policy(value: Any) -> None:
     policy = require_mapping(value, "financialPolicy")
     payment_model = require_string_key(policy, "paymentModel", "financialPolicy")
@@ -375,6 +394,8 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         require_string_key(location, key, "location")
     validate_asset_path(location["officeImage"], "location.officeImage")
     validate_labeled_string_list(require_key(location, "hours", "location"), "location.hours", min_items=1)
+    if "googleReviewSummary" in location:
+        validate_google_review_summary(location["googleReviewSummary"], "location.googleReviewSummary")
 
     footer = require_mapping(require_key(config, "footer", "root"), "footer")
     validate_string_list(require_key(footer, "links", "footer"), "footer.links", min_items=1)

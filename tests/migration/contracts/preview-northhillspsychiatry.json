@@ -31,6 +31,7 @@
         "./images/providers/diana_samuel.webp",
         "./images/providers/zita_samuel.webp",
         "./privacy/",
+        "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -69,6 +70,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -99,6 +101,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -188,6 +191,37 @@
         "email": 1,
         "phone": 4
       }
+    },
+    {
+      "route": "/previews/northhillspsychiatry/terms/",
+      "outputFile": "previews/northhillspsychiatry/terms/index.html",
+      "title": "Terms of Use | North Hills Psychiatry",
+      "description": "Terms of Use information for North Hills Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/terms/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
     }
   ],
   "outputFiles": [
@@ -208,6 +242,7 @@
     "previews/northhillspsychiatry/privacy/index.html",
     "previews/northhillspsychiatry/providers/diana-samuel/index.html",
     "previews/northhillspsychiatry/providers/zita-samuel/index.html",
+    "previews/northhillspsychiatry/terms/index.html",
     "robots.txt",
     "shared/analytics.js",
     "shared/attribution.js",

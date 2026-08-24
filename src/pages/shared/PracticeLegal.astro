@@ -4,12 +4,17 @@ import PracticeLayout from '../../layouts/PracticeLayout.astro';
 
 interface Props {
   config: Record<string, any>;
-  page: 'accessibility' | 'privacy';
+  page: 'accessibility' | 'privacy' | 'terms';
   theme: Record<string, string>;
 }
 
 const { config, page, theme } = Astro.props;
-const title = page === 'privacy' ? 'Privacy' : 'Accessibility';
+const title =
+  page === 'privacy'
+    ? 'Privacy'
+    : page === 'terms'
+      ? 'Terms of Use'
+      : 'Accessibility';
 ---
 
 <PracticeLayout

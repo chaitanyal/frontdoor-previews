@@ -1,0 +1,14 @@
+---
+import PracticeLegal from '../../../../../../pages/shared/PracticeLegal.astro';
+import { loadPracticeData } from '../../../../../../lib/practice-data.mjs';
+import { previewPracticePaths } from '../../../../../../lib/preview-paths.mjs';
+
+export function getStaticPaths() {
+  return previewPracticePaths();
+}
+
+const { practice } = Astro.props;
+const { config, theme } = await loadPracticeData(process.cwd(), practice);
+---
+
+<PracticeLegal config={config} page="terms" theme={theme} />

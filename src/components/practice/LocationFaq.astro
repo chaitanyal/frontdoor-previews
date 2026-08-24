@@ -2,6 +2,7 @@
 import { homeContent } from '../../lib/practice-view.mjs';
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 import ContactCard from './ContactCard.astro';
+import GoogleReviewSummary from './GoogleReviewSummary.astro';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -47,6 +48,15 @@ const faqSummary =
           <h3 class="text-2xl font-semibold tracking-tight text-slate-950">
             {practice.name}
           </h3>
+          {
+            location.googleReviewSummary && (
+              <GoogleReviewSummary
+                practiceSlug={practice.slug}
+                subjectName={practice.name}
+                summary={location.googleReviewSummary}
+              />
+            )
+          }
           <div class="mt-6 space-y-5 text-base leading-7 text-slate-600">
             <div class="flex gap-3">
               <span class="icon-chip"><Icon name="MapPin" /></span>

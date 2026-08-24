@@ -209,6 +209,7 @@
         "./images/office/office.webp",
         "./images/providers/alba-lara.webp",
         "./privacy/",
+        "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -247,6 +248,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -277,6 +279,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -328,6 +331,37 @@
       }
     },
     {
+      "route": "/previews/mariposa/terms/",
+      "outputFile": "previews/mariposa/terms/index.html",
+      "title": "Terms of Use | Mariposa Psychiatry",
+      "description": "Terms of Use information for Mariposa Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mariposa/terms/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
       "route": "/previews/northhillspsychiatry/",
       "outputFile": "previews/northhillspsychiatry/index.html",
       "title": "North Hills Psychiatry | Compassionate Psychiatric Care in Austin",
@@ -357,6 +391,7 @@
         "./images/providers/diana_samuel.webp",
         "./images/providers/zita_samuel.webp",
         "./privacy/",
+        "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -395,6 +430,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -425,6 +461,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -516,6 +553,37 @@
       }
     },
     {
+      "route": "/previews/northhillspsychiatry/terms/",
+      "outputFile": "previews/northhillspsychiatry/terms/index.html",
+      "title": "Terms of Use | North Hills Psychiatry",
+      "description": "Terms of Use information for North Hills Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northhillspsychiatry/terms/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
       "route": "/previews/northwestpsychiatry/",
       "outputFile": "previews/northwestpsychiatry/index.html",
       "title": "Northwest Psychiatry | Adult Psychiatry in Austin, TX",
@@ -545,6 +613,7 @@
         "./images/providers/kathleen-nguyen.webp",
         "./images/providers/khyati-delada.webp",
         "./privacy/",
+        "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -583,6 +652,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -613,6 +683,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -745,6 +816,37 @@
       }
     },
     {
+      "route": "/previews/northwestpsychiatry/terms/",
+      "outputFile": "previews/northwestpsychiatry/terms/index.html",
+      "title": "Terms of Use | Northwest Psychiatry",
+      "description": "Terms of Use information for Northwest Psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/northwestpsychiatry/terms/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
+    },
+    {
       "route": "/privacy/",
       "outputFile": "privacy/index.html",
       "title": "Privacy Policy | FrontDoor Health",
@@ -846,6 +948,7 @@
     "previews/mariposa/index.html",
     "previews/mariposa/privacy/index.html",
     "previews/mariposa/providers/alba-lara/index.html",
+    "previews/mariposa/terms/index.html",
     "previews/northhillspsychiatry/accessibility/index.html",
     "previews/northhillspsychiatry/assets/fonts/inter-latin.woff2",
     "previews/northhillspsychiatry/assets/resources/new-patient-registration.pdf",
@@ -862,6 +965,7 @@
     "previews/northhillspsychiatry/privacy/index.html",
     "previews/northhillspsychiatry/providers/diana-samuel/index.html",
     "previews/northhillspsychiatry/providers/zita-samuel/index.html",
+    "previews/northhillspsychiatry/terms/index.html",
     "previews/northwestpsychiatry/accessibility/index.html",
     "previews/northwestpsychiatry/assets/fonts/inter-latin.woff2",
     "previews/northwestpsychiatry/assets/styles.css",
@@ -875,6 +979,7 @@
     "previews/northwestpsychiatry/providers/arvinder-walia/index.html",
     "previews/northwestpsychiatry/providers/kathleen-nguyen/index.html",
     "previews/northwestpsychiatry/providers/khyati-delada/index.html",
+    "previews/northwestpsychiatry/terms/index.html",
     "privacy/index.html",
     "robots.txt",
     "shared/analytics.js",
