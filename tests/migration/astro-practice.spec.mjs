@@ -76,12 +76,6 @@ async function verifyHomeSectionNavigation(page, config, homeFile) {
 
   expect(
     await page
-      .locator('nav[aria-label="Practice sections"] [data-home-section-link]')
-      .evaluateAll((links) =>
-        links.map((link) => link.getAttribute('data-home-section-link'))),
-  ).toEqual(expectedIds);
-  expect(
-    await page
       .locator('nav[aria-label="Primary navigation"] [data-home-section-link]')
       .evaluateAll((links) =>
         links.map((link) => link.getAttribute('data-home-section-link'))),
@@ -109,19 +103,14 @@ async function verifyHomeSectionNavigation(page, config, homeFile) {
     expect(heading).not.toBe('');
     expect(summary).not.toBe('');
     sectionHeadings.push(heading);
-
-    const footerLink = page.locator(
-      `nav[aria-label="Practice sections"] [data-home-section-link="${section.id}"]`,
-    );
-    await footerLink.focus();
-    await expect(footerLink).toBeFocused();
-    await page.keyboard.press('Enter');
-    await expect.poll(() => new URL(page.url()).hash).toBe(`#${section.id}`);
-    await page.evaluate(() => {
-      history.replaceState(null, '', location.href.split('#')[0]);
-    });
   }
   expect(new Set(sectionHeadings).size).toBe(sectionHeadings.length);
+  await expect(
+    page.locator('footer nav[aria-label="Practice sections"]'),
+  ).toHaveCount(0);
+  await expect(
+    page.locator('footer nav[aria-label="Legal navigation"] a'),
+  ).toHaveCount(3);
 }
 
 test.describe.serial('Astro production practice builds', () => {

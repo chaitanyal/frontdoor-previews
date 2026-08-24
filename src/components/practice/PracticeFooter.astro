@@ -1,8 +1,5 @@
 ---
-import {
-  HOME_SECTION_IDS,
-  homeSectionNavigation,
-} from '../../lib/home-sections.mjs';
+import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 
 interface Props {
   config: Record<string, any>;
@@ -17,30 +14,17 @@ const {
   providerLabels = {},
   providerPage = false,
 } = Astro.props;
-const { hero } = config;
-const homeSections = homeSectionNavigation(config);
+const { hero, practice } = config;
+const currentYear = new Date().getFullYear();
 ---
 
 {
   !providerPage && (
-    <footer class="border-t border-white/60 bg-warm-200 px-6 py-10 lg:px-8">
-      <div class="mx-auto max-w-7xl space-y-6">
+    <footer class="border-t border-white/60 bg-warm-200 px-6 py-8 lg:px-8">
+      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-slate-500 md:flex-row">
+        <p>© {currentYear} {practice.name}</p>
         <nav
-          class="flex flex-wrap justify-center gap-x-7 gap-y-3 text-sm font-medium text-slate-600"
-          aria-label="Practice sections"
-        >
-          {homeSections.map((section) => (
-            <a
-              class="transition hover:text-slate-950"
-              href={`#${section.id}`}
-              data-home-section-link={section.id}
-            >
-              {section.label}
-            </a>
-          ))}
-        </nav>
-        <nav
-          class="flex justify-center gap-8 border-t border-slate-300/60 pt-5 text-sm text-slate-500"
+          class="flex justify-center gap-8"
           aria-label="Legal navigation"
         >
           <a class="transition hover:text-slate-950" href="./privacy/">Privacy</a>
