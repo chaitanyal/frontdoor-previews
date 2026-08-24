@@ -70,6 +70,12 @@ async function verifyHomeSectionNavigation(page, config, homeFile) {
 
   expect(
     await page
+      .locator('main > section[id]')
+      .evaluateAll((sections) => sections.map((section) => section.id)),
+  ).toEqual(expectedIds);
+
+  expect(
+    await page
       .locator('nav[aria-label="Practice sections"] [data-home-section-link]')
       .evaluateAll((links) =>
         links.map((link) => link.getAttribute('data-home-section-link'))),

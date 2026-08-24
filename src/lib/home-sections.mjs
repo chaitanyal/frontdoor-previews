@@ -48,14 +48,6 @@ export function homeSectionNavigation(config) {
       enabled: true,
     },
     {
-      key: 'resources',
-      id: HOME_SECTION_IDS.resources,
-      label: 'Patient Resources',
-      enabled: patientResourceGroups(config).some(
-        (group) => group.resources.length,
-      ),
-    },
-    {
       key: 'location',
       id: HOME_SECTION_IDS.location,
       label: 'Location & Hours',
@@ -67,6 +59,14 @@ export function homeSectionNavigation(config) {
       label: 'FAQs',
       header: true,
       enabled: Boolean(config.faqs?.length),
+    },
+    {
+      key: 'resources',
+      id: HOME_SECTION_IDS.resources,
+      label: 'Patient Resources',
+      enabled: patientResourceGroups(config).some(
+        (group) => group.resources.length,
+      ),
     },
   ];
 
