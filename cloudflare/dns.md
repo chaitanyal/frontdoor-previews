@@ -149,6 +149,36 @@ https://drdronavalli.com/robots.txt
 
 ---
 
+# Google Places Rating API
+
+## places.frontdoor.health
+
+| Hostname | Service | Purpose |
+|-----------|----------|----------|
+| places.frontdoor.health | Cloudflare Worker | Lazy, allowlisted public Google Maps rating lookup |
+
+### Cloudflare Resource
+
+```text
+Worker:
+frontdoor-places
+```
+
+### Public Endpoint
+
+```text
+GET https://places.frontdoor.health/v1/ratings/<practice-slug>
+```
+
+### Notes
+
+- The Worker uses Google Place Details (New) and keeps the API key in a secret.
+- It returns no review text or review count and stores no Google rating data.
+- Responses use `Cache-Control: no-store`.
+- The Worker has no D1, KV, Cache API, or Cron binding.
+
+---
+
 # Preview Infrastructure
 
 ## frontdoor-previews.pages.dev
@@ -205,6 +235,7 @@ Cloudflare D1
 |------------|----------------|
 | frontdoor.health | Cloudflare Pages |
 | analytics.frontdoor.health | Cloudflare Worker |
+| places.frontdoor.health | Cloudflare Worker |
 | drdronavalli.com | Cloudflare Pages |
 | www.drdronavalli.com | Redirect to drdronavalli.com |
 | frontdoor-previews.pages.dev | Cloudflare Pages |
@@ -272,6 +303,25 @@ If rebuilding Cloudflare from scratch:
 
 ---
 
+## Places Rating API
+
+- Deploy Worker:
+  - frontdoor-places
+
+- Add Worker secret:
+  - GOOGLE_MAPS_API_KEY
+
+- Attach custom domain:
+  - places.frontdoor.health
+
+- Verify:
+  - Allowed and forbidden origins
+  - `Cache-Control: no-store`
+  - 60 requests/minute rate-limit binding
+  - Google Cloud billing alerts
+
+---
+
 # Last Updated
 
-2026-06-06
+2026-08-23

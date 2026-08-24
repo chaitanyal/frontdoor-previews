@@ -28,6 +28,7 @@ Documents the Cloudflare WAF Rate Limiting rules.
 Currently includes:
 
 - Analytics API protection
+- Places rating API protection
 - Matching expression
 - Thresholds
 - Actions
@@ -45,6 +46,7 @@ Examples:
 - Cloudflare dashboard configuration
 - Google Search Console mappings
 - Google Business Profile mappings
+- Google Maps Platform key, billing, and budget controls
 
 ---
 
@@ -58,5 +60,6 @@ Examples:
 ## Related Directories
 
 - `worker/` — Cloudflare Worker source code and D1 migrations.
+- `places-worker/` — Isolated Google Places rating proxy; no D1 or cache bindings.
 - `sites/` — Static practice websites.
 - `shared/` — Shared frontend components and utilities.
