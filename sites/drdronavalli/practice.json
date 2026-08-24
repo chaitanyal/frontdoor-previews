@@ -39,8 +39,8 @@
   "hero": {
     "image": "./images/hero/hero.webp",
     "imageAlt": "Pulmonary practice hero image",
-    "title": "Breathe easier with expert pulmonary care.",
-    "copy": "Pulmonary and critical care expertise for patients managing asthma, COPD, sleep apnea, shortness of breath, lung disease, and complex respiratory concerns.",
+    "title": "Expert pulmonary and sleep care.",
+    "copy": "Dr. Goutham Dronavalli is a board-certified pulmonologist providing personalized care for asthma, COPD, sleep apnea, chronic cough, shortness of breath, and complex lung conditions. New patients are welcome.",
     "primaryCta": "Request Appointment",
     "secondaryCta": "Meet Dr. Dronavalli"
   },
