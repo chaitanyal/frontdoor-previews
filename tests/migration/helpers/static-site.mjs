@@ -12,6 +12,7 @@ const MARKETING_CSS = path.join(
   'marketing.css',
 );
 const ANALYTICS_URL = 'https://analytics.frontdoor.health/event';
+const PLACES_HOST = 'places.frontdoor.health';
 const FIXED_TIME = '2026-07-29T15:00:00.000Z';
 
 const CONTENT_TYPES = {
@@ -159,8 +160,13 @@ export async function installDeterministicBrowser(page, { preventExternalNavigat
 export async function installMockNetwork(page, options = {}) {
   const analyticsRequests = [];
   const apiRequests = [];
+  const placeRatingRequests = [];
   const unexpectedRequests = [];
   let previewRequestResponse = options.previewRequestResponse || { status: 200, json: { ok: true, accepted: true } };
+  let placeRatingResponse = options.placeRatingResponse || {
+    status: 502,
+    json: { error: 'Rating unavailable' },
+  };
 
   await page.route('**/*', async (route) => {
     const request = route.request();
@@ -174,6 +180,22 @@ export async function installMockNetwork(page, options = {}) {
     if (request.url() === ANALYTICS_URL) {
       analyticsRequests.push(fullRequest(request));
       await route.fulfill({ status: 200, json: { ok: true } });
+      return;
+    }
+
+    if (
+      url.hostname === PLACES_HOST &&
+      url.pathname.startsWith('/v1/ratings/')
+    ) {
+      placeRatingRequests.push(fullRequest(request));
+      const response = typeof placeRatingResponse === 'function'
+        ? await placeRatingResponse(request)
+        : placeRatingResponse;
+      await route.fulfill({
+        status: response.status ?? 200,
+        json: response.json ?? { error: 'Rating unavailable' },
+        headers: { 'Cache-Control': 'no-store', ...(response.headers || {}) },
+      });
       return;
     }
 
@@ -292,9 +314,13 @@ export async function installMockNetwork(page, options = {}) {
   return {
     analyticsRequests,
     apiRequests,
+    placeRatingRequests,
     unexpectedRequests,
     setPreviewRequestResponse(response) {
       previewRequestResponse = response;
+    },
+    setPlaceRatingResponse(response) {
+      placeRatingResponse = response;
     },
   };
 }

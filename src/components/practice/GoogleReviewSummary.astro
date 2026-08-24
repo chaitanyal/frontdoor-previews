@@ -1,0 +1,190 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  practiceSlug: string;
+  subjectName: string;
+  summary: Record<string, any>;
+}
+
+const { practiceSlug, subjectName, summary } = Astro.props;
+const hasSummary = Boolean(summary?.placeId && summary?.url);
+const endpoint = `https://places.frontdoor.health/v1/ratings/${practiceSlug}`;
+const googleMapsLinkClass =
+  'google-maps-attribution whitespace-nowrap font-normal underline decoration-slate-400 underline-offset-4 transition hover:decoration-current focus:outline-none focus-visible:rounded-sm focus-visible:ring-4 focus-visible:ring-slate-300';
+---
+
+{
+  hasSummary && (
+    <div
+      class="mt-3 min-h-6 text-sm leading-6 text-slate-600"
+      data-google-rating
+      data-practice-slug={practiceSlug}
+      data-rating-endpoint={endpoint}
+      aria-live="polite"
+    >
+      <p data-google-rating-fallback>
+        <a
+          href={summary.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={googleMapsLinkClass}
+          aria-label={`Google Maps reviews for ${subjectName}`}
+          translate="no"
+        >
+          Google Maps reviews
+        </a>
+      </p>
+      <div data-google-rating-success hidden>
+        <p class="flex items-start gap-1.5">
+          <span class="mt-1 text-amber-500" aria-hidden="true">
+            <Icon name="Star" class="h-4 w-4 fill-current" />
+          </span>
+          <span>
+            <span class="sr-only" data-google-rating-accessible></span>
+            <span
+              class="font-semibold text-slate-950"
+              data-google-rating-visual
+              aria-hidden="true"
+            >
+              Rated <span data-google-rating-value></span>/5 on{' '}
+            </span>
+            <a
+              href={summary.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={googleMapsLinkClass}
+              aria-label={`Google Maps reviews for ${subjectName}`}
+              translate="no"
+            >
+              Google Maps
+            </a>
+          </span>
+        </p>
+        <div
+          class="mt-1 space-y-1 pl-[1.375rem] text-xs text-slate-500"
+          data-google-rating-attributions
+          hidden
+        ></div>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .google-maps-attribution {
+    color: #5e5e5e;
+  }
+
+  .google-maps-attribution:hover {
+    color: #000;
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    function renderGoogleAttributions(container, attributions) {
+      if (!(container instanceof HTMLElement) || !Array.isArray(attributions)) return;
+
+      const safeAttributions = attributions.filter(
+        (item) =>
+          item &&
+          typeof item.provider === 'string' &&
+          typeof item.providerUri === 'string' &&
+          item.providerUri.startsWith('https://'),
+      );
+      if (!safeAttributions.length) return;
+
+      container.replaceChildren();
+      for (const attribution of safeAttributions) {
+        const line = document.createElement('p');
+        line.append('Data by ');
+        const link = document.createElement('a');
+        link.href = attribution.providerUri;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.className = 'underline underline-offset-2 hover:text-slate-700';
+        link.textContent = attribution.provider;
+        line.append(link);
+        container.append(line);
+      }
+      container.hidden = false;
+    }
+
+    async function loadGoogleRating(summary) {
+      if (!(summary instanceof HTMLElement) || summary.dataset.ratingState) return;
+      summary.dataset.ratingState = 'loading';
+
+      try {
+        const response = await fetch(summary.dataset.ratingEndpoint, {
+          cache: 'no-store',
+          credentials: 'omit',
+          mode: 'cors',
+        });
+        if (!response.ok) throw new Error('Rating unavailable');
+
+        const payload = await response.json();
+        const rating = Number(payload?.rating);
+        if (
+          payload?.ok !== true ||
+          payload?.practiceSlug !== summary.dataset.practiceSlug ||
+          !Number.isFinite(rating) ||
+          rating < 1 ||
+          rating > 5
+        ) {
+          throw new Error('Invalid rating response');
+        }
+
+        const ratingLabel = rating.toFixed(1);
+        const ratingValue = summary.querySelector('[data-google-rating-value]');
+        const accessible = summary.querySelector('[data-google-rating-accessible]');
+        const fallback = summary.querySelector('[data-google-rating-fallback]');
+        const success = summary.querySelector('[data-google-rating-success]');
+        if (
+          !(ratingValue instanceof HTMLElement) ||
+          !(accessible instanceof HTMLElement) ||
+          !(fallback instanceof HTMLElement) ||
+          !(success instanceof HTMLElement)
+        ) {
+          throw new Error('Rating markup unavailable');
+        }
+
+        ratingValue.textContent = ratingLabel;
+        accessible.textContent = `Rated ${ratingLabel} out of 5 on `;
+        fallback.hidden = true;
+        success.hidden = false;
+        renderGoogleAttributions(
+          summary.querySelector('[data-google-rating-attributions]'),
+          payload.attributions,
+        );
+        summary.dataset.ratingState = 'loaded';
+      } catch {
+        summary.dataset.ratingState = 'unavailable';
+      }
+    }
+
+    const summaries = document.querySelectorAll('[data-google-rating]');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            observer.unobserve(entry.target);
+            loadGoogleRating(entry.target);
+          }
+        },
+        { rootMargin: '600px 0px' },
+      );
+      summaries.forEach((summary) => {
+        if (
+          !(summary instanceof HTMLElement) ||
+          summary.dataset.ratingObserved
+        ) return;
+        summary.dataset.ratingObserved = 'true';
+        observer.observe(summary);
+      });
+    } else {
+      summaries.forEach((summary) => loadGoogleRating(summary));
+    }
+  })();
+</script>

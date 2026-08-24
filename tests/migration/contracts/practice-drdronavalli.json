@@ -35,6 +35,7 @@
         "./images/office/office.webp",
         "./images/providers/goutham_dronavalli.webp",
         "./privacy/",
+        "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -43,7 +44,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 7,
+      "inlineScriptCount": 8,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -75,6 +76,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -105,6 +107,7 @@
         "../accessibility/",
         "../assets/styles.css",
         "../privacy/",
+        "../terms/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
@@ -155,6 +158,37 @@
         "newPatient": 1,
         "phone": 4
       }
+    },
+    {
+      "route": "/terms/",
+      "outputFile": "terms/index.html",
+      "title": "Terms of Use | Goutham Dronavalli, MD",
+      "description": "Terms of Use information for Goutham Dronavalli, MD.",
+      "robots": null,
+      "canonical": "https://drdronavalli.com/terms/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js"
+      ],
+      "inlineScriptCount": 0,
+      "ctaCounts": {}
     }
   ],
   "outputFiles": [
@@ -179,7 +213,8 @@
     "shared/analytics.js",
     "shared/attribution.js",
     "shared/google-ads.js",
-    "sitemap.xml"
+    "sitemap.xml",
+    "terms/index.html"
   ],
   "headers": null,
   "robots": "User-agent: *\nAllow: /\n\nSitemap: https://drdronavalli.com/sitemap.xml",
@@ -187,6 +222,7 @@
     "https://drdronavalli.com/",
     "https://drdronavalli.com/accessibility/",
     "https://drdronavalli.com/privacy/",
-    "https://drdronavalli.com/providers/goutham-dronavalli/"
+    "https://drdronavalli.com/providers/goutham-dronavalli/",
+    "https://drdronavalli.com/terms/"
   ]
 }

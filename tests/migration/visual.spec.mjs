@@ -122,6 +122,7 @@ test('@visual practice local assets, resources, and mobile layout are valid', as
     path.join(root, 'index.html'),
     path.join(root, 'privacy', 'index.html'),
     path.join(root, 'accessibility', 'index.html'),
+    path.join(root, 'terms', 'index.html'),
     ...practiceConfig.providers.map((provider) =>
       path.join(root, 'providers', provider.slug, 'index.html')),
   ];

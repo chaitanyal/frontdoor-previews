@@ -189,6 +189,31 @@ test.describe.serial('Astro production practice builds', () => {
       expect(unsupportedImageValidation.stderr).toContain(
         'seo.defaultOgImage is no longer supported',
       );
+
+      const legacyGoogleRating = structuredClone(invalidConfig);
+      delete legacyGoogleRating.providers[0].contactOverride;
+      legacyGoogleRating.location.googleReviewSummary = {
+        placeId: 'valid-place-id',
+        url: 'https://maps.google.com',
+        rating: 4.8,
+      };
+      const legacyGoogleRatingValidation = validate(legacyGoogleRating);
+      expect(legacyGoogleRatingValidation.status).not.toBe(0);
+      expect(legacyGoogleRatingValidation.stderr).toContain(
+        'Google rating data must be retrieved dynamically',
+      );
+
+      const invalidPlaceId = structuredClone(invalidConfig);
+      delete invalidPlaceId.providers[0].contactOverride;
+      invalidPlaceId.location.googleReviewSummary = {
+        placeId: 'invalid place id',
+        url: 'https://maps.google.com',
+      };
+      const invalidPlaceIdValidation = validate(invalidPlaceId);
+      expect(invalidPlaceIdValidation.status).not.toBe(0);
+      expect(invalidPlaceIdValidation.stderr).toContain(
+        'location.googleReviewSummary.placeId contains unsupported characters',
+      );
     } finally {
       rmSync(fixtureDirectory, { recursive: true, force: true });
     }
@@ -209,6 +234,7 @@ test.describe.serial('Astro production practice builds', () => {
       'drdronavalli',
       'mariposa',
       'northhillspsychiatry',
+      'northwestpsychiatry',
     ]);
 
     for (const practiceId of practiceIds) {
@@ -238,6 +264,7 @@ test.describe.serial('Astro production practice builds', () => {
         path.join(practiceRoot, 'index.html'),
         path.join(practiceRoot, 'privacy', 'index.html'),
         path.join(practiceRoot, 'accessibility', 'index.html'),
+        path.join(practiceRoot, 'terms', 'index.html'),
         ...config.providers.map((provider) =>
           path.join(
             practiceRoot,

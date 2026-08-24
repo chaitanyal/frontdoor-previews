@@ -19,6 +19,7 @@ import {
   discoverIndexRoutes,
   renderSitemap,
 } from '../src/lib/sitemap.mjs';
+import { validateGooglePlacesConfiguration } from './validate_google_places_config.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const target = process.env.FRONTDOOR_TARGET ?? '';
@@ -107,6 +108,14 @@ if (target === 'marketing') {
     practiceIds = [siteId];
   }
   site = 'https://frontdoor.health';
+}
+
+try {
+  const validationOptions =
+    target !== 'marketing' && siteId !== 'ALL' ? { practiceIds } : undefined;
+  await validateGooglePlacesConfiguration(repoRoot, validationOptions);
+} catch (error) {
+  fail(error.message);
 }
 
 const publicDir = path.join(repoRoot, '.tmp', 'astro-public', target);

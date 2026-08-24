@@ -255,6 +255,10 @@
     "officeImageAlt": "Pulmonary practice office",
     "directionsHref": "https://www.google.com/maps/search/?api=1&query=1429+Highway+6+Suite+303+Sugar+Land+TX",
     "timeZone": "America/Chicago",
+    "googleReviewSummary": {
+      "placeId": "ChIJHVog23DAQIYRG8UCQY0AE5Q",
+      "url": "https://maps.app.goo.gl/52RpZsPXu8jd1cwK8"
+    },
     "hours": [
       [
         "Monday",
@@ -313,6 +317,7 @@
   "footer": {
     "links": [
       "Privacy",
+      "Terms",
       "Accessibility"
     ]
   },

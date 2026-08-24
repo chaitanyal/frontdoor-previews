@@ -1,0 +1,9 @@
+---
+import PracticeLegal from '../../../../pages/shared/PracticeLegal.astro';
+import { loadPracticeData } from '../../../../lib/practice-data.mjs';
+
+const siteId = process.env.SITE_ID;
+const { config, theme } = await loadPracticeData(process.cwd(), siteId);
+---
+
+<PracticeLegal config={config} page="terms" theme={theme} />

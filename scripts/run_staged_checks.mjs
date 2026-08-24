@@ -66,12 +66,28 @@ try {
   }
 
   const relevantFiles = files.filter((file) => !isDocumentation(file));
-  const siteIds = new Set(relevantFiles.map(siteFor).filter(Boolean));
-  const contractSiteIds = relevantFiles.map(contractSiteFor).filter(Boolean);
+  const placesWorkerFiles = relevantFiles.filter((file) =>
+    file.startsWith('places-worker/'),
+  );
+  if (placesWorkerFiles.length) {
+    run('npm', ['run', 'typecheck:places-worker']);
+    run('npm', ['run', 'test:places-worker']);
+    if (placesWorkerFiles.includes('places-worker/wrangler.toml')) {
+      run('npm', ['run', 'test:google-maps-config']);
+    }
+  }
+
+  const routedFiles = relevantFiles.filter(
+    (file) => !file.startsWith('places-worker/'),
+  );
+  if (!routedFiles.length) process.exit(0);
+
+  const siteIds = new Set(routedFiles.map(siteFor).filter(Boolean));
+  const contractSiteIds = routedFiles.map(contractSiteFor).filter(Boolean);
   const siteScoped =
     siteIds.size > 0 &&
     !siteIds.has('template') &&
-    relevantFiles.every((file) => {
+    routedFiles.every((file) => {
       const fileSite = siteFor(file);
       const contractSite = contractSiteFor(file);
       return Boolean(fileSite || (contractSite && siteIds.has(contractSite)));
@@ -85,7 +101,7 @@ try {
     process.exit(0);
   }
 
-  if (relevantFiles.every(isMarketingOnly)) {
+  if (routedFiles.every(isMarketingOnly)) {
     run('npm', ['run', 'build:astro:marketing']);
     run('python3', ['scripts/validate_built_html.py', '.tmp/astro-dist/marketing']);
     run('node', [

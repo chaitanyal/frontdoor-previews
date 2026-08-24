@@ -1,0 +1,22 @@
+name = "frontdoor-places"
+main = "src/index.ts"
+compatibility_date = "2026-08-23"
+
+[vars]
+ALLOWED_ORIGINS = "https://frontdoor.health,https://www.frontdoor.health,https://drdronavalli.com,https://www.drdronavalli.com"
+PRACTICE_PLACE_IDS = '{"drdronavalli":"ChIJHVog23DAQIYRG8UCQY0AE5Q"}'
+
+[secrets]
+required = ["GOOGLE_MAPS_API_KEY"]
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1002"
+
+[ratelimits.simple]
+limit = 60
+period = 60

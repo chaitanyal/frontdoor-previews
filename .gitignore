@@ -1,6 +1,13 @@
 .DS_Store
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.env
+.env.*
+!.env.example
 .astro/
 .tmp/
+.wrangler/
 __pycache__/
 dist/
 node_modules/

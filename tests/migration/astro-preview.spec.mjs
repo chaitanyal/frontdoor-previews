@@ -80,6 +80,7 @@ test.describe.serial('Astro preview migration', () => {
       'privacy/index.html',
       'providers/diana-samuel/index.html',
       'providers/zita-samuel/index.html',
+      'terms/index.html',
     ]);
 
     for (const forbidden of ['practice.json', '.DS_Store']) {
@@ -95,6 +96,7 @@ test.describe.serial('Astro preview migration', () => {
       'providers/zita-samuel/index.html',
       'privacy/index.html',
       'accessibility/index.html',
+      'terms/index.html',
     ]) {
       await page.goto(pathToFileURL(path.join(northHillsRoot, relativePath)).href);
       await waitForStablePage(page);
