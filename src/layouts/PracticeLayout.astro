@@ -96,12 +96,12 @@ const jsonLdBlocks = tracksPractice
     {tracksPractice && <script is:inline src="https://unpkg.com/lucide@latest"></script>}
     <style is:inline set:html={`:root{${themeCssProperties(theme)}}`}></style>
     <slot name="head" />
-  </head>
-  <body class={bodyClass}>
-    <slot />
     {jsonLdBlocks.map((block) => (
       <script type="application/ld+json" set:html={safeJsonLd(block)} />
     ))}
+  </head>
+  <body class={bodyClass}>
+    <slot />
     <slot name="scripts" />
   </body>
 </html>

@@ -15,6 +15,7 @@ import { verifyPracticeOutputContract } from '../../scripts/migration/verify_out
 import { homeSectionNavigation } from '../../src/lib/home-sections.mjs';
 import {
   assertAnalyticsDeploymentAllowed,
+  practiceLlms,
   productionSiteUrl,
   standaloneNoindexHeaders,
 } from '../../src/lib/practice-production.mjs';
@@ -308,9 +309,13 @@ test.describe.serial('Astro production practice builds', () => {
         expect(readFileSync(path.join(practiceRoot, 'robots.txt'), 'utf8')).toContain(
           `${siteUrl}/sitemap.xml`,
         );
+        expect(readFileSync(path.join(practiceRoot, 'llms.txt'), 'utf8')).toBe(
+          practiceLlms(config, siteUrl),
+        );
         expect(existsSync(path.join(practiceRoot, '_headers'))).toBe(false);
       } else {
         expect(existsSync(path.join(practiceRoot, 'sitemap.xml'))).toBe(false);
+        expect(existsSync(path.join(practiceRoot, 'llms.txt'))).toBe(false);
         expect(readFileSync(path.join(practiceRoot, '_headers'), 'utf8')).toBe(
           standaloneNoindexHeaders(),
         );

@@ -191,7 +191,9 @@ The HTML structure should support:
 - fast page loads
 - Core Web Vitals optimization
 
-Current builds include sitemap generation, JSON-LD, FAQ schema, and provider pages.
+Current builds include sitemap generation, JSON-LD in the document head, FAQ schema,
+and provider pages. Indexable standalone practice builds also generate a concise
+`llms.txt` from verified `practice.json` content; previews do not publish it.
 Blog/article infrastructure may be added separately when required.
 
 ---

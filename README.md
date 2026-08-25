@@ -126,7 +126,7 @@ Practice build flow:
 6. Copies compiled CSS to `dist/assets/styles.css` and shared fonts to `dist/assets/fonts/`.
 7. Generates the static homepage, provider, privacy, and accessibility pages with Astro.
 8. Preserves the existing relative route and asset contract.
-9. Generates deployment-specific `robots.txt`, `_headers` for noindex sites, and `sitemap.xml` for indexable production practice builds.
+9. Generates deployment-specific `robots.txt`, `_headers` for noindex sites, and `sitemap.xml` plus `llms.txt` for indexable production practice builds.
 10. Removes source-only files such as `practice.json`, Markdown files, and build-only artifacts from `dist/`.
 11. Validates built HTML for basic structure, SEO smoke checks, JSON-LD parsing, and local asset paths.
 
@@ -140,6 +140,8 @@ dist/
   accessibility/
   assets/
   robots.txt
+  sitemap.xml              # indexable builds only
+  llms.txt                 # indexable builds only
 ```
 
 Resulting shared preview output:
@@ -357,6 +359,9 @@ After a marketing or production-practice build, inspect `dist/sitemap.xml`,
 `dist/robots.txt`, and generated canonical metadata. Preview builds must have no
 preview sitemap, every preview page must include `noindex, nofollow`, and `_headers`
 must apply `X-Robots-Tag: noindex, nofollow` to every `/previews/<slug>/*` route.
+Indexable standalone practice builds also generate a concise `dist/llms.txt` from
+verified `practice.json` content. Preview and non-indexable practice builds must not
+publish `llms.txt`.
 `npm run test:astro:preview` automates these checks. After deployment, verify a
 preview homepage and nested provider route with `curl -I` and Google Search Console's
 live URL inspection; do not request indexing.

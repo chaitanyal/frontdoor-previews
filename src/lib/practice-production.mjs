@@ -71,6 +71,62 @@ export function practiceRobots(config, siteUrl) {
     : PREVIEW_ROBOTS;
 }
 
+function markdownText(value) {
+  return String(value || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/([\\[\]])/g, '\\$1');
+}
+
+export function practiceLlms(config, siteUrl) {
+  const baseUrl = String(siteUrl || '').replace(/\/+$/, '');
+  const practice = config.practice || {};
+  const lines = [
+    `# ${markdownText(practice.name)}`,
+    '',
+    `> ${markdownText(config.seo?.description)}`,
+    '',
+    '## Practice information',
+  ];
+
+  if (practice.tagline) {
+    lines.push(`- Specialty: ${markdownText(practice.tagline)}`);
+  }
+  if (practice.addressLines?.length) {
+    lines.push(`- Location: ${markdownText(practice.addressLines.join(', '))}`);
+  }
+  if (practice.phone) {
+    lines.push(`- Phone: ${markdownText(practice.phone)}`);
+  }
+  if (practice.acceptsNewPatients === true) {
+    lines.push('- Accepting new patients: Yes');
+  }
+
+  if (config.conditions?.length) {
+    lines.push(
+      '',
+      '## Areas of care',
+      '',
+      `${config.conditions.map(markdownText).join(', ')}.`,
+    );
+  }
+
+  lines.push(
+    '',
+    '## Official pages',
+    '',
+    `- [Practice overview](${baseUrl}/): Services, insurance, appointments, location, and office hours.`,
+  );
+  for (const provider of config.providers || []) {
+    lines.push(
+      `- [${markdownText(provider.name)}](${baseUrl}/providers/${encodeURIComponent(provider.slug)}/): ${markdownText(provider.seo?.description)}`,
+    );
+  }
+  lines.push('');
+
+  return lines.join('\n');
+}
+
 export function standaloneNoindexHeaders() {
   return STANDALONE_NOINDEX_HEADERS;
 }
@@ -118,6 +174,16 @@ function jsonLdObjects(html, relativePath) {
     }
   }
   return objects;
+}
+
+function assertJsonLdInHead(html, relativePath) {
+  const head = html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] || '';
+  const jsonLdPattern = /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>/gi;
+  const documentCount = [...html.matchAll(jsonLdPattern)].length;
+  const headCount = [...head.matchAll(jsonLdPattern)].length;
+  if (documentCount !== headCount) {
+    throw new Error(`JSON-LD must be rendered inside <head> in ${relativePath}.`);
+  }
 }
 
 function imageSources(html) {
@@ -179,6 +245,7 @@ export async function validatePracticeOutput(outDir, config) {
   for (const htmlFile of htmlFiles) {
     const html = await readFile(htmlFile, 'utf8');
     const relativePath = path.relative(outDir, htmlFile);
+    assertJsonLdInHead(html, relativePath);
     const canonical = canonicalHref(html);
     const pagePath = relativePath === 'index.html'
       ? ''
@@ -258,12 +325,20 @@ export async function validatePracticeOutput(outDir, config) {
 
   const sitemapPath = path.join(outDir, 'sitemap.xml');
   const headersPath = path.join(outDir, '_headers');
+  const llmsPath = path.join(outDir, 'llms.txt');
   if (config.seo?.allowIndexing === true) {
     if (!existsSync(sitemapPath)) {
       throw new Error('Indexable production output is missing sitemap.xml.');
     }
     if (existsSync(headersPath)) {
       throw new Error('Indexable production output must not publish noindex headers.');
+    }
+    if (!existsSync(llmsPath)) {
+      throw new Error('Indexable production output is missing llms.txt.');
+    }
+    const llms = await readFile(llmsPath, 'utf8');
+    if (llms !== practiceLlms(config, siteUrl)) {
+      throw new Error('Production llms.txt does not match the configured practice data.');
     }
     const routes = await discoverIndexRoutes(outDir);
     const sitemap = await readFile(sitemapPath, 'utf8');
@@ -283,6 +358,9 @@ export async function validatePracticeOutput(outDir, config) {
     const headers = await readFile(headersPath, 'utf8');
     if (headers !== standaloneNoindexHeaders()) {
       throw new Error('Non-indexable production output is missing the root X-Robots-Tag rule.');
+    }
+    if (existsSync(llmsPath)) {
+      throw new Error('Non-indexable production output must not publish llms.txt.');
     }
   }
 }

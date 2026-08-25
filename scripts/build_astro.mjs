@@ -10,6 +10,7 @@ import {
 import { loadMarketingData } from '../src/lib/marketing-data.mjs';
 import {
   assertAnalyticsDeploymentAllowed,
+  practiceLlms,
   practiceRobots,
   productionSiteUrl,
   standaloneNoindexHeaders,
@@ -295,6 +296,10 @@ if (target === 'marketing') {
     await writeFile(
       path.join(outDir, 'robots.txt'),
       practiceRobots(productionPractice, site),
+    );
+    await writeFile(
+      path.join(outDir, 'llms.txt'),
+      practiceLlms(productionPractice, site),
     );
   } else {
     await writeFile(
