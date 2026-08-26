@@ -27,7 +27,7 @@
         "./assets/featured-practice/dronavalli-after-comparison.webp",
         "./assets/featured-practice/dronavalli-before-comparison.webp",
         "./assets/featured-practice/dronavalli-phone-preview.webp",
-        "./assets/featured-practice/hero.webp",
+        "./assets/featured-practice/sugar-land-live-oak-waterway-v1.webp",
         "./assets/frontdoor-health-favicon.svg",
         "./assets/frontdoor-health-logo.svg",
         "./case-studies/drdronavalli/",
@@ -189,11 +189,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/mariposa/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/hero/hero.webp",
+        "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp",
         "url": "https://frontdoor.health/previews/mariposa/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/hero/hero.webp"
+        "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp"
       },
       "jsonLd": {
         "count": 2,
@@ -205,7 +205,7 @@
       "localAssetUrls": [
         "./accessibility/",
         "./assets/styles.css",
-        "./images/hero/hero.webp",
+        "./images/hero/central-texas-limestone-path-v1.webp",
         "./images/office/office.webp",
         "./images/providers/alba-lara.webp",
         "./privacy/",
@@ -923,7 +923,7 @@
     "assets/featured-practice/dronavalli-after-comparison.webp",
     "assets/featured-practice/dronavalli-before-comparison.webp",
     "assets/featured-practice/dronavalli-phone-preview.webp",
-    "assets/featured-practice/hero.webp",
+    "assets/featured-practice/sugar-land-live-oak-waterway-v1.webp",
     "assets/fonts/inter-latin.woff2",
     "assets/frontdoor-health-favicon.svg",
     "assets/frontdoor-health-logo-square.png",
@@ -940,6 +940,7 @@
     "previews/mariposa/accessibility/index.html",
     "previews/mariposa/assets/fonts/inter-latin.woff2",
     "previews/mariposa/assets/styles.css",
+    "previews/mariposa/images/hero/central-texas-limestone-path-v1.webp",
     "previews/mariposa/images/hero/hero.png",
     "previews/mariposa/images/hero/hero.webp",
     "previews/mariposa/images/office/office.png",

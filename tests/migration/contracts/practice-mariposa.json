@@ -9,11 +9,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/mariposa/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/hero/hero.webp",
+        "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp",
         "url": "https://frontdoor.health/previews/mariposa/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/hero/hero.webp"
+        "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp"
       },
       "jsonLd": {
         "count": 2,
@@ -25,7 +25,7 @@
       "localAssetUrls": [
         "./accessibility/",
         "./assets/styles.css",
-        "./images/hero/hero.webp",
+        "./images/hero/central-texas-limestone-path-v1.webp",
         "./images/office/office.webp",
         "./images/providers/alba-lara.webp",
         "./privacy/",
@@ -187,6 +187,7 @@
     "accessibility/index.html",
     "assets/fonts/inter-latin.woff2",
     "assets/styles.css",
+    "images/hero/central-texas-limestone-path-v1.webp",
     "images/hero/hero.png",
     "images/hero/hero.webp",
     "images/office/office.png",
