@@ -69,6 +69,44 @@ def validate_postal_address(value: Any, path: str) -> None:
         require_string_key(address, key, path)
 
 
+def validate_geo_coordinates(value: Any, path: str) -> None:
+    geo = require_mapping(value, path)
+    for key, minimum, maximum in [
+        ("latitude", -90, 90),
+        ("longitude", -180, 180),
+    ]:
+        coordinate = require_key(geo, key, path)
+        if isinstance(coordinate, bool) or not isinstance(coordinate, (int, float)):
+            fail(f"{path}.{key} must be a number")
+        if not minimum <= coordinate <= maximum:
+            fail(f"{path}.{key} must be between {minimum} and {maximum}")
+
+
+def validate_service_area(value: Any, path: str, address: Any) -> None:
+    service_area = require_mapping(value, path)
+    require_string_key(service_area, "regionLabel", path)
+    communities = require_list(require_key(service_area, "communities", path), f"{path}.communities")
+    if not 1 <= len(communities) <= 6:
+        fail(f"{path}.communities must contain between 1 and 6 communities")
+
+    office_city = ""
+    if isinstance(address, dict) and isinstance(address.get("addressLocality"), str):
+        office_city = address["addressLocality"].strip().casefold()
+
+    seen: set[tuple[str, str]] = set()
+    for index, value in enumerate(communities):
+        community_path = f"{path}.communities[{index}]"
+        community = require_mapping(value, community_path)
+        name = require_string_key(community, "name", community_path).strip()
+        region = require_string_key(community, "region", community_path).strip()
+        key = (name.casefold(), region.casefold())
+        if key in seen:
+            fail(f"{community_path} duplicates another service-area community")
+        if office_city and name.casefold() == office_city:
+            fail(f"{community_path}.name must not repeat the primary office city")
+        seen.add(key)
+
+
 def validate_medical_specialty(value: Any, path: str) -> None:
     specialties = value if isinstance(value, list) else [value]
     if not specialties:
@@ -262,6 +300,10 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
     validate_string_list(require_key(practice, "addressLines", "practice"), "practice.addressLines", min_items=1)
     if "address" in practice:
         validate_postal_address(practice["address"], "practice.address")
+    if "geo" in practice:
+        validate_geo_coordinates(practice["geo"], "practice.geo")
+    if "serviceArea" in practice:
+        validate_service_area(practice["serviceArea"], "practice.serviceArea", practice.get("address"))
     if "medicalSpecialty" in practice:
         validate_medical_specialty(practice["medicalSpecialty"], "practice.medicalSpecialty")
     if "acceptsNewPatients" in practice and not isinstance(practice["acceptsNewPatients"], bool):

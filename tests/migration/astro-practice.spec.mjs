@@ -13,6 +13,7 @@ import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { verifyPracticeOutputContract } from '../../scripts/migration/verify_output_contracts.mjs';
 import { homeSectionNavigation } from '../../src/lib/home-sections.mjs';
+import { practiceServiceArea } from '../../src/lib/practice-view.mjs';
 import {
   assertAnalyticsDeploymentAllowed,
   practiceLlms,
@@ -53,6 +54,14 @@ function buildPractice(practiceId) {
     SITE_ID: practiceId,
   });
   expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
+}
+
+function jsonLdBlocks(html) {
+  return [
+    ...html.matchAll(
+      /<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi,
+    ),
+  ].map((match) => JSON.parse(match[1]));
 }
 
 async function verifyHomeSectionNavigation(page, config, homeFile) {
@@ -210,6 +219,27 @@ test.describe.serial('Astro production practice builds', () => {
       expect(invalidPlaceIdValidation.stderr).toContain(
         'location.googleReviewSummary.placeId contains unsupported characters',
       );
+
+      const invalidGeo = structuredClone(invalidConfig);
+      delete invalidGeo.providers[0].contactOverride;
+      invalidGeo.practice.geo.latitude = 91;
+      const invalidGeoValidation = validate(invalidGeo);
+      expect(invalidGeoValidation.status).not.toBe(0);
+      expect(invalidGeoValidation.stderr).toContain(
+        'practice.geo.latitude must be between -90 and 90',
+      );
+
+      const oversizedServiceArea = structuredClone(invalidConfig);
+      delete oversizedServiceArea.providers[0].contactOverride;
+      oversizedServiceArea.practice.serviceArea.communities.push({
+        name: 'South Houston',
+        region: 'TX',
+      });
+      const oversizedServiceAreaValidation = validate(oversizedServiceArea);
+      expect(oversizedServiceAreaValidation.status).not.toBe(0);
+      expect(oversizedServiceAreaValidation.stderr).toContain(
+        'practice.serviceArea.communities must contain between 1 and 6 communities',
+      );
     } finally {
       rmSync(fixtureDirectory, { recursive: true, force: true });
     }
@@ -255,6 +285,30 @@ test.describe.serial('Astro production practice builds', () => {
       expect(htmlValidation.status, htmlValidation.stderr).toBe(0);
       verifyPracticeOutputContract(practiceId);
 
+      const homeHtml = readFileSync(path.join(practiceRoot, 'index.html'), 'utf8');
+      const clinicSchema = jsonLdBlocks(homeHtml).find(
+        (block) => block['@type'] === 'MedicalClinic',
+      );
+      expect(clinicSchema).toBeDefined();
+      if (config.practice.geo) {
+        expect(clinicSchema.geo).toEqual({
+          '@type': 'GeoCoordinates',
+          latitude: config.practice.geo.latitude,
+          longitude: config.practice.geo.longitude,
+        });
+      } else {
+        expect(clinicSchema.geo).toBeUndefined();
+      }
+      const serviceArea = practiceServiceArea(config);
+      if (serviceArea) {
+        expect(clinicSchema.areaServed).toEqual(serviceArea.schema);
+        expect(homeHtml).toContain('data-practice-service-area');
+        expect(homeHtml).toContain(serviceArea.summary);
+      } else {
+        expect(clinicSchema.areaServed).toBeUndefined();
+        expect(homeHtml).not.toContain('data-practice-service-area');
+      }
+
       const siteUrl = productionSiteUrl(config, practiceId);
       const htmlFiles = [
         path.join(practiceRoot, 'index.html'),
@@ -269,6 +323,23 @@ test.describe.serial('Astro production practice builds', () => {
             'index.html',
           )),
       ];
+
+      for (const provider of config.providers) {
+        const providerHtml = readFileSync(
+          path.join(
+            practiceRoot,
+            'providers',
+            provider.slug,
+            'index.html',
+          ),
+          'utf8',
+        );
+        expect(providerHtml).not.toContain('data-practice-service-area');
+        const physicianSchema = jsonLdBlocks(providerHtml).find(
+          (block) => block['@type'] === 'Physician',
+        );
+        expect(physicianSchema.areaServed).toBeUndefined();
+      }
 
       for (const sectionRoute of ['services', 'insurance', 'faq']) {
         expect(existsSync(path.join(practiceRoot, sectionRoute))).toBe(false);

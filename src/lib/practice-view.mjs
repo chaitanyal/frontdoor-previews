@@ -286,6 +286,30 @@ export function providerAffiliationMode(profile) {
   return '';
 }
 
+function formatNaturalList(values) {
+  if (values.length === 1) return values[0];
+  if (values.length === 2) return `${values[0]} and ${values[1]}`;
+  return `${values.slice(0, -1).join(', ')}, and ${values.at(-1)}`;
+}
+
+export function practiceServiceArea(config) {
+  const serviceArea = config.practice.serviceArea;
+  if (!serviceArea) return null;
+
+  const office = {
+    name: config.practice.address.addressLocality,
+    region: config.practice.address.addressRegion,
+  };
+  const communities = serviceArea.communities;
+
+  return {
+    summary: `Our ${office.name} practice welcomes patients from across ${serviceArea.regionLabel}, including ${formatNaturalList(communities.map((community) => community.name))}.`,
+    schema: [office, ...communities].map(
+      (community) => `${community.name}, ${community.region}`,
+    ),
+  };
+}
+
 export function practiceSchema(config) {
   const openingHoursSpecification = Object.entries(
     config.location?.weeklyHours || {},
@@ -307,6 +331,7 @@ export function practiceSchema(config) {
   });
   const canonical = canonicalUrl(config);
   const image = absoluteUrl(config, homepageImageMetadata(config).image);
+  const serviceArea = practiceServiceArea(config);
 
   return {
     '@context': 'https://schema.org',
@@ -319,6 +344,16 @@ export function practiceSchema(config) {
     address: config.practice.address
       ? { '@type': 'PostalAddress', ...config.practice.address }
       : config.practice.addressLines.join(', '),
+    ...(config.practice.geo
+      ? {
+          geo: {
+            '@type': 'GeoCoordinates',
+            latitude: config.practice.geo.latitude,
+            longitude: config.practice.geo.longitude,
+          },
+        }
+      : {}),
+    ...(serviceArea ? { areaServed: serviceArea.schema } : {}),
     ...(image ? { image } : {}),
     ...(config.practice.logo
       ? { logo: absoluteUrl(config, config.practice.logo) }

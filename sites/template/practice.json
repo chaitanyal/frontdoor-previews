@@ -29,6 +29,15 @@
       "postalCode": "12345",
       "addressCountry": "US"
     },
+    "serviceArea": {
+      "regionLabel": "the surrounding metro area",
+      "communities": [
+        {
+          "name": "Nearby Community",
+          "region": "ST"
+        }
+      ]
+    },
     "medicalSpecialty": "https://schema.org/PrimaryCare",
     "acceptsNewPatients": true,
     "socialLinks": [],

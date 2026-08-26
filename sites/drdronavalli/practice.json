@@ -29,6 +29,39 @@
       "postalCode": "77478",
       "addressCountry": "US"
     },
+    "geo": {
+      "latitude": 29.6042864,
+      "longitude": -95.6318986
+    },
+    "serviceArea": {
+      "regionLabel": "the greater Houston area",
+      "communities": [
+        {
+          "name": "Missouri City",
+          "region": "TX"
+        },
+        {
+          "name": "Stafford",
+          "region": "TX"
+        },
+        {
+          "name": "Richmond",
+          "region": "TX"
+        },
+        {
+          "name": "Pearland",
+          "region": "TX"
+        },
+        {
+          "name": "Bellaire",
+          "region": "TX"
+        },
+        {
+          "name": "Alief",
+          "region": "TX"
+        }
+      ]
+    },
     "medicalSpecialty": "https://schema.org/Pulmonary",
     "acceptsNewPatients": true,
     "socialLinks": [],

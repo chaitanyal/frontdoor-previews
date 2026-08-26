@@ -1,5 +1,8 @@
 ---
-import { homeContent } from '../../lib/practice-view.mjs';
+import {
+  homeContent,
+  practiceServiceArea,
+} from '../../lib/practice-view.mjs';
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 import ContactCard from './ContactCard.astro';
 import GoogleReviewSummary from './GoogleReviewSummary.astro';
@@ -12,6 +15,7 @@ interface Props {
 const { config } = Astro.props;
 const { practice, location, faqs = [] } = config;
 const content = homeContent(config);
+const serviceArea = practiceServiceArea(config);
 const locationSummary =
   location.summary ||
   'Find office details, hours, directions, and contact information.';
@@ -63,6 +67,16 @@ const faqSummary =
               <div>
                 <p class="font-semibold text-slate-950">Address</p>
                 {practice.addressLines.map((line) => <p>{line}</p>)}
+                {
+                  serviceArea && (
+                    <p
+                      class="mt-4 max-w-xl text-sm leading-6 text-slate-600"
+                      data-practice-service-area
+                    >
+                      {serviceArea.summary}
+                    </p>
+                  )
+                }
               </div>
             </div>
             <div class="flex gap-3">
