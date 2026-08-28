@@ -12,6 +12,8 @@ interface Props {
   sectionId?: string;
   homeVariant?: boolean;
   actionLinksDisabled?: boolean;
+  heading?: string;
+  summary?: string;
 }
 
 const {
@@ -24,6 +26,8 @@ const {
   sectionId = 'appointment',
   homeVariant = false,
   actionLinksDisabled = false,
+  heading = 'Ready to schedule a visit?',
+  summary = 'Contact the office directly or request an appointment online.',
 } = Astro.props;
 const actions = [
   appointmentUrl
@@ -65,7 +69,7 @@ const containerClass = homeVariant
         id={homeVariant ? 'contact-title' : undefined}
         class="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl"
       >
-        Ready to schedule a visit?
+        {heading}
       </h2>
       <p
         data-section-summary
@@ -74,7 +78,7 @@ const containerClass = homeVariant
           homeVariant && 'max-w-2xl',
         ]}
       >
-        Contact the office directly or request an appointment online.
+        {summary}
       </p>
     </div>
     <div class="dark-section-card p-7 md:p-8">

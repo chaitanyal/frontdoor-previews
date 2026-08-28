@@ -324,6 +324,23 @@ test.describe.serial('Astro production practice builds', () => {
           )),
       ];
 
+      if (config.appointmentSection) {
+        for (const htmlFile of [
+          path.join(practiceRoot, 'index.html'),
+          ...config.providers.map((provider) =>
+            path.join(
+              practiceRoot,
+              'providers',
+              provider.slug,
+              'index.html',
+            )),
+        ]) {
+          const html = readFileSync(htmlFile, 'utf8');
+          expect(html).toContain(config.appointmentSection.heading);
+          expect(html).toContain(config.appointmentSection.summary);
+        }
+      }
+
       for (const provider of config.providers) {
         const providerHtml = readFileSync(
           path.join(

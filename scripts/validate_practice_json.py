@@ -324,6 +324,11 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         require_string_key(hero, key, "hero")
     validate_asset_path(hero["image"], "hero.image")
 
+    if "appointmentSection" in config:
+        appointment_section = require_mapping(config["appointmentSection"], "appointmentSection")
+        require_string_key(appointment_section, "heading", "appointmentSection")
+        require_string_key(appointment_section, "summary", "appointmentSection")
+
     providers = require_list(require_key(config, "providers", "root"), "providers")
     for index, provider_value in enumerate(providers):
         provider = require_mapping(provider_value, f"providers[{index}]")

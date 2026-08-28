@@ -77,6 +77,10 @@
     "primaryCta": "Request Appointment",
     "secondaryCta": "Meet Dr. Dronavalli"
   },
+  "appointmentSection": {
+    "heading": "Ready to schedule with Dr. Dronavalli?",
+    "summary": "Request an appointment with a board-certified pulmonologist in Sugar Land or contact the office directly."
+  },
   "home": {
     "navProvidersLabel": "About",
     "providerEyebrow": "Physician",
