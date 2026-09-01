@@ -40,8 +40,8 @@
   "hero": {
     "image": "./images/hero/austin-skyline.webp",
     "imageAlt": "Austin skyline and surrounding green space at sunset",
-    "title": "Thoughtful psychiatric care for adults.",
-    "copy": "Evaluation and ongoing treatment for mood, anxiety, ADHD, trauma, cognitive, and other psychiatric concerns—with clear guidance at every step.",
+    "title": "Adult Psychiatric Care in Northwest Austin",
+    "copy": "Psychiatric evaluations and medication management for adults experiencing mood, anxiety, ADHD, trauma, cognitive, and other psychiatric concerns.",
     "primaryCta": "Book Appointment",
     "secondaryCta": "Meet Our Providers"
   },
@@ -68,8 +68,8 @@
       "text": "Insurance plans accepted"
     },
     {
-      "icon": "MapPin",
-      "text": "Northwest Austin office"
+      "icon": "UserCheck",
+      "text": "Accepting New Patients"
     }
   ],
   "providers": [
