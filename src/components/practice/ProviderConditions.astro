@@ -24,49 +24,52 @@ const content = homeContent(config);
           <h2 class="section-title">{content.providerTitle}</h2>
           <p data-section-summary class="section-copy">{content.providerCopy}</p>
         </div>
-        <div class="mt-12 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-2">
+        <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {providers.map((provider) => (
             <article
-              class="fade-in-up editorial-card interactive-card cursor-pointer transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.995] focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300"
+              class="fade-in-up soft-card interactive-card flex h-full cursor-pointer flex-col p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.995] focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 md:p-6"
               tabindex="0"
               role="link"
               data-card-href={`./providers/${provider.slug}/`}
               aria-label={`View profile for ${provider.name}`}
             >
-              <div class="aspect-[5/4] overflow-hidden rounded-[28px]">
-                <img
-                  loading="lazy"
-                  src={provider.image}
-                  alt={provider.imageAlt}
-                  class="image-treatment h-full w-full object-cover object-top"
-                />
-              </div>
-              <div class="mt-6">
-                <h3 class="text-2xl font-semibold text-slate-950">
-                  {provider.name}
-                </h3>
-                <p class="mt-1 text-sm leading-6 text-slate-500">
-                  {provider.credentials}
-                </p>
-                <p class="mt-4 text-lg leading-8 text-slate-700">
-                  {provider.tagline || ''}
-                </p>
-                <div class="mt-5 flex flex-wrap gap-2">
-                  {(provider.heroTrustItems || provider.specialties || [])
-                    .slice(0, 3)
-                    .map((item) => (
-                      <span class="badge-brand">
-                        <Icon name="CheckCircle" class="h-3.5 w-3.5" />
-                        {item}
-                      </span>
-                    ))}
+              <div class="flex items-start gap-4">
+                <div class="h-32 w-28 shrink-0 overflow-hidden rounded-2xl sm:h-36 sm:w-32">
+                  <img
+                    loading="lazy"
+                    src={provider.image}
+                    alt={provider.imageAlt}
+                    class="image-treatment h-full w-full object-cover object-top"
+                  />
                 </div>
-                <span
-                  class="btn-secondary mt-6 px-4 py-2.5 text-sm"
-                  aria-hidden="true"
-                >
-                  View Profile
-                </span>
+                <div class="min-w-0 pt-1">
+                  <h3 class="text-xl font-semibold leading-tight text-slate-950">
+                    {provider.name}
+                  </h3>
+                  <p class="mt-1 text-sm leading-6 text-slate-500">
+                    {provider.credentials}
+                  </p>
+                  <span
+                    class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary"
+                    aria-hidden="true"
+                  >
+                    View profile
+                    <Icon name="ArrowRight" class="h-4 w-4" />
+                  </span>
+                </div>
+              </div>
+              <p class="mt-5 text-base leading-7 text-slate-700">
+                {provider.tagline || ''}
+              </p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {(provider.heroTrustItems || provider.specialties || [])
+                  .slice(0, 2)
+                  .map((item) => (
+                    <span class="badge-brand max-w-full">
+                      <Icon name="CheckCircle" class="h-3.5 w-3.5 shrink-0" />
+                      {item}
+                    </span>
+                  ))}
               </div>
             </article>
           ))}
