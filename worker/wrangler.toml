@@ -4,7 +4,7 @@ compatibility_date = "2026-06-06"
 
 [vars]
 ALLOWED_ORIGINS = "https://frontdoor.health,https://www.frontdoor.health,https://drdronavalli.com,https://www.drdronavalli.com"
-ALLOWED_PRACTICE_SLUGS = "frontdoor-health,drdronavalli,mariposa,northhillspsychiatry"
+ALLOWED_PRACTICE_SLUGS = "frontdoor-health,drdronavalli,mariposa,northhillspsychiatry,northwestpsychiatry"
 
 [[ratelimits]]
 name = "RATE_LIMITER"

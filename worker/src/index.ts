@@ -17,6 +17,7 @@ const DEFAULT_ALLOWED_PRACTICE_SLUGS = new Set([
   "drdronavalli",
   "mariposa",
   "northhillspsychiatry",
+  "northwestpsychiatry",
 ]);
 const allowedEventTypes = new Set([
   "page_view",
