@@ -10,6 +10,7 @@ interface Props {
 const { config } = Astro.props;
 const { providers = [], conditions = [], conditionsIntro = '' } = config;
 const content = homeContent(config);
+const isSingleProvider = providers.length === 1;
 ---
 
 {
@@ -24,7 +25,11 @@ const content = homeContent(config);
           <h2 class="section-title">{content.providerTitle}</h2>
           <p data-section-summary class="section-copy">{content.providerCopy}</p>
         </div>
-        <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div
+          class={`mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 ${
+            isSingleProvider ? 'mx-auto max-w-3xl' : ''
+          }`}
+        >
           {providers.map((provider) => (
             <article
               class="fade-in-up soft-card interactive-card flex h-full cursor-pointer flex-col p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.995] focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 md:p-6"
