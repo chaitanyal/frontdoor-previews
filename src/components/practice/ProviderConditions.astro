@@ -10,7 +10,12 @@ interface Props {
 const { config } = Astro.props;
 const { providers = [], conditions = [], conditionsIntro = '' } = config;
 const content = homeContent(config);
+const providerCount = providers.length;
 const isSingleProvider = providers.length === 1;
+const useTwoColumnDesktop = providerCount === 2 || providerCount === 4;
+const multiProviderCardWidth = useTwoColumnDesktop
+  ? 'w-full md:w-[calc(50%_-_0.75rem)]'
+  : 'w-full md:w-[calc(50%_-_0.75rem)] xl:w-[calc(33.333%_-_1rem)]';
 ---
 
 {
@@ -26,18 +31,18 @@ const isSingleProvider = providers.length === 1;
           <p data-section-summary class="section-copy">{content.providerCopy}</p>
         </div>
         <div
-          class={`mt-10 grid grid-cols-1 gap-6 ${
+          class={
             isSingleProvider
-              ? 'mx-auto max-w-3xl'
-              : 'md:grid-cols-2 xl:grid-cols-3'
-          }`}
+              ? 'mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-6'
+              : 'mt-10 flex flex-wrap justify-center gap-6'
+          }
         >
           {providers.map((provider) => (
             <article
-              class={`fade-in-up soft-card interactive-card flex h-full cursor-pointer flex-col p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.995] focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 md:p-6 ${
+              class={`fade-in-up soft-card interactive-card flex cursor-pointer flex-col p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.995] focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 ${
                 isSingleProvider
-                  ? 'md:grid md:grid-cols-[10rem_minmax(0,1fr)] md:gap-x-7 md:gap-y-4'
-                  : ''
+                  ? 'md:grid md:grid-cols-[14rem_minmax(0,1fr)] md:gap-x-8 md:gap-y-5 md:p-8'
+                  : `${multiProviderCardWidth} md:p-6`
               }`}
               tabindex="0"
               role="link"
@@ -50,7 +55,7 @@ const isSingleProvider = providers.length === 1;
                 <div
                   class={`h-32 w-28 shrink-0 overflow-hidden rounded-2xl sm:h-36 sm:w-32 ${
                     isSingleProvider
-                      ? 'md:col-start-1 md:row-span-3 md:h-48 md:w-40'
+                      ? 'md:col-start-1 md:row-span-3 md:h-72 md:w-56 md:rounded-[24px]'
                       : ''
                   }`}
                 >
@@ -64,14 +69,20 @@ const isSingleProvider = providers.length === 1;
                 <div
                   class={`min-w-0 pt-1 ${isSingleProvider ? 'md:col-start-2' : ''}`}
                 >
-                  <h3 class="text-xl font-semibold leading-tight text-slate-950">
+                  <h3
+                    class={`text-xl font-semibold leading-tight text-slate-950 ${
+                      isSingleProvider ? 'md:text-2xl' : ''
+                    }`}
+                  >
                     {provider.name}
                   </h3>
                   <p class="mt-1 text-sm leading-6 text-slate-500">
                     {provider.credentials}
                   </p>
                   <span
-                    class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary"
+                    class={`mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary ${
+                      isSingleProvider ? 'md:text-base' : ''
+                    }`}
                     aria-hidden="true"
                   >
                     View profile
@@ -81,7 +92,9 @@ const isSingleProvider = providers.length === 1;
               </div>
               <p
                 class={`mt-5 text-base leading-7 text-slate-700 ${
-                  isSingleProvider ? 'md:col-start-2 md:mt-0' : ''
+                  isSingleProvider
+                    ? 'md:col-start-2 md:mt-0 md:text-lg md:leading-8'
+                    : ''
                 }`}
               >
                 {provider.tagline || ''}
