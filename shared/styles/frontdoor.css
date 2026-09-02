@@ -1171,7 +1171,7 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   line-height: 1.65;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tags {
+html[data-theme='editorial-healthcare'] .home-provider-tags {
   max-width: 40rem;
   column-gap: 1.5rem;
   row-gap: 0.65rem;
@@ -1179,7 +1179,7 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   padding-top: 1rem;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tags .badge-brand {
+html[data-theme='editorial-healthcare'] .home-provider-tags .badge-brand {
   border: 0;
   border-radius: 0;
   padding: 0;
@@ -1192,7 +1192,7 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   text-transform: uppercase;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tags .badge-brand + .badge-brand::before {
+html[data-theme='editorial-healthcare'] .home-provider-tags .badge-brand + .badge-brand::before {
   display: none;
   content: none;
 }
@@ -1230,7 +1230,7 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   background: #dedfd4;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial-inner {
+html[data-theme='editorial-healthcare'] .home-financial-inner {
   max-width: 72rem;
   border: 1px solid color-mix(in srgb, var(--color-border), transparent 18%);
   border-radius: 1.5rem;
@@ -1239,15 +1239,15 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   box-shadow: 0 24px 64px rgba(47, 41, 37, 0.08);
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial .section-title {
+html[data-theme='editorial-healthcare'] .home-financial .section-title {
   font-size: clamp(2.7rem, 3.8vw, 3.8rem);
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial-inner > div:first-child {
+html[data-theme='editorial-healthcare'] .home-financial-inner > div:first-child {
   max-width: 44rem;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-list {
+html[data-theme='editorial-healthcare'] .home-fee-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
@@ -1255,11 +1255,11 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   border-top: 0;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-list > * + * {
+html[data-theme='editorial-healthcare'] .home-fee-list > * + * {
   margin-top: 0;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-item {
+html[data-theme='editorial-healthcare'] .home-fee-item {
   min-height: 10.5rem;
   border: 1px solid var(--color-border);
   border-top: 3px solid var(--color-success);
@@ -1268,14 +1268,14 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   background: color-mix(in srgb, var(--color-surface), white 28%);
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-label {
+html[data-theme='editorial-healthcare'] .home-fee-label {
   font-family: var(--font-heading), Georgia, serif;
   font-size: 1.12rem;
   line-height: 1.25;
   font-weight: 500;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-amount {
+html[data-theme='editorial-healthcare'] .home-fee-amount {
   color: var(--color-primary);
   font-family: var(--font-heading), Georgia, serif;
   font-size: 1.5rem;
@@ -1283,7 +1283,7 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   font-weight: 500;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-duration {
+html[data-theme='editorial-healthcare'] .home-fee-duration {
   margin-top: 1.5rem;
   font-size: 0.85rem;
 }
@@ -1293,7 +1293,7 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   background: var(--color-surface);
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-payment-methods {
+html[data-theme='editorial-healthcare'] .home-payment-methods {
   display: grid;
   grid-template-columns: 9rem minmax(0, 1fr);
   align-items: start;
@@ -1302,11 +1302,11 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   padding-top: 1.5rem;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-payment-methods > div {
+html[data-theme='editorial-healthcare'] .home-payment-methods > div {
   margin-top: 0;
 }
 
-html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-payment-methods span {
+html[data-theme='editorial-healthcare'] .home-payment-methods span {
   border: 1px solid color-mix(in srgb, var(--color-border), transparent 20%);
   border-radius: 999px;
   padding: 0.4rem 0.7rem;
@@ -1590,45 +1590,45 @@ html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][
     grid-template-columns: minmax(0, 1fr);
   }
 
-  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial-inner {
+  html[data-theme='editorial-healthcare'] .home-financial-inner {
     border-radius: 1rem;
     padding: 1.5rem;
   }
 
-  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial .section-title {
+  html[data-theme='editorial-healthcare'] .home-financial .section-title {
     font-size: 2.65rem;
   }
 
-  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial [data-section-summary] {
+  html[data-theme='editorial-healthcare'] .home-financial [data-section-summary] {
     margin-top: 1rem;
     font-size: 1rem;
     line-height: 1.7;
   }
 
-  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-list {
+  html[data-theme='editorial-healthcare'] .home-fee-list {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.75rem;
     margin-top: 1.75rem;
   }
 
-  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-item {
+  html[data-theme='editorial-healthcare'] .home-fee-item {
     min-height: 0;
     padding: 1.1rem 1.15rem;
   }
 
-  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-label {
+  html[data-theme='editorial-healthcare'] .home-fee-label {
     font-size: 1.05rem;
   }
 
-  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-amount {
+  html[data-theme='editorial-healthcare'] .home-fee-amount {
     font-size: 1.3rem;
   }
 
-  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-duration {
+  html[data-theme='editorial-healthcare'] .home-fee-duration {
     margin-top: 0.45rem;
   }
 
-  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-payment-methods {
+  html[data-theme='editorial-healthcare'] .home-payment-methods {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.6rem;
     margin-top: 1.5rem;
