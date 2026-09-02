@@ -150,6 +150,28 @@ test.describe.serial('Astro preview migration', () => {
     ]);
     expect(generatedPractices).not.toContain('drdronavalli');
     expect(generatedPractices).not.toContain('template');
+
+    for (const [practiceId, providerSlug, theme] of [
+      ['mariposa', 'alba-lara', 'editorial-healthcare'],
+      ['northhillspsychiatry', 'zita-samuel', 'editorial-healthcare'],
+      ['northwestpsychiatry', 'arvinder-walia', 'structured-clinical'],
+    ]) {
+      const providerHtml = readFileSync(
+        path.join(
+          previewRoot,
+          'previews',
+          practiceId,
+          'providers',
+          providerSlug,
+          'index.html',
+        ),
+        'utf8',
+      );
+      expect(providerHtml).toContain(`data-theme="${theme}"`);
+      expect(providerHtml).toContain('class="provider-page ');
+      expect(providerHtml).toContain('provider-hero');
+      expect(providerHtml).toContain('data-provider-section="conditions"');
+    }
   });
 
   test('@astro-preview includes protected previews in the marketing build', () => {
