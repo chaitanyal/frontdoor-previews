@@ -14,8 +14,12 @@ import { assertMarketingCaseStudyRoute } from '../../src/lib/marketing-data.mjs'
 import { loadPracticeData } from '../../src/lib/practice-data.mjs';
 import {
   financialSectionMode,
+  practiceHomepageSchemas,
   providerAffiliationMode,
+  providerEntityId,
+  providerEntityType,
   providerProfile,
+  schemaMedicalSpecialty,
 } from '../../src/lib/practice-view.mjs';
 import {
   homepageImageMetadata,
@@ -307,9 +311,28 @@ test.describe.serial('Astro migration foundation', () => {
     });
     expect(overrideProfile.phone).toBe('(512) 555-0199');
     expect(overrideProfile.phoneHref).toBe('tel:+15125550199');
-    expect(overrideProfile.address).toBe(
-      '100 New Office Road, Austin, TX 78701',
-    );
+    expect(overrideProfile.address).toBeUndefined();
+
+    const structuredOverrideProfile = providerProfile(mariposa, {
+      ...provider,
+      contactOverride: {
+        address: {
+          streetAddress: '100 New Office Road',
+          addressLocality: 'Austin',
+          addressRegion: 'TX',
+          postalCode: '78701',
+          addressCountry: 'US',
+        },
+      },
+    });
+    expect(structuredOverrideProfile.address).toEqual({
+      '@type': 'PostalAddress',
+      streetAddress: '100 New Office Road',
+      addressLocality: 'Austin',
+      addressRegion: 'TX',
+      postalCode: '78701',
+      addressCountry: 'US',
+    });
 
     const structuredSpecialtyProfile = providerProfile(mariposa, {
       ...provider,
@@ -318,6 +341,65 @@ test.describe.serial('Astro migration foundation', () => {
       medicalSpecialty: 'https://schema.org/Psychiatry',
     });
     expect(structuredSpecialtyProfile.isPsychiatry).toBe(true);
+    expect(schemaMedicalSpecialty('Psychiatry')).toBe(
+      'https://schema.org/Psychiatric',
+    );
+    expect(schemaMedicalSpecialty('Made Up Specialty')).toBeUndefined();
+  });
+
+  test('@astro-foundation creates stable single and multi-provider schema identities', () => {
+    const physician = {
+      slug: 'jane-doe',
+      name: 'Dr. Jane Doe',
+      credentials: 'MD',
+      specialty: 'Psychiatry',
+      image: './images/jane.webp',
+      tagline: 'Thoughtful psychiatric care.',
+      conditions: ['Anxiety'],
+    };
+    const single = {
+      seo: {
+        siteUrl: 'https://example.com',
+        title: 'Jane Doe, MD',
+        description: 'Psychiatric care.',
+      },
+      practice: {
+        name: 'Jane Doe, MD',
+        phone: '(512) 555-0100',
+        email: 'office@example.com',
+        address: {
+          addressLocality: 'Austin',
+          addressRegion: 'TX',
+          addressCountry: 'US',
+        },
+      },
+      providers: [physician],
+    };
+    const singleSchemas = practiceHomepageSchemas(single);
+    expect(singleSchemas.map((schema) => [schema['@type']].flat())).toEqual([
+      ['Person', 'Physician'],
+      ['MedicalClinic'],
+    ]);
+    expect(providerEntityId(single, physician)).toBe(
+      'https://example.com/#physician',
+    );
+
+    const assistant = {
+      ...physician,
+      slug: 'alex-smith',
+      name: 'Alex Smith',
+      credentials: 'PA-C',
+      specialty: 'Psychiatric Physician Assistant',
+    };
+    const multi = { ...single, providers: [physician, assistant] };
+    const multiSchemas = practiceHomepageSchemas(multi);
+    const clinic = multiSchemas[0];
+    expect(clinic['@type']).toBe('MedicalClinic');
+    expect(clinic.member).toEqual([
+      { '@id': 'https://example.com/#physician-jane-doe' },
+      { '@id': 'https://example.com/#provider-alex-smith' },
+    ]);
+    expect(providerEntityType(assistant)).toEqual(['Person']);
   });
 
   test('@astro-foundation resolves single and multi-physician page images', () => {

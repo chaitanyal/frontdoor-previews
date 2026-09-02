@@ -16,9 +16,11 @@
         "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
           "MedicalClinic",
+          "Person",
+          "Physician",
           "WebPage"
         ]
       },
@@ -38,7 +40,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 7,
+      "inlineScriptCount": 8,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -125,6 +127,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
+          "Person",
           "Physician",
           "WebPage"
         ]

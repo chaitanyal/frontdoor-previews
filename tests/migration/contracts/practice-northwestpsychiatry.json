@@ -16,9 +16,11 @@
         "image": "https://frontdoor.health/previews/northwestpsychiatry/images/hero/austin-skyline.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 5,
         "topLevelTypes": [
           "MedicalClinic",
+          "Person",
+          "Physician",
           "WebPage"
         ]
       },
@@ -40,7 +42,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 7,
+      "inlineScriptCount": 10,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -129,6 +131,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
+          "Person",
           "Physician",
           "WebPage"
         ]
@@ -172,7 +175,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
-          "Physician",
+          "Person",
           "WebPage"
         ]
       },
@@ -215,7 +218,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
-          "Physician",
+          "Person",
           "WebPage"
         ]
       },

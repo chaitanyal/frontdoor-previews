@@ -16,6 +16,13 @@
     "phone": "(512) 372-4554",
     "phoneHref": "tel:+15123724554",
     "email": "frontdesk@northhillspsychiatry.com",
+    "address": {
+      "streetAddress": "11615 Angus Road, Suite 225",
+      "addressLocality": "Austin",
+      "addressRegion": "TX",
+      "postalCode": "78759",
+      "addressCountry": "US"
+    },
     "addressLines": [
       "11615 Angus Road",
       "Suite 225",

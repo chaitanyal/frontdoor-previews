@@ -16,9 +16,11 @@
         "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
           "MedicalClinic",
+          "Person",
+          "Physician",
           "WebPage"
         ]
       },
@@ -38,7 +40,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 7,
+      "inlineScriptCount": 8,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -125,6 +127,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
+          "Person",
           "Physician",
           "WebPage"
         ]
@@ -196,9 +199,11 @@
         "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 4,
         "topLevelTypes": [
           "MedicalClinic",
+          "Person",
+          "Physician",
           "WebPage"
         ]
       },
@@ -220,7 +225,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 7,
+      "inlineScriptCount": 9,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -307,6 +312,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
+          "Person",
           "Physician",
           "WebPage"
         ]
@@ -348,6 +354,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
+          "Person",
           "Physician",
           "WebPage"
         ]
@@ -418,9 +425,11 @@
         "image": "https://frontdoor.health/previews/northwestpsychiatry/images/hero/austin-skyline.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 5,
         "topLevelTypes": [
           "MedicalClinic",
+          "Person",
+          "Physician",
           "WebPage"
         ]
       },
@@ -442,7 +451,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 7,
+      "inlineScriptCount": 10,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -529,6 +538,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
+          "Person",
           "Physician",
           "WebPage"
         ]
@@ -570,7 +580,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
-          "Physician",
+          "Person",
           "WebPage"
         ]
       },
@@ -611,7 +621,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
-          "Physician",
+          "Person",
           "WebPage"
         ]
       },

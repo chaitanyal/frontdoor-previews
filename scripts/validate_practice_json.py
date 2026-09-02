@@ -11,6 +11,11 @@ from typing import Any
 import re
 
 THEMES_PATH = Path("shared/themes.json")
+SUPPORTED_MEDICAL_SPECIALTIES = {
+    "https://schema.org/PrimaryCare",
+    "https://schema.org/Psychiatric",
+    "https://schema.org/Pulmonary",
+}
 
 
 class ValidationError(Exception):
@@ -65,8 +70,11 @@ def validate_string_list(value: Any, path: str, *, min_items: int = 0) -> None:
 
 def validate_postal_address(value: Any, path: str) -> None:
     address = require_mapping(value, path)
-    for key in ["streetAddress", "addressLocality", "addressRegion", "postalCode", "addressCountry"]:
+    for key in ["addressLocality", "addressRegion", "addressCountry"]:
         require_string_key(address, key, path)
+    for key in ["streetAddress", "postalCode"]:
+        if key in address:
+            require_string(address[key], f"{path}.{key}")
 
 
 def validate_geo_coordinates(value: Any, path: str) -> None:
@@ -114,8 +122,10 @@ def validate_medical_specialty(value: Any, path: str) -> None:
     for index, specialty_value in enumerate(specialties):
         specialty_path = f"{path}[{index}]" if isinstance(value, list) else path
         specialty = require_https_url(specialty_value, specialty_path)
-        if not specialty.startswith("https://schema.org/"):
-            fail(f"{specialty_path} must be a Schema.org URL starting with https://schema.org/")
+        if specialty not in SUPPORTED_MEDICAL_SPECIALTIES:
+            fail(
+                f"{specialty_path} must be a supported Schema.org medical specialty URL"
+            )
 
 
 def validate_labeled_string_list(value: Any, path: str, *, min_items: int = 0) -> None:
@@ -298,8 +308,7 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
     if not re.fullmatch(r"[a-z0-9-]+", practice["slug"]):
         fail("practice.slug must contain only lowercase letters, numbers, and hyphens")
     validate_string_list(require_key(practice, "addressLines", "practice"), "practice.addressLines", min_items=1)
-    if "address" in practice:
-        validate_postal_address(practice["address"], "practice.address")
+    validate_postal_address(require_key(practice, "address", "practice"), "practice.address")
     if "geo" in practice:
         validate_geo_coordinates(practice["geo"], "practice.geo")
     if "serviceArea" in practice:
@@ -385,6 +394,13 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
             validate_medical_specialty(provider["medicalSpecialty"], f"{provider_path}.medicalSpecialty")
         if "acceptsNewPatients" in provider and not isinstance(provider["acceptsNewPatients"], bool):
             fail(f"{provider_path}.acceptsNewPatients must be a boolean")
+        if "sameAs" in provider:
+            same_as = require_list(provider["sameAs"], f"{provider_path}.sameAs")
+            for same_as_index, same_as_value in enumerate(same_as):
+                require_https_url(
+                    same_as_value,
+                    f"{provider_path}.sameAs[{same_as_index}]",
+                )
         if "seo" in provider:
             provider_seo = require_mapping(provider["seo"], f"{provider_path}.seo")
             for key in ["title", "description", "ogImageAlt"]:

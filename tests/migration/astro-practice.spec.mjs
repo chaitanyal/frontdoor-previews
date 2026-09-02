@@ -13,7 +13,11 @@ import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { verifyPracticeOutputContract } from '../../scripts/migration/verify_output_contracts.mjs';
 import { homeSectionNavigation } from '../../src/lib/home-sections.mjs';
-import { practiceServiceArea } from '../../src/lib/practice-view.mjs';
+import {
+  practiceServiceArea,
+  providerEntityId,
+  providerEntityType,
+} from '../../src/lib/practice-view.mjs';
 import {
   assertAnalyticsDeploymentAllowed,
   practiceLlms,
@@ -62,6 +66,10 @@ function jsonLdBlocks(html) {
       /<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi,
     ),
   ].map((match) => JSON.parse(match[1]));
+}
+
+function hasSchemaType(block, type) {
+  return [block?.['@type']].flat().includes(type);
 }
 
 async function verifyHomeSectionNavigation(page, config, homeFile) {
@@ -240,6 +248,25 @@ test.describe.serial('Astro production practice builds', () => {
       expect(oversizedServiceAreaValidation.stderr).toContain(
         'practice.serviceArea.communities must contain between 1 and 6 communities',
       );
+
+      const unsupportedSpecialty = structuredClone(invalidConfig);
+      delete unsupportedSpecialty.providers[0].contactOverride;
+      unsupportedSpecialty.practice.medicalSpecialty =
+        'https://schema.org/ImaginarySpecialty';
+      const unsupportedSpecialtyValidation = validate(unsupportedSpecialty);
+      expect(unsupportedSpecialtyValidation.status).not.toBe(0);
+      expect(unsupportedSpecialtyValidation.stderr).toContain(
+        'must be a supported Schema.org medical specialty URL',
+      );
+
+      const missingStructuredAddress = structuredClone(invalidConfig);
+      delete missingStructuredAddress.providers[0].contactOverride;
+      delete missingStructuredAddress.practice.address;
+      const missingAddressValidation = validate(missingStructuredAddress);
+      expect(missingAddressValidation.status).not.toBe(0);
+      expect(missingAddressValidation.stderr).toContain(
+        'practice.address is required',
+      );
     } finally {
       rmSync(fixtureDirectory, { recursive: true, force: true });
     }
@@ -286,10 +313,26 @@ test.describe.serial('Astro production practice builds', () => {
       verifyPracticeOutputContract(practiceId);
 
       const homeHtml = readFileSync(path.join(practiceRoot, 'index.html'), 'utf8');
-      const clinicSchema = jsonLdBlocks(homeHtml).find(
-        (block) => block['@type'] === 'MedicalClinic',
-      );
+      const homeSchemas = jsonLdBlocks(homeHtml);
+      const webPageSchema = homeSchemas.find((block) =>
+        hasSchemaType(block, 'WebPage'));
+      const clinicSchema = homeSchemas.find((block) =>
+        hasSchemaType(block, 'MedicalClinic'));
       expect(clinicSchema).toBeDefined();
+      expect(clinicSchema.address).toEqual({
+        '@type': 'PostalAddress',
+        ...config.practice.address,
+      });
+      expect(clinicSchema.member).toEqual(
+        config.providers.map((provider) => ({
+          '@id': providerEntityId(config, provider),
+        })),
+      );
+      expect(webPageSchema.mainEntity).toEqual({
+        '@id': config.providers.length === 1
+          ? providerEntityId(config, config.providers[0])
+          : clinicSchema['@id'],
+      });
       if (config.practice.geo) {
         expect(clinicSchema.geo).toEqual({
           '@type': 'GeoCoordinates',
@@ -342,6 +385,13 @@ test.describe.serial('Astro production practice builds', () => {
       }
 
       for (const provider of config.providers) {
+        const entityId = providerEntityId(config, provider);
+        const expectedTypes = providerEntityType(provider);
+        const homeProviderSchema = homeSchemas.find(
+          (block) => block['@id'] === entityId,
+        );
+        expect(homeProviderSchema).toBeDefined();
+        expect([homeProviderSchema['@type']].flat()).toEqual(expectedTypes);
         const providerHtml = readFileSync(
           path.join(
             practiceRoot,
@@ -352,10 +402,20 @@ test.describe.serial('Astro production practice builds', () => {
           'utf8',
         );
         expect(providerHtml).not.toContain('data-practice-service-area');
-        const physicianSchema = jsonLdBlocks(providerHtml).find(
-          (block) => block['@type'] === 'Physician',
+        const providerSchemas = jsonLdBlocks(providerHtml);
+        const providerSchema = providerSchemas.find(
+          (block) => block['@id'] === entityId,
         );
-        expect(physicianSchema.areaServed).toBeUndefined();
+        expect(providerSchema).toEqual(homeProviderSchema);
+        expect(providerSchema.areaServed).toBeUndefined();
+        expect(providerSchema.address?.['@type']).toBe('PostalAddress');
+        expect(providerSchema.worksFor).toMatchObject({
+          '@id': clinicSchema['@id'],
+          '@type': 'MedicalClinic',
+        });
+        const providerWebPage = providerSchemas.find((block) =>
+          hasSchemaType(block, 'WebPage'));
+        expect(providerWebPage.mainEntity).toEqual({ '@id': entityId });
       }
 
       for (const sectionRoute of ['services', 'insurance', 'faq']) {

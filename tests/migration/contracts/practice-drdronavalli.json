@@ -16,9 +16,11 @@
         "image": "https://drdronavalli.com/images/providers/goutham_dronavalli.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
           "MedicalClinic",
+          "Person",
+          "Physician",
           "WebPage"
         ]
       },
@@ -44,7 +46,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 8,
+      "inlineScriptCount": 9,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -133,6 +135,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
+          "Person",
           "Physician",
           "WebPage"
         ]

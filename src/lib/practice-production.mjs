@@ -7,6 +7,7 @@ import {
   homepageImageMetadata,
   providerImageMetadata,
 } from './seo.mjs';
+import { providerEntityType } from './practice-view.mjs';
 import { discoverIndexRoutes, renderSitemap } from './sitemap.mjs';
 
 const PUBLIC_ROBOTS = (siteUrl) =>
@@ -176,6 +177,10 @@ function jsonLdObjects(html, relativePath) {
   return objects;
 }
 
+function hasSchemaType(block, type) {
+  return [block?.['@type']].flat().includes(type);
+}
+
 function assertJsonLdInHead(html, relativePath) {
   const head = html.match(/<head\b[^>]*>([\s\S]*?)<\/head>/i)?.[1] || '';
   const jsonLdPattern = /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>/gi;
@@ -198,6 +203,7 @@ function assertPageImageMetadata(
   expectedCanonical,
   expectedImage,
   entityType,
+  expectedEntityImage = expectedImage,
 ) {
   const canonical = canonicalHref(html);
   if (canonical !== expectedCanonical) {
@@ -219,16 +225,16 @@ function assertPageImageMetadata(
   }
 
   const jsonLd = jsonLdObjects(html, relativePath);
-  const webPage = jsonLd.find((block) => block['@type'] === 'WebPage');
+  const webPage = jsonLd.find((block) => hasSchemaType(block, 'WebPage'));
   if (webPage?.primaryImageOfPage !== expectedImage) {
     throw new Error(
       `WebPage.primaryImageOfPage must be ${expectedImage} in ${relativePath}.`,
     );
   }
-  const entity = jsonLd.find((block) => block['@type'] === entityType);
-  if (entity?.image !== expectedImage) {
+  const entity = jsonLd.find((block) => hasSchemaType(block, entityType));
+  if (entity?.image !== expectedEntityImage) {
     throw new Error(
-      `${entityType}.image must be ${expectedImage} in ${relativePath}.`,
+      `${entityType}.image must be ${expectedEntityImage} in ${relativePath}.`,
     );
   }
   if (webPage?.mainEntity?.['@id'] !== entity?.['@id']) {
@@ -272,7 +278,10 @@ export async function validatePracticeOutput(outDir, config) {
     'index.html',
     canonicalUrl(config),
     homeImage,
-    'MedicalClinic',
+    config.providers?.length === 1 ? 'Physician' : 'MedicalClinic',
+    config.providers?.length === 1
+      ? absoluteUrl(config, providerImageMetadata(config.providers[0]).image)
+      : homeImage,
   );
 
   for (const provider of config.providers || []) {
@@ -295,7 +304,7 @@ export async function validatePracticeOutput(outDir, config) {
       relativePath,
       canonicalUrl(config, `providers/${provider.slug}`),
       providerImage,
-      'Physician',
+      providerEntityType(provider).includes('Physician') ? 'Physician' : 'Person',
     );
     const visiblePortrait = String(provider.image).replace(/^\.\//, '');
     if (!imageSources(html).some((source) => source.endsWith(visiblePortrait))) {

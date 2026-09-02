@@ -16,9 +16,11 @@
         "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 4,
         "topLevelTypes": [
           "MedicalClinic",
+          "Person",
+          "Physician",
           "WebPage"
         ]
       },
@@ -40,7 +42,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 7,
+      "inlineScriptCount": 9,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -127,6 +129,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
+          "Person",
           "Physician",
           "WebPage"
         ]
@@ -168,6 +171,7 @@
       "jsonLd": {
         "count": 2,
         "topLevelTypes": [
+          "Person",
           "Physician",
           "WebPage"
         ]

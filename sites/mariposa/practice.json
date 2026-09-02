@@ -17,6 +17,12 @@
     "phone": "(737) 321-5871",
     "phoneHref": "tel:+17373215871",
     "email": "dr.alba.lara@gmail.com",
+    "address": {
+      "addressLocality": "Austin",
+      "addressRegion": "TX",
+      "postalCode": "78731",
+      "addressCountry": "US"
+    },
     "addressLines": [
       "Austin, TX 78731"
     ],

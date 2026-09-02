@@ -10,7 +10,7 @@ import PracticeHeader from '../../components/practice/PracticeHeader.astro';
 import ProviderConditions from '../../components/practice/ProviderConditions.astro';
 import PracticeLayout from '../../layouts/PracticeLayout.astro';
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
-import { practiceSchema } from '../../lib/practice-view.mjs';
+import { practiceHomepageSchemas } from '../../lib/practice-view.mjs';
 
 interface Props {
   config: Record<string, any>;
@@ -24,7 +24,7 @@ const { config, theme, isPreview = false } = Astro.props;
 <PracticeLayout
   bodyClass="bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0"
   config={config}
-  jsonLd={practiceSchema(config)}
+  jsonLd={practiceHomepageSchemas(config)}
   pageKind="home"
   stylesheetHref="./assets/styles.css"
   theme={theme}

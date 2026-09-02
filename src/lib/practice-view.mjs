@@ -5,6 +5,61 @@ import {
   providerImageMetadata,
 } from './seo.mjs';
 
+const MEDICAL_SPECIALTY_MAP = new Map([
+  ['https://schema.org/PrimaryCare', 'https://schema.org/PrimaryCare'],
+  ['https://schema.org/Psychiatric', 'https://schema.org/Psychiatric'],
+  ['https://schema.org/Pulmonary', 'https://schema.org/Pulmonary'],
+  ['primary care', 'https://schema.org/PrimaryCare'],
+  ['psychiatric', 'https://schema.org/Psychiatric'],
+  ['psychiatry', 'https://schema.org/Psychiatric'],
+  ['pulmonary', 'https://schema.org/Pulmonary'],
+  ['pulmonary medicine', 'https://schema.org/Pulmonary'],
+  ['pulmonary & critical care medicine', 'https://schema.org/Pulmonary'],
+]);
+
+export function schemaMedicalSpecialty(value) {
+  const specialties = [value].flat().filter(Boolean).flatMap((specialty) => {
+    const configured = String(specialty).trim();
+    return [
+      MEDICAL_SPECIALTY_MAP.get(configured),
+      MEDICAL_SPECIALTY_MAP.get(configured.toLowerCase()),
+    ].filter(Boolean).slice(0, 1);
+  });
+  const unique = [...new Set(specialties)];
+  if (!unique.length) return undefined;
+  return unique.length === 1 ? unique[0] : unique;
+}
+
+export function providerEntityType(provider) {
+  const credentials = String(provider.credentials || '');
+  const clinicalRole = [
+    provider.name,
+    provider.specialty,
+    ...[provider.medicalSpecialty].flat(),
+  ].filter(Boolean).join(' ');
+  const isPhysician = /\b(?:m\.?d\.?|d\.?o\.?)\b/i.test(credentials) ||
+    (/^Dr\.\s/i.test(String(provider.name || '')) &&
+      /psychiatr|physician|pulmonary|medicine/i.test(clinicalRole));
+  return isPhysician ? ['Person', 'Physician'] : ['Person'];
+}
+
+export function providerEntityId(config, provider) {
+  const providers = config.providers || [];
+  const isPhysician = providerEntityType(provider).includes('Physician');
+  const entityName = isPhysician ? 'physician' : 'provider';
+  const suffix = providers.length === 1
+    ? entityName
+    : `${entityName}-${provider.slug}`;
+  return `${canonicalUrl(config)}#${suffix}`;
+}
+
+function postalAddress(address) {
+  if (!address || typeof address !== 'object' || Array.isArray(address)) {
+    return undefined;
+  }
+  return { '@type': 'PostalAddress', ...address };
+}
+
 export function homeContent(config) {
   return {
     navProvidersLabel: config.home?.navProvidersLabel || 'Providers',
@@ -180,12 +235,10 @@ export function providerProfile(config, provider) {
   const phoneHref = contactOverride.phoneHref || practice.phoneHref || '';
   const email = contactOverride.email || practice.email || '';
   const address = contactOverride.address
-    ? { '@type': 'PostalAddress', ...contactOverride.address }
+    ? postalAddress(contactOverride.address)
     : contactOverride.addressLines?.length
-      ? contactOverride.addressLines.join(', ')
-      : practice.address
-        ? { '@type': 'PostalAddress', ...practice.address }
-        : (practice.addressLines || []).join(', ');
+      ? undefined
+      : postalAddress(practice.address);
   const appointmentUrl =
     provider.appointmentUrl || practice.defaultAppointmentUrl || '';
   const location = config.location || {};
@@ -220,9 +273,12 @@ export function providerProfile(config, provider) {
           : null,
       ].filter(Boolean).slice(0, 3);
   const providerSlug = provider.slug || '';
-  const medicalSpecialty =
-    provider.medicalSpecialty || practice.medicalSpecialty;
+  const medicalSpecialty = schemaMedicalSpecialty(
+    provider.medicalSpecialty || practice.medicalSpecialty,
+  );
   const socialImage = providerImageMetadata(provider);
+  const schemaConditions = provider.conditions || provider.specialties || [];
+  const entityTypes = providerEntityType(provider);
 
   return {
     aboutHeading:
@@ -254,9 +310,10 @@ export function providerProfile(config, provider) {
     trustItems,
     schema: {
       '@context': 'https://schema.org',
-      '@type': 'Physician',
-      '@id': `${canonicalUrl(config, `providers/${providerSlug}`)}#physician`,
+      '@type': entityTypes.length === 1 ? entityTypes[0] : entityTypes,
+      '@id': providerEntityId(config, provider),
       name,
+      ...(provider.specialty ? { jobTitle: provider.specialty } : {}),
       url: canonicalUrl(config, `providers/${providerSlug}`),
       description,
       image: absoluteUrl(config, socialImage.image),
@@ -264,10 +321,11 @@ export function providerProfile(config, provider) {
       ...(email ? { email } : {}),
       address,
       ...(medicalSpecialty ? { medicalSpecialty } : {}),
-      ...(conditions.length ? { knowsAbout: conditions } : {}),
+      ...(schemaConditions.length ? { knowsAbout: schemaConditions } : {}),
       ...(typeof provider.acceptsNewPatients === 'boolean'
         ? { isAcceptingNewPatients: provider.acceptsNewPatients }
         : {}),
+      ...(provider.sameAs?.length ? { sameAs: provider.sameAs } : {}),
       worksFor: {
         '@id': `${canonicalUrl(config)}#clinic`,
         '@type': 'MedicalClinic',
@@ -310,7 +368,7 @@ export function practiceServiceArea(config) {
   };
 }
 
-export function practiceSchema(config) {
+export function practiceSchema(config, providerSchemas = []) {
   const openingHoursSpecification = Object.entries(
     config.location?.weeklyHours || {},
   ).flatMap(([dayOfWeek, hours]) => {
@@ -332,6 +390,9 @@ export function practiceSchema(config) {
   const canonical = canonicalUrl(config);
   const image = absoluteUrl(config, homepageImageMetadata(config).image);
   const serviceArea = practiceServiceArea(config);
+  const medicalSpecialty = schemaMedicalSpecialty(
+    config.practice.medicalSpecialty,
+  );
 
   return {
     '@context': 'https://schema.org',
@@ -341,9 +402,7 @@ export function practiceSchema(config) {
     description: config.seo?.description,
     telephone: config.practice.phone,
     ...(config.practice.email ? { email: config.practice.email } : {}),
-    address: config.practice.address
-      ? { '@type': 'PostalAddress', ...config.practice.address }
-      : config.practice.addressLines.join(', '),
+    address: postalAddress(config.practice.address),
     ...(config.practice.geo
       ? {
           geo: {
@@ -358,13 +417,28 @@ export function practiceSchema(config) {
     ...(config.practice.logo
       ? { logo: absoluteUrl(config, config.practice.logo) }
       : {}),
-    ...(config.practice.medicalSpecialty
-      ? { medicalSpecialty: config.practice.medicalSpecialty }
-      : {}),
+    ...(medicalSpecialty ? { medicalSpecialty } : {}),
     ...(config.conditions?.length ? { knowsAbout: config.conditions } : {}),
     ...(openingHoursSpecification.length ? { openingHoursSpecification } : {}),
     ...(typeof config.practice.acceptsNewPatients === 'boolean'
       ? { isAcceptingNewPatients: config.practice.acceptsNewPatients }
       : {}),
+    ...(providerSchemas.length
+      ? {
+          member: providerSchemas.map((provider) => ({
+            '@id': provider['@id'],
+          })),
+        }
+      : {}),
   };
+}
+
+export function practiceHomepageSchemas(config) {
+  const providerSchemas = (config.providers || []).map(
+    (provider) => providerProfile(config, provider).schema,
+  );
+  const clinic = practiceSchema(config, providerSchemas);
+  return providerSchemas.length === 1
+    ? [providerSchemas[0], clinic]
+    : [clinic, ...providerSchemas];
 }
