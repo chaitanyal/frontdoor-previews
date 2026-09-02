@@ -591,42 +591,42 @@ html[data-theme='editorial-healthcare'] summary:focus-visible {
 }
 
 /* Curated practice identities share the patient journey while varying composition. */
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) body {
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) body {
   color: var(--color-text-primary);
   background: var(--color-surface);
 }
 
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) h1,
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) h2,
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) h3 {
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) h1,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) h2,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) h3 {
   font-family: var(--font-heading), Georgia, serif;
 }
 
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) .practice-header {
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .practice-header {
   border-color: color-mix(in srgb, var(--color-border), transparent 8%);
   background: color-mix(in srgb, var(--color-surface), transparent 3%);
   backdrop-filter: blur(18px);
 }
 
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) .btn-primary,
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) .btn-secondary {
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .btn-primary,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .btn-secondary {
   box-shadow: none;
 }
 
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) .section {
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .section {
   padding-top: clamp(5.5rem, 8vw, 8rem);
   padding-bottom: clamp(5.5rem, 8vw, 8rem);
 }
 
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) .section-copy {
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .section-copy {
   color: var(--color-text-secondary);
   line-height: 1.8;
 }
 
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) .soft-card,
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) .card,
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) .editorial-card,
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) .dark-section-card {
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .soft-card,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .card,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .editorial-card,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .dark-section-card {
   border-color: var(--color-border);
   background: var(--color-card);
 }
@@ -981,7 +981,7 @@ html[data-theme='structured-clinical'] .practice-footer a {
 }
 
 /* Mariposa Psychiatry: reflective, literary, and intentionally unhurried. */
-html[data-theme='reflective-boutique'] body::before {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] body::before {
   position: fixed;
   inset: 0;
   z-index: 60;
@@ -991,7 +991,7 @@ html[data-theme='reflective-boutique'] body::before {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
 }
 
-html[data-theme='reflective-boutique'] .practice-brand-mark {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .practice-brand-mark {
   border: 1px solid var(--color-success);
   border-radius: 999px;
   color: var(--color-success);
@@ -1002,29 +1002,29 @@ html[data-theme='reflective-boutique'] .practice-brand-mark {
   font-weight: 500;
 }
 
-html[data-theme='reflective-boutique'] .practice-brand-name {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .practice-brand-name {
   font-family: var(--font-heading), Georgia, serif;
   font-size: 1.18rem;
   font-weight: 500;
 }
 
-html[data-theme='reflective-boutique'] .btn-primary,
-html[data-theme='reflective-boutique'] .btn-secondary {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .btn-primary,
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .btn-secondary {
   border-radius: 999px;
 }
 
-html[data-theme='reflective-boutique'] .home-hero {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero {
   min-height: 740px;
   background: var(--color-surface);
 }
 
-html[data-theme='reflective-boutique'] .home-hero .image-treatment {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero .image-treatment {
   right: auto;
   width: 55%;
   filter: brightness(0.9) contrast(0.98) saturate(0.7) sepia(0.08);
 }
 
-html[data-theme='reflective-boutique'] .home-hero-overlay {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-overlay {
   background: linear-gradient(
     90deg,
     rgba(244, 239, 231, 0.05) 0%,
@@ -1034,17 +1034,17 @@ html[data-theme='reflective-boutique'] .home-hero-overlay {
   );
 }
 
-html[data-theme='reflective-boutique'] .home-hero-shell {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-shell {
   min-height: 740px;
 }
 
-html[data-theme='reflective-boutique'] .home-hero-content {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-content {
   width: 43%;
   max-width: none;
   margin-left: auto;
 }
 
-html[data-theme='reflective-boutique'] .home-hero-location {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-location {
   border: 0;
   border-bottom: 1px solid var(--color-border);
   border-radius: 0;
@@ -1058,19 +1058,19 @@ html[data-theme='reflective-boutique'] .home-hero-location {
   letter-spacing: 0.06em;
 }
 
-html[data-theme='reflective-boutique'] .home-hero-location .icon-chip {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-location .icon-chip {
   color: var(--color-success);
   background: transparent;
 }
 
-html[data-theme='reflective-boutique'] .home-hero-panel {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-panel {
   border: 0;
   border-radius: 0;
   padding: 0;
   background: transparent;
 }
 
-html[data-theme='reflective-boutique'] .home-hero-title {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-title {
   max-width: 34rem;
   color: var(--color-text-primary);
   font-size: clamp(3.5rem, 5.3vw, 5.75rem);
@@ -1079,19 +1079,19 @@ html[data-theme='reflective-boutique'] .home-hero-title {
   letter-spacing: -0.045em;
 }
 
-html[data-theme='reflective-boutique'] .home-hero-copy {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-copy {
   max-width: 31rem;
   color: var(--color-text-secondary);
   font-size: 1.05rem;
   line-height: 1.85;
 }
 
-html[data-theme='reflective-boutique'] .home-trust {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust {
   border-color: var(--color-border);
   background: var(--color-card);
 }
 
-html[data-theme='reflective-boutique'] .home-trust-item {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust-item {
   min-height: 3rem;
   border: 0;
   border-left: 1px solid var(--color-border);
@@ -1103,18 +1103,18 @@ html[data-theme='reflective-boutique'] .home-trust-item {
   font-weight: 500;
 }
 
-html[data-theme='reflective-boutique'] .home-trust-item:first-child {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust-item:first-child {
   border-left: 0;
   padding-left: 0;
 }
 
-html[data-theme='reflective-boutique'] .eyebrow {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .eyebrow {
   color: var(--color-success);
   font-size: 0.68rem;
   letter-spacing: 0.18em;
 }
 
-html[data-theme='reflective-boutique'] .section-title {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .section-title {
   max-width: 46rem;
   color: var(--color-text-primary);
   font-size: clamp(3rem, 4.5vw, 4.65rem);
@@ -1123,17 +1123,17 @@ html[data-theme='reflective-boutique'] .section-title {
   letter-spacing: -0.035em;
 }
 
-html[data-theme='reflective-boutique'] .home-providers {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-providers {
   border-color: var(--color-border);
   background: var(--color-card);
 }
 
-html[data-theme='reflective-boutique'] .home-provider-grid {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-grid {
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
 }
 
-html[data-theme='reflective-boutique'] .home-provider-card {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-card {
   border: 0;
   border-radius: 0;
   padding: 2.5rem 0;
@@ -1141,29 +1141,29 @@ html[data-theme='reflective-boutique'] .home-provider-card {
   box-shadow: none;
 }
 
-html[data-theme='reflective-boutique'] .home-provider-card:hover {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-card:hover {
   transform: none;
   background: color-mix(in srgb, var(--color-surface), transparent 45%);
   box-shadow: none;
 }
 
-html[data-theme='reflective-boutique'] .home-provider-image {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-image {
   border-radius: 1px;
   filter: brightness(0.98) contrast(1.01) saturate(0.72) sepia(0.04);
 }
 
-html[data-theme='reflective-boutique'] .home-provider-meta h3 {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-meta h3 {
   color: var(--color-text-primary);
   font-size: 2rem;
   font-weight: 500;
   letter-spacing: -0.025em;
 }
 
-html[data-theme='reflective-boutique'] .home-provider-meta span {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-meta span {
   color: var(--color-success);
 }
 
-html[data-theme='reflective-boutique'] .home-provider-tagline {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tagline {
   max-width: 40rem;
   color: var(--color-text-secondary);
   font-family: var(--font-heading), Georgia, serif;
@@ -1171,57 +1171,57 @@ html[data-theme='reflective-boutique'] .home-provider-tagline {
   line-height: 1.65;
 }
 
-html[data-theme='reflective-boutique'] .home-provider-tags .badge-brand {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tags .badge-brand {
   border-radius: 999px;
   color: var(--color-success);
   background: color-mix(in srgb, var(--color-sage), transparent 24%);
 }
 
-html[data-theme='reflective-boutique'] .home-conditions {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions {
   border-color: var(--color-border);
   background: var(--color-surface);
 }
 
-html[data-theme='reflective-boutique'] .home-conditions .conditions-leaf {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions .conditions-leaf {
   right: 7%;
   top: 12%;
   color: var(--color-success);
   opacity: 0.075;
 }
 
-html[data-theme='reflective-boutique'] .home-conditions ul {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions ul {
   max-width: 64rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-html[data-theme='reflective-boutique'] .home-conditions li {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions li {
   border-color: var(--color-border);
 }
 
-html[data-theme='reflective-boutique'] .home-conditions h3 {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions h3 {
   color: var(--color-text-primary);
   font-family: var(--font-heading), Georgia, serif;
   font-size: 1.12rem;
   font-weight: 500;
 }
 
-html[data-theme='reflective-boutique'] .home-financial {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial {
   border-color: var(--color-border);
   background: #dedfd4;
 }
 
-html[data-theme='reflective-boutique'] .home-financial-inner {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial-inner {
   max-width: 68rem;
   border: 0;
   border-radius: 2px;
   background: var(--color-card);
 }
 
-html[data-theme='reflective-boutique'] .home-fee-list {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-list {
   border-top: 1px solid var(--color-border);
 }
 
-html[data-theme='reflective-boutique'] .home-fee-item {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-item {
   border: 0;
   border-bottom: 1px solid var(--color-border);
   border-radius: 0;
@@ -1230,80 +1230,80 @@ html[data-theme='reflective-boutique'] .home-fee-item {
   background: transparent;
 }
 
-html[data-theme='reflective-boutique'] .home-fee-label,
-html[data-theme='reflective-boutique'] .home-fee-amount {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-label,
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-fee-amount {
   font-family: var(--font-heading), Georgia, serif;
   font-size: 1.25rem;
   font-weight: 500;
 }
 
-html[data-theme='reflective-boutique'] .home-financial-contact {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial-contact {
   border-radius: 2px;
   background: var(--color-surface);
 }
 
-html[data-theme='reflective-boutique'] .home-payment-methods span {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-payment-methods span {
   border-radius: 999px;
 }
 
-html[data-theme='reflective-boutique'] .home-appointment {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-appointment {
   border-color: var(--color-primary-hover);
   background: linear-gradient(120deg, #46332d 0%, #684a3b 67%, #71535c 100%);
 }
 
-html[data-theme='reflective-boutique'] .home-appointment h2 {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-appointment h2 {
   font-size: clamp(3.2rem, 5vw, 5.25rem);
   font-weight: 500;
   line-height: 0.96;
   letter-spacing: -0.04em;
 }
 
-html[data-theme='reflective-boutique'] .home-appointment-card {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-appointment-card {
   border: 0;
   border-radius: 3px;
   box-shadow: 0 26px 64px rgba(45, 28, 23, 0.22);
 }
 
-html[data-theme='reflective-boutique'] .home-location {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-location {
   border-color: var(--color-border);
   background: var(--color-surface);
 }
 
-html[data-theme='reflective-boutique'] .home-location .soft-card {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-location .soft-card {
   border-radius: 3px;
 }
 
-html[data-theme='reflective-boutique'] .home-faq {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-faq {
   border-color: var(--color-border);
   background: var(--color-card);
 }
 
-html[data-theme='reflective-boutique'] .home-faq-list {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-faq-list {
   border: 0;
   border-top: 1px solid var(--color-border);
   border-radius: 0;
   background: transparent;
 }
 
-html[data-theme='reflective-boutique'] .home-faq-list details {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-faq-list details {
   padding-right: 0;
   padding-left: 0;
 }
 
-html[data-theme='reflective-boutique'] .home-faq-list summary {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-faq-list summary {
   font-family: var(--font-heading), Georgia, serif;
   font-size: 1.25rem;
   font-weight: 500;
 }
 
-html[data-theme='reflective-boutique'] .practice-footer {
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .practice-footer {
   border-color: var(--color-border);
   background: var(--color-surface);
 }
 
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) a:focus-visible,
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) button:focus-visible,
-html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) summary:focus-visible {
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) a:focus-visible,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) button:focus-visible,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) summary:focus-visible {
   outline-color: var(--color-primary);
 }
 
@@ -1324,27 +1324,27 @@ html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) 
     width: calc(50% - 0.75rem);
   }
 
-  html[data-theme='reflective-boutique'] .home-provider-card {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-card {
     display: grid;
     grid-template-columns: 15rem minmax(0, 1fr);
     column-gap: 3rem;
     align-content: center;
   }
 
-  html[data-theme='reflective-boutique'] .home-provider-intro {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-intro {
     display: contents;
   }
 
-  html[data-theme='reflective-boutique'] .home-provider-image {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-image {
     grid-row: 1 / span 3;
     grid-column: 1;
     width: 15rem;
     height: 19rem;
   }
 
-  html[data-theme='reflective-boutique'] .home-provider-meta,
-  html[data-theme='reflective-boutique'] .home-provider-tagline,
-  html[data-theme='reflective-boutique'] .home-provider-tags {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-meta,
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tagline,
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tags {
     grid-column: 2;
   }
 }
@@ -1382,7 +1382,7 @@ html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) 
 
 @media (max-width: 1023px) {
   html[data-theme='structured-clinical'] .home-hero .image-treatment,
-  html[data-theme='reflective-boutique'] .home-hero .image-treatment {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero .image-treatment {
     right: 0;
     left: 0;
     width: 100%;
@@ -1406,16 +1406,16 @@ html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) 
     padding: 0.5rem 0 0.5rem 1.5rem;
   }
 
-  html[data-theme='reflective-boutique'] .home-hero {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero {
     min-height: 820px;
   }
 
-  html[data-theme='reflective-boutique'] .home-hero .image-treatment {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero .image-treatment {
     bottom: auto;
     height: 48%;
   }
 
-  html[data-theme='reflective-boutique'] .home-hero-overlay {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-overlay {
     background: linear-gradient(
       180deg,
       rgba(244, 239, 231, 0.08) 0%,
@@ -1425,13 +1425,13 @@ html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) 
     );
   }
 
-  html[data-theme='reflective-boutique'] .home-hero-shell {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-shell {
     min-height: 820px;
     justify-content: flex-end;
     padding-bottom: 4.5rem;
   }
 
-  html[data-theme='reflective-boutique'] .home-hero-content {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-content {
     width: 100%;
     max-width: 40rem;
     margin-left: 0;
@@ -1452,20 +1452,20 @@ html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) 
   }
 
   html[data-theme='structured-clinical'] .home-trust .page-shell,
-  html[data-theme='reflective-boutique'] .home-trust .page-shell {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust .page-shell {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0;
   }
 
   html[data-theme='structured-clinical'] .home-trust-item,
-  html[data-theme='reflective-boutique'] .home-trust-item {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust-item {
     border-top: 1px solid var(--color-border);
     border-left: 0;
     padding: 0.9rem 0.75rem 0.9rem 0;
   }
 
   html[data-theme='structured-clinical'] .home-trust-item:nth-child(even),
-  html[data-theme='reflective-boutique'] .home-trust-item:nth-child(even) {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust-item:nth-child(even) {
     border-left: 1px solid var(--color-border);
     padding-left: 0.75rem;
   }
@@ -1474,20 +1474,20 @@ html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) 
     height: 15rem;
   }
 
-  html[data-theme='reflective-boutique'] .home-hero-title {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-title {
     font-size: clamp(3rem, 14vw, 4rem);
   }
 
-  html[data-theme='reflective-boutique'] .home-hero,
-  html[data-theme='reflective-boutique'] .home-hero-shell {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero,
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-shell {
     min-height: 900px;
   }
 
-  html[data-theme='reflective-boutique'] .home-hero .image-treatment {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero .image-treatment {
     height: 36%;
   }
 
-  html[data-theme='reflective-boutique'] .home-hero-overlay {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-overlay {
     background: linear-gradient(
       180deg,
       rgba(244, 239, 231, 0.08) 0%,
@@ -1497,28 +1497,28 @@ html:is([data-theme='structured-clinical'], [data-theme='reflective-boutique']) 
     );
   }
 
-  html[data-theme='reflective-boutique'] .home-provider-grid {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-grid {
     border-top: 0;
   }
 
-  html[data-theme='reflective-boutique'] .home-provider-card {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-card {
     padding: 2rem 0;
   }
 
-  html[data-theme='reflective-boutique'] .home-provider-image {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-image {
     width: 7.5rem;
     height: 9.5rem;
   }
 
-  html[data-theme='reflective-boutique'] .home-provider-meta h3 {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-meta h3 {
     font-size: 1.65rem;
   }
 
-  html[data-theme='reflective-boutique'] .home-provider-tagline {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tagline {
     font-size: 1.1rem;
   }
 
-  html[data-theme='reflective-boutique'] .home-conditions ul {
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions ul {
     grid-template-columns: minmax(0, 1fr);
   }
 }
