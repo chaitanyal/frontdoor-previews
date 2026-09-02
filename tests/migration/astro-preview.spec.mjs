@@ -218,6 +218,14 @@ test.describe.serial('Astro preview migration', () => {
       display: 'list-item',
       marker: 'none',
     });
+    const providerShellOffsets = await page
+      .locator(
+        '.provider-hero > .section-shell, .provider-page-section > .provider-section-shell',
+      )
+      .evaluateAll((shells) =>
+        shells.map((shell) => Math.round(shell.getBoundingClientRect().left)),
+      );
+    expect(new Set(providerShellOffsets).size).toBe(1);
     expect(network.unexpectedRequests).toEqual([]);
   });
 

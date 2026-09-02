@@ -1464,10 +1464,6 @@ html[data-theme='editorial-healthcare'] .provider-page-section:nth-of-type(even)
   background: var(--color-surface);
 }
 
-html[data-theme='editorial-healthcare'] .provider-section-shell {
-  max-width: 76rem;
-}
-
 html[data-theme='editorial-healthcare'] .provider-section-title {
   color: var(--color-text-primary);
   font-size: clamp(3rem, 4.6vw, 5rem);
