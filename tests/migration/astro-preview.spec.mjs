@@ -133,7 +133,9 @@ test.describe.serial('Astro preview migration', () => {
     );
   });
 
-  test('@astro-preview generates all and only eligible previews', () => {
+  test('@astro-preview generates all and only eligible previews', async ({
+    page,
+  }) => {
     const result = runBuild('build:astro:preview:all');
     expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
     verifyPreviewOutputContract('ALL');
@@ -171,7 +173,52 @@ test.describe.serial('Astro preview migration', () => {
       expect(providerHtml).toContain('class="provider-page ');
       expect(providerHtml).toContain('provider-hero');
       expect(providerHtml).toContain('data-provider-section="conditions"');
+      expect(providerHtml).toContain('home-conditions');
     }
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await installDeterministicBrowser(page);
+    const network = await installMockNetwork(page);
+    await page.goto(
+      pathToFileURL(
+        path.join(
+          previewRoot,
+          'previews',
+          'northwestpsychiatry',
+          'providers',
+          'arvinder-walia',
+          'index.html',
+        ),
+      ).href,
+    );
+    await waitForStablePage(page);
+
+    expect(
+      await page.locator('.provider-hero-panel').evaluate((panel) => ({
+        backgroundColor: getComputedStyle(panel).backgroundColor,
+        borderRadius: getComputedStyle(panel).borderRadius,
+      })),
+    ).toEqual({
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      borderRadius: '0px',
+    });
+    expect(
+      await page
+        .locator('[data-provider-section="conditions"] li')
+        .first()
+        .evaluate((item) => ({
+          backgroundColor: getComputedStyle(item).backgroundColor,
+          borderRadius: getComputedStyle(item).borderRadius,
+          display: getComputedStyle(item).display,
+          marker: getComputedStyle(item, '::before').content,
+        })),
+    ).toEqual({
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      borderRadius: '0px',
+      display: 'list-item',
+      marker: 'none',
+    });
+    expect(network.unexpectedRequests).toEqual([]);
   });
 
   test('@astro-preview includes protected previews in the marketing build', () => {
