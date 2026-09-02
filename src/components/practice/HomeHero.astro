@@ -13,7 +13,7 @@ const content = homeContent(config);
 ---
 
 <section
-  class="fade-in-up relative isolate min-h-[680px] overflow-hidden bg-warm-50 sm:min-h-[760px]"
+  class="home-hero fade-in-up relative isolate min-h-[680px] overflow-hidden bg-warm-50 sm:min-h-[760px]"
 >
   <img
     src={hero.image}
@@ -21,17 +21,17 @@ const content = homeContent(config);
     class="image-treatment absolute inset-0 -z-20 h-full w-full object-cover object-[62%_center]"
   />
   <div
-    class="absolute inset-0 -z-10 bg-gradient-to-r from-warm-50/90 via-white/55 to-sage-50/20 sm:from-warm-50/95 sm:via-white/45 sm:to-transparent"
+    class="home-hero-overlay absolute inset-0 -z-10 bg-gradient-to-r from-warm-50/90 via-white/55 to-sage-50/20 sm:from-warm-50/95 sm:via-white/45 sm:to-transparent"
   ></div>
   <div
     class="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-warm-50/55 via-white/10 to-transparent"
   ></div>
   <div
-    class="page-shell flex min-h-[680px] flex-col justify-center py-16 sm:min-h-[760px] lg:py-24"
+    class="home-hero-shell page-shell flex min-h-[680px] flex-col justify-center py-16 sm:min-h-[760px] lg:py-24"
   >
-    <div class="max-w-4xl space-y-6">
+    <div class="home-hero-content max-w-4xl space-y-6">
       <div
-        class="inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/85 px-4 py-2.5 text-sm font-semibold text-brand-primary sm:px-5 sm:py-3 sm:text-base"
+        class="home-hero-location inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/85 px-4 py-2.5 text-sm font-semibold text-brand-primary sm:px-5 sm:py-3 sm:text-base"
       >
         <span class="icon-chip h-8 w-8 rounded-full">
           <Icon name="MapPin" />
@@ -39,15 +39,15 @@ const content = homeContent(config);
         {practice.locationLabel}
       </div>
       <div
-        class="max-w-4xl rounded-[32px] border border-slate-200 bg-white/85 p-6 sm:p-8 lg:bg-white/80"
+        class="home-hero-panel max-w-4xl rounded-[32px] border border-slate-200 bg-white/85 p-6 sm:p-8 lg:bg-white/80"
       >
         <h1
-          class="max-w-3xl text-[2.5rem] font-semibold leading-[1.04] tracking-tight text-slate-950 sm:text-5xl md:text-6xl lg:text-7xl"
+          class="home-hero-title max-w-3xl text-[2.5rem] font-semibold leading-[1.04] tracking-tight text-slate-950 sm:text-5xl md:text-6xl lg:text-7xl"
         >
           {hero.title}
         </h1>
         <p
-          class="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9 md:text-2xl md:leading-10"
+          class="home-hero-copy mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl sm:leading-9 md:text-2xl md:leading-10"
         >
           {hero.copy}
         </p>
@@ -66,10 +66,10 @@ const content = homeContent(config);
 </section>
 {
   trustItems.length > 0 && (
-    <div class="border-y border-white/60 bg-gradient-to-r from-warm-50 via-white to-sage-50">
+    <div class="home-trust border-y border-white/60 bg-gradient-to-r from-warm-50 via-white to-sage-50">
       <div class="page-shell grid grid-cols-1 gap-3 py-6 sm:grid-cols-2 md:grid-cols-4 md:py-8">
         {trustItems.map((item) => (
-          <div class="reassurance-row">
+          <div class="home-trust-item reassurance-row">
             <Icon name={item.icon} class="h-4 w-4 text-brand-accent" />
             <span>{item.text}</span>
           </div>

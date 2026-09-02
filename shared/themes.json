@@ -10,7 +10,8 @@
     "border": "#E2E8F0",
     "success": "#2F855A",
     "fontHeading": "Inter",
-    "fontBody": "Inter"
+    "fontBody": "Inter",
+    "fontFiles": ["inter-latin.woff2"]
   },
   "warm-wellness": {
     "primary": "#6B4F3B",
@@ -24,6 +25,21 @@
     "success": "#2F855A",
     "accentClay": "#C98F65",
     "fontHeading": "Inter",
-    "fontBody": "Inter"
+    "fontBody": "Inter",
+    "fontFiles": ["inter-latin.woff2"]
+  },
+  "editorial-healthcare": {
+    "primary": "#24483D",
+    "primaryHover": "#18372F",
+    "secondarySage": "#DCE5DE",
+    "surfaceWarm": "#F4F0E8",
+    "cardBackground": "#FBF9F4",
+    "textPrimary": "#17211D",
+    "textSecondary": "#5F6B65",
+    "border": "#D7D0C4",
+    "success": "#8A4B34",
+    "fontHeading": "Newsreader",
+    "fontBody": "Inter",
+    "fontFiles": ["inter-latin.woff2", "newsreader-latin.woff2"]
   }
 }
