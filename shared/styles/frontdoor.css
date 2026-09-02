@@ -631,20 +631,6 @@ html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][
   background: var(--color-card);
 }
 
-/* Northwest Psychiatry: precise, team-oriented, and architectural. */
-html[data-theme='structured-clinical'] body::before {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  content: '';
-  opacity: 0.025;
-  background-image:
-    linear-gradient(rgba(32, 58, 95, 0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(32, 58, 95, 0.14) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
 html[data-theme='structured-clinical'] .practice-header {
   border-bottom-width: 1px;
 }
@@ -865,8 +851,6 @@ html[data-theme='structured-clinical'] .home-provider-tags .badge-brand {
 html[data-theme='structured-clinical'] .home-conditions {
   border-color: var(--color-border);
   background-color: var(--color-surface);
-  background-image: linear-gradient(rgba(32, 58, 95, 0.035) 1px, transparent 1px);
-  background-size: 100% 3.25rem;
 }
 
 html[data-theme='structured-clinical'] .home-conditions .conditions-leaf {
