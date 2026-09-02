@@ -1171,10 +1171,30 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   line-height: 1.65;
 }
 
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tags {
+  max-width: 40rem;
+  column-gap: 1.5rem;
+  row-gap: 0.65rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+}
+
 html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tags .badge-brand {
-  border-radius: 999px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
   color: var(--color-success);
-  background: color-mix(in srgb, var(--color-sage), transparent 24%);
+  background: transparent;
+  font-size: 0.68rem;
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tags .badge-brand + .badge-brand::before {
+  display: none;
+  content: none;
 }
 
 html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions {
