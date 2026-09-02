@@ -41,5 +41,33 @@
     "fontHeading": "Newsreader",
     "fontBody": "Inter",
     "fontFiles": ["inter-latin.woff2", "newsreader-latin.woff2"]
+  },
+  "structured-clinical": {
+    "primary": "#203A5F",
+    "primaryHover": "#142943",
+    "secondarySage": "#DCE6E7",
+    "surfaceWarm": "#F2F3F0",
+    "cardBackground": "#FBFCFA",
+    "textPrimary": "#182331",
+    "textSecondary": "#5B6874",
+    "border": "#C9D2D3",
+    "success": "#467773",
+    "fontHeading": "Inter",
+    "fontBody": "Inter",
+    "fontFiles": ["inter-latin.woff2"]
+  },
+  "reflective-boutique": {
+    "primary": "#684A3B",
+    "primaryHover": "#4B342B",
+    "secondarySage": "#DFE3D8",
+    "surfaceWarm": "#F4EFE7",
+    "cardBackground": "#FBF8F2",
+    "textPrimary": "#2F2925",
+    "textSecondary": "#70655D",
+    "border": "#D7CBC0",
+    "success": "#7A5260",
+    "fontHeading": "Newsreader",
+    "fontBody": "Inter",
+    "fontFiles": ["inter-latin.woff2", "newsreader-latin.woff2"]
   }
 }
