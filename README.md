@@ -87,6 +87,42 @@ sites/<practice>/practice.json + shared/themes.json + shared/styles/frontdoor.cs
   -> Cloudflare Pages
 ```
 
+## Theme System
+
+FrontDoor uses a small set of reusable design families. A practice selects a
+base theme with the top-level `theme` field in `practice.json`. An optional
+`designVariant` can change composition within that family without introducing
+another palette or font system.
+
+| Theme | Visual language | Fonts | Current practices |
+| --- | --- | --- | --- |
+| `calm-healthcare` | Soft cards, rounded geometry, reassuring blue and sage | Inter | Dr. Dronavalli; new-practice template |
+| `editorial-healthcare` | Premium editorial typography, warm surfaces, restrained ornament | Newsreader headings; Inter body | North Hills Psychiatry; Mariposa Psychiatry |
+| `structured-clinical` | Crisp clinical hierarchy, square geometry, dark blue and muted teal | Inter | Northwest Psychiatry |
+
+### Supported design variants
+
+- `reflective`: a quieter, literary composition within
+  `editorial-healthcare`. It uses the same Newsreader and Inter font system and
+  is currently selected by Mariposa Psychiatry.
+
+The variant is not a fourth theme. Prefer an existing theme and variant before
+adding another design family. New styles must apply through shared theme-scoped
+selectors so homepages, provider pages, financial sections, appointment
+sections, and future practices remain visually consistent. Practice-specific
+copy and published facts stay in `practice.json`; visual rules stay in
+`shared/styles/frontdoor.css` and palette/font tokens stay in
+`shared/themes.json`.
+
+Current selections:
+
+```text
+drdronavalli         calm-healthcare
+northhillspsychiatry editorial-healthcare
+mariposa             editorial-healthcare + reflective
+northwestpsychiatry  structured-clinical
+```
+
 ### Practice and provider search images
 
 `seo.ogImage` and `seo.ogImageAlt` describe the practice homepage. When

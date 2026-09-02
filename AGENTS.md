@@ -99,6 +99,22 @@ The pre-commit hook applies the same staged-file routing. Install it once per cl
 with `npm run hooks:install`. Do not bypass it with `--no-verify`. The hook is a
 safety net; run the relevant command yourself before reporting completion.
 
+## Theme Maintenance
+
+The supported base themes are `calm-healthcare`, `editorial-healthcare`, and
+`structured-clinical`. `reflective` is an optional `designVariant` of
+`editorial-healthcare`, not a fourth theme. The current assignments and visual
+characteristics are documented in README.md under **Theme System**.
+
+Keep the theme catalog intentionally small. Reuse the existing Inter and
+Newsreader font families and prefer an existing theme or variant before adding
+another one. Theme work must be implemented through shared components and
+theme-scoped rules, including provider and financial pages; do not create
+practice-only CSS overrides when the behavior belongs to a reusable theme.
+
+When adding, removing, or renaming a theme or variant, update README.md and this
+section in the same change, then run `npm run test:output-contracts`.
+
 ---
 
 # Technology Stack
