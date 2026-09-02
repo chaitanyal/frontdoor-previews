@@ -1,5 +1,5 @@
 {
-  "theme": "calm-healthcare",
+  "theme": "editorial-healthcare",
   "seo": {
     "title": "North Hills Psychiatry | Compassionate Psychiatric Care in Austin",
     "description": "Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.",
@@ -27,7 +27,7 @@
   "hero": {
     "image": "./images/hero/Austin_Hero_Image.webp",
     "imageAlt": "Austin skyline at sunset",
-    "title": "Care that starts with understanding.",
+    "title": "Psychiatric Care for Adults, Children & Families in North Austin",
     "copy": "Psychiatric care for adults and families navigating anxiety, ADHD, depression, and life transitions with thoughtful, individualized treatment.",
     "primaryCta": "Request Appointment",
     "secondaryCta": "Meet Our Providers"

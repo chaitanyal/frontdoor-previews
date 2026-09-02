@@ -57,7 +57,7 @@ const containerClass = homeVariant
 
 <section
   id={sectionId}
-  class={sectionClass}
+  class:list={['home-appointment', sectionClass]}
   aria-labelledby={homeVariant ? 'contact-title' : undefined}
 >
   <div class={containerClass}>
@@ -81,7 +81,7 @@ const containerClass = homeVariant
         {summary}
       </p>
     </div>
-    <div class="dark-section-card p-7 md:p-8">
+    <div class="home-appointment-card dark-section-card p-7 md:p-8">
       {
         actions.length > 0 && (
           <div class="space-y-3">

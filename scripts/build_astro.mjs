@@ -224,14 +224,19 @@ for (const practiceId of practiceIds) {
     });
   }
 
-  const fontSource = path.join(repoRoot, 'shared', 'fonts');
-  if (existsSync(fontSource)) {
-    await cp(fontSource, path.join(destinationRoot, 'assets', 'fonts'), {
+  const { theme } = await readPractice(practiceId);
+  for (const fontFile of theme.fontFiles ?? []) {
+    const fontSource = path.join(repoRoot, 'shared', 'fonts', fontFile);
+    if (!existsSync(fontSource)) {
+      fail(`Theme font not found: shared/fonts/${fontFile}`);
+    }
+    await mkdir(path.join(destinationRoot, 'assets', 'fonts'), {
       recursive: true,
-      filter(sourcePath) {
-        return path.basename(sourcePath) !== '.DS_Store';
-      },
     });
+    await cp(
+      fontSource,
+      path.join(destinationRoot, 'assets', 'fonts', fontFile),
+    );
   }
 
   const redirectsSource = path.join(
