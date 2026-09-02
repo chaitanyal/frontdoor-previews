@@ -99,7 +99,7 @@ const note = policy?.contactForRatesMessage
         </div>
         {['listed', 'published'].includes(policy?.pricingDisplay) &&
           fees.length > 0 && (
-            <div class="home-fee-list mt-6 space-y-4">
+            <div class="home-fee-list mt-6 grid gap-4">
               {fees.map((fee) => (
                 <div class="home-fee-item rounded-[28px] border border-slate-200 bg-white px-5 py-3.5 md:px-5 md:py-4">
                   <div class="flex items-start justify-between gap-4">
