@@ -590,6 +590,1036 @@ html[data-theme='editorial-healthcare'] summary:focus-visible {
   }
 }
 
+/* Curated practice identities share the patient journey while varying composition. */
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) body {
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+}
+
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) h1,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) h2,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) h3 {
+  font-family: var(--font-heading), Georgia, serif;
+}
+
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .practice-header {
+  border-color: color-mix(in srgb, var(--color-border), transparent 8%);
+  background: color-mix(in srgb, var(--color-surface), transparent 3%);
+  backdrop-filter: blur(18px);
+}
+
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .btn-primary,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .btn-secondary {
+  box-shadow: none;
+}
+
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .section {
+  padding-top: clamp(5.5rem, 8vw, 8rem);
+  padding-bottom: clamp(5.5rem, 8vw, 8rem);
+}
+
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .section-copy {
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .soft-card,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .card,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .editorial-card,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .dark-section-card {
+  border-color: var(--color-border);
+  background: var(--color-card);
+}
+
+html[data-theme='structured-clinical'] .practice-header {
+  border-bottom-width: 1px;
+}
+
+html[data-theme='structured-clinical'] .practice-brand-mark {
+  border: 1px solid var(--color-primary);
+  border-radius: 3px;
+  color: var(--color-primary);
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-theme='structured-clinical'] .practice-brand-name {
+  color: var(--color-text-primary);
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+html[data-theme='structured-clinical'] .btn-primary,
+html[data-theme='structured-clinical'] .btn-secondary {
+  border-radius: 3px;
+}
+
+html[data-theme='structured-clinical'] .nav-link {
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+}
+
+html[data-theme='structured-clinical'] .home-hero {
+  min-height: 700px;
+  background: var(--color-primary-hover);
+}
+
+html[data-theme='structured-clinical'] .home-hero .image-treatment {
+  left: auto;
+  width: 58%;
+  filter: brightness(0.82) contrast(1.07) saturate(0.72);
+}
+
+html[data-theme='structured-clinical'] .home-hero-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(20, 41, 67, 1) 0%,
+    rgba(20, 41, 67, 0.99) 42%,
+    rgba(20, 41, 67, 0.82) 55%,
+    rgba(20, 41, 67, 0.1) 82%
+  );
+}
+
+html[data-theme='structured-clinical'] .home-hero-shell {
+  min-height: 700px;
+}
+
+html[data-theme='structured-clinical'] .home-hero-content {
+  max-width: 46rem;
+}
+
+html[data-theme='structured-clinical'] .home-hero-location {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 3px;
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  backdrop-filter: blur(10px);
+}
+
+html[data-theme='structured-clinical'] .home-hero-location .icon-chip {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme='structured-clinical'] .home-hero-panel {
+  max-width: 45rem;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.38);
+  border-radius: 0;
+  padding: 0.75rem 0 0.75rem 2.25rem;
+  color: #ffffff;
+  background: transparent;
+}
+
+html[data-theme='structured-clinical'] .home-hero-title {
+  max-width: 42rem;
+  color: #ffffff;
+  font-size: clamp(3.35rem, 5.7vw, 5.8rem);
+  font-weight: 650;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+html[data-theme='structured-clinical'] .home-hero-copy {
+  max-width: 39rem;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  line-height: 1.75;
+}
+
+html[data-theme='structured-clinical'] .home-hero-panel .btn-primary {
+  color: var(--color-primary-hover);
+  background: #ffffff;
+}
+
+html[data-theme='structured-clinical'] .home-hero-panel .btn-primary:hover {
+  background: #edf3f3;
+}
+
+html[data-theme='structured-clinical'] .home-hero-panel .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  background: transparent;
+}
+
+html[data-theme='structured-clinical'] .home-hero-panel .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme='structured-clinical'] .home-trust {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+html[data-theme='structured-clinical'] .home-trust-item {
+  min-height: 3rem;
+  border: 0;
+  border-left: 1px solid var(--color-border);
+  border-radius: 0;
+  padding: 0 1.5rem;
+  color: var(--color-text-secondary);
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+}
+
+html[data-theme='structured-clinical'] .home-trust-item:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+html[data-theme='structured-clinical'] .eyebrow {
+  color: var(--color-success);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+}
+
+html[data-theme='structured-clinical'] .section-title {
+  max-width: 54rem;
+  color: var(--color-text-primary);
+  font-size: clamp(2.8rem, 4vw, 4.25rem);
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+html[data-theme='structured-clinical'] .home-providers {
+  border-color: var(--color-border);
+  background: #f8faf9;
+}
+
+html[data-theme='structured-clinical'] .home-provider-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+html[data-theme='structured-clinical'] .home-provider-card {
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-success);
+  border-radius: 2px;
+  padding: 1.25rem;
+  background: var(--color-card);
+  box-shadow: none;
+}
+
+html[data-theme='structured-clinical'] .home-provider-card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--color-success), var(--color-border) 55%);
+  box-shadow: 0 18px 42px rgba(24, 35, 49, 0.09);
+}
+
+html[data-theme='structured-clinical'] .home-provider-intro {
+  display: block;
+}
+
+html[data-theme='structured-clinical'] .home-provider-image {
+  width: 100%;
+  height: 18rem;
+  border-radius: 0;
+  background: var(--color-sage);
+  filter: grayscale(0.08) contrast(1.03) saturate(0.78);
+}
+
+html[data-theme='structured-clinical'] .home-provider-meta {
+  padding-top: 1.25rem;
+}
+
+html[data-theme='structured-clinical'] .home-provider-meta h3 {
+  color: var(--color-text-primary);
+  font-size: 1.45rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+html[data-theme='structured-clinical'] .home-provider-tagline {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+html[data-theme='structured-clinical'] .home-provider-tags .badge-brand {
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  color: var(--color-primary);
+  background: transparent;
+}
+
+html[data-theme='structured-clinical'] .home-conditions {
+  border-color: var(--color-border);
+  background-color: var(--color-surface);
+}
+
+html[data-theme='structured-clinical'] .home-conditions .conditions-leaf {
+  display: none;
+}
+
+html[data-theme='structured-clinical'] .home-conditions ul {
+  counter-reset: condition;
+}
+
+html[data-theme='structured-clinical'] .home-conditions li {
+  counter-increment: condition;
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  align-items: baseline;
+  border-color: var(--color-border);
+}
+
+html[data-theme='structured-clinical'] .home-conditions li::before {
+  color: var(--color-success);
+  content: counter(condition, decimal-leading-zero);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+html[data-theme='structured-clinical'] .home-conditions h3 {
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+html[data-theme='structured-clinical'] .home-financial {
+  border-color: var(--color-border);
+  background: #dfe7e8;
+}
+
+html[data-theme='structured-clinical'] .home-financial-inner {
+  border: 0;
+  border-top: 4px solid var(--color-primary);
+  border-radius: 2px;
+  background: var(--color-card);
+}
+
+html[data-theme='structured-clinical'] .home-financial-verification,
+html[data-theme='structured-clinical'] .home-financial-contact {
+  border-radius: 2px;
+  background: var(--color-surface);
+}
+
+html[data-theme='structured-clinical'] .home-appointment {
+  border-color: var(--color-primary-hover);
+  background: linear-gradient(115deg, #142943 0%, #203a5f 72%, #315469 100%);
+}
+
+html[data-theme='structured-clinical'] .home-appointment h2 {
+  font-size: clamp(3rem, 4.8vw, 5rem);
+  font-weight: 650;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+html[data-theme='structured-clinical'] .home-appointment-card {
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 24px 60px rgba(8, 23, 38, 0.22);
+}
+
+html[data-theme='structured-clinical'] .home-location {
+  border-color: var(--color-border);
+  background: #e7eceb;
+}
+
+html[data-theme='structured-clinical'] .home-location .soft-card {
+  border-radius: 2px;
+}
+
+html[data-theme='structured-clinical'] .home-faq {
+  border-color: var(--color-border);
+  background: #f8faf9;
+}
+
+html[data-theme='structured-clinical'] .home-faq-list {
+  border: 0;
+  border-top: 3px solid var(--color-primary);
+  border-radius: 0;
+  background: transparent;
+}
+
+html[data-theme='structured-clinical'] .home-faq-list details {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+html[data-theme='structured-clinical'] .home-resources {
+  border-color: var(--color-border);
+  background: #dfe7e8;
+}
+
+html[data-theme='structured-clinical'] .home-resources > div > div:not(:first-child) {
+  border-radius: 2px;
+}
+
+html[data-theme='structured-clinical'] .practice-footer {
+  border-color: var(--color-border);
+  background: var(--color-primary-hover);
+}
+
+html[data-theme='structured-clinical'] .practice-footer,
+html[data-theme='structured-clinical'] .practice-footer a {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+/* Mariposa Psychiatry: reflective, literary, and intentionally unhurried. */
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] body::before {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  content: '';
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .practice-brand-mark {
+  border: 1px solid var(--color-success);
+  border-radius: 999px;
+  color: var(--color-success);
+  background: transparent;
+  box-shadow: none;
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .practice-brand-name {
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 1.18rem;
+  font-weight: 500;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .btn-primary,
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .btn-secondary {
+  border-radius: 999px;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero {
+  min-height: 740px;
+  background: var(--color-surface);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero .image-treatment {
+  right: auto;
+  width: 55%;
+  filter: brightness(0.9) contrast(0.98) saturate(0.7) sepia(0.08);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(244, 239, 231, 0.05) 0%,
+    rgba(244, 239, 231, 0.08) 45%,
+    rgba(244, 239, 231, 0.9) 60%,
+    rgba(244, 239, 231, 1) 72%
+  );
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-shell {
+  min-height: 740px;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-content {
+  width: 43%;
+  max-width: none;
+  margin-left: auto;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-location {
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  padding-right: 0;
+  padding-left: 0;
+  color: var(--color-success);
+  background: transparent;
+  box-shadow: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-location .icon-chip {
+  color: var(--color-success);
+  background: transparent;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-panel {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-title {
+  max-width: 34rem;
+  color: var(--color-text-primary);
+  font-size: clamp(3.5rem, 5.3vw, 5.75rem);
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-copy {
+  max-width: 31rem;
+  color: var(--color-text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.85;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust {
+  border-color: var(--color-border);
+  background: var(--color-card);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust-item {
+  min-height: 3rem;
+  border: 0;
+  border-left: 1px solid var(--color-border);
+  border-radius: 0;
+  padding: 0 1.4rem;
+  color: var(--color-text-secondary);
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust-item:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .eyebrow {
+  color: var(--color-success);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .section-title {
+  max-width: 46rem;
+  color: var(--color-text-primary);
+  font-size: clamp(3rem, 4.5vw, 4.65rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-providers {
+  border-color: var(--color-border);
+  background: var(--color-card);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-grid {
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-card {
+  border: 0;
+  border-radius: 0;
+  padding: 2.5rem 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-card:hover {
+  transform: none;
+  background: color-mix(in srgb, var(--color-surface), transparent 45%);
+  box-shadow: none;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-image {
+  border-radius: 1px;
+  filter: brightness(0.98) contrast(1.01) saturate(0.72) sepia(0.04);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-meta h3 {
+  color: var(--color-text-primary);
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-meta span {
+  color: var(--color-success);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tagline {
+  max-width: 40rem;
+  color: var(--color-text-secondary);
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 1.25rem;
+  line-height: 1.65;
+}
+
+html[data-theme='editorial-healthcare'] .home-provider-tags {
+  max-width: 40rem;
+  column-gap: 1.5rem;
+  row-gap: 0.65rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+}
+
+html[data-theme='editorial-healthcare'] .home-provider-tags .badge-brand {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  color: var(--color-success);
+  background: transparent;
+  font-size: 0.68rem;
+  font-weight: 650;
+  line-height: 1.4;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+html[data-theme='editorial-healthcare'] .home-provider-tags .badge-brand + .badge-brand::before {
+  display: none;
+  content: none;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions .conditions-leaf {
+  right: 7%;
+  top: 12%;
+  color: var(--color-success);
+  opacity: 0.075;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions ul {
+  max-width: 64rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions li {
+  border-color: var(--color-border);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions h3 {
+  color: var(--color-text-primary);
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 1.12rem;
+  font-weight: 500;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial {
+  border-color: var(--color-border);
+  background: #dedfd4;
+}
+
+html[data-theme='editorial-healthcare'] .home-financial-inner {
+  max-width: 72rem;
+  border: 1px solid color-mix(in srgb, var(--color-border), transparent 18%);
+  border-radius: 1.5rem;
+  padding: clamp(2.5rem, 4.5vw, 4rem);
+  background: var(--color-card);
+  box-shadow: 0 24px 64px rgba(47, 41, 37, 0.08);
+}
+
+html[data-theme='editorial-healthcare'] .home-financial .section-title {
+  font-size: clamp(2.7rem, 3.8vw, 3.8rem);
+}
+
+html[data-theme='editorial-healthcare'] .home-financial-inner > div:first-child {
+  max-width: 44rem;
+}
+
+html[data-theme='editorial-healthcare'] .home-fee-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+  border-top: 0;
+}
+
+html[data-theme='editorial-healthcare'] .home-fee-list > * + * {
+  margin-top: 0;
+}
+
+html[data-theme='editorial-healthcare'] .home-fee-item {
+  min-height: 10.5rem;
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-success);
+  border-radius: 1rem;
+  padding: 1.4rem;
+  background: color-mix(in srgb, var(--color-surface), white 28%);
+}
+
+html[data-theme='editorial-healthcare'] .home-fee-label {
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 1.12rem;
+  line-height: 1.25;
+  font-weight: 500;
+}
+
+html[data-theme='editorial-healthcare'] .home-fee-amount {
+  color: var(--color-primary);
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 500;
+}
+
+html[data-theme='editorial-healthcare'] .home-fee-duration {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-financial-contact {
+  border-radius: 2px;
+  background: var(--color-surface);
+}
+
+html[data-theme='editorial-healthcare'] .home-payment-methods {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+}
+
+html[data-theme='editorial-healthcare'] .home-payment-methods > div {
+  margin-top: 0;
+}
+
+html[data-theme='editorial-healthcare'] .home-payment-methods span {
+  border: 1px solid color-mix(in srgb, var(--color-border), transparent 20%);
+  border-radius: 999px;
+  padding: 0.4rem 0.7rem;
+  background: transparent;
+  font-size: 0.78rem;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-appointment {
+  border-color: var(--color-primary-hover);
+  background: linear-gradient(120deg, #46332d 0%, #684a3b 67%, #71535c 100%);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-appointment h2 {
+  font-size: clamp(3.2rem, 5vw, 5.25rem);
+  font-weight: 500;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-appointment-card {
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 26px 64px rgba(45, 28, 23, 0.22);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-location {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-location .soft-card {
+  border-radius: 3px;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-faq {
+  border-color: var(--color-border);
+  background: var(--color-card);
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-faq-list {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  border-radius: 0;
+  background: transparent;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-faq-list details {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-faq-list summary {
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .practice-footer {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+}
+
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) a:focus-visible,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) button:focus-visible,
+html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) summary:focus-visible {
+  outline-color: var(--color-primary);
+}
+
+@media (min-width: 768px) {
+  html[data-theme='structured-clinical'] .home-provider-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='1'] {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 52rem;
+  }
+
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='3'] .home-provider-card:last-child,
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='5'] .home-provider-card:last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 0.75rem);
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-card {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    column-gap: 3rem;
+    align-content: center;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-intro {
+    display: contents;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-image {
+    grid-row: 1 / span 3;
+    grid-column: 1;
+    width: 15rem;
+    height: 19rem;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-meta,
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tagline,
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tags {
+    grid-column: 2;
+  }
+}
+
+@media (min-width: 1280px) {
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='3'],
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='6'] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='3'] .home-provider-card:last-child {
+    grid-column: auto;
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='5'] {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='5'] .home-provider-card {
+    grid-column: span 2;
+  }
+
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='5'] .home-provider-card:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  html[data-theme='structured-clinical'] .home-provider-grid[data-provider-count='5'] .home-provider-card:nth-child(5) {
+    grid-column: 4 / span 2;
+    justify-self: stretch;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1023px) {
+  html[data-theme='structured-clinical'] .home-hero .image-treatment,
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero .image-treatment {
+    right: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  html[data-theme='structured-clinical'] .home-hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(20, 41, 67, 0.36) 0%,
+      rgba(20, 41, 67, 0.8) 48%,
+      rgba(20, 41, 67, 0.99) 100%
+    );
+  }
+
+  html[data-theme='structured-clinical'] .home-hero-shell {
+    justify-content: flex-end;
+    padding-bottom: 5.5rem;
+  }
+
+  html[data-theme='structured-clinical'] .home-hero-panel {
+    padding: 0.5rem 0 0.5rem 1.5rem;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero {
+    min-height: 820px;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero .image-treatment {
+    bottom: auto;
+    height: 48%;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(244, 239, 231, 0.08) 0%,
+      rgba(244, 239, 231, 0.12) 35%,
+      rgba(244, 239, 231, 0.96) 51%,
+      rgba(244, 239, 231, 1) 100%
+    );
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-shell {
+    min-height: 820px;
+    justify-content: flex-end;
+    padding-bottom: 4.5rem;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-content {
+    width: 100%;
+    max-width: 40rem;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  html[data-theme='structured-clinical'] .home-hero {
+    min-height: 760px;
+  }
+
+  html[data-theme='structured-clinical'] .home-hero-shell {
+    min-height: 760px;
+  }
+
+  html[data-theme='structured-clinical'] .home-hero-title {
+    font-size: clamp(2.8rem, 12vw, 3.65rem);
+  }
+
+  html[data-theme='structured-clinical'] .home-trust .page-shell,
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust .page-shell {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  html[data-theme='structured-clinical'] .home-trust-item,
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust-item {
+    border-top: 1px solid var(--color-border);
+    border-left: 0;
+    padding: 0.9rem 0.75rem 0.9rem 0;
+  }
+
+  html[data-theme='structured-clinical'] .home-trust-item:nth-child(even),
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-trust-item:nth-child(even) {
+    border-left: 1px solid var(--color-border);
+    padding-left: 0.75rem;
+  }
+
+  html[data-theme='structured-clinical'] .home-provider-image {
+    height: 15rem;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-title {
+    font-size: clamp(3rem, 14vw, 4rem);
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero,
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-shell {
+    min-height: 900px;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero .image-treatment {
+    height: 36%;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(244, 239, 231, 0.08) 0%,
+      rgba(244, 239, 231, 0.12) 25%,
+      rgba(244, 239, 231, 0.96) 38%,
+      rgba(244, 239, 231, 1) 100%
+    );
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-grid {
+    border-top: 0;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-card {
+    padding: 2rem 0;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-image {
+    width: 7.5rem;
+    height: 9.5rem;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-meta h3 {
+    font-size: 1.65rem;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-provider-tagline {
+    font-size: 1.1rem;
+  }
+
+  html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-conditions ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  html[data-theme='editorial-healthcare'] .home-financial-inner {
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  html[data-theme='editorial-healthcare'] .home-financial .section-title {
+    font-size: 2.65rem;
+  }
+
+  html[data-theme='editorial-healthcare'] .home-financial [data-section-summary] {
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  html[data-theme='editorial-healthcare'] .home-fee-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  html[data-theme='editorial-healthcare'] .home-fee-item {
+    min-height: 0;
+    padding: 1.1rem 1.15rem;
+  }
+
+  html[data-theme='editorial-healthcare'] .home-fee-label {
+    font-size: 1.05rem;
+  }
+
+  html[data-theme='editorial-healthcare'] .home-fee-amount {
+    font-size: 1.3rem;
+  }
+
+  html[data-theme='editorial-healthcare'] .home-fee-duration {
+    margin-top: 0.45rem;
+  }
+
+  html[data-theme='editorial-healthcare'] .home-payment-methods {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+  }
+}
+
 @media (max-width: 768px) {
   .conditions-leaf { display: none; }
 }

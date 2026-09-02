@@ -133,7 +133,7 @@ test.describe.serial('Astro migration foundation', () => {
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
-      'Care that starts with understanding.',
+      'Psychiatric Care for Adults, Children & Families in North Austin',
     );
 
     runNpmBuild('build:astro:preview:all');
@@ -145,7 +145,7 @@ test.describe.serial('Astro migration foundation', () => {
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
-      'Care that starts with understanding.',
+      'Psychiatric Care for Adults, Children & Families in North Austin',
     );
     const mariposaHtml = readFileSync(
       path.join(
@@ -163,7 +163,7 @@ test.describe.serial('Astro migration foundation', () => {
       '<link rel="canonical" href="https://frontdoor.health/previews/mariposa/"',
     );
     expect(mariposaHtml).toContain(
-      'https://frontdoor.health/previews/mariposa/images/hero/hero.webp',
+      'https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp',
     );
     expect(mariposaHtml).not.toContain('preview.frontdoor.health');
 
