@@ -72,6 +72,10 @@ The preview and marketing sites do not include authenticated application code or
 
 ## Content and Build Process
 
+See [the Astro source guide](src/README.md) for component architecture and where to
+make common changes. Individual components document their responsibilities in
+frontmatter comments alongside their inputs.
+
 Practice-specific content lives in each `sites/<practice-slug>/practice.json`. Shared palette definitions live in `shared/themes.json`, and each practice selects one with its `theme` field. Astro renders the homepage, provider pages, privacy page, and accessibility page at build time from reusable components under `src/`. Shared Tailwind source styles live in `shared/styles/frontdoor.css`.
 
 Practice homepages keep services, financial or insurance information, patient resources, location details, and FAQs on one page. `src/lib/home-sections.mjs` defines the canonical section IDs and supplies both the header and footer navigation, while provider and legal pages remain separate routes. The practice Playwright suite verifies that every generated section link resolves, each enabled section has one heading and summary, and the links work from the keyboard.

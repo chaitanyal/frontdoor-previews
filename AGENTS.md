@@ -74,6 +74,10 @@ https://frontdoor.health/previews/northhillspsychiatry/
 
 # Codex Maintenance Routing
 
+For Astro architecture and edit locations, read [src/README.md](src/README.md).
+Component frontmatter comments describe responsibilities and non-obvious behavior;
+keep affected comments current when changing that behavior.
+
 Codex reads this file automatically. For small changes, use the narrowest workflow
 that proves the requested result:
 

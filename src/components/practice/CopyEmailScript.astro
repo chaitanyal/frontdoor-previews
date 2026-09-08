@@ -1,3 +1,11 @@
+---
+/**
+ * Binds email-copy buttons marked data-copy-email; takes no props.
+ * Uses clipboard/legacy copy with a prompt fallback and the footer's data-copy-toast.
+ * Include once after the page's contact markup.
+ */
+---
+
 <script is:inline>
   (() => {
     async function copyText(value) {

@@ -1,4 +1,9 @@
 ---
+/**
+ * Marketing lead form and browser submission handler; takes no props.
+ * Posts to /api/preview-request with Turnstile and attribution data, then emits
+ * analytics and conversion hooks only for accepted requests.
+ */
 const formScript = `
 window.lucide?.createIcons();
 

@@ -1,4 +1,9 @@
 ---
+/**
+ * Shared scheduling section receiving resolved contact details and action URLs.
+ * homeVariant selects homepage composition; actionLinksDisabled suppresses
+ * scheduling/portal actions for configured previews. Contact cards remain available.
+ */
 import ContactCards from './ContactCards.astro';
 import Icon from './Icon.astro';
 
@@ -11,6 +16,7 @@ interface Props {
   emergencyNotice?: string;
   sectionId?: string;
   homeVariant?: boolean;
+  /** Disable scheduling/portal links only; phone and email remain usable. */
   actionLinksDisabled?: boolean;
   heading?: string;
   summary?: string;

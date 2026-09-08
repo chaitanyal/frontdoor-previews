@@ -1,4 +1,9 @@
 ---
+/**
+ * Composes a provider profile with provider-specific SEO/JSON-LD and runtime scripts.
+ * Receives config, provider, resolved theme, and optional isPreview from route entries.
+ * Stylesheet paths assume providers/<slug>/ beneath the practice root.
+ */
 import CopyEmailScript from '../../components/practice/CopyEmailScript.astro';
 import ProviderProfile from '../../components/practice/ProviderProfile.astro';
 import PracticeLayout from '../../layouts/PracticeLayout.astro';

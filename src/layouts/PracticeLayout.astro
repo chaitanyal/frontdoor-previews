@@ -1,4 +1,10 @@
 ---
+/**
+ * Practice document shell: theme attributes/tokens, SEO, JSON-LD, and runtime scripts.
+ * Caller supplies config, resolved theme, pageKind, and a route-relative stylesheetHref.
+ * Default slot is the body; named head/scripts slots extend the document.
+ * Home/provider pages enable CTA tracking and Lucide.
+ */
 import {
   robotsMeta,
   safeJsonLd,
@@ -14,6 +20,7 @@ interface Props {
   pageKind: 'accessibility' | 'home' | 'privacy' | 'provider' | 'terms';
   pagePath?: string;
   socialType?: string;
+  /** Relative to the rendered page, including nested provider/legal routes. */
   stylesheetHref: string;
   theme: Record<string, string>;
   title?: string;
