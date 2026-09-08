@@ -11,7 +11,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
-import { verifyPracticeOutputContract } from '../../scripts/migration/verify_output_contracts.mjs';
+import { verifyPracticeOutputContract } from '../../scripts/verification/verify_output_contracts.mjs';
 import { homeSectionNavigation } from '../../src/lib/home-sections.mjs';
 import {
   practiceServiceArea,

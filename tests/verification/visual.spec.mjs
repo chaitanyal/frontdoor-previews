@@ -30,8 +30,8 @@ const pages = [
     url: 'https://frontdoor.health/previews/northhillspsychiatry/',
   },
 ];
-const scope = process.env.FRONTDOOR_MIGRATION_SCOPE;
-const practiceSite = process.env.FRONTDOOR_MIGRATION_SITE || 'drdronavalli';
+const scope = process.env.FRONTDOOR_TEST_SCOPE;
+const practiceSite = process.env.FRONTDOOR_TEST_SITE || 'drdronavalli';
 const practiceConfig = JSON.parse(
   readFileSync(
     path.join(process.cwd(), 'sites', practiceSite, 'practice.json'),
@@ -59,7 +59,7 @@ for (const pageCase of scopedPages) {
       test.skip(
         scope === 'practice' &&
           practiceSite !== 'drdronavalli',
-        'Pixel snapshots are locked to the Dr. Dronavalli migration pilot.',
+        'Pixel snapshots are locked to the Dr. Dronavalli verification pilot.',
       );
       await page.setViewportSize(viewport.size);
       await installDeterministicBrowser(page);

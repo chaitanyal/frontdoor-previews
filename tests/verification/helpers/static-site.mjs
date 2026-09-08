@@ -51,7 +51,7 @@ window.lucide = {
 
 const TURNSTILE_STUB = `
 window.turnstile = window.turnstile || {
-  getResponse() { return 'migration-turnstile-token'; },
+  getResponse() { return 'verification-turnstile-token'; },
   reset() { window.__turnstileResetCount = (window.__turnstileResetCount || 0) + 1; }
 };
 document.addEventListener('DOMContentLoaded', () => {
@@ -91,10 +91,10 @@ function safeStaticPath(root, pathname) {
 }
 
 function withMarketingTestCss(html) {
-  if (html.includes('/__migration/marketing.css')) return html;
+  if (html.includes('/__verification/marketing.css')) return html;
   return html.replace(
     '</head>',
-    '  <link rel="stylesheet" href="/__migration/marketing.css" data-migration-test-only />\n</head>',
+    '  <link rel="stylesheet" href="/__verification/marketing.css" data-verification-test-only />\n</head>',
   );
 }
 
@@ -137,7 +137,7 @@ export async function installDeterministicBrowser(page, { preventExternalNavigat
 
     window.turnstile = {
       getResponse() {
-        return 'migration-turnstile-token';
+        return 'verification-turnstile-token';
       },
       reset() {
         window.__turnstileResetCount += 1;
@@ -256,7 +256,7 @@ export async function installMockNetwork(page, options = {}) {
       staticRoot = PRACTICE_ROOT;
     }
 
-    if (staticRoot && url.pathname === '/__migration/marketing.css') {
+    if (staticRoot && url.pathname === '/__verification/marketing.css') {
       await route.fulfill({ path: MARKETING_CSS, contentType: 'text/css; charset=utf-8' });
       return;
     }

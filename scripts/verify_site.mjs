@@ -38,7 +38,7 @@ run('python3', ['scripts/validate_practice_json.py', configPath]);
 run('npm', ['run', 'build:astro:practice'], { SITE_ID: site });
 run('python3', ['scripts/validate_built_html.py', '.tmp/astro-dist/practice']);
 run('node', [
-  'scripts/migration/verify_output_contracts.mjs',
+  'scripts/verification/verify_output_contracts.mjs',
   updateContract ? '--update' : '--check',
   '--scope=practice',
   `--site=${site}`,
@@ -52,7 +52,7 @@ if (marketingConfig.featuredPractice === site) {
   run('npm', ['run', 'build:astro:marketing']);
   run('python3', ['scripts/validate_built_html.py', '.tmp/astro-dist/marketing']);
   run('node', [
-    'scripts/migration/verify_output_contracts.mjs',
+    'scripts/verification/verify_output_contracts.mjs',
     updateContract ? '--update' : '--check',
     '--scope=marketing',
   ]);

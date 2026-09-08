@@ -7,7 +7,7 @@ const suite = process.argv[2];
 const supportedSuites = new Set(['analytics', 'visual']);
 
 if (!supportedSuites.has(suite)) {
-  console.error(`ERROR: Unsupported migration Playwright suite: ${suite || '(missing)'}`);
+    console.error(`ERROR: Unsupported verification Playwright suite: ${suite || '(missing)'}`);
   process.exit(1);
 }
 
@@ -38,7 +38,7 @@ const result = spawnSync(
   playwrightExecutable,
   [
     'test',
-    '--config=playwright.migration.config.mjs',
+    '--config=playwright.config.mjs',
     '--grep',
     `@${suite}`,
     ...passthroughArgs,
@@ -47,8 +47,8 @@ const result = spawnSync(
     cwd: repoRoot,
     env: {
       ...process.env,
-      FRONTDOOR_MIGRATION_SCOPE: scope,
-      FRONTDOOR_MIGRATION_SITE: site,
+      FRONTDOOR_TEST_SCOPE: scope,
+      FRONTDOOR_TEST_SITE: site,
     },
     stdio: 'inherit',
   },

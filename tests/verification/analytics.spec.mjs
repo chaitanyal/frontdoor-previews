@@ -8,11 +8,11 @@ import {
   installMockNetwork,
 } from './helpers/static-site.mjs';
 
-const FIXED_SESSION_ID = 'migration-session-id';
-const FIXED_VISITOR_ID = 'migration-visitor-id';
-const UTM_CAMPAIGN = 'migration-contract-campaign';
+const FIXED_SESSION_ID = 'verification-session-id';
+const FIXED_VISITOR_ID = 'verification-visitor-id';
+const UTM_CAMPAIGN = 'verification-contract-campaign';
 const UTM_EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
-const SCOPE = process.env.FRONTDOOR_MIGRATION_SCOPE;
+const SCOPE = process.env.FRONTDOOR_TEST_SCOPE;
 const repoRoot = path.resolve(import.meta.dirname, '../..');
 
 async function loadPreviewRequestFunction() {
@@ -26,7 +26,7 @@ async function loadPreviewRequestFunction() {
 function skipUnless(...scopes) {
   test.skip(
     Boolean(SCOPE) && !scopes.includes(SCOPE),
-    `Not part of the ${SCOPE} migration scope.`,
+    `Not part of the ${SCOPE} verification scope.`,
   );
 }
 
@@ -61,10 +61,10 @@ async function openMarketingForm(page, network, response) {
 
 async function fillMarketingForm(page, overrides = {}) {
   const values = {
-    name: 'Migration Tester',
+    name: 'Verification Tester',
     practiceName: 'Contract Test Clinic',
     specialty: 'Psychiatry',
-    email: 'migration@example.com',
+    email: 'verification@example.com',
     websiteUrl: 'contract-test.example',
     companyWebsite: '',
     ...overrides,
@@ -114,8 +114,8 @@ test('@analytics bounds preview-request bodies without Content-Length', async ()
   const smallResponse = await onRequestPost({
     request: smallRequest,
     env: {
-      RESEND_API_KEY: 'migration-test',
-      TURNSTILE_SECRET_KEY: 'migration-test',
+      RESEND_API_KEY: 'verification-test',
+      TURNSTILE_SECRET_KEY: 'verification-test',
     },
   });
   expect(smallResponse.status).toBe(200);
@@ -323,7 +323,7 @@ for (const [label, url] of [
   [
     'file',
     pathToFileURL(
-      path.join(repoRoot, 'tests', 'migration', 'fixtures', 'local-analytics.html'),
+      path.join(repoRoot, 'tests', 'verification', 'fixtures', 'local-analytics.html'),
     ).href,
   ],
   ['localhost', 'http://localhost/local-analytics'],
@@ -377,14 +377,14 @@ test('@analytics accepted preview requests emit one non-PHI event and one conver
 
   expect(network.apiRequests).toHaveLength(1);
   expect(network.apiRequests[0].payload).toEqual({
-    name: 'Migration Tester',
+    name: 'Verification Tester',
     practiceName: 'Contract Test Clinic',
     specialty: 'Psychiatry',
-    email: 'migration@example.com',
+    email: 'verification@example.com',
     websiteUrl: 'https://contract-test.example/',
     companyWebsite: '',
     utm_campaign: UTM_CAMPAIGN,
-    turnstileToken: 'migration-turnstile-token',
+    turnstileToken: 'verification-turnstile-token',
   });
 
   expect(network.analyticsRequests[0].payload).toEqual({
@@ -439,11 +439,11 @@ test('@analytics API failures emit no event or conversion and remain retryable',
   const network = await installMockNetwork(page);
   await openMarketingForm(page, network, {
     status: 500,
-    json: { ok: false, error: 'Migration test failure.' },
+    json: { ok: false, error: 'Verification test failure.' },
   });
   await fillMarketingForm(page);
 
-  await expect(page.locator('#preview-request-status')).toHaveText('Migration test failure.');
+  await expect(page.locator('#preview-request-status')).toHaveText('Verification test failure.');
   await expect(page.locator('#preview-request-submit')).toBeEnabled();
   await expect(page.locator('#preview-request-submit')).toHaveText('Request a Free Preview');
   expect(network.apiRequests).toHaveLength(1);

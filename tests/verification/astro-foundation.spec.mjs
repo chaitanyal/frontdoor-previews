@@ -84,7 +84,7 @@ function expectRuntimeCopies(target) {
   }
 }
 
-test.describe.serial('Astro migration foundation', () => {
+test.describe.serial('Astro verification foundation', () => {
   test('@astro-foundation builds every target and loads copied assets through file URLs', async ({
     page,
   }) => {
@@ -182,7 +182,7 @@ test.describe.serial('Astro migration foundation', () => {
     expect(marketingHtml).toContain('"@type":"Organization"');
     expect(marketingHtml).toContain('"@type":"WebSite"');
     expect(marketingHtml).toContain('"@type":"Service"');
-    expect(marketingHtml).not.toContain('migration fixture');
+    expect(marketingHtml).not.toContain('verification fixture');
 
     const practiceHtml = readFileSync(
       path.join(repoRoot, '.tmp', 'astro-dist', 'practice', 'index.html'),

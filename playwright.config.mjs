@@ -1,9 +1,9 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './tests/migration',
+  testDir: './tests/verification',
   testMatch: '**/*.spec.mjs',
-  globalSetup: './tests/migration/global-setup.mjs',
+  globalSetup: './tests/verification/global-setup.mjs',
   fullyParallel: false,
   workers: 1,
   retries: 0,

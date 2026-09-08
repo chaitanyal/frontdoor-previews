@@ -7,7 +7,7 @@ import process from 'node:process';
 
 const ROOT = process.cwd();
 const ASTRO_ROOT = path.join(ROOT, '.tmp', 'astro-dist');
-const CONTRACT_ROOT = path.join(ROOT, 'tests', 'migration', 'contracts');
+const CONTRACT_ROOT = path.join(ROOT, 'tests', 'verification', 'contracts');
 const practiceIds = readdirSync(path.join(ROOT, 'sites'), { withFileTypes: true })
   .filter(
     (entry) =>
@@ -284,7 +284,7 @@ function compareContract(actual, expectedPath) {
   const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
   if (actualText === expectedText) return;
 
-  const actualPath = path.join(ROOT, '.tmp', 'migration-contracts', 'actual', path.basename(expectedPath));
+  const actualPath = path.join(ROOT, '.tmp', 'verification-contracts', 'actual', path.basename(expectedPath));
   mkdirSync(path.dirname(actualPath), { recursive: true });
   writeFileSync(actualPath, actualText);
   fail(

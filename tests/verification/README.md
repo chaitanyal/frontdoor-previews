@@ -4,7 +4,7 @@ These tests lock the reviewed Astro static output and browser behavior.
 
 ## Contracts
 
-`tests/migration/contracts/` contains semantic manifests for:
+`tests/verification/contracts/` contains semantic manifests for:
 
 - FrontDoor Health marketing plus eligible previews.
 - Every configured production-practice build.

@@ -43,9 +43,9 @@ function compileMarketingTestCss() {
     executable,
     [
       '-c',
-      'tests/migration/fixtures/marketing-tailwind.config.cjs',
+      'tests/verification/fixtures/marketing-tailwind.config.cjs',
       '-i',
-      'tests/migration/fixtures/marketing-tailwind-input.css',
+      'tests/verification/fixtures/marketing-tailwind-input.css',
       '-o',
       marketingCss,
       '--minify',
@@ -56,7 +56,7 @@ function compileMarketingTestCss() {
 
 export default function globalSetup() {
   if (process.env.FRONTDOOR_STAGING === '1') return;
-  const scope = process.env.FRONTDOOR_MIGRATION_SCOPE;
+  const scope = process.env.FRONTDOOR_TEST_SCOPE;
   if (!scope || scope === 'marketing') {
     runAstroBuild('build:astro:marketing');
     compileMarketingTestCss();
@@ -64,7 +64,7 @@ export default function globalSetup() {
   if (scope === 'marketing') return;
   runAstroBuild(
     'build:astro:practice',
-    process.env.FRONTDOOR_MIGRATION_SITE || 'drdronavalli',
+    process.env.FRONTDOOR_TEST_SITE || 'drdronavalli',
   );
   if (scope === 'practice') return;
   runAstroBuild('build:astro:preview', 'northhillspsychiatry');

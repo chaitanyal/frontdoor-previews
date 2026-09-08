@@ -40,7 +40,7 @@ function siteFor(file) {
 }
 
 function contractSiteFor(file) {
-  return file.match(/^tests\/migration\/contracts\/practice-([a-z0-9-]+)\.json$/)?.[1] || null;
+  return file.match(/^tests\/verification\/contracts\/practice-([a-z0-9-]+)\.json$/)?.[1] || null;
 }
 
 function isMarketingOnly(file) {
@@ -105,7 +105,7 @@ try {
     run('npm', ['run', 'build:astro:marketing']);
     run('python3', ['scripts/validate_built_html.py', '.tmp/astro-dist/marketing']);
     run('node', [
-      'scripts/migration/verify_output_contracts.mjs',
+      'scripts/verification/verify_output_contracts.mjs',
       '--check',
       '--scope=marketing',
     ]);

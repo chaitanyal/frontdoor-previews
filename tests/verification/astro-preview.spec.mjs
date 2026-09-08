@@ -12,7 +12,7 @@ import {
   verifyMarketingOutputContract,
   verifyMarketingPreviewOutputContract,
   verifyPreviewOutputContract,
-} from '../../scripts/migration/verify_output_contracts.mjs';
+} from '../../scripts/verification/verify_output_contracts.mjs';
 import {
   installDeterministicBrowser,
   installMockNetwork,
@@ -63,7 +63,7 @@ function expectNoindexCoverage(root, practiceIds) {
   }
 }
 
-test.describe.serial('Astro preview migration', () => {
+test.describe.serial('Astro preview verification', () => {
   test('@astro-preview passes the North Hills single-preview gate first', async ({
     page,
   }) => {
