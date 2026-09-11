@@ -932,15 +932,27 @@ html[data-theme='structured-clinical'] .home-faq {
 }
 
 html[data-theme='structured-clinical'] .home-faq-list {
-  border: 0;
-  border-top: 1px solid var(--color-border);
-  border-radius: 0;
-  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--color-card);
+  box-shadow: 0 12px 34px rgba(23, 50, 77, 0.05);
 }
 
 html[data-theme='structured-clinical'] .home-faq-list details {
-  padding-right: 0;
-  padding-left: 0;
+  padding: 1.125rem 1.5rem;
+}
+
+html[data-theme='structured-clinical'] .home-faq-list details:hover,
+html[data-theme='structured-clinical'] .home-faq-list details[open] {
+  background: color-mix(in srgb, var(--color-surface), transparent 45%);
+}
+
+html[data-theme='structured-clinical'] .home-faq-list summary {
+  gap: 1.5rem;
+}
+
+html[data-theme='structured-clinical'] .home-faq-list details > div {
+  max-width: 46rem;
 }
 
 html[data-theme='structured-clinical'] .home-resources {
