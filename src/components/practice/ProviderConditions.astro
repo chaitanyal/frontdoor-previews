@@ -17,10 +17,6 @@ const { providers = [], conditions = [], conditionsIntro = '' } = config;
 const content = homeContent(config);
 const providerCount = providers.length;
 const isSingleProvider = providers.length === 1;
-const useTwoColumnDesktop = providerCount === 2 || providerCount === 4;
-const multiProviderCardWidth = useTwoColumnDesktop
-  ? 'w-full md:w-[calc(50%_-_0.75rem)]'
-  : 'w-full md:w-[calc(50%_-_0.75rem)] xl:w-[calc(33.333%_-_1rem)]';
 ---
 
 {
@@ -38,10 +34,10 @@ const multiProviderCardWidth = useTwoColumnDesktop
         <div
           data-provider-count={providerCount}
           class:list={[
-            'home-provider-grid',
+            'home-provider-grid mt-10 grid grid-cols-1 gap-6',
             isSingleProvider
-              ? 'mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-6'
-              : 'mt-10 flex flex-wrap justify-center gap-6'
+              ? 'mx-auto max-w-4xl'
+              : ''
           ]}
         >
           {providers.map((provider) => (
@@ -49,7 +45,7 @@ const multiProviderCardWidth = useTwoColumnDesktop
               class={`home-provider-card fade-in-up soft-card interactive-card flex cursor-pointer flex-col p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.995] focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 ${
                 isSingleProvider
                   ? 'md:grid md:grid-cols-[14rem_minmax(0,1fr)] md:gap-x-8 md:gap-y-5 md:p-8'
-                  : `${multiProviderCardWidth} md:p-6`
+                  : 'md:p-6'
               }`}
               tabindex="0"
               role="link"
@@ -83,9 +79,13 @@ const multiProviderCardWidth = useTwoColumnDesktop
                   >
                     {provider.name}
                   </h3>
-                  <p class="mt-1 text-sm leading-6 text-slate-500">
-                    {provider.credentials}
-                  </p>
+                  {
+                    config.theme !== 'structured-clinical' && provider.credentials && (
+                      <p class="mt-1 text-sm leading-6 text-slate-500">
+                        {provider.credentials}
+                      </p>
+                    )
+                  }
                   <span
                     class={`mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-primary ${
                       isSingleProvider ? 'md:text-base' : ''

@@ -28,17 +28,17 @@
     "fontFiles": ["inter-latin.woff2", "newsreader-latin.woff2"]
   },
   "structured-clinical": {
-    "primary": "#203A5F",
-    "primaryHover": "#142943",
-    "secondarySage": "#DCE6E7",
-    "surfaceWarm": "#F2F3F0",
-    "cardBackground": "#FBFCFA",
-    "textPrimary": "#182331",
-    "textSecondary": "#5B6874",
-    "border": "#C9D2D3",
-    "success": "#467773",
-    "fontHeading": "Inter",
+    "primary": "#17324D",
+    "primaryHover": "#0F253B",
+    "secondarySage": "#DCE7EC",
+    "surfaceWarm": "#F5F7F8",
+    "cardBackground": "#FFFFFF",
+    "textPrimary": "#14212B",
+    "textSecondary": "#52616B",
+    "border": "#CFD9DF",
+    "success": "#2E7078",
+    "fontHeading": "Newsreader",
     "fontBody": "Inter",
-    "fontFiles": ["inter-latin.woff2"]
+    "fontFiles": ["inter-latin.woff2", "newsreader-latin.woff2"]
   }
 }

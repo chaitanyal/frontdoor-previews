@@ -40,15 +40,15 @@
   "hero": {
     "image": "./images/hero/austin-skyline.webp",
     "imageAlt": "Austin skyline and surrounding green space at sunset",
-    "title": "Adult Psychiatric Care in Northwest Austin",
-    "copy": "Psychiatric evaluations and medication management for adults experiencing mood, anxiety, ADHD, trauma, cognitive, and other psychiatric concerns.",
+    "title": "Adult psychiatric care in Northwest Austin",
+    "copy": "Evaluation and ongoing medication care for adults navigating mood, anxiety, ADHD, trauma, sleep, cognitive, and other psychiatric concerns. Meet with an experienced care team, understand your options, and plan next steps with the office.",
     "primaryCta": "Book Appointment",
     "secondaryCta": "Meet Our Providers"
   },
   "home": {
     "providerEyebrow": "Providers",
     "providerTitle": "Meet your care team",
-    "providerCopy": "Experienced adult psychiatric care built around careful evaluation, shared decisions, and individualized treatment planning.",
+    "providerCopy": "Northwest Psychiatry provides adult psychiatric care through careful evaluation, clear explanations, shared decisions, and treatment plans tailored to each patient.",
     "insuranceFallback": "Please contact the office to confirm insurance and payment options."
   },
   "providerProfileSections": {
@@ -77,7 +77,7 @@
       "slug": "arvinder-walia",
       "name": "Dr. Arvinder Walia",
       "credentials": "MD",
-      "heroTitle": "Adult Psychiatry Grounded in Experience.",
+      "heroTitle": "Adult psychiatry grounded in experience.",
       "image": "./images/providers/arvinder-walia.webp",
       "imageAlt": "Dr. Arvinder Walia, adult psychiatrist in Austin, Texas",
       "seo": {
@@ -97,9 +97,9 @@
       ],
       "specialty": "Adult Psychiatry, Mood, Anxiety & Cognitive Disorders",
       "medicalSpecialty": "https://schema.org/Psychiatric",
-      "tagline": "Experienced psychiatric care for adults, with focused expertise in mood, anxiety, cognitive, forensic, and medically complex concerns.",
+      "tagline": "Experienced psychiatric care for adults with focused expertise in mood, anxiety, cognitive, forensic, and medically complex concerns.",
       "bioParagraphs": [
-        "Dr. Arvinder Walia is a board-certified adult psychiatrist in private practice in Austin. His primary areas of interest include mood, anxiety, and cognitive disorders, with additional experience in forensic psychiatric evaluations of healthcare professionals and consultation-liaison psychiatry for metabolic disorders.",
+        "Dr. Arvinder Walia is a board-certified adult psychiatrist whose work includes mood, anxiety, and cognitive disorders, as well as forensic evaluations and consultation-liaison psychiatry for medically complex concerns.",
         "Dr. Walia is co-founder and medical director of the Austin Center for Psychological Care, a dialectical behavior intensive outpatient program for personality and mood disorders. He also contributes to the education of Advanced Psychiatric Nurse Practitioner students at the University of Texas at Austin School of Nursing."
       ],
       "conditions": [
@@ -141,7 +141,7 @@
       "academicAppointments": [
         "University of Texas at Austin School of Nursing"
       ],
-      "aboutHeading": "Experienced Adult Psychiatric Care",
+      "aboutHeading": "Experienced adult psychiatric care",
       "externalProfileUrl": "https://www.northwestpsychiatry.com/arvinder-walia-m-d/",
       "appointmentUrl": "https://www.northwestpsychiatry.com/scheduling/"
     },
@@ -149,7 +149,7 @@
       "slug": "kathleen-nguyen",
       "name": "Kathleen Nguyen",
       "credentials": "PA-C",
-      "heroTitle": "Collaborative Psychiatric Care for Adults.",
+      "heroTitle": "Collaborative psychiatric care for adults.",
       "image": "./images/providers/kathleen-nguyen.webp",
       "imageAlt": "Kathleen Nguyen, PA-C, psychiatric physician assistant in Austin, Texas",
       "seo": {
@@ -169,9 +169,9 @@
       ],
       "specialty": "Adult Psychiatry & Medication Management",
       "medicalSpecialty": "https://schema.org/Psychiatric",
-      "tagline": "Compassionate, evidence-based care centered on thoughtful medication management, education, shared decisions, and each patient's goals.",
+      "tagline": "Adult psychiatric care centered on thoughtful medication management, education, shared decisions, and individualized planning.",
       "bioParagraphs": [
-        "Kathleen Nguyen, PA-C, is a board-certified physician assistant with clinical experience in urgent care, post-acute care, and skilled nursing settings. She has cared for adults with a broad range of medical and mental health concerns.",
+        "Kathleen Nguyen, PA-C, provides adult psychiatric care with an emphasis on medication management, education, shared decision-making, and individualized planning. Her clinical background includes urgent care, post-acute care, and skilled nursing settings.",
         "She earned a Master of Science in Physician Assistant studies from the University of Bridgeport and a Bachelor of Science in Biology/Biological Sciences from UC Irvine. Her psychiatric work includes depression, anxiety, mood disorders, insomnia, and behavioral symptoms associated with chronic medical illness."
       ],
       "conditions": [
@@ -199,7 +199,7 @@
         "undergraduate": "UC Irvine"
       },
       "affiliations": [],
-      "aboutHeading": "Patient-Centered Adult Psychiatric Care",
+      "aboutHeading": "Collaborative adult psychiatric care",
       "externalProfileUrl": "https://www.northwestpsychiatry.com/kathleen-nguyen--pa-c/",
       "appointmentUrl": "https://www.northwestpsychiatry.com/scheduling/"
     },
@@ -207,7 +207,7 @@
       "slug": "khyati-delada",
       "name": "Khyati Delada",
       "credentials": "MPAM, PA-C, CNIM",
-      "heroTitle": "Psychiatric Care Informed by Neuropsychology.",
+      "heroTitle": "Psychiatric care informed by neuropsychology.",
       "image": "./images/providers/khyati-delada.webp",
       "imageAlt": "Khyati Delada, MPAM, PA-C, CNIM, psychiatric physician associate in Austin, Texas",
       "seo": {
@@ -227,9 +227,9 @@
       ],
       "specialty": "Adult Psychiatry & Neuropsychology-Informed Care",
       "medicalSpecialty": "https://schema.org/Psychiatric",
-      "tagline": "Evidence-based adult psychiatric care informed by experience in neuropsychology, neuroscience, behavioral health, and neurology.",
+      "tagline": "Adult psychiatric care informed by experience in neuropsychology, neuroscience, behavioral health, and neurology.",
       "bioParagraphs": [
-        "Khyati Delada, MPAM, PA-C, CNIM, is a board-certified physician associate with experience in psychiatry, neuropsychology, behavioral health, and neurology. She evaluates and treats adults with depression, anxiety disorders, ADHD, bipolar disorder, insomnia, trauma-related disorders, and other mood and stress-related concerns.",
+        "Khyati Delada, MPAM, PA-C, CNIM, provides adult psychiatric care informed by experience in neuropsychology, neuroscience, behavioral health, and neurology. She evaluates and treats adults with depression, anxiety disorders, ADHD, bipolar disorder, insomnia, trauma-related disorders, and other mood and stress-related concerns.",
         "She earned a Master of Science in Physician Assistant studies from the University of Lynchburg and a Bachelor of Science in Neuroscience from the University of Illinois Chicago. She holds PA-C certification through the NCCPA and CNIM certification through ABRET. Her approach emphasizes medication management, education, shared decision-making, and individualized treatment planning."
       ],
       "conditions": [
@@ -260,7 +260,7 @@
         "undergraduate": "University of Illinois Chicago"
       },
       "affiliations": [],
-      "aboutHeading": "Integrated Psychiatric and Neuropsychology-Informed Care",
+      "aboutHeading": "Integrated psychiatric and neuropsychology-informed care",
       "externalProfileUrl": "https://www.northwestpsychiatry.com/khyati-delada/",
       "appointmentUrl": "https://www.northwestpsychiatry.com/scheduling/"
     }
