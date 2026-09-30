@@ -37,6 +37,8 @@ Example:
 
 ```text
 frontdoor-previews/
+  assessments/               # reports and retained source evidence by practice
+  docs/                      # integration, deployment, and historical guidance
   sites/
     northhillspsychiatry/
       practice.json
@@ -52,7 +54,8 @@ frontdoor-previews/
   shared/
     styles/frontdoor.css
     themes.json
-  worker/
+  analytics-worker/
+  places-worker/
    
 ```
 
@@ -99,6 +102,26 @@ For factual healthcare-practice changes, update the affected evidence in
 `source_extraction.md` when one exists. Exact user-authored wording, layout, and
 theme-selection changes do not require repeating full source extraction.
 
+## File Placement
+
+- Prospect reports: `assessments/<practice-slug>/assessment.md`.
+- Retained source screenshots, public-page evidence, original/unused images, and
+  historical practice notes: `assessments/<practice-slug>/sources/`. See
+  [assessments/README.md](assessments/README.md).
+- Published practice content and verified fact ledger: `sites/<practice-slug>/practice.json`
+  and `source_extraction.md`. Link the ledger to retained evidence.
+- Put only publishable files in practice `images/` and `assets/`; the builder copies
+  these folders in full. Retain retired provider portraits as described above.
+- Use `sites/template/` as the sole starter. Do not generate sites from archived
+  JSON templates in `docs/archive/`.
+- Shared fonts and FrontDoor brand files belong in `shared/fonts/` and
+  `shared/branding/`; the builder preserves their public URLs.
+- Integration/deployment guidance and historical plans belong under `docs/`;
+  [docs/README.md](docs/README.md) is the index.
+- Analytics backend source lives in `analytics-worker/`; the deployed Worker name
+  remains `frontdoor-analytics`. Google Places backend source is in `places-worker/`.
+
+
 The pre-commit hook applies the same staged-file routing. Install it once per clone
 with `npm run hooks:install`. Do not bypass it with `--no-verify`. The hook is a
 safety net; run the relevant command yourself before reporting completion.
@@ -142,7 +165,7 @@ Assets:
 
 Analytics:
 - Browser CTA and preview page-view tracking in `shared/analytics.js`
-- Cloudflare Worker in `worker/`
+- Cloudflare Worker in `analytics-worker/`
 - Cloudflare D1 database for non-PHI event records
 - No cookies, user IDs, IP addresses, form contents, names, emails, or PHI
 - Use `fetch()` with `Content-Type: application/json` for analytics POSTs. Do not use

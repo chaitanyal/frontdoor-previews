@@ -25,7 +25,7 @@ npm test
 ## Deployment
 
 1. Complete the Google Cloud and Cloudflare controls in
-   [`../cloudflare/manual-setup.md`](../cloudflare/manual-setup.md).
+   [`../docs/deployment/cloudflare/manual-setup.md`](../docs/deployment/cloudflare/manual-setup.md).
 2. Set the secret interactively; never commit it:
 
    ```bash

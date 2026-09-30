@@ -83,7 +83,7 @@ if (target === 'marketing') {
   try {
     site = productionSiteUrl(practice, siteId);
     const workerConfig = await readFile(
-      path.join(repoRoot, 'worker', 'wrangler.toml'),
+      path.join(repoRoot, 'analytics-worker', 'wrangler.toml'),
       'utf8',
     );
     assertAnalyticsDeploymentAllowed(practice, workerConfig);
@@ -142,6 +142,17 @@ if (target === 'marketing') {
     path.join(repoRoot, 'marketing', 'assets'),
     path.join(publicDir, 'assets'),
     { recursive: true },
+  );
+  // Keep shared source assets in one place while preserving public marketing URLs.
+  await cp(
+    path.join(repoRoot, 'shared', 'branding'),
+    path.join(publicDir, 'assets'),
+    { recursive: true },
+  );
+  await mkdir(path.join(publicDir, 'assets', 'fonts'), { recursive: true });
+  await cp(
+    path.join(repoRoot, 'shared', 'fonts', 'inter-latin.woff2'),
+    path.join(publicDir, 'assets', 'fonts', 'inter-latin.woff2'),
   );
   await cp(
     path.join(repoRoot, 'marketing', 'case-studies', marketing.featuredPractice),

@@ -279,7 +279,7 @@ test.describe.serial('Astro production practice builds', () => {
     await installDeterministicBrowser(page);
     const network = await installMockNetwork(page);
     const workerConfig = readFileSync(
-      path.join(repoRoot, 'worker', 'wrangler.toml'),
+      path.join(repoRoot, 'analytics-worker', 'wrangler.toml'),
       'utf8',
     );
 

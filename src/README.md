@@ -30,6 +30,7 @@ compose their own content using `components/marketing/` and `MarketingLayout.ast
 | Change | Start here |
 | --- | --- |
 | Practice copy, provider facts, contact details, assets, or selected theme | `sites/<slug>/practice.json` and that practice's assets; follow root AGENTS.md evidence rules. |
+| Prospect research, source screenshots, or original/unused images | `assessments/<slug>/assessment.md` and `assessments/<slug>/sources/`; keep the site's `source_extraction.md` linked to retained evidence. |
 | Homepage section order or page-level interactions | `pages/shared/PracticeHome.astro`. |
 | Homepage section navigation or visibility rules | `lib/home-sections.mjs`; keep section IDs and navigation consistent. |
 | A section's markup or layout | Its file in `components/practice/`; read the frontmatter description and props. |
@@ -41,7 +42,7 @@ compose their own content using `components/marketing/` and `MarketingLayout.ast
 | Output paths, copied assets, sitemap, or deployment validation | `scripts/build_astro.mjs`, `lib/assets.mjs`, `lib/sitemap.mjs`, and `lib/practice-production.mjs`. |
 
 Paths in the table are relative to `src/` unless they start with `sites/`, `shared/`,
-`marketing/`, or `scripts/`, which are repository-root directories.
+`marketing/`, `assessments/`, or `scripts/`, which are repository-root directories.
 
 ## Inputs and browser behavior
 

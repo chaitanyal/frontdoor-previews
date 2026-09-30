@@ -62,7 +62,7 @@ export function assertAnalyticsDeploymentAllowed(config, wranglerSource) {
 
   throw new Error(
     `Analytics Worker allowlist is missing ${missing.join(' and ')}. ` +
-      'Update both ALLOWED_ORIGINS and ALLOWED_PRACTICE_SLUGS in worker/wrangler.toml before deploying this production practice.',
+      'Update both ALLOWED_ORIGINS and ALLOWED_PRACTICE_SLUGS in analytics-worker/wrangler.toml before deploying this production practice.',
   );
 }
 

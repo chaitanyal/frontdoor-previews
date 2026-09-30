@@ -3,7 +3,7 @@
 
 By default, this scans the repository for folders named `images`, converts JPG/JPEG/PNG
 files to sibling `.webp` files, and skips SVG/WebP files. It ignores generated/vendor
-folders such as `dist`, `.git`, and `node_modules`.
+folders such as `dist`, `.git`, and `node_modules`, plus retained research and archives.
 
 Usage:
   python3 scripts/convert_images_to_webp.py
@@ -18,7 +18,7 @@ from pathlib import Path
 from PIL import Image
 
 RASTER_EXTENSIONS = {".jpg", ".jpeg", ".png"}
-SKIP_DIRS = {".git", "dist", "node_modules", "__pycache__"}
+SKIP_DIRS = {".git", ".tmp", ".astro", ".wrangler", "dist", "node_modules", "__pycache__", "assessments", "docs"}
 
 
 def should_skip(path: Path) -> bool:

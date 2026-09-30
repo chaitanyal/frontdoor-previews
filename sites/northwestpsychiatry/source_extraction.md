@@ -2,7 +2,7 @@
 
 ## Source Inventory
 
-- `assessment.md`: August 22, 2026 FrontDoor practice intelligence assessment copied from `assessments/northwestpsychiatry.md`.
+- `assessment.md`: August 22, 2026 FrontDoor practice intelligence assessment copied from [the retained assessment](../../assessments/northwestpsychiatry/assessment.md).
 - Live public pages reviewed August 22, 2026: homepage, provider roster, three current provider profiles, services, scheduling, new patients, forms, office, contact, blog index, and one representative blog article.
 - Public provider photographs downloaded from the current provider profiles.
 - `austin-skyline.webp`: existing regional hero asset reused from the North Hills preview because the current Northwest site does not expose a suitable authentic office or regional photograph.

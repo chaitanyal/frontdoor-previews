@@ -20,36 +20,46 @@ Practice source files live under `sites/`. The folder name is the `SITE_ID` used
 
 ```text
 frontdoor-previews/
-  marketing/                 # frontdoor.health data and static assets
-    assets/
-    case-studies/
-    marketing.json           # marketing configuration
+  assessments/
+    <practice-slug>/
+      assessment.md          # prospect qualification report, when available
+      sources/               # retained evidence, original images, historical notes
   sites/
-    template/                # starter structure for new practices
-    drdronavalli/
+    template/                # authoritative starter for new practices
+    <practice-slug>/
       practice.json          # practice + provider content
-      images/
-      assets/fonts/
-    northhillspsychiatry/
-      practice.json
-      images/
-      assets/fonts/
+      source_extraction.md   # verified facts and source references, when available
+      images/                # publishable provider, hero, and office images
+      assets/resources/      # patient-facing downloads
+      _redirects             # practice-specific redirects, when needed
+  marketing/
+    assets/                  # marketing-owned publishable assets
+    case-studies/            # optimized case-study media
+    marketing.json
+  shared/
+    branding/                # canonical FrontDoor logos, favicon, social images
+    fonts/                   # canonical font files, copied into each build
+    logos/                   # insurance logo library
+    styles/frontdoor.css
+    themes.json
+    analytics.js             # browser CTA tracking
   src/
     components/              # reusable Astro components
     entries/                 # target-specific Astro routes
     layouts/
     lib/
     pages/shared/            # shared practice page implementations
-  shared/
-    styles/frontdoor.css
-    themes.json
-    fonts/
-    logos/
-    analytics.js              # browser CTA tracking
+  docs/
+    integrations/
+    deployment/cloudflare/
+    archive/                 # historical plans, prompts, and retired templates
   scripts/
-  templates/
-  worker/                     # Cloudflare Worker + D1 analytics service
-  dist/
+  tests/
+  functions/                 # Cloudflare Pages API handlers
+  analytics-worker/          # analytics Worker + D1 migrations
+  places-worker/             # Google Places rating Worker
+  dist/                      # generated deployment output; never edit by hand
+  .tmp/                      # disposable working/build output
 ```
 
 New practices can be started with:
@@ -60,6 +70,28 @@ cp -R sites/template sites/newpractice
 
 Then update `sites/newpractice/practice.json`, content, providers, and assets. No build script changes should be required.
 
+Start prospect research in `assessments/<practice-slug>/` before creating a site.
+See [the assessment guide](assessments/README.md) for evidence and original-asset
+storage. Keep approved content in `practice.json` and its factual evidence ledger
+in `sites/<practice-slug>/source_extraction.md`, linking to retained sources.
+
+Only publishable files belong in a practice's `images/` and `assets/`: the builder
+copies those directories in full. Store unused originals, alternate image drafts,
+and source screenshots under `assessments/<practice-slug>/sources/`. Keep retired
+provider portraits in the practice folder as required by the provider-retirement
+workflow. Do not duplicate shared fonts in practice or marketing source folders;
+the builder copies them from `shared/fonts/` to the existing public asset paths.
+
+Shared FrontDoor brand files live in `shared/branding/`; marketing builds publish
+them under `assets/`. Practice-owned images stay with their practice. Intentional
+copies of an image used by separate practices preserve each site's independent
+relative asset paths.
+
+[Documentation](docs/README.md) indexes integration/deployment guidance and archived
+plans. `sites/template/` is the only supported practice starter; archived templates
+are historical references and must not be used for generation.
+
+
 ## Stack
 
 - Static HTML
@@ -68,7 +100,7 @@ Then update `sites/newpractice/practice.json`, content, providers, and assets. N
 - Static assets only
 - Hosted on Cloudflare Pages
 
-The preview and marketing sites do not include authenticated application code or production healthcare portal behavior. CTA analytics are handled separately by the Cloudflare Worker in `worker/`, which records non-PHI event metadata in D1.
+The preview and marketing sites do not include authenticated application code or production healthcare portal behavior. CTA analytics are handled separately by the Cloudflare Worker in `analytics-worker/`, which records non-PHI event metadata in D1.
 
 ## Content and Build Process
 
@@ -148,7 +180,7 @@ Marketing build flow:
 
 1. Compiles Tailwind CSS from `shared/styles/frontdoor.css`.
 2. Cleans `dist/`.
-3. Stages marketing assets and case-study media for Astro.
+3. Stages marketing assets, shared branding/fonts, and case-study media for Astro.
 4. Renders marketing routes and the featured practice from `marketing/marketing.json` and `sites/<site-id>/practice.json` with Astro.
 5. Copies the selected featured practice hero image into `dist/assets/featured-practice/`.
 6. Copies noindex preview sites into `dist/previews/<practice-slug>/`.
@@ -162,12 +194,12 @@ Practice build flow:
 2. Compiles Tailwind CSS from `shared/styles/frontdoor.css`.
 3. Cleans `dist/`.
 4. Validates `sites/<SITE_ID>/practice.json`.
-5. Copies only `sites/<SITE_ID>/` into `dist/`.
+5. Stages the practice's `images/`, `assets/`, and optional `_redirects` for output.
 6. Copies compiled CSS to `dist/assets/styles.css` and shared fonts to `dist/assets/fonts/`.
 7. Generates the static homepage, provider, privacy, and accessibility pages with Astro.
 8. Preserves the existing relative route and asset contract.
 9. Generates deployment-specific `robots.txt`, `_headers` for noindex sites, and `sitemap.xml` plus `llms.txt` for indexable production practice builds.
-10. Removes source-only files such as `practice.json`, Markdown files, and build-only artifacts from `dist/`.
+10. Keeps `practice.json`, Markdown evidence, assessments, and build-only artifacts out of `dist/`.
 11. Validates built HTML for basic structure, SEO smoke checks, JSON-LD parsing, and local asset paths.
 
 Resulting production practice output:
@@ -385,11 +417,11 @@ Use an existing `data-frontdoor-cta` value: `email`, `phone`, `newPatient`,
 `existingPatient`, `directions`, or `resource`. Preserve the destination URL and
 practice slug supplied by the shared Astro components. Do not invent a new event
 type without separately updating and testing both `shared/analytics.js` and the
-Worker allowlist in `worker/src/index.ts`.
+Worker allowlist in `analytics-worker/src/index.ts`.
 
 Before deploying a new production practice domain, add both HTTPS origins and the
 practice slug to `ALLOWED_ORIGINS` and `ALLOWED_PRACTICE_SLUGS` in
-`worker/wrangler.toml`, keep the fallback sets in `worker/src/index.ts` synchronized,
+`analytics-worker/wrangler.toml`, keep the fallback sets in `analytics-worker/src/index.ts` synchronized,
 deploy the Worker, and run the practice build. The production build fails when the
 Wrangler allowlists are missing the configured practice.
 
@@ -424,12 +456,12 @@ changes.
 CTA click tracking uses:
 
 - `shared/analytics.js` for browser-side event capture
-- `worker/` for the Cloudflare Worker endpoint
+- `analytics-worker/` for the Cloudflare Worker endpoint
 - Cloudflare D1 database `frontdoor_analytics`
 
 Tracked events include practice slug, CTA event type, page path, destination URL, referrer, source attribution, user agent, country, and timestamp. The analytics service is intentionally limited and does not store cookies, user IDs, IP addresses, names, email addresses, form contents, or PHI.
 
-See `worker/README.md` for Worker deployment, migration, and query commands.
+See `analytics-worker/README.md` for Worker deployment, migration, and query commands.
 
 ## Image Optimization
 
