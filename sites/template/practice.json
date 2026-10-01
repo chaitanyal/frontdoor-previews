@@ -55,6 +55,7 @@
   "providerProfileSections": {
     "expectations": false
   },
+  "treatments": [],
   "trustItems": [
     {
       "icon": "ShieldCheck",

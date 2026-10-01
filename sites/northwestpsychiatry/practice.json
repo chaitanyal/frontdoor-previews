@@ -41,14 +41,14 @@
     "image": "./images/hero/austin-skyline.webp",
     "imageAlt": "Austin skyline and surrounding green space at sunset",
     "title": "Adult psychiatric care in Northwest Austin",
-    "copy": "Evaluation and ongoing medication care for adults navigating mood, anxiety, ADHD, trauma, sleep, cognitive, and other psychiatric concerns. Meet with an experienced care team, understand your options, and plan next steps with the office.",
+    "copy": "Psychiatric evaluations and ongoing medication management for mood, anxiety, attention, sleep, trauma and cognitive concerns.",
     "primaryCta": "Book Appointment",
     "secondaryCta": "Meet Our Providers"
   },
   "home": {
     "providerEyebrow": "Providers",
     "providerTitle": "Meet your care team",
-    "providerCopy": "Northwest Psychiatry provides adult psychiatric care through careful evaluation, clear explanations, shared decisions, and treatment plans tailored to each patient.",
+    "providerCopy": "Meet our psychiatrist and physician assistants, and learn about their clinical experience and training.",
     "insuranceFallback": "Please contact the office to confirm insurance and payment options."
   },
   "providerProfileSections": {
@@ -76,8 +76,7 @@
     {
       "slug": "arvinder-walia",
       "name": "Dr. Arvinder Walia",
-      "credentials": "MD",
-      "heroTitle": "Adult psychiatry grounded in experience.",
+      "heroTitle": "Adult Psychiatry",
       "image": "./images/providers/arvinder-walia.webp",
       "imageAlt": "Dr. Arvinder Walia, adult psychiatrist in Austin, Texas",
       "seo": {
@@ -92,15 +91,14 @@
       ],
       "heroTrustItems": [
         "Board-Certified Adult Psychiatrist",
-        "Mood, Anxiety & Cognitive Care",
-        "Austin-Based Private Practice"
+        "Forensic Psychiatry Experience"
       ],
       "specialty": "Adult Psychiatry, Mood, Anxiety & Cognitive Disorders",
       "medicalSpecialty": "https://schema.org/Psychiatric",
-      "tagline": "Experienced psychiatric care for adults with focused expertise in mood, anxiety, cognitive, forensic, and medically complex concerns.",
+      "tagline": "Care for adults with mood, anxiety and cognitive disorders, including psychiatric evaluations for medically complex concerns.",
       "bioParagraphs": [
-        "Dr. Arvinder Walia is a board-certified adult psychiatrist whose work includes mood, anxiety, and cognitive disorders, as well as forensic evaluations and consultation-liaison psychiatry for medically complex concerns.",
-        "Dr. Walia is co-founder and medical director of the Austin Center for Psychological Care, a dialectical behavior intensive outpatient program for personality and mood disorders. He also contributes to the education of Advanced Psychiatric Nurse Practitioner students at the University of Texas at Austin School of Nursing."
+        "Dr. Arvinder Walia’s experience includes forensic evaluations of healthcare professionals and consultation-liaison psychiatry for patients with metabolic disorders.",
+        "He is co-founder and medical director of the Austin Center for Psychological Care, a dialectical behavior intensive outpatient program for personality and mood disorders. He also teaches Advanced Psychiatric Nurse Practitioner students at the University of Texas at Austin School of Nursing."
       ],
       "conditions": [
         "Depression",
@@ -114,8 +112,7 @@
         "Adult Psychiatric Evaluations",
         "Medication Management",
         "Forensic Psychiatric Evaluations",
-        "Consultation-Liaison Psychiatry",
-        "Individualized Treatment Planning"
+        "Consultation-Liaison Psychiatry"
       ],
       "languages": [
         "English"
@@ -141,7 +138,7 @@
       "academicAppointments": [
         "University of Texas at Austin School of Nursing"
       ],
-      "aboutHeading": "Experienced adult psychiatric care",
+      "aboutHeading": "Clinical background",
       "externalProfileUrl": "https://www.northwestpsychiatry.com/arvinder-walia-m-d/",
       "appointmentUrl": "https://www.northwestpsychiatry.com/scheduling/"
     },
@@ -149,7 +146,6 @@
       "slug": "kathleen-nguyen",
       "name": "Kathleen Nguyen",
       "credentials": "PA-C",
-      "heroTitle": "Collaborative psychiatric care for adults.",
       "image": "./images/providers/kathleen-nguyen.webp",
       "imageAlt": "Kathleen Nguyen, PA-C, psychiatric physician assistant in Austin, Texas",
       "seo": {
@@ -163,16 +159,13 @@
         "Insomnia"
       ],
       "heroTrustItems": [
-        "Board-Certified Physician Assistant",
-        "Adult Psychiatric Care",
-        "Collaborative Treatment Planning"
+        "Urgent & Post-Acute Care Experience"
       ],
       "specialty": "Adult Psychiatry & Medication Management",
       "medicalSpecialty": "https://schema.org/Psychiatric",
-      "tagline": "Adult psychiatric care centered on thoughtful medication management, education, shared decisions, and individualized planning.",
+      "tagline": "Medication management for adults with depression, anxiety, mood disorders, insomnia and behavioral symptoms related to chronic illness.",
       "bioParagraphs": [
-        "Kathleen Nguyen, PA-C, provides adult psychiatric care with an emphasis on medication management, education, shared decision-making, and individualized planning. Her clinical background includes urgent care, post-acute care, and skilled nursing settings.",
-        "She earned a Master of Science in Physician Assistant studies from the University of Bridgeport and a Bachelor of Science in Biology/Biological Sciences from UC Irvine. Her psychiatric work includes depression, anxiety, mood disorders, insomnia, and behavioral symptoms associated with chronic medical illness."
+        "Kathleen Nguyen’s clinical background spans urgent care, post-acute care and skilled nursing. In psychiatric care, she emphasizes medication education and shared decisions about treatment."
       ],
       "conditions": [
         "Depression",
@@ -184,9 +177,7 @@
       "services": [
         "Adult Psychiatric Evaluations",
         "Medication Management",
-        "Patient Education",
-        "Shared Decision-Making",
-        "Individualized Treatment Planning"
+        "Patient Education"
       ],
       "languages": [
         "English"
@@ -199,7 +190,7 @@
         "undergraduate": "UC Irvine"
       },
       "affiliations": [],
-      "aboutHeading": "Collaborative adult psychiatric care",
+      "aboutHeading": "Clinical background",
       "externalProfileUrl": "https://www.northwestpsychiatry.com/kathleen-nguyen--pa-c/",
       "appointmentUrl": "https://www.northwestpsychiatry.com/scheduling/"
     },
@@ -207,7 +198,6 @@
       "slug": "khyati-delada",
       "name": "Khyati Delada",
       "credentials": "MPAM, PA-C, CNIM",
-      "heroTitle": "Psychiatric care informed by neuropsychology.",
       "image": "./images/providers/khyati-delada.webp",
       "imageAlt": "Khyati Delada, MPAM, PA-C, CNIM, psychiatric physician associate in Austin, Texas",
       "seo": {
@@ -221,16 +211,13 @@
         "Mood & Anxiety"
       ],
       "heroTrustItems": [
-        "Board-Certified Physician Associate",
-        "Neuropsychology & Neuroscience Background",
-        "CNIM Certified"
+        "Neuropsychology & Neuroscience Background"
       ],
       "specialty": "Adult Psychiatry & Neuropsychology-Informed Care",
       "medicalSpecialty": "https://schema.org/Psychiatric",
-      "tagline": "Adult psychiatric care informed by experience in neuropsychology, neuroscience, behavioral health, and neurology.",
+      "tagline": "Psychiatric evaluations and medication management for adults with attention, mood, anxiety and cognitive concerns.",
       "bioParagraphs": [
-        "Khyati Delada, MPAM, PA-C, CNIM, provides adult psychiatric care informed by experience in neuropsychology, neuroscience, behavioral health, and neurology. She evaluates and treats adults with depression, anxiety disorders, ADHD, bipolar disorder, insomnia, trauma-related disorders, and other mood and stress-related concerns.",
-        "She earned a Master of Science in Physician Assistant studies from the University of Lynchburg and a Bachelor of Science in Neuroscience from the University of Illinois Chicago. She holds PA-C certification through the NCCPA and CNIM certification through ABRET. Her approach emphasizes medication management, education, shared decision-making, and individualized treatment planning."
+        "Khyati Delada brings experience in behavioral health and neurology to psychiatric care, including the evaluation of neuropsychiatric and cognitive disorders. Her approach emphasizes medication education and shared decisions about treatment."
       ],
       "conditions": [
         "Depression",
@@ -245,8 +232,7 @@
         "Adult Psychiatric Evaluations",
         "Medication Management",
         "Neuropsychiatric & Cognitive Evaluation",
-        "Patient Education",
-        "Individualized Treatment Planning"
+        "Patient Education"
       ],
       "languages": [
         "English"
@@ -260,7 +246,7 @@
         "undergraduate": "University of Illinois Chicago"
       },
       "affiliations": [],
-      "aboutHeading": "Integrated psychiatric and neuropsychology-informed care",
+      "aboutHeading": "Clinical background",
       "externalProfileUrl": "https://www.northwestpsychiatry.com/khyati-delada/",
       "appointmentUrl": "https://www.northwestpsychiatry.com/scheduling/"
     }
@@ -337,19 +323,19 @@
     },
     {
       "question": "Do you accept insurance?",
-      "answer": "Northwest Psychiatry lists Aetna, Blue Cross Blue Shield, Cigna, Beacon Health Options, UnitedHealthcare, Medicare, and Baylor Scott & White. Participation varies by provider and plan, so please call the office to verify coverage before your visit."
+      "answer": "We accept most traditional insurance plans. Participation varies by provider and plan, so call (512) 342-7979 to confirm coverage before your visit."
     },
     {
       "question": "What should I complete before my first visit?",
-      "answer": "Complete the new-patient forms before your appointment and arrive 15 minutes early if you are bringing printed paperwork. The practice notes that the forms may take at least 45 minutes to complete."
+      "answer": "Complete the new-patient forms before your appointment and allow at least 45 minutes to fill them out. If you are bringing printed paperwork, arrive 15 minutes early."
     },
     {
       "question": "How do I access the patient portal?",
-      "answer": "Use the Patient Portal link to open Northwest Psychiatry's Athenahealth portal for established-patient access."
+      "answer": "Established patients can use the Patient Portal link to access their Athenahealth account."
     },
     {
       "question": "Are Friday appointments available in the office?",
-      "answer": "The current office schedule lists Friday hours from 8:00 AM to 3:00 PM for telehealth appointments and phone support, with no in-office appointments."
+      "answer": "Friday appointments are by telehealth only, from 8:00 AM to 3:00 PM. Phone support is also available during those hours; there are no in-office appointments on Fridays."
     }
   ],
   "location": {

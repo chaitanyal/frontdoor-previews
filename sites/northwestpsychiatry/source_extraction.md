@@ -137,3 +137,9 @@
 - The certifications screenshot contains both an undated CNIM entry and an older CNIM entry marked expired in December 2022. Her current headline still uses `CNIM`, so the preview treats CNIM as current without publishing an issue or expiration date.
 - A third education entry is indicated but not visible in the supplied screenshot and is therefore omitted.
 - Blog authorship and editorial ownership are not publicly attributed in the reviewed markup. No public RSS/Atom feed or CMS export path was confirmed.
+
+## Copy concision review — September 30, 2026
+
+Reviewed homepage, three provider profiles and FAQs using the updated practice-copywriter rules. Removed redundant physician MD display, repeated PA credential badges, generic care adjectives and bios that duplicated complete education/condition lists. Preserved detailed qualifications, user-supplied Delada credentials, specific clinical experience and all factual scope. Removed treatment-planning/shared-decision labels from service lists while retaining meaningful care-approach language in bios. FAQ answers now state supported facts directly, with patient-specific insurance verification retained. [Editorial decisions and source mapping](../../assessments/northwestpsychiatry/sources/provider-copy-concision-review.md). This is a wording review of existing evidence, not a current credential or insurance re-verification.
+
+Verification: `npm run verify:site -- northwestpsychiatry`, preview build and the skill audit passed (zero audit errors/warnings). Browser checks covered the homepage and all three profiles at mobile and desktop widths: exact copy, credentials/headlines, badges, FAQ expansion, images, overflow and disabled preview destinations. Walia retains Physician structured-data classification after the display simplification. No shared template changes or deployment.

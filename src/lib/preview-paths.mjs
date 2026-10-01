@@ -30,3 +30,17 @@ export async function previewProviderPaths(repoRoot) {
   }
   return paths;
 }
+
+export async function previewTreatmentPaths(repoRoot) {
+  const paths = [];
+  for (const practice of configuredPracticeIds()) {
+    const { config } = await loadPracticeData(repoRoot, practice);
+    for (const treatment of config.treatments || []) {
+      paths.push({
+        params: { practice, treatment: treatment.slug },
+        props: { practice, treatment },
+      });
+    }
+  }
+  return paths;
+}

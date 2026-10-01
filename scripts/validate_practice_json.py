@@ -184,6 +184,68 @@ def validate_resource_groups(config: dict[str, Any]) -> None:
             validate_resource(resource_value, f"resources[{resource_index}]")
 
 
+def validate_privacy_policy(value: Any) -> None:
+    policy = require_mapping(value, "privacyPolicy")
+    for key in ["heading", "summary"]:
+        require_string_key(policy, key, "privacyPolicy")
+    sections = require_list(require_key(policy, "sections", "privacyPolicy"), "privacyPolicy.sections")
+    for index, value in enumerate(sections):
+        path = f"privacyPolicy.sections[{index}]"
+        section = require_mapping(value, path)
+        require_string_key(section, "heading", path)
+        validate_string_list(require_key(section, "paragraphs", path), f"{path}.paragraphs", min_items=1)
+    resources = require_list(require_key(policy, "resources", "privacyPolicy"), "privacyPolicy.resources")
+    for index, resource in enumerate(resources):
+        validate_resource(resource, f"privacyPolicy.resources[{index}]")
+
+
+def validate_treatments(config: dict[str, Any]) -> None:
+    if "treatmentSection" in config:
+        section = require_mapping(config["treatmentSection"], "treatmentSection")
+        for key in ["heading", "summary"]:
+            require_string_key(section, key, "treatmentSection")
+
+    treatments = require_list(config.get("treatments", []), "treatments")
+    slugs: set[str] = set()
+    for index, value in enumerate(treatments):
+        path = f"treatments[{index}]"
+        treatment = require_mapping(value, path)
+        for key in ["slug", "name", "title", "summary"]:
+            require_string_key(treatment, key, path)
+        slug = treatment["slug"]
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+            fail(f"{path}.slug must be lowercase words or numbers separated by hyphens")
+        if slug in slugs:
+            fail(f"{path}.slug duplicates another treatment: {slug}")
+        slugs.add(slug)
+        seo = require_mapping(require_key(treatment, "seo", path), f"{path}.seo")
+        for key in ["title", "description"]:
+            require_string_key(seo, key, f"{path}.seo")
+        cta = require_mapping(require_key(treatment, "cta", path), f"{path}.cta")
+        for key in ["heading", "summary", "label"]:
+            require_string_key(cta, key, f"{path}.cta")
+        sections = require_list(require_key(treatment, "sections", path), f"{path}.sections")
+        if not sections:
+            fail(f"{path}.sections must contain at least one section")
+        for section_index, section_value in enumerate(sections):
+            section_path = f"{path}.sections[{section_index}]"
+            section = require_mapping(section_value, section_path)
+            require_string_key(section, "heading", section_path)
+            for key in ["paragraphs", "bullets"]:
+                if key in section:
+                    validate_string_list(section[key], f"{section_path}.{key}")
+            if not section.get("paragraphs") and not section.get("bullets"):
+                fail(f"{section_path} must contain paragraphs or bullets")
+        if "resources" in treatment:
+            resources = require_list(treatment["resources"], f"{path}.resources")
+            for resource_index, resource in enumerate(resources):
+                resource_path = f"{path}.resources[{resource_index}]"
+                validate_resource(resource, resource_path)
+                url = resource["url"]
+                if not url.startswith(("https://", "./")):
+                    fail(f"{resource_path}.url must be an HTTPS URL or start with ./")
+
+
 def validate_google_review_summary(value: Any, path: str) -> None:
     summary = require_mapping(value, path)
     for retired_key in ["rating", "reviewCount"]:
@@ -337,6 +399,11 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         appointment_section = require_mapping(config["appointmentSection"], "appointmentSection")
         require_string_key(appointment_section, "heading", "appointmentSection")
         require_string_key(appointment_section, "summary", "appointmentSection")
+        if "telehealth" in appointment_section:
+            telehealth = require_mapping(appointment_section["telehealth"], "appointmentSection.telehealth")
+            for key in ["heading", "summary", "label"]:
+                require_string_key(telehealth, key, "appointmentSection.telehealth")
+            require_https_url(require_key(telehealth, "url", "appointmentSection.telehealth"), "appointmentSection.telehealth.url")
 
     providers = require_list(require_key(config, "providers", "root"), "providers")
     for index, provider_value in enumerate(providers):
@@ -423,11 +490,14 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
 
     validate_string_list(require_key(config, "conditions", "root"), "conditions", min_items=1)
     require_string_key(config, "conditionsIntro", "root")
+    validate_treatments(config)
 
     if "financialPolicy" in config:
         validate_financial_policy(config["financialPolicy"])
 
     validate_resource_groups(config)
+    if "privacyPolicy" in config:
+        validate_privacy_policy(config["privacyPolicy"])
 
     insurance = require_mapping(require_key(config, "insurance", "root"), "insurance")
     if "enabled" not in insurance or not isinstance(insurance["enabled"], bool):

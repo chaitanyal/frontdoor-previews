@@ -2,8 +2,12 @@
 /**
  * Practice legal body selected by page: privacy, terms, or accessibility.
  * Uses practice contact details and conditionally includes Google Maps disclosures;
+ * Optional config.privacyPolicy supplies patient-privacy sections and document links;
+ * website disclosures remain separate. Local document URLs resolve from the practice root.
  * document metadata and theme setup belong to PracticeLegal/PracticeLayout.
  */
+import { practiceAssetUrl } from '../../lib/assets.mjs';
+
 interface Props {
   config: Record<string, any>;
   page: 'accessibility' | 'privacy' | 'terms';
@@ -12,6 +16,7 @@ interface Props {
 const { config, page } = Astro.props;
 const practice = config.practice || {};
 const privacy = page === 'privacy';
+const privacyPolicy = privacy ? config.privacyPolicy : undefined;
 const terms = page === 'terms';
 const usesGoogleMaps = Boolean(config.location?.googleReviewSummary);
 const title = privacy ? 'Privacy' : terms ? 'Terms of Use' : 'Accessibility';
@@ -22,9 +27,30 @@ const title = privacy ? 'Privacy' : terms ? 'Terms of Use' : 'Accessibility';
     <p class="eyebrow">{title}</p>
     <h1 class="section-title">{title}</h1>
     <div class="soft-card mt-10 space-y-8 p-8 md:p-10">
+      {privacyPolicy && (
+        <>
+          <section class="space-y-4 text-base leading-7 text-slate-600" data-patient-privacy>
+            <h2 class="text-2xl font-semibold tracking-tight text-slate-950">{privacyPolicy.heading}</h2>
+            <p>{privacyPolicy.summary}</p>
+            <ul class="space-y-3">
+              {privacyPolicy.resources.map((resource) => (
+                <li>
+                  <a class="font-semibold text-brand-primary underline underline-offset-4" href={practiceAssetUrl(resource.url, 1)} target="_blank" rel="noopener noreferrer">{resource.title}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+          {privacyPolicy.sections.map((section) => (
+            <section class="space-y-4 text-base leading-7 text-slate-600" data-patient-privacy>
+              <h2 class="text-2xl font-semibold tracking-tight text-slate-950">{section.heading}</h2>
+              {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            </section>
+          ))}
+        </>
+      )}
       <section class="space-y-4 text-base leading-7 text-slate-600">
         <h2 class="text-2xl font-semibold tracking-tight text-slate-950">
-          {practice.name}
+          {privacyPolicy ? 'Website Privacy' : practice.name}
         </h2>
         {
           terms ? (

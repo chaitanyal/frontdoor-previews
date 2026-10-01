@@ -12,6 +12,7 @@ for maintenance rules, and the [Astro source guide](../src/README.md) for code l
 - [Analytics Worker](../analytics-worker/README.md) and [Places Worker](../places-worker/README.md):
   backend-specific commands, run from each worker directory.
 - [Practice assessments and source evidence](../assessments/README.md).
+- [Treatment pages](treatment-pages.md): configuration, shared routes, evidence and migration guidance.
 - [Output and browser verification](../tests/verification/README.md).
 
 ## Historical material

@@ -2,6 +2,7 @@
 /**
  * Practice legal footer, mobile appointment/phone actions, and email-copy toast.
  * providerPage omits the homepage legal footer and uses provider action labels/phone.
+ * practiceRoot adjusts legal links for nested treatment routes.
  */
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 
@@ -10,6 +11,7 @@ interface Props {
   phoneHref?: string;
   providerLabels?: Record<string, string>;
   providerPage?: boolean;
+  practiceRoot?: string;
 }
 
 const {
@@ -17,6 +19,7 @@ const {
   phoneHref = config.practice.phoneHref,
   providerLabels = {},
   providerPage = false,
+  practiceRoot = './',
 } = Astro.props;
 const { hero, practice } = config;
 const currentYear = new Date().getFullYear();
@@ -31,9 +34,9 @@ const currentYear = new Date().getFullYear();
           class="flex justify-center gap-8"
           aria-label="Legal navigation"
         >
-          <a class="transition hover:text-slate-950" href="./privacy/">Privacy</a>
-          <a class="transition hover:text-slate-950" href="./terms/">Terms</a>
-          <a class="transition hover:text-slate-950" href="./accessibility/">
+          <a class="transition hover:text-slate-950" href={`${practiceRoot}privacy/`}>Privacy</a>
+          <a class="transition hover:text-slate-950" href={`${practiceRoot}terms/`}>Terms</a>
+          <a class="transition hover:text-slate-950" href={`${practiceRoot}accessibility/`}>
             Accessibility
           </a>
         </nav>

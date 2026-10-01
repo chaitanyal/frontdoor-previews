@@ -1,0 +1,109 @@
+---
+/**
+ * Evergreen treatment page shared by all build targets. Config supplies clinic copy;
+ * relative links assume treatment/<slug>/ beneath the practice root. Phone contact
+ * stays available in previews; scheduling destinations are not used on this page.
+ */
+import Icon from '../../components/practice/Icon.astro';
+import PracticeHeader from '../../components/practice/PracticeHeader.astro';
+import PracticeFooter from '../../components/practice/PracticeFooter.astro';
+import PracticeLayout from '../../layouts/PracticeLayout.astro';
+import { practiceAssetUrl } from '../../lib/assets.mjs';
+import { canonicalUrl } from '../../lib/seo.mjs';
+
+interface Props {
+  config: Record<string, any>;
+  treatment: Record<string, any>;
+  theme: Record<string, string>;
+}
+
+const { config, treatment, theme } = Astro.props;
+const { practice } = config;
+const pagePath = `treatment/${treatment.slug}`;
+const pageUrl = canonicalUrl(config, pagePath);
+const relatedTreatments = (config.treatments || []).filter((item) => item.slug !== treatment.slug);
+const breadcrumbs = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: practice.name, item: canonicalUrl(config) },
+    { '@type': 'ListItem', position: 2, name: treatment.name, item: pageUrl },
+  ],
+};
+---
+
+<PracticeLayout
+  bodyClass="treatment-page bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0"
+  config={config}
+  title={treatment.seo.title}
+  description={treatment.seo.description}
+  jsonLd={breadcrumbs}
+  pageKind="treatment"
+  pagePath={pagePath}
+  stylesheetHref="../../assets/styles.css"
+  theme={theme}
+>
+  <PracticeHeader config={config} homeHref="../../" />
+  <main id="main-content" tabindex="-1">
+    <section class="section border-b border-slate-200">
+      <div class="mx-auto max-w-3xl">
+        <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-2 text-sm leading-6 text-slate-500">
+          <a href="../../" class="nav-link">Home</a>
+          <span aria-hidden="true">/</span>
+          <a href="../../#treatments" class="nav-link">Treatments</a>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">{treatment.name}</span>
+        </nav>
+        <p class="eyebrow mt-10">{practice.locationLabel}</p>
+        <h1 class="mt-4 font-serif text-4xl font-semibold leading-tight tracking-tight md:text-6xl">{treatment.title}</h1>
+        <p class="mt-6 text-lg leading-8 text-slate-600">{treatment.summary}</p>
+        <a href={practice.phoneHref} data-frontdoor-cta="phone" class="btn-primary mt-8">{treatment.cta.label}<Icon name="Phone" /></a>
+      </div>
+    </section>
+    <div class="section bg-white">
+      <div class="mx-auto max-w-3xl space-y-12">
+        {treatment.sections.map((section) => (
+          <section>
+            <h2 class="font-serif text-2xl font-semibold leading-tight tracking-tight md:text-3xl">{section.heading}</h2>
+            <div class="mt-5 space-y-4 text-base leading-8 text-slate-600">
+              {(section.paragraphs || []).map((paragraph) => <p>{paragraph}</p>)}
+              {section.bullets?.length > 0 && (
+                <ul class="list-disc space-y-2 pl-6">
+                  {section.bullets.map((item) => <li>{item}</li>)}
+                </ul>
+              )}
+            </div>
+          </section>
+        ))}
+        {treatment.resources?.length > 0 && (
+          <section class="border-t border-slate-200 pt-8">
+            <h2 class="font-serif text-2xl font-semibold">Further reading</h2>
+            <ul class="mt-4 space-y-3">
+              {treatment.resources.map((resource) => (
+                <li><a href={practiceAssetUrl(resource.url, 2)} class="nav-link inline-block min-h-[44px] py-2 text-brand-primary underline underline-offset-4">{resource.title}</a></li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {relatedTreatments.length > 0 && (
+          <nav aria-label="Related treatments" class="border-t border-slate-200 pt-8">
+            <p class="eyebrow">Other treatment options</p>
+            {relatedTreatments.map((item) => (
+              <a href={`../${item.slug}/`} class="nav-link mt-3 inline-flex min-h-[44px] items-center gap-2 text-brand-primary">{item.name}<Icon name="ArrowRight" /></a>
+            ))}
+          </nav>
+        )}
+      </div>
+    </div>
+    <section id="contact" class="section scroll-mt-24 bg-brand-900 text-white" aria-labelledby="treatment-contact-title">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="treatment-contact-title" class="font-serif text-3xl font-semibold leading-tight md:text-4xl">{treatment.cta.heading}</h2>
+        <p class="mt-5 text-lg leading-8 text-slate-300">{treatment.cta.summary}</p>
+        <a href={practice.phoneHref} data-frontdoor-cta="phone" class="btn-secondary mt-7"><Icon name="Phone" />{treatment.cta.label}: {practice.phone}</a>
+        <p class="mt-6 text-sm leading-6 text-slate-300">{practice.emergencyNotice}</p>
+      </div>
+    </section>
+  </main>
+  <PracticeFooter config={config} practiceRoot="../../" />
+  <script is:inline slot="scripts">lucide.createIcons();</script>
+</PracticeLayout>

@@ -13,6 +13,7 @@ import PatientResources from '../../components/practice/PatientResources.astro';
 import PracticeFooter from '../../components/practice/PracticeFooter.astro';
 import PracticeHeader from '../../components/practice/PracticeHeader.astro';
 import ProviderConditions from '../../components/practice/ProviderConditions.astro';
+import TreatmentCards from '../../components/practice/TreatmentCards.astro';
 import PracticeLayout from '../../layouts/PracticeLayout.astro';
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 import { practiceHomepageSchemas } from '../../lib/practice-view.mjs';
@@ -38,10 +39,12 @@ const { config, theme, isPreview = false } = Astro.props;
   <main id="main-content" tabindex="-1">
     <HomeHero config={config} />
     <ProviderConditions config={config} />
+    <TreatmentCards config={config} />
     <FinancialPolicy config={config} />
     <AppointmentSection
       appointmentUrl={config.practice.defaultAppointmentUrl}
       patientPortalUrl={config.practice.patientPortalUrl}
+      telehealth={config.appointmentSection?.telehealth}
       phone={config.practice.phone}
       phoneHref={config.practice.phoneHref}
       email={config.practice.email}

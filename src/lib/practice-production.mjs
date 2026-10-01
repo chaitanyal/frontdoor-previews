@@ -123,6 +123,11 @@ export function practiceLlms(config, siteUrl) {
       `- [${markdownText(provider.name)}](${baseUrl}/providers/${encodeURIComponent(provider.slug)}/): ${markdownText(provider.seo?.description)}`,
     );
   }
+  for (const treatment of config.treatments || []) {
+    lines.push(
+      `- [${markdownText(treatment.name)}](${baseUrl}/treatment/${treatment.slug}/): ${markdownText(treatment.seo.description)}`,
+    );
+  }
   lines.push('');
 
   return lines.join('\n');
@@ -311,6 +316,22 @@ export async function validatePracticeOutput(outDir, config) {
       throw new Error(
         `Provider page ${relativePath} must visibly render ${provider.image}.`,
       );
+    }
+  }
+
+  for (const treatment of config.treatments || []) {
+    const relativePath = path.join('treatment', treatment.slug, 'index.html');
+    const treatmentPath = path.join(outDir, relativePath);
+    if (!existsSync(treatmentPath)) {
+      throw new Error(`Production output is missing ${relativePath}.`);
+    }
+    const html = await readFile(treatmentPath, 'utf8');
+    const jsonLd = jsonLdObjects(html, relativePath);
+    if (!jsonLd.some((block) => hasSchemaType(block, 'WebPage'))) {
+      throw new Error(`Treatment page ${relativePath} must include WebPage structured data.`);
+    }
+    if (metaContent(html, 'property', 'og:url') !== canonicalUrl(config, `treatment/${treatment.slug}`)) {
+      throw new Error(`Treatment page ${relativePath} has incorrect social metadata.`);
     }
   }
 

@@ -1,0 +1,36 @@
+---
+/** Optional homepage links to substantive treatment pages; all clinic copy comes from config. */
+import Icon from './Icon.astro';
+import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
+
+interface Props {
+  config: Record<string, any>;
+}
+
+const { config } = Astro.props;
+const treatments = config.treatments || [];
+---
+
+{treatments.length > 0 && (
+  <section id={HOME_SECTION_IDS.treatments} class="home-treatments section scroll-mt-24 border-t border-slate-200 bg-white" aria-labelledby="treatments-title">
+    <div class="section-shell">
+      <div class="max-w-3xl">
+        <p class="eyebrow">Treatment options</p>
+        <h2 id="treatments-title" class="section-title">{config.treatmentSection?.heading || 'Explore our treatments'}</h2>
+        {config.treatmentSection?.summary && <p data-section-summary class="section-copy">{config.treatmentSection.summary}</p>}
+      </div>
+      <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
+        {treatments.map((treatment) => (
+          <article class="treatment-card soft-card flex flex-col p-7 md:p-8">
+            <h3 class="font-serif text-2xl font-semibold tracking-tight text-slate-950">{treatment.name}</h3>
+            <p class="mt-4 text-base leading-7 text-slate-600">{treatment.summary}</p>
+            <a href={`./treatment/${treatment.slug}/`} class="nav-link mt-6 inline-flex min-h-[44px] items-center gap-2 self-start text-brand-primary">
+              Learn about {treatment.name}
+              <Icon name="ArrowRight" class="h-4 w-4 shrink-0" />
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

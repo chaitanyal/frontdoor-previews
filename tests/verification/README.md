@@ -25,6 +25,12 @@ npm run test:output-contracts
 
 ## Browser checks
 
+Focused treatment configuration and route checks (no build or browser required):
+
+```bash
+node --test tests/verification/treatments.test.mjs
+```
+
 Install the pinned Playwright browser after `npm ci`:
 
 ```bash

@@ -8,6 +8,7 @@ import {
 export const HOME_SECTION_IDS = Object.freeze({
   providers: 'providers',
   conditions: 'conditions',
+  treatments: 'treatments',
   financial: 'insurance',
   contact: 'contact',
   resources: 'patient-resources',
@@ -31,6 +32,13 @@ export function homeSectionNavigation(config) {
       label: 'Conditions',
       header: true,
       enabled: Boolean(config.conditions?.length),
+    },
+    {
+      key: 'treatments',
+      id: HOME_SECTION_IDS.treatments,
+      label: 'Treatments',
+      header: true,
+      enabled: Boolean(config.treatments?.length),
     },
     {
       key: 'financial',

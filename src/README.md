@@ -16,7 +16,8 @@ implementation.
 | `entries/marketing/pages/` | Marketing pages plus eligible practice previews. |
 
 Practice route entries load data through `lib/practice-data.mjs` and delegate to
-`pages/shared/PracticeHome.astro`, `ProviderPage.astro`, or `PracticeLegal.astro`.
+`pages/shared/PracticeHome.astro`, `ProviderPage.astro`, `TreatmentPage.astro`, or
+`PracticeLegal.astro`.
 Preview routes use `lib/preview-paths.mjs` to enumerate paths. Their shared page
 implementations also serve standalone practice builds.
 
@@ -35,6 +36,7 @@ compose their own content using `components/marketing/` and `MarketingLayout.ast
 | Homepage section navigation or visibility rules | `lib/home-sections.mjs`; keep section IDs and navigation consistent. |
 | A section's markup or layout | Its file in `components/practice/`; read the frontmatter description and props. |
 | Provider presentation and contact fallbacks | `components/practice/ProviderProfile.astro` and `lib/practice-view.mjs`. |
+| Treatment cards, pages and routes | `components/practice/TreatmentCards.astro`, `pages/shared/TreatmentPage.astro`, and `lib/preview-paths.mjs`; see [treatment-page guidance](../docs/treatment-pages.md). |
 | Metadata or structured data | `lib/seo.mjs`, `lib/practice-view.mjs`, and the shared page/layout passing the data. |
 | Reusable theme appearance | `shared/styles/frontdoor.css`, `shared/themes.json`, and `lib/themes.mjs`. |
 | Marketing featured practice and metrics | `marketing/marketing.json` and `lib/marketing-data.mjs`. |
@@ -47,7 +49,21 @@ Paths in the table are relative to `src/` unless they start with `sites/`, `shar
 ## Inputs and browser behavior
 
 Practice components commonly receive a validated `config` from `practice.json`.
+The optional `privacyPolicy` object supplies a heading, summary, document resources
+(`title`/`url`), and sections (`heading`/`paragraphs`) for patient-privacy content
+on the privacy page. Shared website privacy disclosures remain separate.
+Optional `appointmentSection.telehealth` supplies `heading`, `summary`, `label`
+and an HTTPS `url` for scheduled-visit access in homepage/provider appointment
+sections. It respects preview action disabling and uses existing-patient CTA tracking.
 `lib/practice-view.mjs` derives display values; layouts receive the resolved theme.
+Optional `treatments` entries generate `/treatment/<slug>/` in standalone builds
+and `/previews/<practice>/treatment/<slug>/` in both preview targets. The optional
+`treatmentSection` supplies homepage heading/summary. Non-empty lists enable
+homepage cards and navigation; omitted/empty lists generate neither. Treatment
+pages use the practice phone for contact and ordinary public-resource links;
+they never render scheduling, portal, or telehealth destinations. Indexing follows
+the practice configuration. Indexable builds discover these routes in the sitemap
+and list them in `llms.txt`.
 Many components already declare a `Props` interface. Document unusual semantics
 beside the relevant property rather than maintaining a second list of input types.
 

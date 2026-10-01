@@ -2,6 +2,8 @@
 /**
  * Practice navigation and skip link from config and the shared home-section registry.
  * providerPage switches to nested-route links and provider labels/contact details.
+ * homeHref lets treatment pages link back to homepage sections at their route depth.
+ * Expanded treatment navigation uses a wider breakpoint to avoid crowding.
  */
 import {
   HOME_SECTION_IDS,
@@ -13,6 +15,7 @@ interface Props {
   phoneHref?: string;
   providerLabels?: Record<string, string>;
   providerPage?: boolean;
+  homeHref?: string;
 }
 
 const {
@@ -20,6 +23,7 @@ const {
   phoneHref = config.practice.phoneHref,
   providerLabels = {},
   providerPage = false,
+  homeHref = '',
 } = Astro.props;
 const { practice } = config;
 const homeSections = homeSectionNavigation(config);
@@ -27,13 +31,14 @@ const primarySections = homeSections.filter(
   (section) => section.header && !section.cta,
 );
 const contactSection = homeSections.find((section) => section.cta);
+const hasTreatments = Boolean(config.treatments?.length);
 ---
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <header class="practice-header sticky top-0 z-50 border-b border-slate-200 bg-white/95">
   <div class="page-shell flex items-center justify-between py-3 md:py-4">
     <a
-      href={providerPage ? '../../' : '#main-content'}
+      href={providerPage ? '../../' : homeHref || '#main-content'}
       class="practice-brand flex items-center gap-3"
       aria-label={`${practice.name} home`}
     >
@@ -80,12 +85,12 @@ const contactSection = homeSections.find((section) => section.cta);
       ) : (
         <>
           <nav
-            class="hidden items-center gap-8 md:flex"
+            class:list={['hidden items-center gap-8', hasTreatments ? 'xl:flex' : 'md:flex']}
             aria-label="Primary navigation"
           >
             {primarySections.map((section) => (
               <a
-                href={`#${section.id}`}
+                href={`${homeHref}#${section.id}`}
                 class="nav-link"
                 data-home-section-link={section.id}
               >
@@ -102,7 +107,7 @@ const contactSection = homeSections.find((section) => section.cta);
           </nav>
           <a
             href={`#${contactSection.id}`}
-            class="btn-secondary min-h-[44px] px-3 py-2 text-sm md:hidden"
+            class:list={['btn-secondary min-h-[44px] px-3 py-2 text-sm', hasTreatments ? 'xl:hidden' : 'md:hidden']}
             data-home-section-link={contactSection.id}
           >
             Contact

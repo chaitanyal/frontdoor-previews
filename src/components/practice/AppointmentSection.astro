@@ -2,7 +2,8 @@
 /**
  * Shared scheduling section receiving resolved contact details and action URLs.
  * homeVariant selects homepage composition; actionLinksDisabled suppresses
- * scheduling/portal actions for configured previews. Contact cards remain available.
+ * scheduling/portal/telehealth actions for configured previews. Contact cards remain available.
+ * Optional telehealth copy and destination come from appointmentSection.telehealth.
  */
 import ContactCards from './ContactCards.astro';
 import Icon from './Icon.astro';
@@ -10,13 +11,14 @@ import Icon from './Icon.astro';
 interface Props {
   appointmentUrl?: string;
   patientPortalUrl?: string;
+  telehealth?: { heading: string; summary: string; label: string; url: string };
   phone: string;
   phoneHref: string;
   email?: string;
   emergencyNotice?: string;
   sectionId?: string;
   homeVariant?: boolean;
-  /** Disable scheduling/portal links only; phone and email remain usable. */
+  /** Disable scheduling/portal/telehealth links; phone and email remain usable. */
   actionLinksDisabled?: boolean;
   heading?: string;
   summary?: string;
@@ -25,6 +27,7 @@ interface Props {
 const {
   appointmentUrl = '',
   patientPortalUrl = '',
+  telehealth,
   phone,
   phoneHref,
   email = '',
@@ -123,9 +126,27 @@ const containerClass = homeVariant
           </div>
         )
       }
+      {telehealth && (
+        <section data-telehealth class:list={['space-y-3', actions.length > 0 && 'mt-7 border-t border-slate-200 pt-6']}>
+          <h3 class="text-xl font-semibold tracking-tight text-slate-950">{telehealth.heading}</h3>
+          <p class="text-base leading-7 text-slate-600">{telehealth.summary}</p>
+          {actionLinksDisabled ? (
+            <span aria-disabled="true" class="btn-secondary w-full cursor-default justify-center px-5 py-4 text-base">
+              <Icon name="Video" />
+              {telehealth.label}
+            </span>
+          ) : (
+            <a href={telehealth.url} data-frontdoor-cta="existingPatient" target="_blank" rel="noopener noreferrer" class="btn-secondary w-full justify-center px-5 py-4 text-base">
+              <Icon name="Video" />
+              {telehealth.label}
+              <Icon name="ExternalLink" class="h-3.5 w-3.5" />
+            </a>
+          )}
+        </section>
+      )}
       <div
         class:list={[
-          actions.length > 0 && 'mt-8 border-t border-slate-200 pt-7',
+          (actions.length > 0 || telehealth) && 'mt-8 border-t border-slate-200 pt-7',
         ]}
       >
         <h3 class="text-2xl font-semibold tracking-tight text-slate-950">

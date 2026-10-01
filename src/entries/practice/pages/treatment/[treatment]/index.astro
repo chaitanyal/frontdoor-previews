@@ -1,0 +1,17 @@
+---
+import TreatmentPage from '../../../../../pages/shared/TreatmentPage.astro';
+import { loadPracticeData } from '../../../../../lib/practice-data.mjs';
+
+export async function getStaticPaths() {
+  const { config } = await loadPracticeData(process.cwd(), process.env.SITE_ID);
+  return (config.treatments || []).map((treatment) => ({
+    params: { treatment: treatment.slug },
+    props: { treatment },
+  }));
+}
+
+const { treatment } = Astro.props;
+const { config, theme } = await loadPracticeData(process.cwd(), process.env.SITE_ID);
+---
+
+<TreatmentPage config={config} treatment={treatment} theme={theme} />

@@ -3,6 +3,8 @@
  * Provider page body from config and one provider, normalized by providerProfile().
  * Owns navigation, profile sections, appointment actions, and mobile footer;
  * ProviderPage supplies metadata, theme, and page-level scripts.
+ * Empty clinical lists omit their sections when individual scope is not sourced.
+ * Education leads with certification and residency before medical and undergraduate study.
  */
 import { practiceAssetUrl } from '../../lib/assets.mjs';
 import {
@@ -54,10 +56,10 @@ const bioParts = (paragraph: string) => {
 };
 const educationRows = [
   ['Board Certification', provider.certifications],
+  ['Residency', profile.education.residency],
   ['Medical School', profile.education.medicalSchool],
   ['Physician Assistant Program', profile.education.physicianAssistantProgram],
   ['Undergraduate Education', profile.education.undergraduate],
-  ['Residency', profile.education.residency],
   ['Fellowship', profile.education.fellowship],
 ].flatMap(([label, value]) =>
   value
@@ -213,7 +215,7 @@ const affiliationMode = providerAffiliationMode(profile);
         background: 'bg-white',
         kind: 'services',
       },
-    ].map(({ heading, values, background, kind }) => (
+    ].filter(({ values }) => values.length > 0).map(({ heading, values, background, kind }) => (
       <section
         class={
           kind === 'conditions'
@@ -338,6 +340,7 @@ const affiliationMode = providerAffiliationMode(profile);
   <AppointmentSection
     appointmentUrl={profile.appointmentUrl}
     patientPortalUrl={profile.patientPortalUrl}
+    telehealth={config.appointmentSection?.telehealth}
     phone={profile.phone}
     phoneHref={profile.phoneHref}
     email={profile.email}

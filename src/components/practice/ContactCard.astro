@@ -2,6 +2,7 @@
 /**
  * Phone link or email-copy button with CTA tracking attributes.
  * Email buttons require CopyEmailScript on the containing page; href is for phone links.
+ * Email display may wrap after @ while the copy value remains unchanged.
  */
 import Icon from './Icon.astro';
 
@@ -53,7 +54,7 @@ const valueClass = isCompact
       <span class={iconClass}><Icon name="Mail" /></span>
       <span class="min-w-0">
         <span class={labelClass}>{label}</span>
-        <span class={valueClass}>{value}</span>
+        <span class={valueClass}>{value.split('@').map((part, index) => <>{index > 0 && <>@<wbr /></>}{part}</>)}</span>
       </span>
     </button>
   ) : (

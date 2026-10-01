@@ -1,0 +1,732 @@
+{
+  "theme": "editorial-healthcare",
+  "seo": {
+    "title": "Adult Psychiatry in Round Rock | Central Texas Mental Health",
+    "description": "Adult psychiatric care in Round Rock, Texas. Meet the Central Texas Mental Health team and learn about medication management, TMS, Spravato and appointment requests.",
+    "siteUrl": "https://frontdoor.health/previews/centexmh/",
+    "allowIndexing": false,
+    "ogImage": "./images/hero/centexmh-limestone-creek-v2.webp",
+    "ogImageAlt": "Generated Central Texas landscape of a limestone creek beneath live oak trees",
+    "locale": "en_US"
+  },
+  "practice": {
+    "slug": "centexmh",
+    "name": "Central Texas Mental Health",
+    "tagline": "Adult Psychiatry",
+    "locationLabel": "Round Rock, Texas",
+    "phone": "(512) 964-6992",
+    "phoneHref": "tel:+15129646992",
+    "email": "frontdesk@centexmh.com",
+    "addressLines": [
+      "1717 North IH-35",
+      "Suite 200 · One Financial Centre",
+      "Round Rock, TX 78664"
+    ],
+    "address": {
+      "streetAddress": "1717 North IH-35, Suite 200",
+      "addressLocality": "Round Rock",
+      "addressRegion": "TX",
+      "postalCode": "78664",
+      "addressCountry": "US"
+    },
+    "medicalSpecialty": "https://schema.org/Psychiatric",
+    "socialLinks": [],
+    "defaultAppointmentUrl": "https://www.centexmh.com/new_patient_online_request_form/index.htm",
+    "disableExternalActionLinksInPreview": true,
+    "emergencyNotice": "For medical emergencies, call 911 or go to the nearest emergency room.",
+    "serviceArea": {
+      "regionLabel": "the northern Austin metro area",
+      "communities": [
+        {
+          "name": "Georgetown",
+          "region": "TX"
+        },
+        {
+          "name": "Cedar Park",
+          "region": "TX"
+        },
+        {
+          "name": "Wells Branch",
+          "region": "TX"
+        }
+      ]
+    }
+  },
+  "hero": {
+    "image": "./images/hero/centexmh-limestone-creek-v2.webp",
+    "imageAlt": "Generated Central Texas landscape of a limestone creek beneath live oak trees",
+    "title": "Adult psychiatry, with a clear next step.",
+    "copy": "Central Texas Mental Health provides psychiatric care for adults 18 and older in Round Rock. Our psychiatrist and physician assistants offer medication-focused care for concerns including depression, anxiety, bipolar disorder and ADHD.",
+    "primaryCta": "Request Appointment",
+    "secondaryCta": "Meet Our Providers"
+  },
+  "providerProfileSections": {
+    "expectations": false
+  },
+  "trustItems": [
+    {
+      "icon": "Stethoscope",
+      "text": "Adults 18 and older"
+    },
+    {
+      "icon": "Video",
+      "text": "Telemedicine offered"
+    },
+    {
+      "icon": "WalletCards",
+      "text": "Insurance & self-pay"
+    },
+    {
+      "icon": "MapPin",
+      "text": "Round Rock office"
+    }
+  ],
+  "providers": [
+    {
+      "slug": "michael-musgrove",
+      "name": "Dr. Michael Musgrove",
+      "certifications": [
+        "American Board of Psychiatry and Neurology · Psychiatry"
+      ],
+      "specialty": "General Psychiatry",
+      "tagline": "Medication management for adults, informed by experience in outpatient, residential and correctional care.",
+      "bioParagraphs": [
+        "Dr. Michael Musgrove coordinates care across the practice’s clinical team. He is a Fellow of the American Psychiatric Association and has published work in psychiatry journals."
+      ],
+      "education": {
+        "undergraduate": "University of Puerto Rico at Ponce · Pre-medical studies",
+        "medicalSchool": "University of Puerto Rico School of Medicine, San Juan",
+        "residency": [
+          "Austin Medical Education Programs · General Psychiatry"
+        ]
+      },
+      "heroTrustItems": [
+        "APA Fellow",
+        "Austin residency training"
+      ],
+      "specialties": [
+        "General Psychiatry"
+      ],
+      "services": [
+        "General Psychiatric Care"
+      ],
+      "image": "./images/providers/michael-musgrove.webp",
+      "imageAlt": "Dr. Michael Musgrove, MD",
+      "conditions": [],
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "heroTitle": "Adult Psychiatry",
+      "aboutHeading": "Clinical background",
+      "seo": {
+        "title": "Dr. Michael Musgrove, MD | Central Texas Mental Health",
+        "description": "Meet Dr. Michael Musgrove, a general psychiatrist providing adult psychiatric care and medication management at Central Texas Mental Health in Round Rock."
+      }
+    },
+    {
+      "slug": "julie-williams",
+      "name": "Julie Williams",
+      "credentials": "PA-C, CAQ",
+      "specialty": "Physician Assistant · Adult Psychiatry",
+      "tagline": "Psychiatric evaluations and medication management for adults.",
+      "bioParagraphs": [
+        "Julie Williams has cared for adults at Central Texas Mental Health since 2009. Her background includes psychology and urgent-care practice.",
+        "Julie holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
+      ],
+      "education": {
+        "physicianAssistantProgram": "UT Health San Antonio",
+        "undergraduate": "University of Texas at Austin · Psychology"
+      },
+      "heroTrustItems": [
+        "Psychiatry CAQ",
+        "With the practice since 2009"
+      ],
+      "specialties": [
+        "Adult Psychiatry"
+      ],
+      "certifications": [
+        "Physician Assistant (PA-C)",
+        "Psychiatry (CAQ)"
+      ],
+      "services": [],
+      "image": "./images/providers/julie-williams.webp",
+      "imageAlt": "Julie Williams, PA-C, CAQ",
+      "conditions": [],
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "aboutHeading": "Clinical background",
+      "seo": {
+        "title": "Julie Williams, PA-C, CAQ | Central Texas Mental Health",
+        "description": "Meet Julie Williams, PA-C, CAQ, who provides adult psychiatric evaluations and medication management at Central Texas Mental Health in Round Rock."
+      },
+      "bioLinks": [
+        {
+          "text": "Certificate of Added Qualifications (CAQ) in Psychiatry",
+          "url": "https://www.nccpa.net/specialty-certificates/"
+        }
+      ]
+    },
+    {
+      "slug": "renee-moreland",
+      "name": "Renee Moreland",
+      "credentials": "PA-C, CAQ",
+      "specialty": "Physician Assistant · Psychiatry",
+      "tagline": "Psychiatric care and medication management for adults.",
+      "bioParagraphs": [
+        "Renee Moreland trained as a physician assistant at Rosalind Franklin University of Medicine and Science.",
+        "Renee holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
+      ],
+      "education": {
+        "physicianAssistantProgram": "Rosalind Franklin University of Medicine and Science"
+      },
+      "heroTrustItems": [
+        "Psychiatry CAQ"
+      ],
+      "specialties": [
+        "Psychiatry"
+      ],
+      "certifications": [
+        "Physician Assistant (PA-C)",
+        "Psychiatry (CAQ)"
+      ],
+      "services": [],
+      "image": "./images/providers/renee-moreland.webp",
+      "imageAlt": "Renee Moreland, PA-C, CAQ",
+      "conditions": [],
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "aboutHeading": "Clinical background",
+      "seo": {
+        "title": "Renee Moreland, PA-C, CAQ | Central Texas Mental Health",
+        "description": "Meet Renee Moreland, PA-C, CAQ, a certified physician assistant focused on psychiatric care and medication management in Round Rock."
+      },
+      "bioLinks": [
+        {
+          "text": "Certificate of Added Qualifications (CAQ) in Psychiatry",
+          "url": "https://www.nccpa.net/specialty-certificates/"
+        }
+      ]
+    },
+    {
+      "slug": "caitlin-keen",
+      "name": "Caitlin Keen",
+      "credentials": "PA-C, CAQ",
+      "specialty": "Physician Assistant · Psychiatry",
+      "tagline": "Psychiatric evaluations and medication management for adults.",
+      "bioParagraphs": [
+        "Caitlin Keen joined Central Texas Mental Health in 2019. She earned her physician assistant master’s degree at Francis Marion University.",
+        "Caitlin holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
+      ],
+      "education": {
+        "physicianAssistantProgram": "Francis Marion University",
+        "undergraduate": "Clemson University · Chemistry"
+      },
+      "heroTrustItems": [
+        "Psychiatry CAQ",
+        "With the practice since 2019"
+      ],
+      "specialties": [
+        "Psychiatry"
+      ],
+      "certifications": [
+        "Physician Assistant (PA-C)",
+        "Psychiatry (CAQ)"
+      ],
+      "services": [],
+      "image": "./images/providers/caitlin-keen.webp",
+      "imageAlt": "Caitlin Keen, PA-C, CAQ",
+      "conditions": [],
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "aboutHeading": "Clinical background",
+      "seo": {
+        "title": "Caitlin Keen, PA-C, CAQ | Central Texas Mental Health",
+        "description": "Meet Caitlin Keen, PA-C, CAQ, a certified physician assistant specializing in adult psychiatric care at Central Texas Mental Health in Round Rock."
+      },
+      "bioLinks": [
+        {
+          "text": "Certificate of Added Qualifications (CAQ) in Psychiatry",
+          "url": "https://www.nccpa.net/specialty-certificates/"
+        }
+      ]
+    },
+    {
+      "slug": "emily-morris",
+      "name": "Emily Morris",
+      "credentials": "PA-C, CAQ",
+      "specialty": "Physician Assistant · Psychiatry",
+      "tagline": "Psychiatric evaluations and medication management, with a background in neuroscience.",
+      "bioParagraphs": [
+        "Emily Morris earned her Master of Medical Science in Physician Assistant studies at Nova Southeastern University.",
+        "Emily holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
+      ],
+      "education": {
+        "physicianAssistantProgram": "Nova Southeastern University",
+        "undergraduate": "University of New Hampshire · Neuroscience"
+      },
+      "heroTrustItems": [
+        "Psychiatry CAQ"
+      ],
+      "specialties": [
+        "Psychiatry"
+      ],
+      "certifications": [
+        "Physician Assistant (PA-C)",
+        "Psychiatry (CAQ)"
+      ],
+      "services": [],
+      "image": "./images/providers/emily-morris.webp",
+      "imageAlt": "Emily Morris, PA-C, CAQ",
+      "conditions": [],
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "aboutHeading": "Clinical background",
+      "seo": {
+        "title": "Emily Morris, PA-C, CAQ | Central Texas Mental Health",
+        "description": "Meet Emily Morris, PA-C, CAQ, who provides psychiatric evaluations and medication management, with a background in neuroscience, in Round Rock."
+      },
+      "bioLinks": [
+        {
+          "text": "Certificate of Added Qualifications (CAQ) in Psychiatry",
+          "url": "https://www.nccpa.net/specialty-certificates/"
+        }
+      ]
+    },
+    {
+      "slug": "megan-brady",
+      "name": "Megan Brady",
+      "credentials": "PA-C",
+      "specialty": "Physician Assistant · Psychiatry",
+      "tagline": "Psychiatric evaluations and ongoing medication management for adults.",
+      "bioParagraphs": [
+        "Megan Brady trained as a physician assistant at the University of Texas Medical Branch. She also holds a Bachelor of Science in Public Health from Texas A&M University."
+      ],
+      "education": {
+        "physicianAssistantProgram": "University of Texas Medical Branch",
+        "undergraduate": "Texas A&M University · Public Health"
+      },
+      "heroTrustItems": [
+        "UTMB graduate"
+      ],
+      "specialties": [
+        "Psychiatry"
+      ],
+      "certifications": [
+        "Physician Assistant (PA-C)"
+      ],
+      "services": [],
+      "image": "./images/providers/megan-brady.webp",
+      "imageAlt": "Megan Brady, PA-C",
+      "conditions": [],
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "aboutHeading": "Clinical background",
+      "seo": {
+        "title": "Megan Brady, PA-C | Central Texas Mental Health",
+        "description": "Meet Megan Brady, PA-C, who provides psychiatric evaluations and medication management for adults at Central Texas Mental Health in Round Rock."
+      }
+    },
+    {
+      "slug": "rosabelle-pong",
+      "name": "Rosabelle Pong",
+      "credentials": "PA-C",
+      "specialty": "Physician Assistant · Psychiatry",
+      "tagline": "Psychiatric evaluations and medication management, with experience in emergency medical care.",
+      "bioParagraphs": [
+        "Rosabelle Pong joined Central Texas Mental Health in 2024. Before becoming a physician assistant, she worked as an emergency medical technician with the New York City Fire Department."
+      ],
+      "education": {
+        "physicianAssistantProgram": "Pace University–Lenox Hill Hospital"
+      },
+      "heroTrustItems": [
+        "Former FDNY EMT"
+      ],
+      "specialties": [
+        "Psychiatry"
+      ],
+      "certifications": [
+        "Physician Assistant (PA-C)"
+      ],
+      "services": [],
+      "image": "./images/providers/rosabelle-pong.webp",
+      "imageAlt": "Rosabelle Pong, PA-C",
+      "conditions": [],
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "aboutHeading": "Clinical background",
+      "seo": {
+        "title": "Rosabelle Pong, PA-C | Central Texas Mental Health",
+        "description": "Meet Rosabelle Pong, PA-C, who provides psychiatric evaluations and medication management and brings prior FDNY emergency medical experience to her work."
+      }
+    }
+  ],
+  "conditionsIntro": "Care focuses on psychiatric evaluation and medication management for adults. The practice also offers TMS and Spravato for depression; contact the office to discuss these services.",
+  "conditions": [
+    "Depression",
+    "Anxiety & Panic",
+    "Bipolar Disorder",
+    "ADHD / ADD",
+    "Obsessive-Compulsive Disorder (OCD)",
+    "Schizophrenia",
+    "Schizoaffective Disorder"
+  ],
+  "treatmentSection": {
+    "heading": "Additional options for depression",
+    "summary": "When antidepressants have not provided enough relief, there may be another approach to consider. Explore TMS and Spravato, then talk with our office about an evaluation."
+  },
+  "treatments": [
+    {
+      "slug": "tms",
+      "name": "NeuroStar TMS Therapy",
+      "title": "NeuroStar TMS Therapy",
+      "summary": "An in-office, non-drug treatment for adults with depression who have not had satisfactory improvement with antidepressant medication. Central Texas Mental Health offers TMS in Round Rock.",
+      "seo": {
+        "title": "TMS Therapy in Round Rock | Central Texas Mental Health",
+        "description": "Learn about NeuroStar TMS Therapy for depression at Central Texas Mental Health in Round Rock, including treatment visits, safety and how to contact the office."
+      },
+      "sections": [
+        {
+          "heading": "What is TMS?",
+          "paragraphs": [
+            "Transcranial magnetic stimulation (TMS) uses targeted magnetic pulses to stimulate areas of the brain involved in mood regulation. NeuroStar is an FDA-cleared TMS system for treating major depressive disorder in adults who have not improved sufficiently with prior antidepressant treatment."
+          ]
+        },
+        {
+          "heading": "What does a treatment visit involve?",
+          "paragraphs": [
+            "You sit in a treatment chair while a coil rests against your head. During treatment, you may hear clicking and feel a tapping sensation. You remain awake, and treatment does not require sedation or anesthesia.",
+            "TMS involves a series of office visits. Your clinician determines the treatment plan and session schedule. Discuss the time commitment with the office before starting."
+          ]
+        },
+        {
+          "heading": "Safety and suitability",
+          "paragraphs": [
+            "Discomfort at or near the treatment site is the most common side effect. TMS also carries a rare risk of seizure. Non-removable conductive metal in or near the head can make treatment unsuitable; tell your clinician about any implanted devices or metal before an evaluation.",
+            "Your clinician reviews your medical history and prior treatments to decide whether TMS is appropriate. Results vary from person to person."
+          ]
+        },
+        {
+          "heading": "Discussing treatment and coverage",
+          "paragraphs": [
+            "Call our office to discuss a TMS evaluation. Have your medication history and insurance information available so you can ask about the evaluation process, treatment schedule and coverage requirements."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "title": "NeuroStar: How TMS treatment works",
+          "url": "https://neurostar.com/what-is-neurostar-advanced-therapy/"
+        },
+        {
+          "title": "NeuroStar: Safety and prescribing information",
+          "url": "https://neurostar.com/safety/"
+        }
+      ],
+      "cta": {
+        "heading": "Talk with us about TMS",
+        "summary": "Contact our Round Rock office to discuss an evaluation and the next steps for treatment.",
+        "label": "Call About TMS"
+      }
+    },
+    {
+      "slug": "spravato",
+      "name": "Spravato",
+      "title": "Spravato for treatment-resistant depression",
+      "summary": "Spravato (esketamine) is an FDA-approved nasal spray for adults with treatment-resistant depression. Central Texas Mental Health offers Spravato in Round Rock.",
+      "seo": {
+        "title": "Spravato in Round Rock | Central Texas Mental Health",
+        "description": "Learn about Spravato for treatment-resistant depression at Central Texas Mental Health in Round Rock, including supervised visits, monitoring and next steps."
+      },
+      "sections": [
+        {
+          "heading": "What is Spravato?",
+          "paragraphs": [
+            "Spravato contains esketamine and can be prescribed for treatment-resistant depression with or without an oral antidepressant. Your clinician reviews your symptoms, previous treatments and medical history to determine whether it is appropriate for you."
+          ]
+        },
+        {
+          "heading": "What happens during a treatment visit?",
+          "paragraphs": [
+            "You use the nasal spray under a healthcare professional's supervision and remain for monitoring for at least two hours afterward. Your care team assesses when you are ready to leave.",
+            "Arrange a ride home. Do not drive or operate machinery until the next day after a restful sleep."
+          ]
+        },
+        {
+          "heading": "Important safety information",
+          "paragraphs": [
+            "Spravato can cause sedation, dissociation, breathing problems and increased blood pressure. It also carries risks of abuse and misuse and a warning about suicidal thoughts and behaviors. It is available through a restricted safety program called REMS.",
+            "Review the Medication Guide with your clinician, including your medical history, other medicines, pregnancy plans and all potential risks. Spravato is not a substitute for emergency care or hospitalization when needed."
+          ]
+        },
+        {
+          "heading": "Planning for treatment",
+          "paragraphs": [
+            "Call our office to discuss an evaluation, treatment visit schedule and insurance requirements. Have your prior treatment history and insurance details available, and consider how you will arrange transportation for visits."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "title": "Spravato: Treatment information",
+          "url": "https://www.spravato.com/what-is-spravato/"
+        },
+        {
+          "title": "Spravato: Full prescribing information and Medication Guide",
+          "url": "https://www.janssenlabels.com/package-insert/product-monograph/prescribing-information/SPRAVATO-pi.pdf"
+        }
+      ],
+      "cta": {
+        "heading": "Talk with us about Spravato",
+        "summary": "Contact our Round Rock office to discuss an evaluation and how to prepare for treatment visits.",
+        "label": "Call About Spravato"
+      }
+    }
+  ],
+  "insurance": {
+    "enabled": true,
+    "section_label": "Insurance & Payment",
+    "headline": "Understand your coverage before your visit",
+    "summary": "We accept insurance, including traditional Medicare, and offer self-pay options.",
+    "coverage_types": [
+      "Traditional Medicare",
+      "Insurance",
+      "Self-pay"
+    ],
+    "disclaimer": "Medicare Advantage plans are not accepted.",
+    "verification": {
+      "enabled": true,
+      "description": "Have your insurance details ready when you contact our office. Ask about coverage for your appointment and current self-pay rates."
+    }
+  },
+  "faqs": [
+    {
+      "question": "Who do you see, and what kind of care do you provide?",
+      "answer": "We provide psychiatric care for adults 18 and older, with a focus on medication management. Supportive discussion may be part of your visit. For ongoing psychotherapy or counseling, we recommend working with a separate therapist."
+    },
+    {
+      "question": "How do I schedule my first appointment?",
+      "answer": "Complete the new-patient request, then call (512) 964-6992 and select option 1 to discuss scheduling. Once your appointment is scheduled, the office will provide intake paperwork to complete before your visit."
+    },
+    {
+      "question": "Do you accept insurance, and when is payment due?",
+      "answer": "We accept insurance, including traditional Medicare, and offer self-pay options. Medicare Advantage plans are not accepted. Copays, coinsurance and outstanding balances are due at your visit. Let us know if your coverage changes, and check your benefits with your insurer. Call (512) 964-6992 for plan-specific coverage and self-pay rates."
+    },
+    {
+      "question": "How do I request a medication refill?",
+      "answer": "Ask your pharmacy to send the refill request electronically or by fax at least five business days before your last dose. If you have run out or have two or fewer doses left, call the office for assistance. Some refills, including stimulant prescriptions, may require an appointment."
+    },
+    {
+      "question": "What if I need to cancel, reschedule or arrive late?",
+      "answer": "Please give at least 48 hours’ notice when canceling or rescheduling. Late cancellations and missed appointments carry fees. If you are running late, call as soon as possible; arriving more than five minutes late may mean rescheduling your visit."
+    },
+    {
+      "question": "Can I have a telemedicine appointment?",
+      "answer": "We offer telemedicine appointments. Contact the office to discuss which appointment format is available for your visit."
+    },
+    {
+      "question": "What should I do if I need help after hours?",
+      "answer": "Established patients can call (800) 544-6444 for after-hours assistance from the on-call nurse. For a medical or psychiatric emergency, call 911 or go to the nearest emergency room."
+    },
+    {
+      "question": "Can you help with FMLA or disability paperwork?",
+      "answer": "FMLA and disability forms may require an additional appointment so your clinician can gather the information needed. There is a separate fee for each form. Contact the office to discuss the paperwork and fees."
+    }
+  ],
+  "location": {
+    "title": "Visit our Round Rock office",
+    "officeImage": "./images/office/centexmh-waiting-room.webp",
+    "officeImageAlt": "Central Texas Mental Health waiting room with leather seating",
+    "directionsHref": "https://www.google.com/maps/search/?api=1&query=1717+North+IH-35+Suite+200+Round+Rock+TX+78664",
+    "timeZone": "America/Chicago",
+    "hours": [
+      [
+        "Monday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Tuesday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Wednesday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Thursday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Friday",
+        "8:00 AM – 5:00 PM"
+      ],
+      [
+        "Saturday–Sunday",
+        "Closed"
+      ]
+    ],
+    "weeklyHours": {
+      "Monday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Tuesday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Wednesday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Thursday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Friday": {
+        "open": "08:00",
+        "close": "17:00"
+      },
+      "Saturday": {
+        "closed": true
+      },
+      "Sunday": {
+        "closed": true
+      }
+    }
+  },
+  "footer": {
+    "links": [
+      "Privacy",
+      "Accessibility"
+    ]
+  },
+  "home": {
+    "providerEyebrow": "Providers",
+    "providerTitle": "Meet the care team",
+    "providerCopy": "Meet our psychiatrist and physician assistants, and learn about their training and experience."
+  },
+  "providerProfileLabels": {
+    "howProviderHelps": "Care and professional background"
+  },
+  "financialPolicy": {
+    "paymentModel": "hybrid",
+    "pricingDisplay": "contact_for_rates",
+    "summary": "We accept insurance, including traditional Medicare, and offer self-pay options.",
+    "contactForRatesMessage": "Call (512) 964-6992 for self-pay rates and help with insurance questions."
+  },
+  "resourceGroups": [
+    {
+      "title": "New Patient Paperwork",
+      "resources": [
+        {
+          "title": "Complete New Patient Packet",
+          "url": "./assets/resources/CompletePatientPaperwork.pdf"
+        },
+        {
+          "title": "Online Visit Questionnaire",
+          "url": "https://secure.rightsignature.com/templates/4f7e243b-783f-4dc1-a6ac-9c43f7be5f57/template-signer-link/439617dbcddc51b88ae89864415830c1"
+        },
+        {
+          "title": "Patient Demographics Form",
+          "url": "./assets/resources/PatientDemographicsForm.pdf"
+        },
+        {
+          "title": "Diagnostic Questionnaires",
+          "url": "./assets/resources/DiagnosticQuestionnaires.pdf"
+        }
+      ]
+    },
+    {
+      "title": "Policies & Patient Rights",
+      "resources": [
+        {
+          "title": "Office Policies & Procedures",
+          "url": "./assets/resources/OfficePolicies.pdf"
+        },
+        {
+          "title": "Notice of Privacy Practices",
+          "url": "./assets/resources/PrivacyPolicies.pdf"
+        },
+        {
+          "title": "Surprise Medical Bills — Your Rights and Protections",
+          "url": "./assets/resources/SurpriseBilling.pdf"
+        }
+      ]
+    },
+    {
+      "title": "Consent & Authorization Forms",
+      "resources": [
+        {
+          "title": "Authorization to Disclose Protected Health Information",
+          "url": "./assets/resources/AuthorizationToDiscloseProtectedHealthInformation.pdf"
+        },
+        {
+          "title": "Controlled Substances Therapy Agreement",
+          "url": "./assets/resources/ControlledSubstancesTherapyAgreement.pdf"
+        },
+        {
+          "title": "Telemedicine Informed Consent",
+          "url": "./assets/resources/TelemedConsent.pdf"
+        },
+        {
+          "title": "Acknowledgment of Receipt of Practice Policies",
+          "url": "./assets/resources/ReceiptOfPoliciesSignature.pdf"
+        }
+      ]
+    }
+  ],
+  "appointmentSection": {
+    "heading": "Your first step toward care.",
+    "summary": "For a first visit, complete the new-patient request, then call (512) 964-6992 and select option 1. After scheduling, the office provides intake paperwork to complete before your appointment.",
+    "telehealth": {
+      "heading": "Already scheduled?",
+      "summary": "Join your scheduled telehealth appointment in our virtual waiting room.",
+      "label": "Join Telehealth Visit",
+      "url": "https://ctmh.doxy.me/waitingroom"
+    }
+  },
+  "privacyPolicy": {
+    "heading": "Your health information and privacy",
+    "summary": "Central Texas Mental Health protects the privacy of your health information. This page summarizes your choices and rights. Read our full Notice of Privacy Practices for details about how information is used and shared, your rights, and our responsibilities.",
+    "resources": [
+      {
+        "title": "Read the Notice of Privacy Practices (PDF)",
+        "url": "./assets/resources/PrivacyPolicies.pdf"
+      },
+      {
+        "title": "Download the Authorization to Disclose Health Information (PDF)",
+        "url": "./assets/resources/AuthorizationToDiscloseProtectedHealthInformation.pdf"
+      },
+      {
+        "title": "File a privacy complaint with HHS",
+        "url": "https://www.hhs.gov/hipaa/filing-a-complaint/index.html"
+      }
+    ],
+    "sections": [
+      {
+        "heading": "Access and correct your records",
+        "paragraphs": [
+          "You can request an electronic or paper copy of your health records and ask us to correct information you believe is inaccurate or incomplete. Contact the office to make a request. If a correction request is denied, we will explain why in writing.",
+          "You may also request a record of certain disclosures of your health information and a paper copy of our privacy notice."
+        ]
+      },
+      {
+        "heading": "Choose how we contact you",
+        "paragraphs": [
+          "You can ask us to contact you at a particular phone number or mailing address. We will accommodate reasonable requests for confidential communication. Let the office know which contact details are safe to use."
+        ]
+      },
+      {
+        "heading": "How your information may be used and shared",
+        "paragraphs": [
+          "We may use and share health information for your treatment, payment for services and practice operations. Other disclosures may be permitted or required by law, including certain public-health, safety and legal purposes. The full notice explains these uses and their limits.",
+          "You can ask us to limit certain uses or disclosures. Some requests may be declined. If you pay for a service in full out of pocket, you can ask us not to share information about that service with your health insurer for payment or health care operations, unless disclosure is required by law."
+        ]
+      },
+      {
+        "heading": "Your choices about sharing",
+        "paragraphs": [
+          "Tell us your preferences about sharing information with family members or others involved in your care. The authorization form lets you identify recipients and the information you want released. You may revoke an authorization by notifying the office in writing; this does not undo disclosures already made in reliance on it.",
+          "Written permission is required for marketing uses or the sale of your health information. The full notice describes when information may be shared without your authorization."
+        ]
+      },
+      {
+        "heading": "Questions or privacy concerns",
+        "paragraphs": [
+          "Contact the office at (512) 964-6992 if you have questions, want to exercise your privacy rights or wish to raise a concern. You may also file a complaint with the U.S. Department of Health and Human Services Office for Civil Rights. We will not retaliate against you for filing a complaint."
+        ]
+      }
+    ]
+  }
+}
