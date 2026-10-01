@@ -142,6 +142,21 @@ One verified Round Rock address. Preserve suite 200 despite Maps screenshot's �
 
 ## Images and Asset Candidates
 
+October 1, 2026: Renee Moreland's portrait now uses
+`images/providers/renee-moreland-overlay-removed.webp`, optimized from the
+[imagegen edit](../../assessments/centexmh/sources/provider-assets/renee-moreland-overlay-removed.png)
+removing the bottom-right Doximity overlay. Covered clothing is AI reconstructed;
+the original and prior published portrait are retained. See
+[edit provenance](../../assessments/centexmh/sources/provider-assets/renee-moreland-overlay-removed.md).
+
+October 1, 2026: at the user's request, Rosabelle Pong's published portrait now uses
+`images/providers/rosabelle-pong-overlay-removed.webp`, an optimized version of the
+[AI-edited portrait](../../assessments/centexmh/sources/provider-assets/rosabelle-pong-overlay-removed.png).
+Imagegen removed the LinkedIn Open to Work overlay and reconstructed the obscured
+coat/background. See [edit prompt and provenance](../../assessments/centexmh/sources/provider-assets/rosabelle-pong-overlay-removed.md).
+Original source and prior published portrait are retained. Historical notes below
+describe the original assets rather than the newly selected edited portrait.
+
 Selected seven portraits: each named in [asset URL manifest](../../assessments/centexmh/sources/provider-assets/sources.json), original files retained beside manifest. Michael 221×315, Julie and Renee 320×320, Caitlin/Megan 400×400, Emily/Rosabelle 800×800. Visually checked identities against supplied source mapping; Michael directly sourced from clinic; Emily name match resolved by U2. Julie and Renee have source Doximity marks; Rosabelle has a LinkedIn job-search frame; originals preserved, no marks removed. Obtain clean provider-approved photos before production. No synthetic faces or substituted portraits.
 
 The 1507×1048 supplied waiting-room photo matches S9's Maps photograph and remains the office image. It was the original hero; that version is preserved but has been replaced in the active hero configuration at the user’s request. Converted to WebP with no content edits; source retained. This is an authentic clinic-specific choice rather than inherited North Hills imagery. Mobile and desktop focal point, crop and text contrast were visually reviewed in the rendered preview.

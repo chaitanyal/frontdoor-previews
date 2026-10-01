@@ -186,7 +186,7 @@
         "Psychiatry (CAQ)"
       ],
       "services": [],
-      "image": "./images/providers/renee-moreland.webp",
+      "image": "./images/providers/renee-moreland-overlay-removed.webp",
       "imageAlt": "Renee Moreland, PA-C, CAQ",
       "conditions": [],
       "medicalSpecialty": "https://schema.org/Psychiatric",
@@ -340,7 +340,7 @@
         "Physician Assistant (PA-C)"
       ],
       "services": [],
-      "image": "./images/providers/rosabelle-pong.webp",
+      "image": "./images/providers/rosabelle-pong-overlay-removed.webp",
       "imageAlt": "Rosabelle Pong, PA-C",
       "conditions": [],
       "medicalSpecialty": "https://schema.org/Psychiatric",
