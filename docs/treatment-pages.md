@@ -33,6 +33,7 @@ clinic's actual evaluation or treatment role. No per-practice renderer is needed
 | `sections` | At least one `{heading, paragraphs?, bullets?}` object containing text. |
 | `cta.heading`, `cta.summary`, `cta.label` | Contact section copy and button label. The destination is the practice phone. |
 | `resources` (optional) | Public `{title, url}` links; HTTPS or practice-relative assets. |
+| `certification` (optional) | Sourced `{label, summary, url, linkLabel}` practice credential; label appears on the homepage card, and the page introduction includes the explanation and HTTPS source link. |
 
 `treatmentSection: {heading, summary}` optionally customizes homepage section copy.
 Without it, the generic section heading is used and no summary is invented.

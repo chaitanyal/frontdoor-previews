@@ -67,6 +67,16 @@ Outpatient adult psychiatry in Round Rock. Public pages emphasize medication man
 ## Providers
 
 ### Michael Musgrove, MD
+October 1 profile revision: the user-supplied [Google AI Mode summary](../../assessments/centexmh/sources/Google%20AI%20Mode_Summaries/Michael_Musgrove_MD.png)
+and accompanying text support founder/medical director, clinical-team leadership,
+adult medication management and the named conditions in the revised biography.
+Board certification and APA fellowship retain the clinic evidence below. TMS and
+Spravato remain practice-level offerings, not individual treatment assignments.
+The summary's “over 20 years” claim is omitted pending clarification of the
+experience start date. Founder/director role and named diagnostic focus should be
+confirmed directly with the clinic before launch. Treatment Services is removed
+at the user's request by setting this provider's services to an empty list.
+
 S1 confirms spelling (not “Musgrave”), general psychiatry, University of Puerto Rico medical school and Austin Medical Education Programs psychiatry residency. Clinic biography dates ABPN certification to 2010 and APA fellowship induction to 2017. Bio preserves those historical statements; current board-maintenance and license status were not independently checked. No current hospital affiliation inferred from past residential/correctional work. Portrait: official About Us image dated in filename 2026-3-6. Individual diagnostic list, languages, appointment availability, telehealth assignment and treatment assignments remain unknown. General psychiatric care service supported directly by biography.
 
 ### Julie Williams, PA-C, CAQ
@@ -98,7 +108,20 @@ for the field mapping to supplied HTML, NeuroStar guidance and Spravato prescrib
 information revised March 2026. `treatments` contains two evidence-supported adult
 depression pages. General education includes balanced safety and practical visit
 expectations. Exact Centex protocols, staffing, prices, treatment coverage and
-certification claims are omitted. The internal checklist records follow-up items.
+unsupported certification claims are omitted. The internal checklist records follow-up items.
+
+### NeuroStar University certification — October 1, 2026
+
+The [official NeuroStar practice listing](https://neurostar.com/providers/central-texas-mental-health/)
+identifies Central Texas Mental Health as **NSU Certified** and describes NeuroStar
+University as a two-day experiential training course for practices. The supplied
+[listing screenshot](../../assessments/centexmh/sources/NueroStar_Certified.png)
+retains this evidence. `treatments[tms].certification` supplies the homepage credential
+line and treatment-page badge, explanation and listing link. This is a practice-level
+training credential; individual clinician certification and guaranteed outcomes are
+not inferred. Manufacturer listing phone, insurance and consultation details are not
+promoted from this evidence because they differ from, or need reconciliation with,
+the clinic's own information.
 
 ## Insurance and Payment
 

@@ -218,6 +218,12 @@ def validate_treatments(config: dict[str, Any]) -> None:
         if slug in slugs:
             fail(f"{path}.slug duplicates another treatment: {slug}")
         slugs.add(slug)
+        if "certification" in treatment:
+            certification_path = f"{path}.certification"
+            certification = require_mapping(treatment["certification"], certification_path)
+            for key in ["label", "summary", "linkLabel"]:
+                require_string_key(certification, key, certification_path)
+            require_https_url(require_key(certification, "url", certification_path), f"{certification_path}.url")
         seo = require_mapping(require_key(treatment, "seo", path), f"{path}.seo")
         for key in ["title", "description"]:
             require_string_key(seo, key, f"{path}.seo")

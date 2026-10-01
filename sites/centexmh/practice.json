@@ -89,9 +89,10 @@
         "American Board of Psychiatry and Neurology · Psychiatry"
       ],
       "specialty": "General Psychiatry",
-      "tagline": "Medication management for adults, informed by experience in outpatient, residential and correctional care.",
+      "tagline": "Board-certified psychiatrist and founder of Central Texas Mental Health.",
       "bioParagraphs": [
-        "Dr. Michael Musgrove coordinates care across the practice’s clinical team. He is a Fellow of the American Psychiatric Association and has published work in psychiatry journals."
+        "Dr. Michael Musgrove is a board-certified psychiatrist and the founder and medical director of Central Texas Mental Health. He provides adult psychiatric care in Round Rock, with a focus on medication management for depression, bipolar disorder, anxiety, OCD and ADHD.",
+        "He leads the practice’s team of psychiatric physician assistants and is a Fellow of the American Psychiatric Association. The practice also offers NeuroStar TMS Therapy and Spravato for depression."
       ],
       "education": {
         "undergraduate": "University of Puerto Rico at Ponce · Pre-medical studies",
@@ -107,9 +108,7 @@
       "specialties": [
         "General Psychiatry"
       ],
-      "services": [
-        "General Psychiatric Care"
-      ],
+      "services": [],
       "image": "./images/providers/michael-musgrove.webp",
       "imageAlt": "Dr. Michael Musgrove, MD",
       "conditions": [],
@@ -118,7 +117,7 @@
       "aboutHeading": "Clinical background",
       "seo": {
         "title": "Dr. Michael Musgrove, MD | Central Texas Mental Health",
-        "description": "Meet Dr. Michael Musgrove, a general psychiatrist providing adult psychiatric care and medication management at Central Texas Mental Health in Round Rock."
+        "description": "Meet Dr. Michael Musgrove, board-certified psychiatrist, founder and medical director of Central Texas Mental Health in Round Rock, specializing in adult psychiatric care and medication management."
       }
     },
     {
@@ -371,6 +370,12 @@
       "slug": "tms",
       "name": "NeuroStar TMS Therapy",
       "title": "NeuroStar TMS Therapy",
+      "certification": {
+        "label": "NeuroStar University Certified",
+        "summary": "Central Texas Mental Health is a NeuroStar University certified practice, with specialized training in NeuroStar TMS treatment.",
+        "url": "https://neurostar.com/providers/central-texas-mental-health/",
+        "linkLabel": "View our NeuroStar provider listing"
+      },
       "summary": "An in-office, non-drug treatment for adults with depression who have not had satisfactory improvement with antidepressant medication. Central Texas Mental Health offers TMS in Round Rock.",
       "seo": {
         "title": "TMS Therapy in Round Rock | Central Texas Mental Health",
