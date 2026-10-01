@@ -2,11 +2,11 @@
   "theme": "editorial-healthcare",
   "seo": {
     "title": "Adult Psychiatry in Round Rock | Central Texas Mental Health",
-    "description": "Adult psychiatric care in Round Rock, Texas. Meet the Central Texas Mental Health team and learn about medication management, TMS, Spravato and appointment requests.",
+    "description": "Find providers, access forms, explore NeuroStar TMS Therapy and Spravato, and request adult psychiatric care in Round Rock on a fast-loading website designed for phones and desktop computers.",
     "siteUrl": "https://frontdoor.health/previews/centexmh/",
     "allowIndexing": false,
-    "ogImage": "./images/hero/centexmh-limestone-creek-v2.webp",
-    "ogImageAlt": "Generated Central Texas landscape of a limestone creek beneath live oak trees",
+    "ogImage": "./images/social/centexmh-production-share.png",
+    "ogImageAlt": "Central Texas Mental Health: adult psychiatric care in Round Rock, medication management, NeuroStar TMS Therapy and Spravato. centexmh.com, (512) 964-6992. Serving Round Rock, Georgetown, Cedar Park and Wells Branch.",
     "locale": "en_US"
   },
   "practice": {

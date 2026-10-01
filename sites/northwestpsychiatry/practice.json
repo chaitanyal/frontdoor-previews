@@ -1,10 +1,10 @@
 {
   "theme": "structured-clinical",
   "seo": {
-    "title": "Northwest Psychiatry | Adult Psychiatry in Austin, TX",
-    "description": "Adult psychiatric evaluations, medication management, ADHD care, and treatment for mood, anxiety, trauma, and cognitive concerns in Northwest Austin.",
-    "ogImage": "./images/hero/austin-skyline.webp",
-    "ogImageAlt": "Austin skyline and surrounding green space at sunset",
+    "title": "Northwest Psychiatry | Adult Psychiatric Care in Austin",
+    "description": "Meet providers, explore adult psychiatric evaluations and medication management, and find forms and appointment information on a fast-loading website designed for phones and desktops.",
+    "ogImage": "./images/social/practice-share.png",
+    "ogImageAlt": "Northwest Psychiatry — Adult psychiatric care in Northwest Austin Located in Northwest Austin, Texas. Adult Psychiatry in Northwest Austin. (512) 342-7979",
     "locale": "en_US",
     "siteUrl": "https://frontdoor.health/previews/northwestpsychiatry/",
     "allowIndexing": false

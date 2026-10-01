@@ -13,6 +13,7 @@ for maintenance rules, and the [Astro source guide](../src/README.md) for code l
   backend-specific commands, run from each worker directory.
 - [Practice assessments and source evidence](../assessments/README.md).
 - [Treatment pages](treatment-pages.md): configuration, shared routes, evidence and migration guidance.
+- [Practice link previews](social-share-images.md): clinic-facing metadata and branded share-image generation.
 - [Output and browser verification](../tests/verification/README.md).
 
 ## Historical material

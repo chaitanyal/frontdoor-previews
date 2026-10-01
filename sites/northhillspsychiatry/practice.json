@@ -1,10 +1,10 @@
 {
   "theme": "editorial-healthcare",
   "seo": {
-    "title": "North Hills Psychiatry | Compassionate Psychiatric Care in Austin",
-    "description": "Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.",
-    "ogImage": "./images/hero/Austin_Hero_Image.webp",
-    "ogImageAlt": "Austin skyline at sunset",
+    "title": "North Hills Psychiatry | Psychiatric Care in North Austin",
+    "description": "Meet providers, explore psychiatric care for adults, children and families, and find how to request an appointment in North Austin on a fast-loading website designed for phones and desktops.",
+    "ogImage": "./images/social/practice-share.png",
+    "ogImageAlt": "North Hills Psychiatry — Psychiatric Care for Adults, Children & Families in North Austin Located in North Hills, Austin, Texas. Compassionate Psychiatric Care. (512) 372-4554",
     "siteUrl": "https://frontdoor.health/previews/northhillspsychiatry/",
     "allowIndexing": false
   },
