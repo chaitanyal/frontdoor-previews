@@ -13,6 +13,7 @@ const DEFAULT_ALLOWED_ORIGINS = new Set([
   "https://www.drdronavalli.com",
 ]);
 const DEFAULT_ALLOWED_PRACTICE_SLUGS = new Set([
+  "centexmh",
   "frontdoor-health",
   "drdronavalli",
   "mariposa",
