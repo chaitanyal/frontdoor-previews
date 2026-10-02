@@ -1,8 +1,8 @@
 ---
 /**
  * Homepage provider cards and condition/service content from config.
- * Card layout adapts to provider count; PracticeHome binds keyboard/click navigation
- * to data-card-href so the entire card can open the provider route.
+ * Card layout adapts to provider count; native links make the entire card navigable
+ * without JavaScript and preserve standard browser link actions.
  */
 import { homeContent } from '../../lib/practice-view.mjs';
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
@@ -41,15 +41,13 @@ const isSingleProvider = providers.length === 1;
           ]}
         >
           {providers.map((provider) => (
-            <article
+            <a
               class={`home-provider-card fade-in-up soft-card interactive-card flex cursor-pointer flex-col p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.995] focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 ${
                 isSingleProvider
                   ? 'md:grid md:grid-cols-[14rem_minmax(0,1fr)] md:gap-x-8 md:gap-y-5 md:p-8'
                   : 'md:p-6'
               }`}
-              tabindex="0"
-              role="link"
-              data-card-href={`./providers/${provider.slug}/`}
+              href={`./providers/${provider.slug}/`}
               aria-label={`View profile for ${provider.name}`}
             >
               <div
@@ -120,7 +118,7 @@ const isSingleProvider = providers.length === 1;
                     </span>
                   ))}
               </div>
-            </article>
+            </a>
           ))}
         </div>
       </div>

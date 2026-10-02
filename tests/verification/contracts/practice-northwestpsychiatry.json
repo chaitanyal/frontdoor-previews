@@ -4,16 +4,16 @@
     {
       "route": "/",
       "outputFile": "index.html",
-      "title": "Northwest Psychiatry | Adult Psychiatry in Austin, TX",
-      "description": "Adult psychiatric evaluations, medication management, ADHD care, and treatment for mood, anxiety, trauma, and cognitive concerns in Northwest Austin.",
+      "title": "Northwest Psychiatry | Adult Psychiatric Care in Austin",
+      "description": "Meet providers, explore adult psychiatric evaluations and medication management, and find forms and appointment information on a fast-loading website designed for phones and desktops.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/northwestpsychiatry/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/hero/austin-skyline.webp",
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/social/practice-share.png",
         "url": "https://frontdoor.health/previews/northwestpsychiatry/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/hero/austin-skyline.webp"
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/social/practice-share.png"
       },
       "jsonLd": {
         "count": 5,
@@ -33,6 +33,9 @@
         "./images/providers/kathleen-nguyen.webp",
         "./images/providers/khyati-delada.webp",
         "./privacy/",
+        "./providers/arvinder-walia/",
+        "./providers/kathleen-nguyen/",
+        "./providers/khyati-delada/",
         "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
@@ -42,7 +45,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 10,
+      "inlineScriptCount": 9,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -287,6 +290,7 @@
     "images/providers/arvinder-walia.webp",
     "images/providers/kathleen-nguyen.webp",
     "images/providers/khyati-delada.webp",
+    "images/social/practice-share.png",
     "index.html",
     "privacy/index.html",
     "providers/arvinder-walia/index.html",

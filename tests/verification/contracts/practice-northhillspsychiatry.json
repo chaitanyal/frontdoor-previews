@@ -4,16 +4,16 @@
     {
       "route": "/",
       "outputFile": "index.html",
-      "title": "North Hills Psychiatry | Compassionate Psychiatric Care in Austin",
-      "description": "Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.",
+      "title": "North Hills Psychiatry | Psychiatric Care in North Austin",
+      "description": "Meet providers, explore psychiatric care for adults, children and families, and find how to request an appointment in North Austin on a fast-loading website designed for phones and desktops.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/northhillspsychiatry/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp",
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/social/practice-share.png",
         "url": "https://frontdoor.health/previews/northhillspsychiatry/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp"
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/social/practice-share.png"
       },
       "jsonLd": {
         "count": 4,
@@ -33,6 +33,8 @@
         "./images/providers/diana_samuel.webp",
         "./images/providers/zita_samuel.webp",
         "./privacy/",
+        "./providers/diana-samuel/",
+        "./providers/zita-samuel/",
         "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
@@ -42,7 +44,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 9,
+      "inlineScriptCount": 8,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -239,6 +241,7 @@
     "images/office/office_entrance.webp",
     "images/providers/diana_samuel.webp",
     "images/providers/zita_samuel.webp",
+    "images/social/practice-share.png",
     "index.html",
     "privacy/index.html",
     "providers/diana-samuel/index.html",

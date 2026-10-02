@@ -5,15 +5,15 @@
       "route": "/",
       "outputFile": "index.html",
       "title": "Adult Psychiatry in Round Rock | Central Texas Mental Health",
-      "description": "Adult psychiatric care in Round Rock, Texas. Meet the Central Texas Mental Health team and learn about medication management, TMS, Spravato and appointment requests.",
+      "description": "Find providers, access forms, explore NeuroStar TMS Therapy and Spravato, and request adult psychiatric care in Round Rock on a fast-loading website designed for phones and desktop computers.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png",
         "url": "https://frontdoor.health/previews/centexmh/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png"
       },
       "jsonLd": {
         "count": 9,
@@ -44,9 +44,16 @@
         "./images/providers/julie-williams.webp",
         "./images/providers/megan-brady.webp",
         "./images/providers/michael-musgrove.webp",
-        "./images/providers/renee-moreland.webp",
-        "./images/providers/rosabelle-pong.webp",
+        "./images/providers/renee-moreland-overlay-removed.webp",
+        "./images/providers/rosabelle-pong-overlay-removed.webp",
         "./privacy/",
+        "./providers/caitlin-keen/",
+        "./providers/emily-morris/",
+        "./providers/julie-williams/",
+        "./providers/megan-brady/",
+        "./providers/michael-musgrove/",
+        "./providers/renee-moreland/",
+        "./providers/rosabelle-pong/",
         "./terms/",
         "./treatment/spravato/",
         "./treatment/tms/",
@@ -58,7 +65,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 14,
+      "inlineScriptCount": 13,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -308,7 +315,7 @@
       "route": "/providers/michael-musgrove/",
       "outputFile": "providers/michael-musgrove/index.html",
       "title": "Dr. Michael Musgrove, MD | Central Texas Mental Health",
-      "description": "Meet Dr. Michael Musgrove, a general psychiatrist providing adult psychiatric care and medication management at Central Texas Mental Health in Round Rock.",
+      "description": "Meet Dr. Michael Musgrove, board-certified psychiatrist, founder and medical director of Central Texas Mental Health in Round Rock, specializing in adult psychiatric care and medication management.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/providers/michael-musgrove/",
       "openGraphUrls": {
@@ -356,11 +363,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/providers/renee-moreland/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/providers/renee-moreland.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/providers/renee-moreland-overlay-removed.webp",
         "url": "https://frontdoor.health/previews/centexmh/providers/renee-moreland/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/providers/renee-moreland.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/providers/renee-moreland-overlay-removed.webp"
       },
       "jsonLd": {
         "count": 2,
@@ -374,7 +381,7 @@
         "../../#conditions",
         "../../#providers",
         "../../assets/styles.css",
-        "../../images/providers/renee-moreland.webp",
+        "../../images/providers/renee-moreland-overlay-removed.webp",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -399,11 +406,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/providers/rosabelle-pong/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/providers/rosabelle-pong.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/providers/rosabelle-pong-overlay-removed.webp",
         "url": "https://frontdoor.health/previews/centexmh/providers/rosabelle-pong/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/providers/rosabelle-pong.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/providers/rosabelle-pong-overlay-removed.webp"
       },
       "jsonLd": {
         "count": 2,
@@ -417,7 +424,7 @@
         "../../#conditions",
         "../../#providers",
         "../../assets/styles.css",
-        "../../images/providers/rosabelle-pong.webp",
+        "../../images/providers/rosabelle-pong-overlay-removed.webp",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -473,11 +480,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/treatment/spravato/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png",
         "url": "https://frontdoor.health/previews/centexmh/treatment/spravato/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png"
       },
       "jsonLd": {
         "count": 2,
@@ -519,11 +526,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/treatment/tms/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png",
         "url": "https://frontdoor.health/previews/centexmh/treatment/tms/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png"
       },
       "jsonLd": {
         "count": 2,
@@ -582,8 +589,12 @@
     "images/providers/julie-williams.webp",
     "images/providers/megan-brady.webp",
     "images/providers/michael-musgrove.webp",
+    "images/providers/renee-moreland-overlay-removed.webp",
     "images/providers/renee-moreland.webp",
+    "images/providers/rosabelle-pong-overlay-removed.webp",
     "images/providers/rosabelle-pong.webp",
+    "images/social/centexmh-production-share.png",
+    "images/social/centexmh-website-concept.png",
     "index.html",
     "privacy/index.html",
     "providers/caitlin-keen/index.html",

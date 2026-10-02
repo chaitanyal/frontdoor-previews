@@ -185,15 +185,15 @@
       "route": "/previews/centexmh/",
       "outputFile": "previews/centexmh/index.html",
       "title": "Adult Psychiatry in Round Rock | Central Texas Mental Health",
-      "description": "Adult psychiatric care in Round Rock, Texas. Meet the Central Texas Mental Health team and learn about medication management, TMS, Spravato and appointment requests.",
+      "description": "Find providers, access forms, explore NeuroStar TMS Therapy and Spravato, and request adult psychiatric care in Round Rock on a fast-loading website designed for phones and desktop computers.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png",
         "url": "https://frontdoor.health/previews/centexmh/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png"
       },
       "jsonLd": {
         "count": 9,
@@ -224,9 +224,16 @@
         "./images/providers/julie-williams.webp",
         "./images/providers/megan-brady.webp",
         "./images/providers/michael-musgrove.webp",
-        "./images/providers/renee-moreland.webp",
-        "./images/providers/rosabelle-pong.webp",
+        "./images/providers/renee-moreland-overlay-removed.webp",
+        "./images/providers/rosabelle-pong-overlay-removed.webp",
         "./privacy/",
+        "./providers/caitlin-keen/",
+        "./providers/emily-morris/",
+        "./providers/julie-williams/",
+        "./providers/megan-brady/",
+        "./providers/michael-musgrove/",
+        "./providers/renee-moreland/",
+        "./providers/rosabelle-pong/",
         "./terms/",
         "./treatment/spravato/",
         "./treatment/tms/",
@@ -238,7 +245,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 14,
+      "inlineScriptCount": 13,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -478,7 +485,7 @@
       "route": "/previews/centexmh/providers/michael-musgrove/",
       "outputFile": "previews/centexmh/providers/michael-musgrove/index.html",
       "title": "Dr. Michael Musgrove, MD | Central Texas Mental Health",
-      "description": "Meet Dr. Michael Musgrove, a general psychiatrist providing adult psychiatric care and medication management at Central Texas Mental Health in Round Rock.",
+      "description": "Meet Dr. Michael Musgrove, board-certified psychiatrist, founder and medical director of Central Texas Mental Health in Round Rock, specializing in adult psychiatric care and medication management.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/providers/michael-musgrove/",
       "openGraphUrls": {
@@ -524,11 +531,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/providers/renee-moreland/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/providers/renee-moreland.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/providers/renee-moreland-overlay-removed.webp",
         "url": "https://frontdoor.health/previews/centexmh/providers/renee-moreland/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/providers/renee-moreland.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/providers/renee-moreland-overlay-removed.webp"
       },
       "jsonLd": {
         "count": 2,
@@ -542,7 +549,7 @@
         "../../#conditions",
         "../../#providers",
         "../../assets/styles.css",
-        "../../images/providers/renee-moreland.webp",
+        "../../images/providers/renee-moreland-overlay-removed.webp",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -565,11 +572,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/providers/rosabelle-pong/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/providers/rosabelle-pong.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/providers/rosabelle-pong-overlay-removed.webp",
         "url": "https://frontdoor.health/previews/centexmh/providers/rosabelle-pong/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/providers/rosabelle-pong.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/providers/rosabelle-pong-overlay-removed.webp"
       },
       "jsonLd": {
         "count": 2,
@@ -583,7 +590,7 @@
         "../../#conditions",
         "../../#providers",
         "../../assets/styles.css",
-        "../../images/providers/rosabelle-pong.webp",
+        "../../images/providers/rosabelle-pong-overlay-removed.webp",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -637,11 +644,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/treatment/spravato/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png",
         "url": "https://frontdoor.health/previews/centexmh/treatment/spravato/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png"
       },
       "jsonLd": {
         "count": 2,
@@ -683,11 +690,11 @@
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/centexmh/treatment/tms/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp",
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png",
         "url": "https://frontdoor.health/previews/centexmh/treatment/tms/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/centexmh/images/hero/centexmh-limestone-creek-v2.webp"
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png"
       },
       "jsonLd": {
         "count": 2,
@@ -724,16 +731,16 @@
     {
       "route": "/previews/mariposa/",
       "outputFile": "previews/mariposa/index.html",
-      "title": "Mariposa Psychiatry | Dr. Alba Lara, M.D. | Austin, TX",
-      "description": "Adult psychiatry and psychodynamic psychotherapy in Austin and online, led by Dr. Alba Lara.",
+      "title": "Mariposa Psychiatry | Adult Psychiatry & Psychotherapy in Austin",
+      "description": "Meet Dr. Alba Lara, explore adult psychiatry and psychodynamic psychotherapy in Austin and online, and request care on a fast-loading website designed for phones and desktops.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/mariposa/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp",
+        "image": "https://frontdoor.health/previews/mariposa/images/social/practice-share.png",
         "url": "https://frontdoor.health/previews/mariposa/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp"
+        "image": "https://frontdoor.health/previews/mariposa/images/social/practice-share.png"
       },
       "jsonLd": {
         "count": 3,
@@ -751,6 +758,7 @@
         "./images/office/office.webp",
         "./images/providers/alba-lara.webp",
         "./privacy/",
+        "./providers/alba-lara/",
         "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
@@ -760,7 +768,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 8,
+      "inlineScriptCount": 7,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -907,16 +915,16 @@
     {
       "route": "/previews/northhillspsychiatry/",
       "outputFile": "previews/northhillspsychiatry/index.html",
-      "title": "North Hills Psychiatry | Compassionate Psychiatric Care in Austin",
-      "description": "Patient-centered psychiatric care for adults and families in North Hills, Austin, Texas.",
+      "title": "North Hills Psychiatry | Psychiatric Care in North Austin",
+      "description": "Meet providers, explore psychiatric care for adults, children and families, and find how to request an appointment in North Austin on a fast-loading website designed for phones and desktops.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/northhillspsychiatry/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp",
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/social/practice-share.png",
         "url": "https://frontdoor.health/previews/northhillspsychiatry/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/hero/Austin_Hero_Image.webp"
+        "image": "https://frontdoor.health/previews/northhillspsychiatry/images/social/practice-share.png"
       },
       "jsonLd": {
         "count": 4,
@@ -936,6 +944,8 @@
         "./images/providers/diana_samuel.webp",
         "./images/providers/zita_samuel.webp",
         "./privacy/",
+        "./providers/diana-samuel/",
+        "./providers/zita-samuel/",
         "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
@@ -945,7 +955,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 9,
+      "inlineScriptCount": 8,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -1133,16 +1143,16 @@
     {
       "route": "/previews/northwestpsychiatry/",
       "outputFile": "previews/northwestpsychiatry/index.html",
-      "title": "Northwest Psychiatry | Adult Psychiatry in Austin, TX",
-      "description": "Adult psychiatric evaluations, medication management, ADHD care, and treatment for mood, anxiety, trauma, and cognitive concerns in Northwest Austin.",
+      "title": "Northwest Psychiatry | Adult Psychiatric Care in Austin",
+      "description": "Meet providers, explore adult psychiatric evaluations and medication management, and find forms and appointment information on a fast-loading website designed for phones and desktops.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/northwestpsychiatry/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/hero/austin-skyline.webp",
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/social/practice-share.png",
         "url": "https://frontdoor.health/previews/northwestpsychiatry/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/hero/austin-skyline.webp"
+        "image": "https://frontdoor.health/previews/northwestpsychiatry/images/social/practice-share.png"
       },
       "jsonLd": {
         "count": 5,
@@ -1162,6 +1172,9 @@
         "./images/providers/kathleen-nguyen.webp",
         "./images/providers/khyati-delada.webp",
         "./privacy/",
+        "./providers/arvinder-walia/",
+        "./providers/kathleen-nguyen/",
+        "./providers/khyati-delada/",
         "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
@@ -1171,7 +1184,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 10,
+      "inlineScriptCount": 9,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -1509,8 +1522,12 @@
     "previews/centexmh/images/providers/julie-williams.webp",
     "previews/centexmh/images/providers/megan-brady.webp",
     "previews/centexmh/images/providers/michael-musgrove.webp",
+    "previews/centexmh/images/providers/renee-moreland-overlay-removed.webp",
     "previews/centexmh/images/providers/renee-moreland.webp",
+    "previews/centexmh/images/providers/rosabelle-pong-overlay-removed.webp",
     "previews/centexmh/images/providers/rosabelle-pong.webp",
+    "previews/centexmh/images/social/centexmh-production-share.png",
+    "previews/centexmh/images/social/centexmh-website-concept.png",
     "previews/centexmh/index.html",
     "previews/centexmh/privacy/index.html",
     "previews/centexmh/providers/caitlin-keen/index.html",
@@ -1530,6 +1547,7 @@
     "previews/mariposa/images/hero/central-texas-limestone-path-v1.webp",
     "previews/mariposa/images/office/office.webp",
     "previews/mariposa/images/providers/alba-lara.webp",
+    "previews/mariposa/images/social/practice-share.png",
     "previews/mariposa/index.html",
     "previews/mariposa/privacy/index.html",
     "previews/mariposa/providers/alba-lara/index.html",
@@ -1543,6 +1561,7 @@
     "previews/northhillspsychiatry/images/office/office_entrance.webp",
     "previews/northhillspsychiatry/images/providers/diana_samuel.webp",
     "previews/northhillspsychiatry/images/providers/zita_samuel.webp",
+    "previews/northhillspsychiatry/images/social/practice-share.png",
     "previews/northhillspsychiatry/index.html",
     "previews/northhillspsychiatry/privacy/index.html",
     "previews/northhillspsychiatry/providers/diana-samuel/index.html",
@@ -1557,6 +1576,7 @@
     "previews/northwestpsychiatry/images/providers/arvinder-walia.webp",
     "previews/northwestpsychiatry/images/providers/kathleen-nguyen.webp",
     "previews/northwestpsychiatry/images/providers/khyati-delada.webp",
+    "previews/northwestpsychiatry/images/social/practice-share.png",
     "previews/northwestpsychiatry/index.html",
     "previews/northwestpsychiatry/privacy/index.html",
     "previews/northwestpsychiatry/providers/arvinder-walia/index.html",

@@ -4,16 +4,16 @@
     {
       "route": "/",
       "outputFile": "index.html",
-      "title": "Mariposa Psychiatry | Dr. Alba Lara, M.D. | Austin, TX",
-      "description": "Adult psychiatry and psychodynamic psychotherapy in Austin and online, led by Dr. Alba Lara.",
+      "title": "Mariposa Psychiatry | Adult Psychiatry & Psychotherapy in Austin",
+      "description": "Meet Dr. Alba Lara, explore adult psychiatry and psychodynamic psychotherapy in Austin and online, and request care on a fast-loading website designed for phones and desktops.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/mariposa/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp",
+        "image": "https://frontdoor.health/previews/mariposa/images/social/practice-share.png",
         "url": "https://frontdoor.health/previews/mariposa/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp"
+        "image": "https://frontdoor.health/previews/mariposa/images/social/practice-share.png"
       },
       "jsonLd": {
         "count": 3,
@@ -31,6 +31,7 @@
         "./images/office/office.webp",
         "./images/providers/alba-lara.webp",
         "./privacy/",
+        "./providers/alba-lara/",
         "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
@@ -40,7 +41,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 8,
+      "inlineScriptCount": 7,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -194,6 +195,7 @@
     "images/hero/central-texas-limestone-path-v1.webp",
     "images/office/office.webp",
     "images/providers/alba-lara.webp",
+    "images/social/practice-share.png",
     "index.html",
     "privacy/index.html",
     "providers/alba-lara/index.html",

@@ -37,6 +37,7 @@
         "./images/office/office.webp",
         "./images/providers/goutham_dronavalli.webp",
         "./privacy/",
+        "./providers/goutham-dronavalli/",
         "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
@@ -46,7 +47,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 9,
+      "inlineScriptCount": 8,
       "ctaCounts": {
         "directions": 1,
         "email": 2,

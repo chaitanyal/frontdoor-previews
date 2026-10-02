@@ -350,14 +350,14 @@ test('@analytics provider cards support mouse and keyboard navigation', async ({
     ? 'https://drdronavalli.com/'
     : 'https://frontdoor.health/previews/northhillspsychiatry/';
   await freshPage.goto(practiceUrl);
-  const firstCard = freshPage.locator('[data-card-href]').first();
-  const providerPath = await firstCard.getAttribute('data-card-href');
+  const firstCard = freshPage.locator('a.home-provider-card').first();
+  const providerPath = await firstCard.getAttribute('href');
   const providerUrl = new URL(providerPath, practiceUrl).href;
   await firstCard.click();
   await expect(freshPage).toHaveURL(providerUrl);
 
   await freshPage.goto(practiceUrl);
-  await freshPage.locator('[data-card-href]').first().focus();
+  await freshPage.locator('a.home-provider-card').first().focus();
   await freshPage.keyboard.press('Enter');
   await expect(freshPage).toHaveURL(providerUrl);
   expect(network.unexpectedRequests).toEqual([]);

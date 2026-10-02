@@ -2,7 +2,7 @@
 /**
  * Shared homepage composition for standalone practices and both preview targets.
  * Receives validated config/resolved theme; isPreview gates configured external actions.
- * Owns section order, homepage schema, and browser behavior for hours/provider cards.
+ * Owns section order, homepage schema, and browser behavior for office hours.
  */
 import AppointmentSection from '../../components/practice/AppointmentSection.astro';
 import CopyEmailScript from '../../components/practice/CopyEmailScript.astro';
@@ -97,20 +97,6 @@ const { config, theme, isPreview = false } = Astro.props;
       } catch (error) {
         console.warn('Unable to update office status', error);
       }
-    })();
-  </script>
-  <script is:inline slot="scripts">
-    (() => {
-      document.querySelectorAll('[data-card-href]').forEach((card) => {
-        card.addEventListener('click', () => {
-          window.location.href = card.getAttribute('data-card-href');
-        });
-        card.addEventListener('keydown', (event) => {
-          if (event.key !== 'Enter' && event.key !== ' ') return;
-          event.preventDefault();
-          window.location.href = card.getAttribute('data-card-href');
-        });
-      });
     })();
   </script>
   <CopyEmailScript slot="scripts" />
