@@ -67,5 +67,5 @@ export default function globalSetup() {
     process.env.FRONTDOOR_TEST_SITE || 'drdronavalli',
   );
   if (scope === 'practice') return;
-  runAstroBuild('build:astro:preview', 'northhillspsychiatry');
+  runAstroBuild('build:astro:preview', process.env.FRONTDOOR_TEST_PREVIEW_SITE || 'northhillspsychiatry');
 }

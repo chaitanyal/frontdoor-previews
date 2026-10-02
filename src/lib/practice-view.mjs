@@ -4,6 +4,7 @@ import {
   homepageImageMetadata,
   providerImageMetadata,
 } from './seo.mjs';
+import { hasProviderDirectory, homepageProviders } from './provider-team.mjs';
 
 const MEDICAL_SPECIALTY_MAP = new Map([
   ['https://schema.org/PrimaryCare', 'https://schema.org/PrimaryCare'],
@@ -166,8 +167,6 @@ export function providerProfile(config, provider) {
   const practice = config.practice;
   const contactOverride = provider.contactOverride || {};
   const name = provider.name || 'Provider';
-  const nameParts = name.split(/\s+/).filter(Boolean);
-  const lastName = nameParts.at(-1) || 'Provider';
   const configuredSpecialties = [
     provider.medicalSpecialty,
     practice.medicalSpecialty,
@@ -191,7 +190,7 @@ export function providerProfile(config, provider) {
     hospitalAffiliations: 'Hospital Affiliations',
     hospitalAffiliationsIntro: 'Hospital and clinical affiliations.',
     professionalAffiliations: 'Professional Affiliations',
-    howProviderHelps: `How Dr. ${lastName} helps`,
+    howProviderHelps: `How ${name} helps`,
     telehealthAvailable: 'Telehealth available',
     ...(config.providerProfileLabels || {}),
   };
@@ -259,7 +258,7 @@ export function providerProfile(config, provider) {
     ? provider.heroTrustItems.slice(0, 3)
     : [
         provider.certifications?.length
-          ? psychiatry
+          ? psychiatry && providerEntityType(provider).includes('Physician')
             ? 'Board Certified Psychiatrist'
             : provider.certifications[0]
           : specialty,
@@ -268,7 +267,7 @@ export function providerProfile(config, provider) {
           : telehealthAvailable
             ? 'Telehealth Available'
             : null,
-        provider.acceptsNewPatients !== false
+        provider.acceptsNewPatients === true
           ? 'Accepting New Patients'
           : null,
       ].filter(Boolean).slice(0, 3);
@@ -434,11 +433,43 @@ export function practiceSchema(config, providerSchemas = []) {
 }
 
 export function practiceHomepageSchemas(config) {
-  const providerSchemas = (config.providers || []).map(
+  const providerSchemas = homepageProviders(config).map(
     (provider) => providerProfile(config, provider).schema,
   );
   const clinic = practiceSchema(config, providerSchemas);
-  return providerSchemas.length === 1
+  return config.providers?.length === 1
     ? [providerSchemas[0], clinic]
     : [clinic, ...providerSchemas];
+}
+
+export function providerBreadcrumbSchema(config, provider) {
+  const items = [{ name: 'Home', item: canonicalUrl(config) }];
+  if (hasProviderDirectory(config) || provider) {
+    items.push({ name: 'Providers', item: hasProviderDirectory(config) ? canonicalUrl(config, 'providers') : `${canonicalUrl(config)}#providers` });
+  }
+  if (provider) items.push({ name: provider.name, item: canonicalUrl(config, `providers/${provider.slug}`) });
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({ '@type': 'ListItem', position: index + 1, ...item })),
+  };
+}
+
+export function providerDirectorySchemas(config) {
+  const providers = config.providers || [];
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      '@id': `${canonicalUrl(config, 'providers')}#team`,
+      name: `${config.practice.name} providers`,
+      numberOfItems: providers.length,
+      itemListElement: providers.map((provider, index) => ({
+        '@type': 'ListItem', position: index + 1,
+        item: { '@id': providerEntityId(config, provider), name: provider.name, url: canonicalUrl(config, `providers/${provider.slug}`) },
+      })),
+    },
+    ...providers.map((provider) => providerProfile(config, provider).schema),
+    providerBreadcrumbSchema(config),
+  ];
 }

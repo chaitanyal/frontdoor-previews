@@ -8,6 +8,7 @@ import {
   providerImageMetadata,
 } from './seo.mjs';
 import { providerEntityType } from './practice-view.mjs';
+import { hasProviderDirectory } from './provider-team.mjs';
 import { discoverIndexRoutes, renderSitemap } from './sitemap.mjs';
 
 const PUBLIC_ROBOTS = (siteUrl) =>
@@ -118,6 +119,9 @@ export function practiceLlms(config, siteUrl) {
     '',
     `- [Practice overview](${baseUrl}/): Services, insurance, appointments, location, and office hours.`,
   );
+  if (hasProviderDirectory(config)) {
+    lines.push(`- [Provider directory](${baseUrl}/providers/): Complete care team and links to individual profiles.`);
+  }
   for (const provider of config.providers || []) {
     lines.push(
       `- [${markdownText(provider.name)}](${baseUrl}/providers/${encodeURIComponent(provider.slug)}/): ${markdownText(provider.seo?.description)}`,

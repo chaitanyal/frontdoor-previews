@@ -2,13 +2,15 @@
 /**
  * Practice navigation and skip link from config and the shared home-section registry.
  * providerPage switches to nested-route links and provider labels/contact details.
- * homeHref lets treatment pages link back to homepage sections at their route depth.
+ * homeHref lets nested pages link back to homepage sections at their route depth.
+ * Directory-enabled practices link provider navigation to the full team route.
  * Expanded treatment navigation uses a wider breakpoint to avoid crowding.
  */
 import {
   HOME_SECTION_IDS,
   homeSectionNavigation,
 } from '../../lib/home-sections.mjs';
+import { hasProviderDirectory } from '../../lib/provider-team.mjs';
 
 interface Props {
   config: Record<string, any>;
@@ -64,7 +66,7 @@ const hasTreatments = Boolean(config.treatments?.length);
             class="hidden items-center gap-8 md:flex"
             aria-label="Provider navigation"
           >
-            <a href={`../../#${HOME_SECTION_IDS.providers}`} class="nav-link">
+            <a href={hasProviderDirectory(config) ? '../' : `../../#${HOME_SECTION_IDS.providers}`} class="nav-link">
               {providerLabels.providers || 'Providers'}
             </a>
             <a href={`../../#${HOME_SECTION_IDS.conditions}`} class="nav-link">
@@ -90,7 +92,7 @@ const hasTreatments = Boolean(config.treatments?.length);
           >
             {primarySections.map((section) => (
               <a
-                href={`${homeHref}#${section.id}`}
+                href={section.pagePath ? `${homeHref || './'}${section.pagePath}` : `${homeHref}#${section.id}`}
                 class="nav-link"
                 data-home-section-link={section.id}
               >
@@ -98,7 +100,7 @@ const hasTreatments = Boolean(config.treatments?.length);
               </a>
             ))}
             <a
-              href={`#${contactSection.id}`}
+              href={`${homeHref}#${contactSection.id}`}
               class="btn-primary px-4 py-2.5 text-sm"
               data-home-section-link={contactSection.id}
             >
@@ -106,7 +108,7 @@ const hasTreatments = Boolean(config.treatments?.length);
             </a>
           </nav>
           <a
-            href={`#${contactSection.id}`}
+            href={`${homeHref}#${contactSection.id}`}
             class:list={['btn-secondary min-h-[44px] px-3 py-2 text-sm', hasTreatments ? 'xl:hidden' : 'md:hidden']}
             data-home-section-link={contactSection.id}
           >

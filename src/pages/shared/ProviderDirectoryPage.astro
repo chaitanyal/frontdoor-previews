@@ -1,0 +1,20 @@
+---
+/** Full roster at providers/ beneath each practice root; only profile and public contact links. */
+import ProviderDirectory from '../../components/practice/ProviderDirectory.astro';
+import PracticeHeader from '../../components/practice/PracticeHeader.astro';
+import PracticeFooter from '../../components/practice/PracticeFooter.astro';
+import PracticeLayout from '../../layouts/PracticeLayout.astro';
+import { providerDirectorySchemas } from '../../lib/practice-view.mjs';
+interface Props { config: Record<string, any>; theme: Record<string, string>; }
+const { config, theme } = Astro.props;
+---
+<PracticeLayout config={config} theme={theme} pageKind="directory" pagePath="providers" stylesheetHref="../assets/styles.css"
+  bodyClass="provider-directory-page bg-surface pb-24 font-sans text-slate-950 antialiased md:pb-0"
+  title={`Providers | ${config.practice.name}`}
+  description={`Meet the ${config.practice.name} care team. Explore provider backgrounds, credentials, and areas of care.`}
+  jsonLd={providerDirectorySchemas(config)}>
+  <PracticeHeader config={config} homeHref="../" />
+  <main id="main-content" tabindex="-1"><ProviderDirectory config={config} /></main>
+  <PracticeFooter config={config} practiceRoot="../" />
+  <script is:inline slot="scripts">lucide.createIcons();</script>
+</PracticeLayout>

@@ -132,8 +132,9 @@
         "image": "https://frontdoor.health/previews/northwestpsychiatry/images/providers/arvinder-walia.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "Physician",
           "WebPage"
@@ -153,7 +154,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,
@@ -176,8 +177,9 @@
         "image": "https://frontdoor.health/previews/northwestpsychiatry/images/providers/kathleen-nguyen.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "WebPage"
         ]
@@ -196,7 +198,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,
@@ -219,8 +221,9 @@
         "image": "https://frontdoor.health/previews/northwestpsychiatry/images/providers/khyati-delada.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "WebPage"
         ]
@@ -239,7 +242,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,

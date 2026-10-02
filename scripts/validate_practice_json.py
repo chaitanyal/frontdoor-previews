@@ -412,6 +412,18 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
             require_https_url(require_key(telehealth, "url", "appointmentSection.telehealth"), "appointmentSection.telehealth.url")
 
     providers = require_list(require_key(config, "providers", "root"), "providers")
+    if "providerDirectory" in config and not isinstance(config["providerDirectory"], bool):
+        fail("providerDirectory must be a boolean")
+    if "featuredProviderSlugs" in config.get("home", {}):
+        selected = config["home"]["featuredProviderSlugs"]
+        validate_string_list(selected, "home.featuredProviderSlugs", min_items=1)
+        if len(selected) != len(set(selected)):
+            fail("home.featuredProviderSlugs must not contain duplicates")
+        slugs = {provider.get("slug") for provider in providers if isinstance(provider, dict)}
+        if any(slug not in slugs for slug in selected):
+            fail("home.featuredProviderSlugs must reference existing providers")
+        if not config.get("providerDirectory", len(providers) >= 5):
+            fail("home.featuredProviderSlugs requires an enabled provider directory")
     for index, provider_value in enumerate(providers):
         provider = require_mapping(provider_value, f"providers[{index}]")
         provider_path = f"providers[{index}]"
@@ -538,6 +550,8 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
 
     footer = require_mapping(require_key(config, "footer", "root"), "footer")
     validate_string_list(require_key(footer, "links", "footer"), "footer.links", min_items=1)
+    if "frontdoorCredit" in footer and not isinstance(footer["frontdoorCredit"], bool):
+        fail("footer.frontdoorCredit must be a boolean")
 
 
 def validate_file(path: Path) -> list[str]:

@@ -35,7 +35,7 @@ compose their own content using `components/marketing/` and `MarketingLayout.ast
 | Homepage section order or page-level interactions | `pages/shared/PracticeHome.astro`. |
 | Homepage section navigation or visibility rules | `lib/home-sections.mjs`; keep section IDs and navigation consistent. |
 | A section's markup or layout | Its file in `components/practice/`; read the frontmatter description and props. |
-| Provider presentation and contact fallbacks | `components/practice/ProviderProfile.astro` and `lib/practice-view.mjs`. |
+| Provider presentation and contact fallbacks | `components/practice/ProviderCard.astro`, `ProviderTeam.astro`, `ProviderDirectory.astro`, `ProviderProfile.astro`, and `lib/practice-view.mjs`. |
 | Treatment cards, pages and routes | `components/practice/TreatmentCards.astro`, `pages/shared/TreatmentPage.astro`, and `lib/preview-paths.mjs`; see [treatment-page guidance](../docs/treatment-pages.md). |
 | Metadata or structured data | `lib/seo.mjs`, `lib/practice-view.mjs`, and the shared page/layout passing the data. |
 | Reusable theme appearance | `shared/styles/frontdoor.css`, `shared/themes.json`, and `lib/themes.mjs`. |
@@ -49,6 +49,20 @@ Paths in the table are relative to `src/` unless they start with `sites/`, `shar
 ## Inputs and browser behavior
 
 Practice components commonly receive a validated `config` from `practice.json`.
+Teams of five or more generate a complete `/providers/` directory; smaller teams
+can enable it with `providerDirectory: true`. Optional `home.featuredProviderSlugs`
+selects homepage cards; `providerDirectory: false` explicitly disables the directory.
+Selections preserve supplied order and require an enabled directory.
+Omit that selection to show the entire team. Names and profile URLs still come from
+the single `providers` roster. Compact cards use the existing specialty and credentials;
+they do not infer provider locations or availability. Directory and profile routes
+share native links and retain preview indexing/action restrictions. Retirement removes
+the selected slug and retains an enabled directory; production redirects lead there.
+Provider profiles show identity before portraits on mobile and render all supplied
+biography paragraphs and nonempty education categories.
+Optional `footer.frontdoorCredit: true` adds a linked “Website by frontdoor.health”
+credit to practice home/treatment and legal footers, including preview builds.
+It is omitted by default; provider pages retain their existing action-only footer.
 The optional `privacyPolicy` object supplies a heading, summary, document resources
 (`title`/`url`), and sections (`heading`/`paragraphs`) for patient-privacy content
 on the privacy page. Shared website privacy disclosures remain separate.

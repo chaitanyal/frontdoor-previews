@@ -1,4 +1,5 @@
 import { loadPracticeData } from './practice-data.mjs';
+import { hasProviderDirectory } from './provider-team.mjs';
 
 function configuredPracticeIds() {
   const value = JSON.parse(
@@ -26,6 +27,17 @@ export async function previewProviderPaths(repoRoot) {
         params: { practice, provider: provider.slug },
         props: { practice, provider },
       });
+    }
+  }
+  return paths;
+}
+
+export async function previewProviderDirectoryPaths(repoRoot) {
+  const paths = [];
+  for (const practice of configuredPracticeIds()) {
+    const { config } = await loadPracticeData(repoRoot, practice);
+    if (hasProviderDirectory(config)) {
+      paths.push({ params: { practice, directory: 'providers' }, props: { practice } });
     }
   }
   return paths;

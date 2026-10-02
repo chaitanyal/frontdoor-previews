@@ -4,6 +4,7 @@ import {
   homeContent,
   patientResourceGroups,
 } from './practice-view.mjs';
+import { hasProviderDirectory } from './provider-team.mjs';
 
 export const HOME_SECTION_IDS = Object.freeze({
   providers: 'providers',
@@ -23,6 +24,7 @@ export function homeSectionNavigation(config) {
       key: 'providers',
       id: HOME_SECTION_IDS.providers,
       label: content.navProvidersLabel,
+      pagePath: hasProviderDirectory(config) ? 'providers/' : null,
       header: true,
       enabled: Boolean(config.providers?.length),
     },

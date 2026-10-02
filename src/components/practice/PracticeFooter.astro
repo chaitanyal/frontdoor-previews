@@ -2,7 +2,8 @@
 /**
  * Practice legal footer, mobile appointment/phone actions, and email-copy toast.
  * providerPage omits the homepage legal footer and uses provider action labels/phone.
- * practiceRoot adjusts legal links for nested treatment routes.
+ * practiceRoot adjusts legal and mobile contact links for nested routes.
+ * config.footer.frontdoorCredit enables the shared website attribution.
  */
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 
@@ -29,7 +30,12 @@ const currentYear = new Date().getFullYear();
   !providerPage && (
     <footer class="practice-footer border-t border-white/60 bg-warm-200 px-6 py-8 lg:px-8">
       <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-slate-500 md:flex-row">
-        <p>© {currentYear} {practice.name}</p>
+        <div class="text-center md:text-left">
+          <p>© {currentYear} {practice.name}</p>
+          {config.footer?.frontdoorCredit && (
+            <p class="mt-2">Website by <a class="underline underline-offset-4 transition hover:text-slate-950" href="https://frontdoor.health/">frontdoor.health</a></p>
+          )}
+        </div>
         <nav
           class="flex justify-center gap-8"
           aria-label="Legal navigation"
@@ -49,7 +55,7 @@ const currentYear = new Date().getFullYear();
 >
   <div class="mx-auto grid max-w-md grid-cols-2 gap-3">
     <a
-      href={providerPage ? '#appointment' : `#${HOME_SECTION_IDS.contact}`}
+      href={providerPage ? '#appointment' : `${practiceRoot === './' ? '' : practiceRoot}#${HOME_SECTION_IDS.contact}`}
       class="btn-primary min-h-[44px] px-3 py-2 text-sm"
     >
       {

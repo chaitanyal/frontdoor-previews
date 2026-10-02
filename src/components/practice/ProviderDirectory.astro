@@ -1,0 +1,21 @@
+---
+/** Complete roster with the configured team introduction; no provider-specific location assumptions. */
+import ProviderCard from './ProviderCard.astro';
+interface Props { config: Record<string, any>; }
+const { config } = Astro.props;
+---
+<section class="provider-directory section bg-white" aria-labelledby="directory-title">
+  <div class="section-shell">
+    <nav class="mb-8 text-sm leading-6 text-slate-600" aria-label="Breadcrumb">
+      <a href="../" class="nav-link">Home</a><span aria-hidden="true" class="mx-2">/</span><span aria-current="page">Providers</span>
+    </nav>
+    <div class="max-w-2xl">
+      <p class="eyebrow">{config.practice.name}</p>
+      <h1 id="directory-title" class="section-title">Meet our providers</h1>
+      <p class="section-copy">{config.home?.providerCopy || `Explore all ${config.providers.length} providers. Read individual profiles to learn about their backgrounds and areas of care.`}</p>
+    </div>
+    <div class="provider-card-grid mt-10" data-provider-count={config.providers.length}>
+      {config.providers.map((provider) => <ProviderCard config={config} provider={provider} compact directory practiceRoot="../" />)}
+    </div>
+  </div>
+</section>

@@ -111,6 +111,102 @@ summary:focus-visible {
   }
 }
 
+/* Mobile profiles lead with identity; desktop retains the portrait alongside it. */
+.provider-name, .provider-credentials { overflow-wrap: anywhere; }
+@media (min-width: 1024px) {
+  .provider-hero-grid .provider-portrait-shell { order: 1; }
+  .provider-hero-grid .provider-hero-panel { order: 2; }
+}
+@media (max-width: 1023px) {
+  .provider-hero-grid .provider-portrait-shell { max-width: 14rem; }
+}
+@media (max-width: 767px) {
+  .provider-hero-grid { gap: 1.5rem; }
+  .provider-page .provider-hero-panel { padding: 1.5rem; }
+  .provider-hero-panel .provider-summary { margin-top: 1rem; font-size: 1rem; line-height: 1.75; }
+  .provider-hero-panel .provider-trust, .provider-hero-panel .provider-actions { margin-top: 1.25rem; }
+}
+
+/* Compact team introductions and full directories share the same portrait/identity layout. */
+.provider-card-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+}
+.provider-card--compact {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  align-content: start;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-card);
+  color: var(--color-text-primary);
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+.provider-card--compact:hover {
+  border-color: var(--color-success);
+}
+.provider-card-portrait {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background: var(--color-sage);
+}
+.provider-card-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.provider-card-identity { min-width: 0; }
+.provider-card-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.provider-card-credentials, .provider-card-role {
+  margin-top: 0.4rem;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.provider-card-credentials { font-weight: 600; }
+.provider-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.9rem;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+html[data-theme='editorial-healthcare'] .provider-card--compact {
+  border: 0;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  padding: 1.5rem 0;
+  background: transparent;
+}
+html[data-theme='editorial-healthcare'] .provider-card-name {
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+html[data-theme='structured-clinical'] .provider-card--compact {
+  border-top: 3px solid var(--color-primary);
+}
+@media (min-width: 768px) {
+  .provider-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .provider-card--compact { grid-template-columns: 7rem minmax(0, 1fr); }
+}
+@media (min-width: 1280px) {
+  .provider-card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 /* Premium editorial theme. Scoped so existing practices retain their current UI. */
 html[data-theme='editorial-healthcare'] body {
   background: var(--color-surface);
@@ -1717,7 +1813,13 @@ html[data-theme='structured-clinical'] .provider-affiliations-card {
 @media (max-width: 767px) {
   html[data-theme='editorial-healthcare'] .provider-name,
   html[data-theme='structured-clinical'] .provider-name {
-    font-size: clamp(3rem, 14vw, 4rem);
+    font-size: clamp(2.25rem, 10vw, 3rem);
+  }
+
+  html[data-theme='editorial-healthcare'] .provider-page .provider-hero-panel,
+  html[data-theme='structured-clinical'] .provider-page .provider-hero-panel {
+    padding: 0;
+    border: 0;
   }
 
   html[data-theme='editorial-healthcare'] .provider-section-title,

@@ -1,0 +1,45 @@
+---
+/** Homepage conditions content, composed independently of the provider team. */
+import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
+interface Props { config: Record<string, any>; }
+const { config } = Astro.props;
+const { conditions = [], conditionsIntro = '' } = config;
+---
+<section
+  id={HOME_SECTION_IDS.conditions}
+  class="home-conditions section relative overflow-hidden border-t border-white/60 bg-warm-50"
+>
+  <svg
+    aria-hidden="true"
+    class="conditions-leaf pointer-events-none absolute right-4 top-8 h-72 w-72 text-slate-950 opacity-[0.05] md:right-12 md:top-12"
+    viewBox="0 0 220 220"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M109 188C109 133 109 76 109 32" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+    <path d="M109 82C86 58 64 47 42 49C45 74 62 91 109 102" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M110 110C139 78 164 66 190 69C186 98 165 119 110 132" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M109 145C82 120 58 109 35 113C40 140 61 158 109 166" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+  </svg>
+  <div class="section-shell relative">
+    <div class="max-w-3xl">
+      <p class="eyebrow">Areas of care</p>
+      <h2 class="section-title">Conditions We Treat</h2>
+      <p data-section-summary class="section-copy">{conditionsIntro}</p>
+    </div>
+    <ul
+      class="mt-14 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:grid-cols-3"
+      aria-label="Conditions treated"
+    >
+      {
+        conditions.map((condition) => (
+          <li class="border-t border-slate-200 py-5">
+            <h3 class="text-lg font-semibold tracking-tight text-slate-950">
+              {condition}
+            </h3>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

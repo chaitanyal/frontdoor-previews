@@ -25,6 +25,17 @@ npm run test:output-contracts
 
 ## Browser checks
 
+Run provider selection, directory/profile navigation, mobile identity, and scale checks:
+
+```bash
+npm run test:providers
+```
+
+This builds all preview practices and Dr. Dronavalli. It checks discovery without
+JavaScript, approved biography coverage, and 25-card layouts across the three themes.
+File-based review screenshots are saved in `.tmp/provider-experience/`.
+Provider configuration, schema, and retirement checks run with the output-contract suite.
+
 Focused treatment configuration and route checks (no build or browser required):
 
 ```bash

@@ -1,0 +1,12 @@
+---
+import ProviderDirectoryPage from '../../../../pages/shared/ProviderDirectoryPage.astro';
+import { loadPracticeData } from '../../../../lib/practice-data.mjs';
+import { hasProviderDirectory } from '../../../../lib/provider-team.mjs';
+export async function getStaticPaths() {
+  const { config } = await loadPracticeData(process.cwd(), process.env.SITE_ID);
+  return hasProviderDirectory(config) ? [{ params: { directory: 'providers' } }] : [];
+}
+const { config, theme } = await loadPracticeData(process.cwd(), process.env.SITE_ID);
+---
+
+<ProviderDirectoryPage config={config} theme={theme} />

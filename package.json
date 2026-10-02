@@ -23,6 +23,7 @@
     "test:astro:practice": "FRONTDOOR_TEST_SCOPE=practice playwright test --config=playwright.config.mjs --grep @astro-practice-production",
     "test:astro:preview": "FRONTDOOR_TEST_SCOPE=preview playwright test --config=playwright.config.mjs --grep @astro-preview",
     "test:analytics": "node scripts/verification/run_playwright_suite.mjs analytics",
+    "test:providers": "FRONTDOOR_TEST_PREVIEW_SITE=ALL playwright test --config=playwright.config.mjs --grep @provider-experience",
     "test:google-maps": "FRONTDOOR_TEST_SCOPE=practice playwright test --config=playwright.config.mjs --grep @google-maps",
     "test:google-maps-config": "node scripts/validate_google_places_config.mjs",
     "test:places-worker": "npm --prefix places-worker test",

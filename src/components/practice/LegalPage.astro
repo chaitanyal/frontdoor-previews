@@ -5,6 +5,7 @@
  * Optional config.privacyPolicy supplies patient-privacy sections and document links;
  * website disclosures remain separate. Local document URLs resolve from the practice root.
  * document metadata and theme setup belong to PracticeLegal/PracticeLayout.
+ * config.footer.frontdoorCredit enables the shared website attribution.
  */
 import { practiceAssetUrl } from '../../lib/assets.mjs';
 
@@ -196,4 +197,7 @@ const title = privacy ? 'Privacy' : terms ? 'Terms of Use' : 'Accessibility';
       Accessibility
     </a>
   </nav>
+  {config.footer?.frontdoorCredit && (
+    <p class="mt-4 text-center text-sm text-slate-500">Website by <a class="underline underline-offset-4 transition hover:text-slate-950" href="https://frontdoor.health/">frontdoor.health</a></p>
+  )}
 </footer>

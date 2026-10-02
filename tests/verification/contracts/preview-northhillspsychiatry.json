@@ -129,8 +129,9 @@
         "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/diana_samuel.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "Physician",
           "WebPage"
@@ -150,7 +151,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "phone": 4
@@ -171,8 +172,9 @@
         "image": "https://frontdoor.health/previews/northhillspsychiatry/images/providers/zita_samuel.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "Physician",
           "WebPage"
@@ -192,7 +194,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "phone": 4

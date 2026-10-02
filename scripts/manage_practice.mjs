@@ -11,6 +11,7 @@ import {
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import process from 'node:process';
+import { hasProviderDirectory } from '../src/lib/provider-team.mjs';
 
 const ROOT = process.cwd();
 const [command, site, value, ...flags] = process.argv.slice(2);
@@ -70,9 +71,9 @@ function assertProviderImage(provider, siteDirectory) {
   if (!existsSync(resolved)) fail(`Provider image does not exist: ${image}`);
 }
 
-function redirectValue() {
+function redirectValue(config) {
   const argument = flags.find((flag) => flag.startsWith('--redirect='));
-  const destination = argument?.slice('--redirect='.length) || '/#providers';
+  const destination = argument?.slice('--redirect='.length) || (hasProviderDirectory(config) ? '/providers/' : '/#providers');
   if (!destination.startsWith('/') && !destination.startsWith('https://')) {
     fail('Redirect destination must be root-relative or an HTTPS URL.');
   }
@@ -141,8 +142,14 @@ function providerRetire() {
     ...config,
     providers: config.providers.filter((item) => item.slug !== value),
   };
+  // Keep the directory route stable and remove retired homepage selections.
+  if (hasProviderDirectory(config)) candidate.providerDirectory = true;
+  if (config.home?.featuredProviderSlugs) {
+    candidate.home = { ...config.home, featuredProviderSlugs: config.home.featuredProviderSlugs.filter((slug) => slug !== value) };
+    if (!candidate.home.featuredProviderSlugs.length) delete candidate.home.featuredProviderSlugs;
+  }
   validateCandidate(site, candidate);
-  const destination = redirectValue();
+  const destination = redirectValue(candidate);
   const redirects = config.seo?.allowIndexing
     ? addRedirects(paths.directory, value, destination)
     : null;

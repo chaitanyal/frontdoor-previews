@@ -1,0 +1,36 @@
+---
+/** Homepage introduction; explicit featured slugs retain the full directory roster. */
+import ProviderCard from './ProviderCard.astro';
+import { homeContent } from '../../lib/practice-view.mjs';
+import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
+import { hasProviderDirectory, homepageProviders } from '../../lib/provider-team.mjs';
+interface Props { config: Record<string, any>; }
+const { config } = Astro.props;
+const providers = homepageProviders(config);
+const content = homeContent(config);
+const directory = hasProviderDirectory(config);
+const solo = config.providers.length === 1;
+---
+{providers.length > 0 && (
+  <section id={HOME_SECTION_IDS.providers} class="home-providers section border-t border-slate-200/70 bg-white">
+    <div class="section-shell">
+      <div class="max-w-2xl">
+        <p class="eyebrow">{content.providerEyebrow}</p>
+        <h2 class="section-title">{content.providerTitle}</h2>
+        <p data-section-summary class="section-copy">{content.providerCopy}</p>
+      </div>
+      <div data-provider-count={providers.length} class:list={[
+        directory ? 'provider-card-grid mt-10' : 'home-provider-grid mt-10 grid grid-cols-1 gap-6',
+        solo && 'mx-auto max-w-4xl',
+      ]}>
+        {providers.map((provider) => <ProviderCard config={config} provider={provider} isSingleProvider={solo} compact={directory} />)}
+      </div>
+      {directory && (
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <a href="./providers/" class="btn-secondary">View all {config.providers.length} providers</a>
+          <p class="text-sm leading-6 text-slate-600">Explore the full care team and individual profiles.</p>
+        </div>
+      )}
+    </div>
+  </section>
+)}

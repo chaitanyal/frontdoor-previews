@@ -16,7 +16,7 @@
         "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png"
       },
       "jsonLd": {
-        "count": 9,
+        "count": 5,
         "topLevelTypes": [
           "MedicalClinic",
           "Person",
@@ -39,21 +39,14 @@
         "./assets/styles.css",
         "./images/hero/centexmh-limestone-creek-v2.webp",
         "./images/office/centexmh-waiting-room.webp",
-        "./images/providers/caitlin-keen.webp",
         "./images/providers/emily-morris.webp",
         "./images/providers/julie-williams.webp",
-        "./images/providers/megan-brady.webp",
         "./images/providers/michael-musgrove.webp",
-        "./images/providers/renee-moreland-overlay-removed.webp",
-        "./images/providers/rosabelle-pong-overlay-removed.webp",
         "./privacy/",
-        "./providers/caitlin-keen/",
+        "./providers/",
         "./providers/emily-morris/",
         "./providers/julie-williams/",
-        "./providers/megan-brady/",
         "./providers/michael-musgrove/",
-        "./providers/renee-moreland/",
-        "./providers/rosabelle-pong/",
         "./terms/",
         "./treatment/spravato/",
         "./treatment/tms/",
@@ -65,7 +58,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 13,
+      "inlineScriptCount": 9,
       "ctaCounts": {
         "directions": 1,
         "email": 2,
@@ -140,6 +133,69 @@
       "ctaCounts": {}
     },
     {
+      "route": "/providers/",
+      "outputFile": "providers/index.html",
+      "title": "Providers | Central Texas Mental Health",
+      "description": "Meet the Central Texas Mental Health care team. Explore provider backgrounds, credentials, and areas of care.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/centexmh/providers/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png",
+        "url": "https://frontdoor.health/previews/centexmh/providers/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/centexmh/images/social/centexmh-production-share.png"
+      },
+      "jsonLd": {
+        "count": 10,
+        "topLevelTypes": [
+          "BreadcrumbList",
+          "ItemList",
+          "Person",
+          "Physician",
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../",
+        "../#conditions",
+        "../#contact",
+        "../#faq",
+        "../#insurance",
+        "../#treatments",
+        "../accessibility/",
+        "../assets/styles.css",
+        "../images/providers/caitlin-keen.webp",
+        "../images/providers/emily-morris.webp",
+        "../images/providers/julie-williams.webp",
+        "../images/providers/megan-brady.webp",
+        "../images/providers/michael-musgrove.webp",
+        "../images/providers/renee-moreland-overlay-removed.webp",
+        "../images/providers/rosabelle-pong-overlay-removed.webp",
+        "../privacy/",
+        "../providers/",
+        "../providers/caitlin-keen/",
+        "../providers/emily-morris/",
+        "../providers/julie-williams/",
+        "../providers/megan-brady/",
+        "../providers/michael-musgrove/",
+        "../providers/renee-moreland/",
+        "../providers/rosabelle-pong/",
+        "../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 12,
+      "ctaCounts": {
+        "phone": 1
+      }
+    },
+    {
       "route": "/providers/caitlin-keen/",
       "outputFile": "providers/caitlin-keen/index.html",
       "title": "Caitlin Keen, PA-C, CAQ | Central Texas Mental Health",
@@ -154,16 +210,17 @@
         "image": "https://frontdoor.health/previews/centexmh/images/providers/caitlin-keen.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "WebPage"
         ]
       },
       "localAssetUrls": [
+        "../",
         "../../",
         "../../#conditions",
-        "../../#providers",
         "../../assets/styles.css",
         "../../images/providers/caitlin-keen.webp",
         "/shared/analytics.js",
@@ -174,7 +231,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,
@@ -197,16 +254,17 @@
         "image": "https://frontdoor.health/previews/centexmh/images/providers/emily-morris.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "WebPage"
         ]
       },
       "localAssetUrls": [
+        "../",
         "../../",
         "../../#conditions",
-        "../../#providers",
         "../../assets/styles.css",
         "../../images/providers/emily-morris.webp",
         "/shared/analytics.js",
@@ -217,7 +275,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,
@@ -240,16 +298,17 @@
         "image": "https://frontdoor.health/previews/centexmh/images/providers/julie-williams.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "WebPage"
         ]
       },
       "localAssetUrls": [
+        "../",
         "../../",
         "../../#conditions",
-        "../../#providers",
         "../../assets/styles.css",
         "../../images/providers/julie-williams.webp",
         "/shared/analytics.js",
@@ -260,7 +319,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,
@@ -283,16 +342,17 @@
         "image": "https://frontdoor.health/previews/centexmh/images/providers/megan-brady.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "WebPage"
         ]
       },
       "localAssetUrls": [
+        "../",
         "../../",
         "../../#conditions",
-        "../../#providers",
         "../../assets/styles.css",
         "../../images/providers/megan-brady.webp",
         "/shared/analytics.js",
@@ -303,7 +363,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,
@@ -326,17 +386,18 @@
         "image": "https://frontdoor.health/previews/centexmh/images/providers/michael-musgrove.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "Physician",
           "WebPage"
         ]
       },
       "localAssetUrls": [
+        "../",
         "../../",
         "../../#conditions",
-        "../../#providers",
         "../../assets/styles.css",
         "../../images/providers/michael-musgrove.webp",
         "/shared/analytics.js",
@@ -347,7 +408,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,
@@ -370,16 +431,17 @@
         "image": "https://frontdoor.health/previews/centexmh/images/providers/renee-moreland-overlay-removed.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "WebPage"
         ]
       },
       "localAssetUrls": [
+        "../",
         "../../",
         "../../#conditions",
-        "../../#providers",
         "../../assets/styles.css",
         "../../images/providers/renee-moreland-overlay-removed.webp",
         "/shared/analytics.js",
@@ -390,7 +452,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,
@@ -413,16 +475,17 @@
         "image": "https://frontdoor.health/previews/centexmh/images/providers/rosabelle-pong-overlay-removed.webp"
       },
       "jsonLd": {
-        "count": 2,
+        "count": 3,
         "topLevelTypes": [
+          "BreadcrumbList",
           "Person",
           "WebPage"
         ]
       },
       "localAssetUrls": [
+        "../",
         "../../",
         "../../#conditions",
-        "../../#providers",
         "../../assets/styles.css",
         "../../images/providers/rosabelle-pong-overlay-removed.webp",
         "/shared/analytics.js",
@@ -433,7 +496,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {
         "email": 1,
         "existingPatient": 1,
@@ -496,13 +559,14 @@
       "localAssetUrls": [
         "../../",
         "../../#conditions",
+        "../../#contact",
         "../../#faq",
         "../../#insurance",
-        "../../#providers",
         "../../#treatments",
         "../../accessibility/",
         "../../assets/styles.css",
         "../../privacy/",
+        "../../providers/",
         "../../terms/",
         "../tms/",
         "/shared/analytics.js",
@@ -542,13 +606,14 @@
       "localAssetUrls": [
         "../../",
         "../../#conditions",
+        "../../#contact",
         "../../#faq",
         "../../#insurance",
-        "../../#providers",
         "../../#treatments",
         "../../accessibility/",
         "../../assets/styles.css",
         "../../privacy/",
+        "../../providers/",
         "../../terms/",
         "../spravato/",
         "/shared/analytics.js",
@@ -599,6 +664,7 @@
     "privacy/index.html",
     "providers/caitlin-keen/index.html",
     "providers/emily-morris/index.html",
+    "providers/index.html",
     "providers/julie-williams/index.html",
     "providers/megan-brady/index.html",
     "providers/michael-musgrove/index.html",

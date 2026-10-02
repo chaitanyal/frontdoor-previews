@@ -14,6 +14,7 @@ const UTM_CAMPAIGN = 'verification-contract-campaign';
 const UTM_EXPIRY_MS = 60 * 24 * 60 * 60 * 1_000;
 const SCOPE = process.env.FRONTDOOR_TEST_SCOPE;
 const repoRoot = path.resolve(import.meta.dirname, '../..');
+const northHillsTitle = JSON.parse(readFileSync(path.join(repoRoot, 'sites/northhillspsychiatry/practice.json'), 'utf8')).seo.title;
 
 async function loadPreviewRequestFunction() {
   const source = readFileSync(
@@ -141,7 +142,7 @@ test('@analytics sends the complete preview page-view payload', async ({ page })
       path: '/previews/northhillspsychiatry/',
       practice_slug: 'northhillspsychiatry',
       referrer: null,
-      title: 'North Hills Psychiatry | Compassionate Psychiatric Care in Austin',
+      title: northHillsTitle,
       session_id: FIXED_SESSION_ID,
       visitor_id: FIXED_VISITOR_ID,
       timestamp: fixedTimestamp(),
@@ -182,7 +183,7 @@ test('@analytics preserves preview CTA events and destinations', async ({ page }
       page_path: '/previews/northhillspsychiatry/',
       destination_url: destination,
       referrer: null,
-      title: 'North Hills Psychiatry | Compassionate Psychiatric Care in Austin',
+      title: northHillsTitle,
       session_id: FIXED_SESSION_ID,
       visitor_id: FIXED_VISITOR_ID,
       timestamp: fixedTimestamp(),

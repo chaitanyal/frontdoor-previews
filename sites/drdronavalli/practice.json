@@ -352,6 +352,7 @@
     }
   },
   "footer": {
+    "frontdoorCredit": true,
     "links": [
       "Privacy",
       "Terms",

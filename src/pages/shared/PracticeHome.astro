@@ -12,7 +12,8 @@ import LocationFaq from '../../components/practice/LocationFaq.astro';
 import PatientResources from '../../components/practice/PatientResources.astro';
 import PracticeFooter from '../../components/practice/PracticeFooter.astro';
 import PracticeHeader from '../../components/practice/PracticeHeader.astro';
-import ProviderConditions from '../../components/practice/ProviderConditions.astro';
+import ProviderTeam from '../../components/practice/ProviderTeam.astro';
+import Conditions from '../../components/practice/Conditions.astro';
 import TreatmentCards from '../../components/practice/TreatmentCards.astro';
 import PracticeLayout from '../../layouts/PracticeLayout.astro';
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
@@ -38,7 +39,8 @@ const { config, theme, isPreview = false } = Astro.props;
   <PracticeHeader config={config} />
   <main id="main-content" tabindex="-1">
     <HomeHero config={config} />
-    <ProviderConditions config={config} />
+    <ProviderTeam config={config} />
+    <Conditions config={config} />
     <TreatmentCards config={config} />
     <FinancialPolicy config={config} />
     <AppointmentSection

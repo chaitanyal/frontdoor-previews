@@ -81,6 +81,7 @@
       "text": "Round Rock office"
     }
   ],
+  "providerDirectory": true,
   "providers": [
     {
       "slug": "michael-musgrove",
@@ -125,7 +126,7 @@
       "name": "Julie Williams",
       "credentials": "PA-C, CAQ",
       "specialty": "Physician Assistant · Adult Psychiatry",
-      "tagline": "Psychiatric evaluations and medication management for adults.",
+      "tagline": "Adult psychiatric care with a background in psychology and urgent-care practice.",
       "bioParagraphs": [
         "Julie Williams has cared for adults at Central Texas Mental Health since 2009. Her background includes psychology and urgent-care practice.",
         "Julie holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
@@ -167,7 +168,7 @@
       "name": "Renee Moreland",
       "credentials": "PA-C, CAQ",
       "specialty": "Physician Assistant · Psychiatry",
-      "tagline": "Psychiatric care and medication management for adults.",
+      "tagline": "Psychiatric evaluations and ongoing medication management for adults.",
       "bioParagraphs": [
         "Renee Moreland trained as a physician assistant at Rosalind Franklin University of Medicine and Science.",
         "Renee holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
@@ -207,7 +208,7 @@
       "name": "Caitlin Keen",
       "credentials": "PA-C, CAQ",
       "specialty": "Physician Assistant · Psychiatry",
-      "tagline": "Psychiatric evaluations and medication management for adults.",
+      "tagline": "Providing adult psychiatric care at Centex since 2019.",
       "bioParagraphs": [
         "Caitlin Keen joined Central Texas Mental Health in 2019. She earned her physician assistant master’s degree at Francis Marion University.",
         "Caitlin holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
@@ -217,8 +218,7 @@
         "undergraduate": "Clemson University · Chemistry"
       },
       "heroTrustItems": [
-        "Psychiatry CAQ",
-        "With the practice since 2019"
+        "Psychiatry CAQ"
       ],
       "specialties": [
         "Psychiatry"
@@ -249,7 +249,7 @@
       "name": "Emily Morris",
       "credentials": "PA-C, CAQ",
       "specialty": "Physician Assistant · Psychiatry",
-      "tagline": "Psychiatric evaluations and medication management, with a background in neuroscience.",
+      "tagline": "Adult psychiatric care, with a background in neuroscience.",
       "bioParagraphs": [
         "Emily Morris earned her Master of Medical Science in Physician Assistant studies at Nova Southeastern University.",
         "Emily holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
@@ -290,7 +290,7 @@
       "name": "Megan Brady",
       "credentials": "PA-C",
       "specialty": "Physician Assistant · Psychiatry",
-      "tagline": "Psychiatric evaluations and ongoing medication management for adults.",
+      "tagline": "Adult psychiatric care, with a background in public health.",
       "bioParagraphs": [
         "Megan Brady trained as a physician assistant at the University of Texas Medical Branch. She also holds a Bachelor of Science in Public Health from Texas A&M University."
       ],
@@ -323,7 +323,7 @@
       "name": "Rosabelle Pong",
       "credentials": "PA-C",
       "specialty": "Physician Assistant · Psychiatry",
-      "tagline": "Psychiatric evaluations and medication management, with experience in emergency medical care.",
+      "tagline": "Adult psychiatric care with prior experience as an FDNY emergency medical technician.",
       "bioParagraphs": [
         "Rosabelle Pong joined Central Texas Mental Health in 2024. Before becoming a physician assistant, she worked as an emergency medical technician with the New York City Fire Department."
       ],
@@ -597,9 +597,10 @@
     ]
   },
   "home": {
+    "featuredProviderSlugs": ["michael-musgrove", "julie-williams", "emily-morris"],
     "providerEyebrow": "Providers",
     "providerTitle": "Meet the care team",
-    "providerCopy": "Meet our psychiatrist and physician assistants, and learn about their training and experience."
+    "providerCopy": "Our board-certified psychiatrist and physician assistants bring experience and thoughtful care to adult mental health, with treatment options ranging from medication management to NeuroStar TMS Therapy and Spravato."
   },
   "providerProfileLabels": {
     "howProviderHelps": "Care and professional background"

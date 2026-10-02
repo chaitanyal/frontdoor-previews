@@ -7,7 +7,7 @@
 import CopyEmailScript from '../../components/practice/CopyEmailScript.astro';
 import ProviderProfile from '../../components/practice/ProviderProfile.astro';
 import PracticeLayout from '../../layouts/PracticeLayout.astro';
-import { providerProfile } from '../../lib/practice-view.mjs';
+import { providerProfile, providerBreadcrumbSchema } from '../../lib/practice-view.mjs';
 
 interface Props {
   config: Record<string, any>;
@@ -26,7 +26,7 @@ const profile = providerProfile(config, provider);
   description={profile.description}
   image={profile.image}
   imageAlt={profile.imageAlt}
-  jsonLd={profile.schema}
+  jsonLd={[profile.schema, providerBreadcrumbSchema(config, provider)]}
   pageKind="provider"
   pagePath={`providers/${provider.slug}`}
   socialType="profile"
