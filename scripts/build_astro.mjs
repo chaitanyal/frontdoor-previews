@@ -3,6 +3,8 @@ import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { performance } from 'node:perf_hooks';
+import { buildName, timed } from './verification/state.mjs';
 import {
   listEligiblePreviewSlugs,
   loadPracticeData,
@@ -26,6 +28,8 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'
 const target = process.env.FRONTDOOR_TARGET ?? '';
 const siteId = process.env.SITE_ID ?? '';
 const deployOutput = process.env.FRONTDOOR_ASTRO_DEPLOY === '1';
+const buildKey = process.env.FRONTDOOR_BUILD_KEY || '';
+const buildStarted = performance.now();
 const validTargets = new Set(['marketing', 'practice', 'preview']);
 
 function fail(message) {
@@ -119,13 +123,16 @@ try {
   fail(error.message);
 }
 
-const publicDir = path.join(repoRoot, '.tmp', 'astro-public', target);
+if (buildKey && (deployOutput || buildKey !== buildName(target, siteId))) {
+  fail('FRONTDOOR_BUILD_KEY must match the local build target and site.');
+}
+const publicDir = path.join(repoRoot, '.tmp', 'astro-public', buildKey || target);
 const outDir = deployOutput
   ? path.join(repoRoot, 'dist')
-  : path.join(repoRoot, '.tmp', 'astro-dist', target);
+  : path.join(repoRoot, '.tmp', 'astro-dist', buildKey || target);
 const astroOutDir = deployOutput
   ? './dist'
-  : `./.tmp/astro-dist/${target}`;
+  : `./.tmp/astro-dist/${buildKey || target}`;
 const sharedRuntimeDir = path.join(publicDir, 'shared');
 const tailwindExecutable = path.join(
   repoRoot,
@@ -136,6 +143,16 @@ const tailwindExecutable = path.join(
 
 await rm(publicDir, { recursive: true, force: true });
 await rm(outDir, { recursive: true, force: true });
+const cssFile = path.join(repoRoot, '.tmp', 'frontdoor-build', buildKey || target, 'styles.css');
+await mkdir(path.dirname(cssFile), { recursive: true });
+timed('shared CSS', () => {
+  const cssResult = spawnSync(tailwindExecutable, [
+    '-c', 'tailwind.config.js', '-i', './shared/styles/frontdoor.css', '-o', cssFile, '--minify',
+  ], { cwd: repoRoot, env: { ...process.env, BROWSERSLIST_IGNORE_OLD_DATA: 'true' }, stdio: 'inherit' });
+  if (cssResult.error) fail(`Unable to start Tailwind CSS: ${cssResult.error.message}`);
+  if (cssResult.status !== 0) process.exit(cssResult.status ?? 1);
+});
+const assetsStarted = performance.now();
 if (target === 'marketing') {
   const { marketing, practice } = await loadMarketingData(repoRoot);
   await cp(
@@ -200,29 +217,7 @@ for (const practiceId of practiceIds) {
       : path.join(publicDir, 'previews', practiceId);
   await mkdir(path.join(destinationRoot, 'assets'), { recursive: true });
 
-  const cssResult = spawnSync(
-    tailwindExecutable,
-    [
-      '-c',
-      'tailwind.config.js',
-      '-i',
-      './shared/styles/frontdoor.css',
-      '-o',
-      path.join(destinationRoot, 'assets', 'styles.css'),
-      '--minify',
-    ],
-    {
-      cwd: repoRoot,
-      env: { ...process.env, BROWSERSLIST_IGNORE_OLD_DATA: 'true' },
-      stdio: 'inherit',
-    },
-  );
-  if (cssResult.error) {
-    fail(`Unable to start Tailwind CSS: ${cssResult.error.message}`);
-  }
-  if (cssResult.status !== 0) {
-    process.exit(cssResult.status ?? 1);
-  }
+  await cp(cssFile, path.join(destinationRoot, 'assets', 'styles.css'));
 
   for (const assetDirectory of ['assets', 'images']) {
     const source = path.join(repoRoot, 'sites', practiceId, assetDirectory);
@@ -261,23 +256,25 @@ for (const practiceId of practiceIds) {
   }
 }
 
+console.log(`[timing] asset preparation: ${((performance.now() - assetsStarted) / 1000).toFixed(2)}s`);
 const astroExecutable = path.join(
   repoRoot,
   'node_modules',
   '.bin',
   process.platform === 'win32' ? 'astro.cmd' : 'astro',
 );
-const result = spawnSync(astroExecutable, ['build', '--config', 'astro.config.mjs'], {
+const result = timed('Astro', () => spawnSync(astroExecutable, ['build', '--config', 'astro.config.mjs'], {
   cwd: repoRoot,
   env: {
     ...process.env,
     ASTRO_TELEMETRY_DISABLED: '1',
     FRONTDOOR_ASTRO_SITE: site,
     FRONTDOOR_ASTRO_OUT_DIR: astroOutDir,
+    FRONTDOOR_ASTRO_PUBLIC_DIR: path.relative(repoRoot, publicDir),
     FRONTDOOR_ASTRO_PRACTICE_IDS: JSON.stringify(practiceIds),
   },
   stdio: 'inherit',
-});
+}));
 
 if (result.error) {
   fail(`Unable to start Astro: ${result.error.message}`);
@@ -343,14 +340,14 @@ if (target === 'marketing') {
   );
 }
 
-const validationResult = spawnSync(
+const validationResult = timed('HTML validation', () => spawnSync(
   'python3',
   [path.join(repoRoot, 'scripts', 'validate_built_html.py'), outDir],
   {
     cwd: repoRoot,
     stdio: 'inherit',
   },
-);
+));
 if (validationResult.error) {
   fail(`Unable to start built HTML validation: ${validationResult.error.message}`);
 }
@@ -359,3 +356,4 @@ if (validationResult.status !== 0) {
 }
 
 console.log(`Astro ${target} output: ${path.relative(repoRoot, outDir)}`);
+console.log(`[timing] total build: ${((performance.now() - buildStarted) / 1000).toFixed(2)}s`);

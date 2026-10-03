@@ -96,7 +96,10 @@ that proves the requested result:
 - Switch to an existing palette: run
   `npm run theme:set -- <practice-slug> <theme-name>` and then verify that site.
 - Shared components, schemas, scripts, a new theme definition, or changes spanning
-  multiple subsystems: run `npm run test:output-contracts`.
+  multiple subsystems: run `npm run verify:change` (retains the full output-contract
+  matrix for shared changes). For visual/provider/action changes, add the relevant
+  browser suites in the same run, for example
+  `npm run verify:change -- --browser=themes,providers,analytics`.
 
 For factual healthcare-practice changes, update the affected evidence in
 `source_extraction.md` when one exists. Exact user-authored wording, layout, and
@@ -123,8 +126,17 @@ theme-selection changes do not require repeating full source extraction.
 
 
 The pre-commit hook applies the same staged-file routing. Install it once per clone
-with `npm run hooks:install`. Do not bypass it with `--no-verify`. The hook is a
-safety net; run the relevant command yourself before reporting completion.
+with `npm run hooks:install`. Do not bypass it with `--no-verify`. Run the relevant
+verification once after implementation; a valid result for unchanged inputs may
+be reused by later commands and the hook. Changed source, assets, tests, tools,
+configuration, environment, or output invalidates reuse. Rerun checks affected by
+subsequent changes; do not repeat passed checks solely because a commit follows.
+The hook refuses staged build/check inputs that differ from the working tree,
+including unstaged additions or deletions. Stage the intended versions or restore
+the unstaged inputs before committing; it never silently stages files.
+Use `npm run verify:change -- --all --fresh` for an explicit clean verification.
+Run build/verification workflows sequentially: compatibility links and Astro's
+generated state still make concurrent independent workflows unsupported.
 
 ## Website Release Workflow
 

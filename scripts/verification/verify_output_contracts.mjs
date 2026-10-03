@@ -4,6 +4,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import process from 'node:process';
+import { ensureBuild, fingerprint, recordCheck, reusableCheck, timed } from './state.mjs';
 
 const ROOT = process.cwd();
 const ASTRO_ROOT = path.join(ROOT, '.tmp', 'astro-dist');
@@ -21,27 +22,19 @@ const practiceIds = readdirSync(path.join(ROOT, 'sites'), { withFileTypes: true 
 const TARGETS = [
   {
     name: 'marketing',
-    command: ['run', 'build:astro:marketing'],
-    environment: {},
-    output: path.join(ASTRO_ROOT, 'marketing'),
+    target: 'marketing', site: '',
   },
   ...practiceIds.map((practiceId) => ({
     name: `practice-${practiceId}`,
-    command: ['run', 'build:astro:practice'],
-    environment: { SITE_ID: practiceId },
-    output: path.join(ASTRO_ROOT, 'practice'),
+    target: 'practice', site: practiceId,
   })),
   {
     name: 'preview-northhillspsychiatry',
-    command: ['run', 'build:astro:preview'],
-    environment: { SITE_ID: 'northhillspsychiatry' },
-    output: path.join(ASTRO_ROOT, 'preview'),
+    target: 'preview', site: 'northhillspsychiatry',
   },
   {
     name: 'preview-all',
-    command: ['run', 'build:astro:preview:all'],
-    environment: {},
-    output: path.join(ASTRO_ROOT, 'preview'),
+    target: 'preview', site: 'ALL',
   },
 ];
 
@@ -305,18 +298,26 @@ function verifyContract(actual, baselinePath, { update = false } = {}) {
   }
 }
 
-export function verifyOutputContracts({ update = false } = {}) {
+export function verifyOutputContracts({ update = false, fresh = false } = {}) {
   mkdirSync(CONTRACT_ROOT, { recursive: true });
-  run(process.execPath, ['--test', 'tests/verification/treatments.test.mjs', 'tests/verification/provider-team.test.mjs', 'tests/verification/practice-llms.test.mjs']);
+  if (!update && !fresh && reusableCheck('contracts:all')) {
+    console.log('Reusing verified checks: contracts:all');
+    return;
+  }
+  const input = fingerprint();
+  timed('configuration regressions', () => run(process.execPath, ['--test',
+    'tests/verification/treatments.test.mjs', 'tests/verification/provider-team.test.mjs',
+    'tests/verification/practice-llms.test.mjs', 'tests/verification/verification-state.test.mjs']));
 
+  const artifacts = [];
   for (const target of TARGETS) {
-    process.stdout.write(`Building Astro output contract target: ${target.name}\n`);
-    run('npm', target.command, target.environment);
-    const contract = contractFor(target.output, target.name);
+    const artifact = ensureBuild(target.target, target.site, { fresh });
+    artifacts.push(artifact.name);
     const baselinePath = path.join(CONTRACT_ROOT, `${target.name}.json`);
-    verifyContract(contract, baselinePath, { update });
+    timed(`contract ${target.name}`, () => verifyContract(contractFor(artifact.directory, target.name), baselinePath, { update }));
   }
 
+  if (!update) recordCheck('contracts:all', artifacts, input);
   process.stdout.write(update ? 'Astro output contracts updated.\n' : 'Astro output contracts match.\n');
 }
 
@@ -387,7 +388,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
         verifyPracticeOutputContract(site, { update });
       }
     } else {
-      verifyOutputContracts({ update });
+      verifyOutputContracts({ update, fresh: process.argv.includes('--fresh') });
     }
   } catch (error) {
     console.error(error.message);

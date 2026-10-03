@@ -28,7 +28,8 @@ export default defineConfig({
   site,
   trailingSlash: 'always',
   srcDir: `./src/entries/${target}`,
-  publicDir: `./.tmp/astro-public/${target}`,
+  publicDir: process.env.FRONTDOOR_ASTRO_PUBLIC_DIR || `./.tmp/astro-public/${target}`,
+  cacheDir: process.env.FRONTDOOR_BUILD_KEY ? `./.tmp/astro-cache/${process.env.FRONTDOOR_BUILD_KEY}` : undefined,
   outDir,
   build: {
     format: 'directory',

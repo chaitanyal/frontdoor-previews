@@ -15,6 +15,8 @@ for maintenance rules, and the [Astro source guide](../src/README.md) for code l
 - [Treatment pages](treatment-pages.md): configuration, shared routes, evidence and migration guidance.
 - [Practice link previews](social-share-images.md): clinic-facing metadata and branded share-image generation.
 - [Output and browser verification](../tests/verification/README.md).
+- [Build and verification improvement plan](buildimprovement.md): proposed changes
+  to reduce repeated builds, reuse verified results, and speed up releases.
 
 ## Historical material
 

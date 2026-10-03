@@ -1,6 +1,7 @@
 import { mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { ensureBuild, timed } from '../../scripts/verification/state.mjs';
 
 const repoRoot = process.cwd();
 const marketingCss = path.join(
@@ -24,11 +25,7 @@ function run(command, args, environment = {}) {
 }
 
 function runAstroBuild(script, siteId) {
-  const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-  run(npmCommand, ['run', script], {
-    FRONTDOOR_TARGET: '',
-    SITE_ID: siteId || '',
-  });
+  ensureBuild(script.slice('build:astro:'.length), siteId || '');
 }
 
 function compileMarketingTestCss() {
@@ -59,7 +56,7 @@ export default function globalSetup() {
   const scope = process.env.FRONTDOOR_TEST_SCOPE;
   if (!scope || scope === 'marketing') {
     runAstroBuild('build:astro:marketing');
-    compileMarketingTestCss();
+    timed('marketing browser fixture CSS', compileMarketingTestCss);
   }
   if (scope === 'marketing') return;
   runAstroBuild(

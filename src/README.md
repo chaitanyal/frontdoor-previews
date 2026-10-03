@@ -116,6 +116,6 @@ constraints. Update them when behavior changes. Avoid caller inventories or comm
 that repeat markup. Frontmatter comments are source documentation, not public HTML.
 
 Follow the root AGENTS.md verification routing. For shared Astro changes, run
-`npm run test:output-contracts`; browser tests and baseline guidance live in
+`npm run verify:change`; browser tests and baseline guidance live in
 `tests/verification/README.md`. For visual changes, also inspect the built pages at
 mobile and desktop sizes using the repository's documented `file://` workflow.

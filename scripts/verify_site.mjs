@@ -4,11 +4,13 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import process from 'node:process';
+import { ensureBuild, fingerprint, recordCheck, reusableCheck, timed } from './verification/state.mjs';
 
 const ROOT = process.cwd();
 const args = process.argv.slice(2);
 const site = args.find((argument) => !argument.startsWith('--'));
 const updateContract = args.includes('--update-contract');
+const fresh = args.includes('--fresh');
 
 function fail(message) {
   console.error(message);
@@ -34,23 +36,26 @@ if (!existsSync(path.join(ROOT, configPath))) {
   fail(`Unknown practice: ${site}`);
 }
 
-run('python3', ['scripts/validate_practice_json.py', configPath]);
-run('npm', ['run', 'build:astro:practice'], { SITE_ID: site });
-run('python3', ['scripts/validate_built_html.py', '.tmp/astro-dist/practice']);
-run('node', [
+if (!updateContract && !fresh && reusableCheck(`site:${site}`)) {
+  ensureBuild('practice', site);
+  console.log(`Reusing verified checks: site:${site}`);
+  process.exit(0);
+}
+const input = fingerprint();
+const artifacts = [];
+timed('practice configuration', () => run('python3', ['scripts/validate_practice_json.py', configPath]));
+artifacts.push(ensureBuild('practice', site, { fresh }).name);
+timed('practice contract', () => run('node', [
   'scripts/verification/verify_output_contracts.mjs',
-  updateContract ? '--update' : '--check',
-  '--scope=practice',
-  `--site=${site}`,
-]);
+  updateContract ? '--update' : '--check', '--scope=practice', `--site=${site}`,
+]));
 
 const marketingConfig = JSON.parse(
   readFileSync(path.join(ROOT, 'marketing', 'marketing.json'), 'utf8'),
 );
 if (marketingConfig.featuredPractice === site) {
   process.stdout.write(`\n${site} is the featured marketing practice; verifying that dependent target.\n`);
-  run('npm', ['run', 'build:astro:marketing']);
-  run('python3', ['scripts/validate_built_html.py', '.tmp/astro-dist/marketing']);
+  artifacts.push(ensureBuild('marketing', '', { fresh }).name);
   run('node', [
     'scripts/verification/verify_output_contracts.mjs',
     updateContract ? '--update' : '--check',
@@ -58,4 +63,5 @@ if (marketingConfig.featuredPractice === site) {
   ]);
 }
 
+if (!updateContract) recordCheck(`site:${site}`, artifacts, input);
 process.stdout.write(`\nVerified practice: ${site}\n`);

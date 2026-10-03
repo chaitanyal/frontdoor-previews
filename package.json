@@ -12,6 +12,7 @@
     "build:css": "mkdir -p .tmp/frontdoor-build && tailwindcss -c tailwind.config.js -i ./shared/styles/frontdoor.css -o ./.tmp/frontdoor-build/styles.css --minify",
     "validate:html": "python3 scripts/validate_built_html.py dist",
     "verify:site": "node scripts/verify_site.mjs",
+    "verify:change": "node scripts/verify_change.mjs",
     "provider:add": "node scripts/manage_practice.mjs provider-add",
     "provider:retire": "node scripts/manage_practice.mjs provider-retire",
     "theme:set": "node scripts/manage_practice.mjs theme-set",
