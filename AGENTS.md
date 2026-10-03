@@ -415,7 +415,9 @@ The long-term goal is:
 
 `verify:change` now selects required browser suites by affected behavior. Shared
 CSS checks representative theme targets (all three themes and reflective) and
-captures screenshots; provider changes add provider/analytics assertions;
+captures screenshots; practice/marketing header and footer changes, and the shared
+section-navigation registry, automatically add theme assertions; provider changes
+add provider/analytics assertions;
 routing/build/dependency changes retain full contracts and all three behavior
 suites. Unknown/mixed changes retain full contracts. Practice verification also
 checks dependent marketing output for preview-eligible practices and the featured

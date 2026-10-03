@@ -16,6 +16,11 @@ export function checksFor(files) {
   const sites = new Set(website.map(siteFor).filter(Boolean));
   const styling = file => file === 'shared/styles/frontdoor.css';
   const providers = file => /^src\/components\/practice\/Provider[^/]+\.astro$/.test(file) || file === 'src/lib/provider-team.mjs';
+  const navigation = file => [
+    'src/components/practice/PracticeHeader.astro', 'src/components/practice/PracticeFooter.astro',
+    'src/components/marketing/HomeHeader.astro', 'src/components/marketing/MarketingFooter.astro',
+    'src/lib/home-sections.mjs',
+  ].includes(file);
   const analytics = file => /^(?:analytics-worker\/|functions\/|shared\/(?:analytics|attribution|google-ads)\.js$)/.test(file) || file === 'src/components/practice/CopyEmailScript.astro' || file === 'src/components/marketing/PreviewRequestForm.astro';
   const infrastructure = file => /^(?:scripts\/|src\/(?:entries|layouts)\/)/.test(file) || /^(?:package(?:-lock)?\.json|astro\.config\.mjs|tailwind\.config\.js|shared\/themes\.json)$/.test(file) || /^src\/lib\/(?:practice-data|preview-paths|seo|sitemap)\.mjs$/.test(file);
   if (sites.size && !sites.has('template') && website.every(file => siteFor(file) || sites.has(contractFor(file)))) {
@@ -38,6 +43,8 @@ export function checksFor(files) {
       if (website.some(analytics)) checks.push('browser:analytics');
     }
   }
+  // Apply after target routing so marketing-only and mixed edits retain their gates.
+  if (website.some(navigation)) checks.push('browser:themes');
   return [...new Set(checks)];
 }
 

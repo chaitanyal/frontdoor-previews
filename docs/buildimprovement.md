@@ -184,6 +184,25 @@ contract targets, configuration regressions, and 23 theme/provider/analytics
 browser assertions. No baselines or production website content changed.
 `git diff --check` passed.
 
+## Navigation selection follow-up — October 3, 2026
+
+Closed the header/footer mapping gap with five explicit inputs: practice header,
+practice footer, marketing home header, marketing footer, and `home-sections.mjs`.
+Each automatically selects the existing theme browser suite, including mixed-file
+changes. Existing contract coverage is preserved: marketing-only edits use the
+marketing contract; practice/mixed edits retain the full matrix. Screenshot capture
+remains opt-in unless stylesheet changes already require it.
+
+Extended theme assertions to header destinations/focusability on home/provider
+routes and marketing navigation/contact activation at mobile, tablet and desktop
+widths. Practice footer destination, contrast, touch-target and layout assertions
+remain. Selector regression coverage includes individual files and mixed changes.
+Final verification passed all eight contract targets, configuration/selector
+regressions, and 24 browser assertions (including five theme/navigation cases).
+No output baselines or production site content changed; `git diff --check` passed.
+This follow-up is included in the navigation-verification release to `origin main`.
+Automatic Cloudflare deployment remains enabled; deployment status is not checked.
+
 ## Objective
 
 Reduce the time from completed website changes to a production push by eliminating

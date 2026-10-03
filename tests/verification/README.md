@@ -152,7 +152,11 @@ stylesheet. Lucide and Turnstile receive deterministic local stubs.
 `npm run verify:change -- --dry-run` prints automatic coverage. Shared CSS selects
 marketing, standalone Dr. Dronavalli and preview ALL plus all theme representatives
 (including reflective), with screenshot capture. Provider changes add provider and
-analytics assertions. Routing/build/dependency changes select full contracts and
+analytics assertions. Practice/marketing headers and footers, and the shared
+home-section navigation registry, automatically add theme checks. Those checks
+verify local header/footer destinations, focusability, responsive layout, and
+marketing contact activation. Marketing-only navigation edits retain marketing
+contracts; practice/mixed navigation edits retain full contracts. Routing/build/dependency changes select full contracts and
 all three behavior suites. Unknown/mixed changes retain full contracts. Practice
 checks include marketing for featured and preview-eligible practices, including
 previous eligibility when a preview is removed. Deleted practices select the full

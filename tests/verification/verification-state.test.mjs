@@ -176,6 +176,23 @@ test('behavior selection chooses publishing contracts and relevant browser suite
   assert.deepEqual(checksFor(['sites/template/practice.json']), ['contracts:all']);
 });
 
+test('headers, footers and section navigation select theme checks alone or in mixed edits', () => {
+  for (const file of ['PracticeHeader', 'PracticeFooter']) {
+    const changed = `src/components/practice/${file}.astro`;
+    assert.deepEqual(checksFor([changed]), ['contracts:all', 'browser:themes']);
+    assert.deepEqual(checksFor([changed, 'sites/centexmh/practice.json']), ['contracts:all', 'browser:themes']);
+    assert.deepEqual(checksFor([changed, 'shared/analytics.js']), ['contracts:all', 'browser:analytics', 'browser:themes']);
+  }
+  for (const file of ['HomeHeader', 'MarketingFooter']) {
+    const changed = `src/components/marketing/${file}.astro`;
+    assert.deepEqual(checksFor([changed]), ['contracts:marketing', 'browser:themes']);
+    assert.deepEqual(checksFor([changed, 'marketing/marketing.json']), ['contracts:marketing', 'browser:themes']);
+    assert.deepEqual(checksFor([changed, 'src/components/practice/ProviderCard.astro']), ['contracts:all', 'browser:providers', 'browser:analytics', 'browser:themes']);
+  }
+  assert.deepEqual(checksFor(['src/lib/home-sections.mjs']), ['contracts:all', 'browser:themes']);
+  assert.deepEqual(checksFor(['src/components/practice/PracticeFooter.astro', 'shared/styles/frontdoor.css']), ['contracts:all', 'browser:themes', 'screenshots']);
+});
+
 test('browser results preserve only complete passing suites after a failure', () => {
   const spec = (title, status) => ({ title, tests: [{ results: [{ status }] }] });
   const report = { suites: [{ specs: [spec('@theme-polish one', 'passed'), spec('@analytics two', 'failed'), spec('@provider-experience three', 'skipped')] }] };

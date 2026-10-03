@@ -4,6 +4,25 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { installDeterministicBrowser, installMockNetwork, waitForImages } from './helpers/static-site.mjs';
 
+async function verifyNavigationDestinations(page, selector) {
+  const links = page.locator(selector);
+  expect(await links.count()).toBeGreaterThan(0);
+  for (const link of await links.all()) {
+    const destination = new URL(await link.getAttribute('href'), page.url());
+    if (['tel:', 'mailto:'].includes(destination.protocol)) continue;
+    expect(destination.protocol).toBe('file:');
+    const file = fileURLToPath(destination);
+    const destinationFile = file.endsWith('/') ? path.join(file, 'index.html') : file;
+    expect(existsSync(destinationFile), destinationFile).toBe(true);
+    if (destination.hash) expect(readFileSync(destinationFile, 'utf8')).toContain(`id="${destination.hash.slice(1)}"`);
+    if (await link.isVisible()) {
+      expect(Number(await link.getAttribute('tabindex') ?? 0)).toBeGreaterThanOrEqual(0);
+      await link.focus();
+      await expect(link).toBeFocused();
+    }
+  }
+}
+
 const sites = [
   ['drdronavalli', 'practice', 'calm-healthcare'],
   ['centexmh', 'preview/previews/centexmh', 'editorial-healthcare'],
@@ -12,7 +31,7 @@ const sites = [
 ];
 
 for (const [slug, output, theme] of sites) {
-  test(`@theme-polish ${slug}: responsive hierarchy, footer destinations, and retained actions`, async ({ page }) => {
+  test(`@theme-polish ${slug}: responsive hierarchy, header/footer destinations, and retained actions`, async ({ page }) => {
     await installDeterministicBrowser(page);
     await installMockNetwork(page);
     const config = JSON.parse(readFileSync(`sites/${slug}/practice.json`, 'utf8'));
@@ -29,18 +48,15 @@ for (const [slug, output, theme] of sites) {
         await waitForImages(page.locator('img'));
         await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-        const footerLinks = page.locator('footer nav a');
-        for (const link of await footerLinks.all()) {
-          const href = await link.getAttribute('href');
-          const destination = new URL(href, page.url());
-          expect(destination.protocol).toBe('file:');
-          const file = fileURLToPath(destination);
-          const destinationFile = file.endsWith('/') ? path.join(file, 'index.html') : file;
-          expect(existsSync(destinationFile), destinationFile).toBe(true);
-          if (destination.hash) expect(readFileSync(destinationFile, 'utf8')).toContain(`id="${destination.hash.slice(1)}"`);
+        await verifyNavigationDestinations(page, 'footer nav a');
+        if (!route || route.startsWith('providers/')) {
+          await verifyNavigationDestinations(page, 'header a');
+        }
+        for (const link of await page.locator('footer nav a').all()) {
           const box = await link.boundingBox();
           expect(box.height).toBeGreaterThanOrEqual(44);
         }
+
         if (!route) {
           if (theme === 'structured-clinical' && await page.locator('.home-resources').count()) {
             const resources = page.locator('.home-resources .patient-resource-list');
@@ -88,3 +104,33 @@ for (const [slug, output, theme] of sites) {
     }
   });
 }
+
+
+test('@theme-polish marketing header/footer navigation preserves local destinations and responsive layout', async ({ page }) => {
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  for (const width of [390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('https://frontdoor.health/');
+    await page.evaluate(() => document.fonts.ready);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    // The existing mock serves the same marketing artifact over HTTPS with its test CSS.
+    // Resolve link destinations against the corresponding local file for asset/anchor checks.
+    const current = await page.locator('header a, footer a').evaluateAll(links => links.map(link => ({ href: link.getAttribute('href'), visible: Boolean(link.getClientRects().length), tabIndex: link.tabIndex })));
+    expect(current.length).toBeGreaterThan(0);
+    const root = path.resolve('.tmp/astro-dist/marketing');
+    for (const link of current) {
+      const destination = new URL(link.href, pathToFileURL(path.join(root, 'index.html')));
+      expect(destination.protocol).toBe('file:');
+      const file = fileURLToPath(destination);
+      const destinationFile = file.endsWith('/') ? path.join(file, 'index.html') : file;
+      expect(existsSync(destinationFile), destinationFile).toBe(true);
+      if (destination.hash) expect(readFileSync(destinationFile, 'utf8')).toContain(`id="${destination.hash.slice(1)}"`);
+      if (link.visible) expect(link.tabIndex).toBeGreaterThanOrEqual(0);
+    }
+    const contact = page.locator('header a[href="#contact"]:visible').first();
+    await contact.focus();
+    await page.keyboard.press('Enter');
+    await expect(page).toHaveURL('https://frontdoor.health/#contact');
+  }
+});
