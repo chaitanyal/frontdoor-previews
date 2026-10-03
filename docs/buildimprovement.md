@@ -333,6 +333,24 @@ differences still fail; ordinary nonvisual releases avoid screenshot generation.
 
 ### 6. Add modest parallelism after isolation
 
+**Deferred by user decision — October 3, 2026.** Reliability takes priority over
+the potential saving from the current approximately 22-second browser run.
+Cached verification already takes approximately 1.4 seconds.
+
+An earlier overlapping Centex site check changed the shared
+`.tmp/astro-dist/practice` compatibility link while a browser test expected
+Dr. Dronavalli, causing it to load the wrong practice. Sequential execution
+resolved the failure. This was a collision between separate verification commands,
+not evidence that independent tests within one Playwright run cannot be parallel.
+However, tests that rebuild outputs or modify shared fixtures/files could introduce
+similar races if parallelism is enabled without auditing those writes.
+
+Keep one Playwright worker and run verification commands sequentially. Revisit
+only if browser verification becomes a meaningful bottleneck. Before enabling
+parallelism, audit shared writes, isolate mutable outputs/fixtures, keep mutating
+tests serial, and demonstrate stable repeated runs with one and two workers.
+The following steps remain proposals, not the current execution policy:
+
 - Start with two browser workers for independent tests.
 - Keep tests that mutate fixtures or rebuild shared output serial until isolated.
 - Do not run today's build-producing npm commands concurrently against shared
