@@ -5,8 +5,9 @@ Prepared October 3, 2026 against commit `180d56c`.
 **Status: items 1–3 implemented and verified on October 3, 2026.** These changes
 are included in the items 1–3 release to `origin main`, using automatic Cloudflare
 deployment where enabled. Cloudflare deployment status is not checked.
-Items 4–7 remain proposed; Cloudflare settings were not changed. The updated
-AGENTS.md describes the current verification workflow.
+Items 4–5 are implemented and verified, and included in the items 4–5 release
+to `origin main`. Items 6–7 remain proposed. Cloudflare settings were not changed. AGENTS.md describes the current
+verification workflow.
 
 ## Completion record — October 3, 2026
 
@@ -47,13 +48,13 @@ npm run verify:change -- --all --fresh
 Existing `verify:site`, `test:output-contracts`, and browser commands remain
 available. `--fresh` on full/site verification forces the selected builds/checks;
 otherwise valid results and artifacts are reused. Browser selection remains
-explicit, so item 4's finer behavioral routing is not claimed complete.
+explicit when manually requested, and behavior routing now selects required suites automatically.
 
 **Limitations:** workflows remain sequential. Compatibility links and Astro's
 generated state do not support concurrent independent verification/build commands.
 The fingerprint is intentionally broad: unrelated relevant input changes can
-invalidate artifacts. More selective dependencies, screenshot/baseline workflows,
-parallelism, and Cloudflare optimization remain in items 4–7.
+invalidate artifacts. Input fingerprints remain broad; target/check selection is narrower. Parallelism
+and Cloudflare optimization remain in items 6–7.
 
 ### Validation and timing
 
@@ -85,6 +86,69 @@ parallelism, and Cloudflare optimization remain in items 4–7.
 The principal improvement is eliminating repeated verification and fixture builds
 after the first checked result. Hook reuse is covered by a temporary-repository
 test; the release also runs the installed staged hook during the commit.
+
+## Items 4–5 completion — October 3, 2026
+
+- **Behavior selection:** practice edits verify standalone output plus marketing
+  whenever the practice is featured or preview-eligible (including previous HEAD
+  eligibility). Deleting a practice escalates to the full matrix. Marketing-only
+  edits keep marketing coverage. Shared CSS checks marketing, standalone Dr.
+  Dronavalli, and preview ALL, whose browser representatives include all three
+  themes and reflective. Provider components retain full contracts plus provider
+  and analytics assertions. Analytics/Functions changes select analytics checks.
+  Routing/build/configuration/dependency changes retain full contracts and all
+  three behavior suites. Unknown/mixed changes retain full contracts and the
+  suites required by any known behavior in the mix. Places Worker checks remain.
+- **Production guide changes:** `practice-production.mjs` contains robots,
+  redirects, headers and other production behavior as well as `llms.txt`; edits
+  keep the full contract matrix and generator regressions, including preview
+  exclusion. This module is deliberately not treated as formatting-only.
+- **Contract review:** `npm run review:output-contracts -- --targets=<names>`
+  produces snapshots and differences for all selected targets, without changing
+  baselines or recording a pass. After reviewing the snapshots, explicit
+  `npm run accept:output-contracts` validates current input/output/snapshot content,
+  updates the reviewed baselines, and compares again without rebuilding. Baselines
+  remain check inputs but are excluded from build identity; baseline edits rerun
+  checks while retaining unchanged artifacts. Legacy explicit update commands
+  remain supported.
+- **Screenshots:** theme assertions run without capture by default; shared CSS
+  routing enables capture automatically. Provider layout capture is a separate
+  opt-in tag. Use `npm run verify:change -- --browser=themes,providers --screenshots`
+  or `npm run test:themes -- --screenshots` / `npm run test:providers -- --screenshots`.
+  Screenshot comparison via `--browser=visual` still requires explicit selection.
+  Essential assertions remain active without screenshots. Optional sections are
+  checked only when configured/present; image readiness fails within three seconds.
+- **Failure recovery:** combined browser execution records passing suites
+  individually, even if another suite fails. Rerunning the required command skips
+  those suites and reuses valid builds; failed/skipped/absent suites never receive
+  a passing receipt. Full contracts collect all target differences in one run.
+
+### Items 4–5 validation
+
+- Final eight-target contracts and configuration regressions passed without
+  baseline updates. Eight workflow regression tests cover the original cache and
+  staging guards plus behavior selection, per-suite failure handling, and reviewed
+  baseline acceptance. The acceptance fixture confirms zero additional builds and
+  rejects changed source, output, and review snapshots.
+- All 24 browser checks with capture passed (35.4 seconds). Final default browser
+  verification passed all 23 assertions without screenshot capture (18.1 seconds).
+  These are same-session observations, not a controlled performance benchmark.
+- A local alias collision caused by overlapping manual verification commands
+  produced one theme failure. A sequential rerun reused passed analytics/provider
+  receipts and ran only the four theme tests, all passing. Workflows must remain
+  sequential until item 6 addresses shared compatibility paths.
+- Centex site verification confirmed both standalone and dependent marketing
+  contracts using existing artifacts. Selector examples were checked against the
+  full matrix; CSS selects the three representative targets and four theme cases,
+  while provider changes retain all contracts plus provider/analytics assertions.
+- Final complete command repeated with unchanged inputs: **1.22 seconds** in the
+  runner, with no builds, tests, or browser launch. Input hashing now occurs once
+  per receipt's artifact set rather than once per artifact.
+- `git diff --check` passed. No production content or checked-in baselines changed.
+
+Items 4–5 are included in the release to `origin main`, using automatic Cloudflare
+deployment where enabled. Cloudflare deployment status is not checked.
+Cloudflare settings were not changed; items 6–7 remain deferred.
 
 ## Objective
 
@@ -252,8 +316,8 @@ References: [Cloudflare build-watch paths](https://developers.cloudflare.com/pag
 
 ## Rollout and success criteria
 
-Items **1–3 are implemented**, preserving current coverage. Next refine selection and
-screenshot generation in 4–5, followed by measured parallelism and deployment
+Items **1–5 are implemented** and included in releases to `origin main`. Next consider
+measured parallelism and deployment
 configuration work in 6–7.
 
 - At most one build per required target in a verification run.

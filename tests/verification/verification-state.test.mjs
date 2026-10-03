@@ -5,7 +5,8 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { sourceSnapshot, assertIndexMatches } from '../../scripts/verification/state.mjs';
-import { checksFor } from '../../scripts/verification/change-plan.mjs';
+import { passedBrowserSuites } from '../../scripts/verify_change.mjs';
+import { checksFor, affectsMarketing } from '../../scripts/verification/change-plan.mjs';
 
 const stateUrl = pathToFileURL(path.resolve('scripts/verification/state.mjs')).href;
 
@@ -121,11 +122,11 @@ test('selection retains full shared coverage and includes deleted inputs and bot
   assert.deepEqual(checksFor(['docs/buildimprovement.md', 'assessments/example/page.png']), []);
   assert.deepEqual(checksFor(['sites/centexmh/practice.json']), ['site:centexmh']);
   assert.deepEqual(checksFor(['sites/centexmh/assets/guide.md']), ['site:centexmh']);
-  assert.deepEqual(checksFor(['src/entries/practice/pages/content.md']), ['contracts:all']);
+  assert.deepEqual(checksFor(['src/entries/practice/pages/content.md']), ['contracts:all', 'browser:themes', 'browser:providers', 'browser:analytics']);
   assert.deepEqual(checksFor(['sites/one/removed.jpg', 'sites/two/renamed.jpg']), ['site:one', 'site:two']);
   assert.deepEqual(checksFor(['marketing/assets/removed.png']), ['contracts:marketing']);
-  assert.deepEqual(checksFor(['shared/styles/frontdoor.css']), ['contracts:all']);
-  assert.deepEqual(checksFor(['scripts/build_astro.mjs', 'sites/centexmh/practice.json']), ['contracts:all']);
+  assert.deepEqual(checksFor(['shared/styles/frontdoor.css']), ['contracts:representatives', 'browser:themes', 'screenshots']);
+  assert.deepEqual(checksFor(['scripts/build_astro.mjs', 'sites/centexmh/practice.json']), ['contracts:all', 'browser:themes', 'browser:providers', 'browser:analytics']);
   assert.deepEqual(checksFor(['places-worker/wrangler.toml']), ['places:typecheck', 'places:test', 'places:config']);
 });
 
@@ -141,7 +142,7 @@ test('staged runner reuses a passed check, reruns absent receipts and refuses pa
   `);
   git('add', '.');
   const runner = path.resolve('scripts/verify_change.mjs');
-  const run = () => spawnSync(process.execPath, [runner, '--staged'], { cwd: root, encoding: 'utf8' });
+  const run = () => spawnSync(process.execPath, [runner, '--staged', '--file=src/input.js'], { cwd: root, encoding: 'utf8' });
   let result = run();
   assert.equal(result.status, 0, result.stderr);
   assert.equal(readFileSync(path.join(root, '.tmp/count'), 'utf8'), '1');
@@ -159,4 +160,49 @@ test('staged runner reuses a passed check, reruns absent receipts and refuses pa
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /Staged verification inputs differ/);
   assert.equal(readFileSync(path.join(root, '.tmp/check-count'), 'utf8'), '2');
+}));
+
+
+test('behavior selection chooses publishing contracts and relevant browser suites', () => {
+  assert.equal(affectsMarketing('centexmh', {seo:{allowIndexing:false}}, 'drdronavalli'), true);
+  assert.equal(affectsMarketing('drdronavalli', {seo:{allowIndexing:true}}, 'drdronavalli'), true);
+  assert.equal(affectsMarketing('other', {seo:{allowIndexing:true}}, 'drdronavalli'), false);
+  assert.equal(affectsMarketing('other', {seo:{allowIndexing:true}}, 'drdronavalli', {seo:{allowIndexing:false}}), true);
+  assert.deepEqual(checksFor(['src/components/practice/ProviderCard.astro']), ['contracts:all', 'browser:providers', 'browser:analytics']);
+  assert.deepEqual(checksFor(['shared/analytics.js']), ['contracts:all', 'browser:analytics']);
+  assert.deepEqual(checksFor(['src/lib/practice-production.mjs']), ['contracts:all']);
+  assert.deepEqual(checksFor(['shared/styles/frontdoor.css', 'src/components/practice/ProviderProfile.astro']), ['contracts:all', 'browser:themes', 'screenshots', 'browser:providers', 'browser:analytics']);
+  assert.deepEqual(checksFor(['src/lib/preview-paths.mjs']), ['contracts:all', 'browser:themes', 'browser:providers', 'browser:analytics']);
+  assert.deepEqual(checksFor(['sites/template/practice.json']), ['contracts:all']);
+});
+
+test('browser results preserve only complete passing suites after a failure', () => {
+  const spec = (title, status) => ({ title, tests: [{ results: [{ status }] }] });
+  const report = { suites: [{ specs: [spec('@theme-polish one', 'passed'), spec('@analytics two', 'failed'), spec('@provider-experience three', 'skipped')] }] };
+  assert.deepEqual(passedBrowserSuites(report, ['themes', 'analytics', 'providers']), ['themes']);
+  assert.deepEqual(passedBrowserSuites({ ...report, errors: [{ message: 'setup failed' }] }, ['themes']), []);
+  assert.deepEqual(passedBrowserSuites({ suites: [] }, ['themes']), []);
+});
+
+test('reviewed baselines use unchanged artifacts without builds and reject stale or altered evidence', () => fixture(({ root, write, evaluate }) => {
+  write('sites/one/practice.json', '{}');
+  const contractsUrl = pathToFileURL(path.resolve('scripts/verification/verify_output_contracts.mjs')).href;
+  const module = `const contracts = await import(${JSON.stringify(contractsUrl)}); `;
+  const review = `contracts.reviewContracts({targets:['practice-one']});`;
+  const accept = `contracts.acceptReviewedContracts();`;
+  const count = `console.log(JSON.stringify(Number(state.command('cat',['.tmp/count']))));`;
+  assert.equal(evaluate(module + review + accept + `state.ensureBuild('practice','one');` + count), 1);
+  const baseline = readFileSync(path.join(root, 'tests/verification/contracts/practice-one.json'), 'utf8');
+  write('tests/verification/contracts/practice-one.json', '{}');
+  assert.equal(evaluate(`state.ensureBuild('practice','one');` + count), 1);
+  evaluate(module + accept + count);
+  assert.equal(readFileSync(path.join(root, 'tests/verification/contracts/practice-one.json'), 'utf8'), baseline);
+  write('.tmp/verification-contracts/review/practice-one.json', '{}');
+  assert.equal(evaluate(module + `let failed=false; try {${accept}} catch {failed=true;} console.log(JSON.stringify(failed));`), true);
+  evaluate(module + review + count);
+  write('.tmp/astro-dist/practice-one/index.html', 'changed output');
+  assert.equal(evaluate(module + `let failed=false; try {${accept}} catch {failed=true;} console.log(JSON.stringify(failed));`), true);
+  evaluate(module + review + count);
+  write('src/input.js', 'changed source');
+  assert.equal(evaluate(module + `let failed=false; try {${accept}} catch {failed=true;} console.log(JSON.stringify(failed));`), true);
 }));

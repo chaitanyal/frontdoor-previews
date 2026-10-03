@@ -409,3 +409,21 @@ Production deployment
 The long-term goal is:
 - healthcare practice modernization infrastructure
 - not a generic web design agency.
+
+
+## Verification selection and baseline review
+
+`verify:change` now selects required browser suites by affected behavior. Shared
+CSS checks representative theme targets (all three themes and reflective) and
+captures screenshots; provider changes add provider/analytics assertions;
+routing/build/dependency changes retain full contracts and all three behavior
+suites. Unknown/mixed changes retain full contracts. Practice verification also
+checks dependent marketing output for preview-eligible practices and the featured
+practice. The hook uses the same selection and reuses individual passing suites.
+
+For intentional contract changes, run `npm run review:output-contracts` (optionally
+`-- --targets=<comma-separated-target-names>`), review the saved differences, then
+explicitly run `npm run accept:output-contracts` and required verification. Review
+and acceptance reuse validated artifacts; acceptance does not count as passing
+verification. Do not automatically accept unexpected differences. Ordinary browser
+assertions omit extensive screenshots; use `--screenshots` for visual review.

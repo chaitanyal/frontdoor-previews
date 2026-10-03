@@ -145,3 +145,44 @@ record real Google Ads conversions, or make real Places API requests.
 Marketing pages use a test-only stylesheet compiled from their Astro HTML so visual
 checks do not depend on the Tailwind CDN. Practice pages use their normal compiled
 stylesheet. Lucide and Turnstile receive deterministic local stubs.
+
+
+### Behavior selection and reviewed baselines
+
+`npm run verify:change -- --dry-run` prints automatic coverage. Shared CSS selects
+marketing, standalone Dr. Dronavalli and preview ALL plus all theme representatives
+(including reflective), with screenshot capture. Provider changes add provider and
+analytics assertions. Routing/build/dependency changes select full contracts and
+all three behavior suites. Unknown/mixed changes retain full contracts. Practice
+checks include marketing for featured and preview-eligible practices, including
+previous eligibility when a preview is removed. Deleted practices select the full
+matrix. Production-library changes keep the full matrix and focused generator
+regressions because that module also owns headers/robots/redirects.
+
+Ordinary behavior checks skip screenshots. Request them explicitly:
+
+```bash
+npm run verify:change -- --browser=themes,providers --screenshots
+npm run test:providers -- --screenshots
+npm run test:themes -- --screenshots
+```
+
+The combined runner retains per-suite passing receipts after a failure; rerun the
+same required command to check failures without repeating valid passed suites.
+
+To review intentional contract changes without rebuilding twice:
+
+```bash
+npm run review:output-contracts -- --targets=practice-centexmh,marketing
+# Compare .tmp/verification-contracts/review/<target>.json to the checked-in baseline.
+npm run accept:output-contracts
+npm run verify:change
+```
+
+Review reports every selected difference and never records a pass. Acceptance is
+an explicit approval of the reviewed manifest and validates source, artifacts and
+snapshot contents before writing any baseline. It does not build or record a pass;
+final verification still runs. Check fingerprints include baselines; build
+fingerprints exclude them. Changed baseline content invalidates checks while
+unchanged build artifacts are reusable. Legacy capture/update commands remain
+explicit baseline writes. Workflows must still run sequentially.

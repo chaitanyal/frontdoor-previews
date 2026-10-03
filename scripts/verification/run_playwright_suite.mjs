@@ -4,18 +4,21 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const suite = process.argv[2];
-const supportedSuites = new Set(['analytics', 'visual']);
+const supportedSuites = new Set(['analytics', 'visual', 'providers', 'themes']);
 
 if (!supportedSuites.has(suite)) {
     console.error(`ERROR: Unsupported verification Playwright suite: ${suite || '(missing)'}`);
   process.exit(1);
 }
 
+let screenshots = suite === 'visual';
 let scope = '';
 let site = '';
 const passthroughArgs = [];
 for (const argument of process.argv.slice(3)) {
-  if (argument.startsWith('--scope=')) {
+  if (argument === '--screenshots') {
+    screenshots = true;
+  } else if (argument.startsWith('--scope=')) {
     scope = argument.slice('--scope='.length);
   } else if (argument.startsWith('--site=')) {
     site = argument.slice('--site='.length);
@@ -40,13 +43,15 @@ const result = spawnSync(
     'test',
     '--config=playwright.config.mjs',
     '--grep',
-    `@${suite}`,
+    suite === 'providers' ? `@provider-experience${screenshots ? '|@provider-screenshots' : ''}` : suite === 'themes' ? '@theme-polish' : `@${suite}`,
     ...passthroughArgs,
   ],
   {
     cwd: repoRoot,
     env: {
       ...process.env,
+      FRONTDOOR_CAPTURE_SCREENSHOTS: screenshots ? '1' : '',
+      FRONTDOOR_TEST_PREVIEW_SITE: ['providers', 'themes'].includes(suite) ? 'ALL' : process.env.FRONTDOOR_TEST_PREVIEW_SITE,
       FRONTDOOR_TEST_SCOPE: scope,
       FRONTDOOR_TEST_SITE: site,
     },

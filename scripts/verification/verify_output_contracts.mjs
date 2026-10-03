@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import process from 'node:process';
-import { ensureBuild, fingerprint, recordCheck, reusableCheck, timed } from './state.mjs';
+import { ensureBuild, fingerprint, outputFingerprint, verifiedArtifact, recordCheck, reusableCheck, timed } from './state.mjs';
 
 const ROOT = process.cwd();
 const ASTRO_ROOT = path.join(ROOT, '.tmp', 'astro-dist');
@@ -232,7 +232,7 @@ function sitemapLocations(xml) {
     .sort();
 }
 
-function contractFor(root, target) {
+export function contractFor(root, target) {
   const outputFiles = walkFiles(root);
   const sitemap = readOptional(root, 'sitemap.xml');
   return {
@@ -269,18 +269,15 @@ function previewsFromMarketing(contract) {
 }
 
 function compareContract(actual, expectedPath) {
-  if (!existsSync(expectedPath)) {
-    fail(`Missing contract baseline: ${path.relative(ROOT, expectedPath)}. Run npm run capture:output-contracts.`);
-  }
-  const expected = JSON.parse(readFileSync(expectedPath, 'utf8'));
-  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
-  const expectedText = `${JSON.stringify(expected, null, 2)}\n`;
-  if (actualText === expectedText) return;
-
   const actualPath = path.join(ROOT, '.tmp', 'verification-contracts', 'actual', path.basename(expectedPath));
   mkdirSync(path.dirname(actualPath), { recursive: true });
+  const actualText = `${JSON.stringify(actual, null, 2)}\n`;
   writeFileSync(actualPath, actualText);
-  fail(
+  if (!existsSync(expectedPath)) {
+    fail(`Missing contract baseline: ${path.relative(ROOT, expectedPath)}. Review ${path.relative(ROOT, actualPath)}.`);
+  }
+  const expectedText = `${JSON.stringify(JSON.parse(readFileSync(expectedPath, 'utf8')), null, 2)}\n`;
+  if (actualText !== expectedText) fail(
     `Output contract changed for ${actual.target}. Compare ${path.relative(ROOT, expectedPath)} with ${path.relative(ROOT, actualPath)}.`,
   );
 }
@@ -298,10 +295,16 @@ function verifyContract(actual, baselinePath, { update = false } = {}) {
   }
 }
 
-export function verifyOutputContracts({ update = false, fresh = false } = {}) {
+export function verifyOutputContracts({ update = false, fresh = false, targets } = {}) {
+  const selected = targets ? targets.map(name => {
+    const target = TARGETS.find(target => target.name === name);
+    if (!target) fail(`Unknown contract target: ${name}`);
+    return target;
+  }) : TARGETS;
+  const checkName = targets ? `contracts:targets:${[...targets].sort().join(',')}` : 'contracts:all';
   mkdirSync(CONTRACT_ROOT, { recursive: true });
-  if (!update && !fresh && reusableCheck('contracts:all')) {
-    console.log('Reusing verified checks: contracts:all');
+  if (!update && !fresh && reusableCheck(checkName)) {
+    console.log(`Reusing verified checks: ${checkName}`);
     return;
   }
   const input = fingerprint();
@@ -310,14 +313,18 @@ export function verifyOutputContracts({ update = false, fresh = false } = {}) {
     'tests/verification/practice-llms.test.mjs', 'tests/verification/verification-state.test.mjs']));
 
   const artifacts = [];
-  for (const target of TARGETS) {
+  const differences = [];
+  for (const target of selected) {
     const artifact = ensureBuild(target.target, target.site, { fresh });
     artifacts.push(artifact.name);
     const baselinePath = path.join(CONTRACT_ROOT, `${target.name}.json`);
-    timed(`contract ${target.name}`, () => verifyContract(contractFor(artifact.directory, target.name), baselinePath, { update }));
+    try {
+      timed(`contract ${target.name}`, () => verifyContract(contractFor(artifact.directory, target.name), baselinePath, { update }));
+    } catch (error) { differences.push(error.message); }
   }
 
-  if (!update) recordCheck('contracts:all', artifacts, input);
+  if (differences.length) fail(differences.join('\n'));
+  if (!update) recordCheck(checkName, artifacts, input);
   process.stdout.write(update ? 'Astro output contracts updated.\n' : 'Astro output contracts match.\n');
 }
 
@@ -364,19 +371,71 @@ export function verifyMarketingPreviewOutputContract() {
   process.stdout.write('Astro marketing preview output contract matches.\n');
 }
 
+const REVIEW_ROOT = path.join(ROOT, '.tmp', 'verification-contracts', 'review');
+
+export function reviewContracts({ targets, fresh = false } = {}) {
+  const selected = targets ? targets.map(name => {
+    const target = TARGETS.find(target => target.name === name);
+    if (!target) fail(`Unknown contract target: ${name}`);
+    return target;
+  }) : TARGETS;
+  mkdirSync(REVIEW_ROOT, { recursive: true });
+  rmSync(path.join(REVIEW_ROOT, 'manifest.json'), { force: true });
+  const input = fingerprint({ build: true });
+  const artifacts = [];
+  for (const target of selected) {
+    const artifact = ensureBuild(target.target, target.site, { fresh });
+    const actual = contractFor(artifact.directory, target.name);
+    updateContract(actual, path.join(REVIEW_ROOT, `${target.name}.json`));
+    artifacts.push({ name: target.name, output: artifact.output });
+    try { compareContract(actual, path.join(CONTRACT_ROOT, `${target.name}.json`)); }
+    catch (error) { console.log(error.message); }
+  }
+  if (fingerprint({ build: true }) !== input) fail('Inputs changed during contract review.');
+  writeFileSync(path.join(REVIEW_ROOT, 'manifest.json'), JSON.stringify({ input, artifacts }, null, 2));
+  console.log(`Review contract snapshots in ${path.relative(ROOT, REVIEW_ROOT)} against tests/verification/contracts. After reviewing, run npm run accept:output-contracts. Review does not pass verification.`);
+}
+
+export function acceptReviewedContracts() {
+  const manifest = JSON.parse(readFileSync(path.join(REVIEW_ROOT, 'manifest.json'), 'utf8'));
+  if (manifest.input !== fingerprint({ build: true }) || !Array.isArray(manifest.artifacts) || !manifest.artifacts.length) fail('Contract review is stale or invalid; rerun review.');
+  // Validate every artifact and snapshot before changing any baseline.
+  const snapshots = manifest.artifacts.map(saved => {
+    if (!TARGETS.some(target => target.name === saved.name)) fail('Invalid reviewed target.');
+    const artifact = verifiedArtifact(saved.name);
+    if (!artifact || outputFingerprint(artifact.directory) !== saved.output) fail(`Reviewed artifact changed: ${saved.name}`);
+    const actual = contractFor(artifact.directory, saved.name);
+    const reviewed = JSON.parse(readFileSync(path.join(REVIEW_ROOT, `${saved.name}.json`), 'utf8'));
+    if (JSON.stringify(actual) !== JSON.stringify(reviewed)) fail(`Reviewed snapshot changed: ${saved.name}`);
+    return actual;
+  });
+  for (const actual of snapshots) updateContract(actual, path.join(CONTRACT_ROOT, `${actual.target}.json`));
+  for (const actual of snapshots) compareContract(actual, path.join(CONTRACT_ROOT, `${actual.target}.json`));
+  console.log('Reviewed baselines accepted and compared without rebuilding. Run required verification to record a passing result.');
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const update = process.argv.includes('--update');
   const check = process.argv.includes('--check');
+  const review = process.argv.includes('--review');
+  const accept = process.argv.includes('--accept-reviewed');
+  const targets = process.argv.find(arg => arg.startsWith('--targets='))?.slice(10).split(',');
   const scopeArgument = process.argv.find((argument) => argument.startsWith('--scope='));
   const scope = scopeArgument?.slice('--scope='.length);
   const siteArgument = process.argv.find((argument) => argument.startsWith('--site='));
   const site = siteArgument?.slice('--site='.length);
-  if (update === check) {
-    console.error('Use exactly one of --update or --check.');
+  if ([update, check, review, accept].filter(Boolean).length !== 1) {
+    console.error('Use exactly one of --update, --check, --review or --accept-reviewed.');
     process.exit(2);
   }
   try {
-    if (scope) {
+    if (review) {
+      if (scope) fail('Use --targets with review, not --scope.');
+      reviewContracts({ targets, fresh: process.argv.includes('--fresh') });
+    } else if (accept) {
+      if (scope || targets) fail('Acceptance uses the exact reviewed manifest; do not supply a scope or targets.');
+      acceptReviewedContracts();
+    } else if (scope) {
       if (!['marketing', 'practice', 'preview'].includes(scope)) {
         fail('Scoped output contract verification supports marketing, practice, or preview.');
       }
@@ -388,7 +447,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
         verifyPracticeOutputContract(site, { update });
       }
     } else {
-      verifyOutputContracts({ update, fresh: process.argv.includes('--fresh') });
+      verifyOutputContracts({ update, fresh: process.argv.includes('--fresh'), targets });
     }
   } catch (error) {
     console.error(error.message);

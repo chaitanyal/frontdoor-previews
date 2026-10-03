@@ -70,7 +70,7 @@ export function assertIndexMatches(root = ROOT) {
   }
 }
 
-export function fingerprint() {
+export function fingerprint({ build = false } = {}) {
   const versions = ['astro', 'tailwindcss', '@playwright/test'].map(name => {
     const file = path.join(ROOT, 'node_modules', name, 'package.json');
     return [name, existsSync(file) ? JSON.parse(readFileSync(file)).version : null];
@@ -79,7 +79,7 @@ export function fingerprint() {
   const dotenv = readdirSync(ROOT).filter(file => /^\.env(?:\.|$)/.test(file)).sort()
     .filter(file => { const stat = lstatSync(path.join(ROOT, file)); return stat.isFile() || stat.isSymbolicLink(); })
     .map(file => [file, hash(readFileSync(path.join(ROOT, file)))]);
-  return hash(JSON.stringify({ version: VERSION, source: sourceSnapshot(), versions,
+  return hash(JSON.stringify({ version: VERSION, source: sourceSnapshot().filter(([file]) => !build || !file.startsWith('tests/verification/contracts/')), versions,
     node: process.version, executable: process.execPath, platform: process.platform, arch: process.arch,
     python: command('python3', ['--version']).trim(), environment, dotenv }));
 }
@@ -127,16 +127,20 @@ function artifact(name, input) {
   catch { return null; }
 }
 
+export function verifiedArtifact(name) {
+  return artifact(name, fingerprint({ build: true }));
+}
+
 export function ensureBuild(target, site = '', { fresh = false } = {}) {
   const name = buildName(target, site);
-  const input = fingerprint();
+  const input = fingerprint({ build: true });
   let record = fresh ? null : artifact(name, input);
   if (!record) {
     timed(`build ${name}`, () => command(process.execPath, ['scripts/build_astro.mjs'], {
       env: { ...process.env, FRONTDOOR_TARGET: target, SITE_ID: site, FRONTDOOR_ASTRO_DEPLOY: '', FRONTDOOR_BUILD_KEY: name },
       stdio: 'inherit',
     }));
-    if (fingerprint() !== input) throw new Error('Verification inputs changed during the build; rerun verification.');
+    if (fingerprint({ build: true }) !== input) throw new Error('Verification inputs changed during the build; rerun verification.');
     const directory = path.join(ROOT, '.tmp', 'astro-dist', name);
     record = { name, input, output: outputFingerprint(directory), directory };
     writeRecord(path.join(STATE, 'artifacts', `${name}.json`), { name, input, output: record.output });
@@ -155,8 +159,9 @@ export function ensureBuild(target, site = '', { fresh = false } = {}) {
 
 export function recordCheck(check, names = [], input = fingerprint()) {
   if (fingerprint() !== input) throw new Error('Verification inputs changed during checks; rerun verification.');
+  const buildInput = fingerprint({ build: true });
   const artifacts = names.map(name => {
-    const record = artifact(name, input);
+    const record = artifact(name, buildInput);
     if (!record) throw new Error(`Missing or changed verified artifact: ${name}`);
     return { name, output: record.output };
   });
@@ -167,7 +172,8 @@ export function reusableCheck(check) {
   const input = fingerprint();
   const record = readRecord(path.join(STATE, 'checks', `${hash(check)}.json`));
   if (!record || record.check !== check || record.input !== input || !Array.isArray(record.artifacts)) return false;
+  const buildInput = fingerprint({ build: true });
   return record.artifacts.every(saved => saved && typeof saved.name === 'string' &&
     /^[a-z0-9-]+$/.test(saved.name) && typeof saved.output === 'string' &&
-    artifact(saved.name, input)?.output === saved.output);
+    artifact(saved.name, buildInput)?.output === saved.output);
 }

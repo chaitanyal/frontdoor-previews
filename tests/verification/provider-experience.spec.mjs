@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { readFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { installDeterministicBrowser, installMockNetwork } from './helpers/static-site.mjs';
+import { installDeterministicBrowser, installMockNetwork, waitForImages } from './helpers/static-site.mjs';
 
 const centexUrl = 'https://frontdoor.health/previews/centexmh/';
 
@@ -84,7 +84,8 @@ test('@provider-experience directory scales to long names and 25 cards without o
   }
 });
 
-test('@provider-experience captures local homepage, directory and profile layouts', async ({ page }) => {
+test('@provider-screenshots captures local homepage, directory and profile layouts', async ({ page }) => {
+  test.skip(process.env.FRONTDOOR_CAPTURE_SCREENSHOTS !== '1', 'Opt-in screenshot capture');
   await installDeterministicBrowser(page);
   await installMockNetwork(page);
   const output = path.resolve('.tmp/provider-experience');
@@ -106,7 +107,7 @@ test('@provider-experience captures local homepage, directory and profile layout
       await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}.fade-in-up{opacity:1!important;transform:none!important}' });
       const section = page.locator(selector);
       await section.scrollIntoViewIfNeeded();
-      await section.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode())));
+      await waitForImages(section.locator('img'));
       await page.evaluate(() => document.fonts.ready);
       await section.screenshot({ path: path.join(output, `${name}-${label}.png`) });
     }

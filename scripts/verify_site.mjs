@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import process from 'node:process';
+import { affectsMarketing } from './verification/change-plan.mjs';
 import { ensureBuild, fingerprint, recordCheck, reusableCheck, timed } from './verification/state.mjs';
 
 const ROOT = process.cwd();
@@ -53,8 +54,11 @@ timed('practice contract', () => run('node', [
 const marketingConfig = JSON.parse(
   readFileSync(path.join(ROOT, 'marketing', 'marketing.json'), 'utf8'),
 );
-if (marketingConfig.featuredPractice === site) {
-  process.stdout.write(`\n${site} is the featured marketing practice; verifying that dependent target.\n`);
+const config = JSON.parse(readFileSync(path.join(ROOT, configPath), 'utf8'));
+const previousResult = spawnSync('git', ['show', `HEAD:${configPath}`], { cwd: ROOT, encoding: 'utf8' });
+const previous = previousResult.status === 0 ? JSON.parse(previousResult.stdout) : {};
+if (affectsMarketing(site, config, marketingConfig.featuredPractice, previous)) {
+  process.stdout.write(`\n${site} is published in marketing; verifying that dependent target.\n`);
   artifacts.push(ensureBuild('marketing', '', { fresh }).name);
   run('node', [
     'scripts/verification/verify_output_contracts.mjs',

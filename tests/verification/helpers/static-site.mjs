@@ -340,3 +340,17 @@ export async function waitForStablePage(page) {
     ]);
   });
 }
+
+// Fail clearly on broken/stalled images instead of allowing unbounded decode waits.
+export async function waitForImages(images, timeout = 3000) {
+  await images.evaluateAll(async (elements, timeout) => {
+    for (const image of elements) image.loading = 'eager';
+    let timer;
+    try {
+      await Promise.race([
+        Promise.all(elements.map(image => image.decode())),
+        new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('Image readiness timed out')), timeout); }),
+      ]);
+    } finally { clearTimeout(timer); }
+  }, timeout);
+}
