@@ -7,7 +7,8 @@ import {
   homepageImageMetadata,
   providerImageMetadata,
 } from './seo.mjs';
-import { providerEntityType } from './practice-view.mjs';
+import { financialSectionMode, providerEntityType } from './practice-view.mjs';
+import { homeSectionNavigation } from './home-sections.mjs';
 import { hasProviderDirectory } from './provider-team.mjs';
 import { discoverIndexRoutes, renderSitemap } from './sitemap.mjs';
 
@@ -80,6 +81,7 @@ function markdownText(value) {
     .replace(/([\\[\]])/g, '\\$1');
 }
 
+/** Curated production guide: visible practice facts precede grouped page links. */
 export function practiceLlms(config, siteUrl) {
   const baseUrl = String(siteUrl || '').replace(/\/+$/, '');
   const practice = config.practice || {};
@@ -88,7 +90,6 @@ export function practiceLlms(config, siteUrl) {
     '',
     `> ${markdownText(config.seo?.description)}`,
     '',
-    '## Practice information',
   ];
 
   if (practice.tagline) {
@@ -102,32 +103,72 @@ export function practiceLlms(config, siteUrl) {
   }
   if (practice.acceptsNewPatients === true) {
     lines.push('- Accepting new patients: Yes');
+  } else if (practice.acceptsNewPatients === false) {
+    lines.push('- Accepting new patients: No');
+  }
+
+  const policy = config.financialPolicy || {};
+  const paymentSummaries = {
+    insurance: 'Insurance-based payment; contact the office to confirm plan participation.',
+    cash_only: 'Private pay; the practice does not participate in insurance networks.',
+    out_of_network: 'Out-of-network with insurance providers.',
+    hybrid: 'Select insurance plans and self-pay options; contact the office to confirm details.',
+    mixed: 'Select insurance plans and self-pay options; contact the office to confirm details.',
+  };
+  const financialMode = financialSectionMode(config);
+  const paymentSummary = financialMode === 'insurance'
+    ? config.insurance?.summary || policy.summary || paymentSummaries[policy.paymentModel]
+    : policy.summary || paymentSummaries[policy.paymentModel];
+  if (financialMode && paymentSummary) {
+    lines.push(`- Payment: ${markdownText(paymentSummary)}`);
+  }
+  const telehealthSummary = config.location?.telehealthNotice || config.appointmentSection?.telehealth?.summary;
+  if (telehealthSummary) {
+    lines.push(`- Telehealth: ${markdownText(telehealthSummary)}`);
   }
 
   if (config.conditions?.length) {
     lines.push(
       '',
-      '## Areas of care',
-      '',
-      `${config.conditions.map(markdownText).join(', ')}.`,
+      `Areas of care: ${config.conditions.map(markdownText).join(', ')}.`,
     );
   }
 
+  const sectionDescriptions = {
+    providers: 'provider profiles',
+    conditions: 'areas of care',
+    treatments: 'treatments',
+    contact: 'appointments and contact',
+    location: config.location?.hours?.length ? 'location and office hours' : 'location',
+    faq: 'FAQs',
+    resources: 'patient resources',
+  };
+  const overview = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' }).format(
+    homeSectionNavigation(config).map((section) => section.key === 'financial'
+      ? section.label.toLowerCase()
+      : sectionDescriptions[section.key]),
+  );
   lines.push(
     '',
     '## Official pages',
     '',
-    `- [Practice overview](${baseUrl}/): Services, insurance, appointments, location, and office hours.`,
+    `- [Practice overview](${baseUrl}/): ${overview}.`,
   );
+  const providers = config.providers || [];
+  const treatments = config.treatments || [];
+  if (providers.length && (providers.length > 1 || treatments.length || hasProviderDirectory(config))) {
+    lines.push('', '## Providers', '');
+  }
   if (hasProviderDirectory(config)) {
     lines.push(`- [Provider directory](${baseUrl}/providers/): Complete care team and links to individual profiles.`);
   }
-  for (const provider of config.providers || []) {
+  for (const provider of providers) {
     lines.push(
       `- [${markdownText(provider.name)}](${baseUrl}/providers/${encodeURIComponent(provider.slug)}/): ${markdownText(provider.seo?.description)}`,
     );
   }
-  for (const treatment of config.treatments || []) {
+  if (treatments.length) lines.push('', '## Treatments', '');
+  for (const treatment of treatments) {
     lines.push(
       `- [${markdownText(treatment.name)}](${baseUrl}/treatment/${treatment.slug}/): ${markdownText(treatment.seo.description)}`,
     );
@@ -271,6 +312,18 @@ export async function validatePracticeOutput(outDir, config) {
         `Canonical must be ${expectedCanonical} in ${relativePath}; found ${canonical || 'none'}.`,
       );
     }
+    const discoveryLinks = [...html.matchAll(/<link\b[^>]*>/gi)]
+      .map((match) => match[0])
+      .filter((tag) => tagAttribute(tag, 'rel') === 'describedby');
+    if (config.seo?.allowIndexing === true) {
+      if (discoveryLinks.length !== 1 ||
+        tagAttribute(discoveryLinks[0], 'type') !== 'text/markdown' ||
+        path.resolve(path.dirname(htmlFile), tagAttribute(discoveryLinks[0], 'href')) !== path.resolve(outDir, 'llms.txt')) {
+        throw new Error(`Indexable page must link to the practice llms.txt in ${relativePath}.`);
+      }
+    } else if (discoveryLinks.length) {
+      throw new Error(`Non-indexable page must not link to llms.txt in ${relativePath}.`);
+    }
     if (config.seo?.allowIndexing === true) {
       if (/\bnoindex\b/i.test(html)) {
         throw new Error(`Indexable production output contains noindex in ${relativePath}.`);
@@ -373,6 +426,13 @@ export async function validatePracticeOutput(outDir, config) {
     const llms = await readFile(llmsPath, 'utf8');
     if (llms !== practiceLlms(config, siteUrl)) {
       throw new Error('Production llms.txt does not match the configured practice data.');
+    }
+    for (const match of llms.matchAll(/\]\((https?:\/\/[^\s)]+)\)/g)) {
+      const destination = new URL(match[1]);
+      const route = decodeURIComponent(destination.pathname).replace(/^\/+/, '');
+      if (destination.origin !== siteUrl || !existsSync(path.join(outDir, route, 'index.html'))) {
+        throw new Error(`Production llms.txt links to a missing practice page: ${match[1]}.`);
+      }
     }
     const routes = await discoverIndexRoutes(outDir);
     const sitemap = await readFile(sitemapPath, 'utf8');

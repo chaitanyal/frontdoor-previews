@@ -36,6 +36,7 @@
         "./images/hero/sugar-land-live-oak-waterway-v1.webp",
         "./images/office/office.webp",
         "./images/providers/goutham_dronavalli.webp",
+        "./llms.txt",
         "./privacy/",
         "./providers/goutham-dronavalli/",
         "./terms/",
@@ -78,6 +79,7 @@
       "localAssetUrls": [
         "../accessibility/",
         "../assets/styles.css",
+        "../llms.txt",
         "../privacy/",
         "../terms/",
         "/shared/attribution.js"
@@ -109,6 +111,7 @@
       "localAssetUrls": [
         "../accessibility/",
         "../assets/styles.css",
+        "../llms.txt",
         "../privacy/",
         "../terms/",
         "/shared/attribution.js"
@@ -148,6 +151,7 @@
         "../../#providers",
         "../../assets/styles.css",
         "../../images/providers/goutham_dronavalli.webp",
+        "../../llms.txt",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -185,6 +189,7 @@
       "localAssetUrls": [
         "../accessibility/",
         "../assets/styles.css",
+        "../llms.txt",
         "../privacy/",
         "../terms/",
         "/shared/attribution.js"

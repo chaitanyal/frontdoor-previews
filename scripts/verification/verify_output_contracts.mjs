@@ -307,7 +307,7 @@ function verifyContract(actual, baselinePath, { update = false } = {}) {
 
 export function verifyOutputContracts({ update = false } = {}) {
   mkdirSync(CONTRACT_ROOT, { recursive: true });
-  run(process.execPath, ['--test', 'tests/verification/treatments.test.mjs', 'tests/verification/provider-team.test.mjs']);
+  run(process.execPath, ['--test', 'tests/verification/treatments.test.mjs', 'tests/verification/provider-team.test.mjs', 'tests/verification/practice-llms.test.mjs']);
 
   for (const target of TARGETS) {
     process.stdout.write(`Building Astro output contract target: ${target.name}\n`);

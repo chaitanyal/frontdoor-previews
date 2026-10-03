@@ -78,6 +78,15 @@ pages use the practice phone for contact and ordinary public-resource links;
 they never render scheduling, portal, or telehealth destinations. Indexing follows
 the practice configuration. Indexable builds discover these routes in the sitemap
 and list them in `llms.txt`.
+The production `llms.txt` guide summarizes enabled homepage sections, approved
+payment and telehealth copy, and explicit practice-level availability. Factual
+details precede page-link sections; larger rosters and treatments get separate
+link groups. Indexable standalone pages link to the guide with a route-relative
+`rel="describedby"` link. Preview and nonindexable builds publish neither the guide
+nor its discovery link.
+`build:practice` regenerates and validates the guide on every build; no manual
+export or separate release step is needed. Validation checks that every guide
+destination exists and every indexable page's discovery link resolves to the file.
 Many components already declare a `Props` interface. Document unusual semantics
 beside the relevant property rather than maintaining a second list of input types.
 

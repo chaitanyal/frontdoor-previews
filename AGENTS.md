@@ -126,6 +126,25 @@ The pre-commit hook applies the same staged-file routing. Install it once per cl
 with `npm run hooks:install`. Do not bypass it with `--no-verify`. The hook is a
 safety net; run the relevant command yourself before reporting completion.
 
+## Website Release Workflow
+
+When a website release is authorized, use **commit → push → automatic Cloudflare
+deployment**, provided Git integration and automatic deployments are enabled for
+the target Pages project's production branch.
+
+- Run the applicable pre-release checks and commit only the requested changes.
+  Keep unrelated assessments and local configuration out of the release commit.
+- Push the commit to the configured production branch. A local commit alone does
+  not update GitHub or trigger Cloudflare's Git integration.
+- Use known project settings or deployment documentation to establish whether
+  automatic deployment is enabled; do not assume every Pages project uses it.
+- Do not also deploy through Wrangler when the push triggers automatic deployment.
+  Use direct CLI deployment only when explicitly requested or when automatic
+  deployment is known to be unavailable for the target project.
+- Report local commit, GitHub push, and deployment status separately. A successful
+  push is not proof that Cloudflare's build or deployment succeeded. Respect a
+  request to skip post-deployment checks and state when deployment was not checked.
+
 ## Theme Maintenance
 
 The supported base themes are `calm-healthcare`, `editorial-healthcare`, and

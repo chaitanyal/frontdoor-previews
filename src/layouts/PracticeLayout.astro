@@ -4,6 +4,7 @@
  * Caller supplies config, resolved theme, pageKind, and a route-relative stylesheetHref.
  * Default slot is the body; named head/scripts slots extend the document.
  * Home/provider/directory/treatment pages enable CTA tracking and Lucide.
+ * Only indexable standalone practice builds link to their generated llms.txt.
  */
 import {
   robotsMeta,
@@ -12,6 +13,7 @@ import {
   webPageSchema,
 } from '../lib/seo.mjs';
 import { themeCssProperties } from '../lib/themes.mjs';
+import { practiceAssetUrl } from '../lib/assets.mjs';
 
 interface Props {
   bodyClass?: string;
@@ -52,6 +54,9 @@ const social = socialMetadata(config, {
   type: socialType,
 });
 const robots = robotsMeta(config);
+const llmsHref = process.env.FRONTDOOR_TARGET === 'practice' && config.seo?.allowIndexing === true
+  ? practiceAssetUrl('llms.txt', pagePath.split('/').filter(Boolean).length)
+  : '';
 const tracksPractice = ['home', 'provider', 'directory', 'treatment'].includes(pageKind);
 const practiceSlugScript =
   `window.FRONTDOOR_PRACTICE_SLUG = ${JSON.stringify(config.practice.slug)};`;
@@ -75,6 +80,7 @@ const jsonLdBlocks = tracksPractice
     <meta name="description" content={social.description} />
     {robots && <meta name="robots" content={robots} />}
     {social.canonical && <link rel="canonical" href={social.canonical} />}
+    {llmsHref && <link rel="describedby" type="text/markdown" href={llmsHref} />}
     {
       tracksPractice && (
         <>
