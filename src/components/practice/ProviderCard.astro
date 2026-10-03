@@ -1,5 +1,5 @@
 ---
-/** Shared native provider link: compact comparison card or the existing introduction. */
+/** Shared native provider link; optional percentage imagePosition adjusts authentic portrait crops. */
 import { practiceAssetUrl } from '../../lib/assets.mjs';
 import Icon from './Icon.astro';
 interface Props {
@@ -12,11 +12,14 @@ interface Props {
 }
 const { provider, config, isSingleProvider = false, compact = false, practiceRoot = './', directory = false } = Astro.props;
 const Heading = directory ? 'h2' : 'h3';
+const portraitStyle = provider.imagePosition
+  ? `object-position: ${provider.imagePosition.x}% ${provider.imagePosition.y}%;`
+  : undefined;
 ---
 {compact ? (
 <a class="provider-card provider-card--compact" href={`${practiceRoot}providers/${provider.slug}/`} aria-label={`View profile for ${provider.name}`}>
   <div class="provider-card-portrait">
-    <img loading="lazy" src={practiceAssetUrl(provider.image, practiceRoot === '../' ? 1 : 0)} alt={provider.imageAlt} width="240" height="240" class="image-treatment" />
+    <img loading="lazy" src={practiceAssetUrl(provider.image, practiceRoot === '../' ? 1 : 0)} alt={provider.imageAlt} style={portraitStyle} width="240" height="240" class="image-treatment" />
   </div>
   <div class="provider-card-identity">
     <Heading class="provider-card-name">{provider.name}</Heading>
@@ -49,6 +52,7 @@ const Heading = directory ? 'h2' : 'h3';
         loading="lazy"
         src={practiceAssetUrl(provider.image, practiceRoot === '../' ? 1 : 0)}
         alt={provider.imageAlt}
+        style={portraitStyle}
         class="image-treatment h-full w-full object-cover object-top"
       />
     </div>

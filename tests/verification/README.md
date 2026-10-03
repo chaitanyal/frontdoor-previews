@@ -36,6 +36,16 @@ JavaScript, approved biography coverage, and 25-card layouts across the three th
 File-based review screenshots are saved in `.tmp/provider-experience/`.
 Provider configuration, schema, and retirement checks run with the output-contract suite.
 
+Run the three-theme finishing checks (including the reflective editorial variant):
+
+```bash
+npm run test:themes
+```
+
+Checks cover mobile/tablet/desktop home, provider, and legal pages, footer link
+resolution and touch targets, keyboard FAQ operation, and horizontal overflow.
+File-based screenshots are saved in `.tmp/theme-polish/`.
+
 Focused treatment configuration and route checks (no build or browser required):
 
 ```bash

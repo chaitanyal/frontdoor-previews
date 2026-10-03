@@ -430,6 +430,12 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         for key in ["slug", "name", "image", "imageAlt", "tagline"]:
             require_string_key(provider, key, provider_path)
         validate_asset_path(provider["image"], f"{provider_path}.image")
+        if "imagePosition" in provider:
+            position = require_mapping(provider["imagePosition"], f"{provider_path}.imagePosition")
+            for axis in ["x", "y"]:
+                coordinate = require_key(position, axis, f"{provider_path}.imagePosition")
+                if isinstance(coordinate, bool) or not isinstance(coordinate, (int, float)) or not 0 <= coordinate <= 100:
+                    fail(f"{provider_path}.imagePosition.{axis} must be a percentage between 0 and 100")
         if "bioParagraphs" in provider:
             validate_string_list(provider["bioParagraphs"], f"{provider_path}.bioParagraphs", min_items=1)
         if "bioLinks" in provider:

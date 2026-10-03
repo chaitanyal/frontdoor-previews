@@ -25,6 +25,10 @@
         ]
       },
       "localAssetUrls": [
+        "./#contact",
+        "./#location",
+        "./#patient-resources",
+        "./#providers",
         "./accessibility/",
         "./assets/styles.css",
         "./images/hero/austin-skyline.webp",
@@ -143,9 +147,15 @@
       "localAssetUrls": [
         "../../",
         "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#patient-resources",
         "../../#providers",
+        "../../accessibility/",
         "../../assets/styles.css",
         "../../images/providers/arvinder-walia.webp",
+        "../../privacy/",
+        "../../terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -187,9 +197,15 @@
       "localAssetUrls": [
         "../../",
         "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#patient-resources",
         "../../#providers",
+        "../../accessibility/",
         "../../assets/styles.css",
         "../../images/providers/kathleen-nguyen.webp",
+        "../../privacy/",
+        "../../terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -231,9 +247,15 @@
       "localAssetUrls": [
         "../../",
         "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#patient-resources",
         "../../#providers",
+        "../../accessibility/",
         "../../assets/styles.css",
         "../../images/providers/khyati-delada.webp",
+        "../../privacy/",
+        "../../terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],

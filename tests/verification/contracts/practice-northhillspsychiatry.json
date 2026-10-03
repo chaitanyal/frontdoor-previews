@@ -25,6 +25,10 @@
         ]
       },
       "localAssetUrls": [
+        "./#contact",
+        "./#location",
+        "./#patient-resources",
+        "./#providers",
         "./accessibility/",
         "./assets/resources/new-patient-registration.pdf",
         "./assets/styles.css",
@@ -140,9 +144,15 @@
       "localAssetUrls": [
         "../../",
         "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#patient-resources",
         "../../#providers",
+        "../../accessibility/",
         "../../assets/styles.css",
         "../../images/providers/diana_samuel.webp",
+        "../../privacy/",
+        "../../terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],
@@ -183,9 +193,15 @@
       "localAssetUrls": [
         "../../",
         "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#patient-resources",
         "../../#providers",
+        "../../accessibility/",
         "../../assets/styles.css",
         "../../images/providers/zita_samuel.webp",
+        "../../privacy/",
+        "../../terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],

@@ -5,6 +5,7 @@
  * ProviderPage supplies metadata, theme, and page-level scripts.
  * Empty clinical lists omit their sections when individual scope is not sourced.
  * Identity precedes the portrait on mobile; all approved biography/training content renders.
+ * Optional imagePosition keeps the same percentage focal point as provider cards.
  */
 import { practiceAssetUrl } from '../../lib/assets.mjs';
 import {
@@ -60,6 +61,9 @@ const educationLabels: Record<string, string> = {
   residency: 'Residency', medicalSchool: 'Medical School', physicianAssistantProgram: 'Physician Assistant Program',
   nursingProgram: 'Nursing Program', graduate: 'Graduate Education', undergraduate: 'Undergraduate Education', fellowship: 'Fellowship',
 };
+const portraitStyle = provider.imagePosition
+  ? `object-position: ${provider.imagePosition.x}% ${provider.imagePosition.y}%;`
+  : undefined;
 const educationRows = [
   ...(provider.certifications?.length ? [{
     label: providerEntityType(provider).includes('Physician') ? 'Board Certification' : 'Certifications',
@@ -145,6 +149,7 @@ const affiliationMode = providerAffiliationMode(profile);
             <img
               src={practiceAssetUrl(provider.image, 2)}
               alt={provider.imageAlt}
+              style={portraitStyle}
               class="image-treatment h-full w-full object-cover object-top"
               width="720"
               height="900"
@@ -359,4 +364,5 @@ const affiliationMode = providerAffiliationMode(profile);
   phoneHref={profile.phoneHref}
   providerLabels={profile.labels}
   providerPage
+  practiceRoot="../../"
 />

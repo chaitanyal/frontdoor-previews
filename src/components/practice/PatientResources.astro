@@ -2,6 +2,7 @@
 /**
  * Homepage forms/links derived by patientResourceGroups(config).
  * Omits the section when empty and adds resource CTA tracking to rendered links.
+ * patient-resource-list marks supporting lists for the shared theme hierarchy.
  */
 import {
   isExternalUrl,
@@ -47,7 +48,7 @@ const rows = resourceCount === 1
               data-frontdoor-cta="resource"
               target="_blank"
               rel="noopener noreferrer"
-              class="group/resource mt-4 flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-[28px] border border-slate-100/70 bg-white px-5 py-3.5 text-base font-medium leading-6 text-slate-700 transition duration-200 hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 sm:px-7"
+              class="patient-resource-list group/resource mt-4 flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-[28px] border border-slate-100/70 bg-white px-5 py-3.5 text-base font-medium leading-6 text-slate-700 transition duration-200 hover:bg-warm-50 hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 sm:px-7"
             >
               <span class="shrink-0 text-slate-500 group-hover/resource:text-brand-primary">
                 <Icon
@@ -70,7 +71,7 @@ const rows = resourceCount === 1
             </a>
           ))
         ) : resourceCount <= 4 ? (
-          <div class="mt-4 overflow-hidden rounded-[28px] border border-slate-100/70 bg-white px-5 py-3.5 sm:px-7">
+          <div class="patient-resource-list mt-4 overflow-hidden rounded-[28px] border border-slate-100/70 bg-white px-5 py-3.5 sm:px-7">
             {resources.map((resource) => (
               <a
                 href={resource.url}
@@ -101,7 +102,7 @@ const rows = resourceCount === 1
             ))}
           </div>
         ) : (
-          <div class="mt-4 overflow-hidden rounded-[28px] border border-slate-100/70 bg-white">
+          <div class="patient-resource-list mt-4 overflow-hidden rounded-[28px] border border-slate-100/70 bg-white">
             {groups.map((group) => (
               <div class="border-t border-slate-100/70 px-5 py-3.5 first:border-t-0 sm:px-7">
                 <h3 class="text-[0.95rem] font-semibold leading-6 text-slate-950">

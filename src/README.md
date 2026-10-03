@@ -62,7 +62,13 @@ Provider profiles show identity before portraits on mobile and render all suppli
 biography paragraphs and nonempty education categories.
 Optional `footer.frontdoorCredit: true` adds a linked “Website by frontdoor.health”
 credit to practice home/treatment and legal footers, including preview builds.
-It is omitted by default; provider pages retain their existing action-only footer.
+It is omitted by default. Practice home, provider, directory, and treatment footers
+group enabled public patient-information destinations when at least three exist;
+they link to homepage sections or the directory, never directly to restricted
+scheduling/portal/telehealth actions. Mobile provider actions retain their labels.
+Optional provider `imagePosition: {"x": 50, "y": 20}` adjusts the portrait focal
+position in percentage coordinates (0–100) on introduction cards, directory cards,
+and profiles. Omit it to keep the existing top-centered crop.
 The optional `privacyPolicy` object supplies a heading, summary, document resources
 (`title`/`url`), and sections (`heading`/`paragraphs`) for patient-privacy content
 on the privacy page. Shared website privacy disclosures remain separate.

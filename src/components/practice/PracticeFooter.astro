@@ -1,11 +1,11 @@
 ---
 /**
- * Practice legal footer, mobile appointment/phone actions, and email-copy toast.
- * providerPage omits the homepage legal footer and uses provider action labels/phone.
+ * Practice utility/legal footer, mobile appointment/phone actions, and email-copy toast.
+ * providerPage uses provider action labels/phone; utilities always lead to public content.
  * practiceRoot adjusts legal and mobile contact links for nested routes.
  * config.footer.frontdoorCredit enables the shared website attribution.
  */
-import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
+import { HOME_SECTION_IDS, homeSectionNavigation } from '../../lib/home-sections.mjs';
 
 interface Props {
   config: Record<string, any>;
@@ -24,11 +24,21 @@ const {
 } = Astro.props;
 const { hero, practice } = config;
 const currentYear = new Date().getFullYear();
+const patientLinks = homeSectionNavigation(config)
+  .filter((section) => ['providers', 'treatments', 'resources', 'location', 'contact'].includes(section.key))
+  .map((section) => ({
+    label: section.key === 'contact' ? 'Appointments & contact' : section.label,
+    href: section.pagePath ? `${practiceRoot}${section.pagePath}` : `${practiceRoot}#${section.id}`,
+  }));
 ---
 
-{
-  !providerPage && (
     <footer class="practice-footer border-t border-white/60 bg-warm-200 px-6 py-8 lg:px-8">
+      {patientLinks.length >= 3 && (
+        <nav class="practice-footer-tools section-shell" aria-label="Patient information">
+          <p class="practice-footer-heading">Patient information</p>
+          <ul>{patientLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}</ul>
+        </nav>
+      )}
       <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 text-sm text-slate-500 md:flex-row">
         <div class="text-center md:text-left">
           <p>© {currentYear} {practice.name}</p>
@@ -37,7 +47,7 @@ const currentYear = new Date().getFullYear();
           )}
         </div>
         <nav
-          class="flex justify-center gap-8"
+          class="practice-footer-legal flex flex-wrap justify-center gap-x-6 gap-y-1"
           aria-label="Legal navigation"
         >
           <a class="transition hover:text-slate-950" href={`${practiceRoot}privacy/`}>Privacy</a>
@@ -48,8 +58,6 @@ const currentYear = new Date().getFullYear();
         </nav>
       </div>
     </footer>
-  )
-}
 <div
   class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"
 >

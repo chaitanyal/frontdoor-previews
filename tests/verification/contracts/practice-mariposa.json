@@ -25,6 +25,9 @@
         ]
       },
       "localAssetUrls": [
+        "./#contact",
+        "./#location",
+        "./#providers",
         "./accessibility/",
         "./assets/styles.css",
         "./images/hero/central-texas-limestone-path-v1.webp",
@@ -137,9 +140,14 @@
       "localAssetUrls": [
         "../../",
         "../../#conditions",
+        "../../#contact",
+        "../../#location",
         "../../#providers",
+        "../../accessibility/",
         "../../assets/styles.css",
         "../../images/providers/alba-lara.webp",
+        "../../privacy/",
+        "../../terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],

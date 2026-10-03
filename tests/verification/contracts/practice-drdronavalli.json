@@ -25,6 +25,10 @@
         ]
       },
       "localAssetUrls": [
+        "./#contact",
+        "./#location",
+        "./#patient-resources",
+        "./#providers",
         "./accessibility/",
         "./assets/resources/asthama_test.pdf",
         "./assets/resources/cat_test_form.pdf",
@@ -148,10 +152,16 @@
       "localAssetUrls": [
         "../../",
         "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#patient-resources",
         "../../#providers",
+        "../../accessibility/",
         "../../assets/styles.css",
         "../../images/providers/goutham_dronavalli.webp",
         "../../llms.txt",
+        "../../privacy/",
+        "../../terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
       ],

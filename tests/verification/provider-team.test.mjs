@@ -9,6 +9,21 @@ import { previewProviderDirectoryPaths } from '../../src/lib/preview-paths.mjs';
 
 const centex = JSON.parse(readFileSync('sites/centexmh/practice.json', 'utf8'));
 
+test('portrait focal coordinates accept percentages and reject incomplete or unsafe values', () => {
+  const python = 'import json,sys; from pathlib import Path; from scripts.validate_practice_json import validate_practice_config; validate_practice_config(json.load(sys.stdin), Path("sites/centexmh/practice.json"))';
+  for (const [position, valid] of [
+    [{ x: 50, y: 20 }, true], [{ x: 0, y: 100 }, true],
+    [{ x: -1, y: 20 }, false], [{ x: 50, y: 101 }, false],
+    [{ x: true, y: 20 }, false], [{ x: '50%; color:red', y: 20 }, false],
+    [{ x: 50 }, false],
+  ]) {
+    const config = structuredClone(centex);
+    config.providers[0].imagePosition = position;
+    const result = spawnSync('python3', ['-c', python], { input: JSON.stringify(config), encoding: 'utf8' });
+    assert.equal(result.status === 0, valid, result.stderr);
+  }
+});
+
 test('homepage selection retains all directory members and stable profile identities', () => {
   assert.deepEqual(homepageProviders(centex).map(p => p.slug), ['michael-musgrove', 'julie-williams', 'emily-morris']);
   const schemas = practiceHomepageSchemas(centex);

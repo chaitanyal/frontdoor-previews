@@ -22,7 +22,7 @@
 
 @layer components {
   .page-shell { @apply mx-auto max-w-7xl px-6 lg:px-8; }
-  .section { @apply px-6 py-20 lg:px-8; }
+  .section { @apply px-6 py-14 md:py-20 lg:px-8; }
   .section-surface-location { @apply bg-sage-100; }
   .section-shell { @apply mx-auto max-w-7xl; }
   .eyebrow { @apply text-sm font-semibold uppercase tracking-wide text-brand-accent; }
@@ -333,8 +333,8 @@ html[data-theme='editorial-healthcare'] .home-trust-item:first-child {
 }
 
 html[data-theme='editorial-healthcare'] .section {
-  padding-top: clamp(6rem, 9vw, 9rem);
-  padding-bottom: clamp(6rem, 9vw, 9rem);
+  padding-top: clamp(3.5rem, 7vw, 8rem);
+  padding-bottom: clamp(3.5rem, 7vw, 8rem);
 }
 
 html[data-theme='editorial-healthcare'] .eyebrow {
@@ -697,8 +697,8 @@ html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][
 }
 
 html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .section {
-  padding-top: clamp(5.5rem, 8vw, 8rem);
-  padding-bottom: clamp(5.5rem, 8vw, 8rem);
+  padding-top: clamp(3.5rem, 7vw, 7rem);
+  padding-bottom: clamp(3.5rem, 7vw, 7rem);
 }
 
 html:is([data-theme='structured-clinical'], [data-theme='editorial-healthcare'][data-design-variant='reflective']) .section-copy {
@@ -1054,10 +1054,6 @@ html[data-theme='structured-clinical'] .home-faq-list details > div {
 html[data-theme='structured-clinical'] .home-resources {
   border-color: var(--color-border);
   background: var(--color-sage);
-}
-
-html[data-theme='structured-clinical'] .home-resources > div > div:not(:first-child) {
-  border-radius: 18px;
 }
 
 html[data-theme='structured-clinical'] .practice-footer {
@@ -2143,6 +2139,84 @@ html[data-theme='structured-clinical'] .provider-affiliations-card {
 
 @media (max-width: 768px) {
   .conditions-leaf { display: none; }
+}
+
+/* Shared finishing rules: open supporting lists, readable copy, and public footer tools.
+   Keep action, financial, location, and credential panels as the visual anchors. */
+.section-title, .provider-section-title { text-wrap: balance; }
+.section-copy { max-width: 42rem; color: var(--color-text-secondary); }
+html[data-theme] .home-location .section-copy { color: var(--color-text-primary); }
+html[data-theme='calm-healthcare'] .eyebrow { color: var(--color-primary); }
+html[data-theme='calm-healthcare'] .badge-brand { color: #215D3F; }
+html[data-theme='editorial-healthcare'] .eyebrow,
+html[data-theme='structured-clinical'] .eyebrow { font-size: 0.75rem; }
+.home-resources [data-section-summary] { color: var(--color-text-secondary); }
+.home-faq-list details > div { max-width: 46rem; }
+.home-faq-list summary { gap: 1rem; }
+html[data-theme='calm-healthcare'] .home-faq-list,
+html[data-theme='structured-clinical'] .home-faq-list {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+html[data-theme='calm-healthcare'] .home-faq-list details,
+html[data-theme='structured-clinical'] .home-faq-list details {
+  border-color: var(--color-border);
+  padding: 1.25rem 0;
+}
+html[data-theme='structured-clinical'] .home-faq-list details:hover,
+html[data-theme='structured-clinical'] .home-faq-list details[open] {
+  background: transparent;
+}
+.home-resources .patient-resource-list {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+}
+.home-resources .patient-resource-list > div { padding-inline: 0; border-color: var(--color-border); }
+.home-resources .patient-resource-list a { margin-inline: 0; padding-block: 0.75rem; }
+html[data-theme='structured-clinical'] .home-resources .patient-resource-list {
+  border-top: 0;
+  border-radius: 0;
+}
+.practice-footer-tools { margin-bottom: 1.5rem; border-bottom: 1px solid var(--color-border); padding-bottom: 1.25rem; }
+.practice-footer > div { color: var(--color-text-secondary); }
+.practice-footer-heading { color: var(--color-text-primary); font-weight: 600; }
+.practice-footer-tools ul { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin-top: 0.5rem; }
+.practice-footer-tools a,
+.practice-footer-legal a,
+.practice-legal-footer nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--color-text-secondary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25rem;
+}
+.practice-footer-tools a:hover,
+.practice-footer-legal a:hover,
+.practice-legal-footer nav a:hover { text-decoration: underline; }
+.practice-legal-footer nav { flex-wrap: wrap; column-gap: 1.5rem; row-gap: 0.25rem; }
+html[data-theme='structured-clinical'] .practice-footer-tools { border-color: rgb(255 255 255 / 25%); }
+html[data-theme='structured-clinical'] .practice-footer-heading { color: #fff; }
+html[data-theme='structured-clinical'] .practice-footer,
+html[data-theme='structured-clinical'] .practice-footer > div,
+html[data-theme='structured-clinical'] .practice-footer a { color: rgb(255 255 255 / 87%); }
+@media (max-width: 767px) {
+  .home-conditions ul, .home-faq-list { margin-top: 2rem; }
+  .home-conditions li { padding-block: 1rem; }
+  .home-location .section-shell > .grid { margin-top: 2rem; gap: 1.5rem; }
+  .home-location .soft-card > .p-8, .home-location .soft-card.p-8 { padding: 1.5rem; }
+  html[data-theme='calm-healthcare'] .home-financial-inner { padding: 1.5rem; }
+  .provider-body-copy { font-size: 1rem; line-height: 1.75; }
+  html[data-theme='structured-clinical'] .provider-body-copy,
+  html[data-theme='editorial-healthcare'] .provider-body-copy { font-size: 1rem; line-height: 1.8; }
+  .practice-footer-tools ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.25rem 1rem; }
+  .practice-footer-tools a { overflow-wrap: anywhere; }
 }
 
 @media (prefers-reduced-motion: reduce) {
