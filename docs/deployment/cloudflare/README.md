@@ -50,6 +50,11 @@ Examples:
 
 ---
 
+## Build triggers
+
+[Conservative Pages watch paths](build-watch-paths.md) records live settings,
+the directory boundary, validation, future-project setup, and rollback.
+
 ## Infrastructure Philosophy
 
 - Prefer Infrastructure as Code when practical.

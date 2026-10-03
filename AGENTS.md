@@ -427,3 +427,18 @@ explicitly run `npm run accept:output-contracts` and required verification. Revi
 and acceptance reuse validated artifacts; acceptance does not count as passing
 verification. Do not automatically accept unexpected differences. Ordinary browser
 assertions omit extensive screenshots; use `--screenshots` for visual review.
+
+
+## Cloudflare build-watch boundary
+
+All three current Pages projects include `*` and exclude only `docs/*` and
+`assessments/*`; unknown/new paths still trigger builds. Build caching is enabled.
+See [live policy and future-project setup](docs/deployment/cloudflare/build-watch-paths.md).
+Keep publishable inputs in `sites/`, `marketing/`, `shared/`, and `src/`. If new build
+code consumes an excluded directory, remove that exclusion on dependent Pages
+projects before releasing the dependency. Do not use the local verification
+selector to narrow deployment triggers or exclude other practices, Workers, tests,
+or Markdown generally. When modifying watch settings, run
+`node scripts/validate_cloudflare_watch_paths.mjs`, review all build dependencies,
+then read back saved settings. Editing the policy JSON alone does not update Pages.
+When uncertain, use includes `*` with no exclusions.

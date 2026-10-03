@@ -7,6 +7,7 @@ for maintenance rules, and the [Astro source guide](../src/README.md) for code l
 
 - [Google Maps integration](integrations/google-maps.md): design, rollout notes, and verification.
 - [Cloudflare deployment](deployment/cloudflare/README.md): infrastructure overview.
+- [Conservative Cloudflare build triggers](deployment/cloudflare/build-watch-paths.md): live watch/cache settings, validation, and future-project setup.
 - [DNS](deployment/cloudflare/dns.md), [manual setup](deployment/cloudflare/manual-setup.md),
   and [rate limits](deployment/cloudflare/rate-limit.md).
 - [Analytics Worker](../analytics-worker/README.md) and [Places Worker](../places-worker/README.md):

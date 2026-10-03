@@ -1,0 +1,10 @@
+{
+  "path_includes": ["*"],
+  "path_excludes": ["docs/*", "assessments/*"],
+  "build_caching": true,
+  "projects": {
+    "drdronavalli": "SITE_ID=drdronavalli npm run build:practice",
+    "frontdoor-health": "npm run build:marketing",
+    "frontdoor-previews": "npm run build:preview:all"
+  }
+}

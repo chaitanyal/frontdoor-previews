@@ -6,8 +6,9 @@ Prepared October 3, 2026 against commit `180d56c`.
 are included in the items 1–3 release to `origin main`, using automatic Cloudflare
 deployment where enabled. Cloudflare deployment status is not checked.
 Items 4–5 are implemented and verified, and included in the items 4–5 release
-to `origin main`. Items 6–7 remain proposed. Cloudflare settings were not changed. AGENTS.md describes the current
-verification workflow.
+to `origin main`. Item 6 remains proposed. Item 7 watch/cache settings were applied
+and read back on October 3; its repository documentation/validator are included
+in the item 7 release to `origin main`. AGENTS.md describes the current verification and deployment boundaries.
 
 ## Completion record — October 3, 2026
 
@@ -54,7 +55,7 @@ explicit when manually requested, and behavior routing now selects required suit
 generated state do not support concurrent independent verification/build commands.
 The fingerprint is intentionally broad: unrelated relevant input changes can
 invalidate artifacts. Input fingerprints remain broad; target/check selection is narrower. Parallelism
-and Cloudflare optimization remain in items 6–7.
+remain deferred in item 6. Item 7 was subsequently applied as recorded below.
 
 ### Validation and timing
 
@@ -148,7 +149,40 @@ test; the release also runs the installed staged hook during the commit.
 
 Items 4–5 are included in the release to `origin main`, using automatic Cloudflare
 deployment where enabled. Cloudflare deployment status is not checked.
-Cloudflare settings were not changed; items 6–7 remain deferred.
+At completion of items 4–5, Cloudflare settings had not changed; item 7 was
+subsequently applied as recorded below. Item 6 remains deferred.
+
+## Item 7 completion — October 3, 2026
+
+Applied and read back on `drdronavalli`, `frontdoor-health`, and
+`frontdoor-previews`: include `*`, exclude only `docs/*` and `assessments/*`, enable
+build caching. Previously all three included `*`, excluded nothing, and did not
+report an explicit build-cache setting. Git integration, automatic deployments,
+branches, build commands/output roots, and deployment environments were preserved.
+
+The user's priority is **false negatives matter more than false positives**.
+No per-practice include list, broad Markdown exclusion, unknown-directory exclusion,
+or narrowing based on local verification routing was added. Root Markdown, tests,
+Workers, other practice inputs, scripts, dependencies, configuration, and new paths
+still trigger all three projects. The audited excluded directories are not build
+inputs; remove exclusions before adding any such dependency in future.
+
+[Live settings, audit, future-project setup and rollback](deployment/cloudflare/build-watch-paths.md)
+and [policy](deployment/cloudflare/build-watch-policy.json) document the external
+configuration. The local validator passed three projects × 18 cases and protected
+228 tracked source/build/publishing/check paths. It checked configured asset
+references and replayed 80 commits; only one would be skipped, confirming modest,
+deliberate savings. This tests the documented matching model; no live webhook/test
+push or production deployment check was performed. Build-cache speedup has not
+been measured. Rollback is includes `*`, excludes empty.
+
+Repository documentation and validator changes are included in the item 7 release
+to `origin main`. Automatic Git deployment remains enabled; deployment status is
+not checked.
+Item 6 remains deferred. Final repository verification passed all eight output
+contract targets, configuration regressions, and 23 theme/provider/analytics
+browser assertions. No baselines or production website content changed.
+`git diff --check` passed.
 
 ## Objective
 
@@ -316,9 +350,9 @@ References: [Cloudflare build-watch paths](https://developers.cloudflare.com/pag
 
 ## Rollout and success criteria
 
-Items **1–5 are implemented** and included in releases to `origin main`. Next consider
-measured parallelism and deployment
-configuration work in 6–7.
+Items **1–5 are implemented** and included in releases to `origin main`. Item 7
+settings are applied with conservative exclusions; its documentation/validator
+are included in the item 7 release to `origin main`. Item 6 remains deferred.
 
 - At most one build per required target in a verification run.
 - No build during commit when the exact staged change has valid verification.
