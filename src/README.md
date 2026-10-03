@@ -79,8 +79,11 @@ they never render scheduling, portal, or telehealth destinations. Indexing follo
 the practice configuration. Indexable builds discover these routes in the sitemap
 and list them in `llms.txt`.
 The production `llms.txt` guide summarizes enabled homepage sections, approved
-payment and telehealth copy, and explicit practice-level availability. Factual
-details precede page-link sections; larger rosters and treatments get separate
+payment and telehealth copy, and explicit practice-level availability. Office
+hours come from the displayed `location.hours`, with `location.timeZone`
+when supplied and telehealth-only days from `location.weeklyHours`; absent hours
+or time zones are not guessed.
+Factual details precede page-link sections; larger rosters and treatments get separate
 link groups. Indexable standalone pages link to the guide with a route-relative
 `rel="describedby"` link. Preview and nonindexable builds publish neither the guide
 nor its discovery link.

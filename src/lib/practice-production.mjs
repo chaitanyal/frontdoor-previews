@@ -101,6 +101,16 @@ export function practiceLlms(config, siteUrl) {
   if (practice.phone) {
     lines.push(`- Phone: ${markdownText(practice.phone)}`);
   }
+  const location = config.location || {};
+  if (location.hours?.length) {
+    const timeZone = location.timeZone ? ` (${markdownText(location.timeZone)})` : '';
+    const hours = location.hours.map(([day, schedule]) => `${markdownText(day)}, ${markdownText(schedule)}`).join('; ');
+    lines.push(`- Office hours${timeZone}: ${hours}.`);
+    const telehealthDays = Object.entries(location.weeklyHours || {})
+      .filter(([, schedule]) => schedule.telehealthOnly === true)
+      .map(([day]) => markdownText(day));
+    if (telehealthDays.length) lines.push(`- Telehealth-only days: ${telehealthDays.join(', ')}.`);
+  }
   if (practice.acceptsNewPatients === true) {
     lines.push('- Accepting new patients: Yes');
   } else if (practice.acceptsNewPatients === false) {
@@ -122,7 +132,7 @@ export function practiceLlms(config, siteUrl) {
   if (financialMode && paymentSummary) {
     lines.push(`- Payment: ${markdownText(paymentSummary)}`);
   }
-  const telehealthSummary = config.location?.telehealthNotice || config.appointmentSection?.telehealth?.summary;
+  const telehealthSummary = location.telehealthNotice || config.appointmentSection?.telehealth?.summary;
   if (telehealthSummary) {
     lines.push(`- Telehealth: ${markdownText(telehealthSummary)}`);
   }

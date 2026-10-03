@@ -6,6 +6,25 @@ import { practiceLlms } from '../../src/lib/practice-production.mjs';
 const practice = (slug) => JSON.parse(readFileSync(`sites/${slug}/practice.json`, 'utf8'));
 const overview = (llms) => llms.split('\n').find((line) => line.startsWith('- [Practice overview]'));
 
+test('office hours retain configured schedules, timezone and telehealth-only distinctions without guessed values', () => {
+  const drd = practice('drdronavalli');
+  const llms = practiceLlms(drd, 'https://example.com');
+  assert.match(llms, /- Office hours \(America\/Chicago\):/);
+  assert.ok(llms.includes('Monday, 9:00 AM – 5:00 PM'));
+  assert.ok(llms.includes('Saturday–Sunday, Closed'));
+  const northHills = practiceLlms(practice('northhillspsychiatry'), 'https://example.com');
+  assert.ok(northHills.includes('Monday, 10:30 AM – 6:00 PM'));
+  assert.ok(northHills.includes('Tuesday, 8:00 AM – 3:00 PM'));
+  assert.ok(northHills.includes('Wednesday, Closed'));
+  const northwest = practiceLlms(practice('northwestpsychiatry'), 'https://example.com');
+  assert.ok(northwest.includes('Friday, 8:00 AM – 3:00 PM'));
+  assert.match(northwest, /- Telehealth-only days: Friday\./);
+  delete drd.location.timeZone;
+  assert.match(practiceLlms(drd, 'https://example.com'), /- Office hours: Monday,/);
+  delete drd.location.hours;
+  assert.doesNotMatch(practiceLlms(drd, 'https://example.com'), /- Office hours|- Telehealth-only days:/);
+});
+
 test('private-pay guides describe payment and enabled sections without implying insurance participation', () => {
   for (const slug of ['northhillspsychiatry', 'mariposa']) {
     const config = practice(slug);
