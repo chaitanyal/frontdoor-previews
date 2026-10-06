@@ -194,11 +194,91 @@ test('@analytics preserves preview CTA events and destinations', async ({ page }
   expect(network.unexpectedRequests).toEqual([]);
 });
 
+for (const [label, origin, prefix, slug] of [
+  ['standalone', 'https://drdronavalli.com', '', 'drdronavalli'],
+  ['preview', 'https://frontdoor.health', '/previews/northhillspsychiatry', 'northhillspsychiatry'],
+]) {
+  test(`@analytics ${label} page views and CTA clicks retain campaigns across navigation`, async ({ page }) => {
+    skipUnless(label === 'standalone' ? 'practice' : 'preview');
+    const network = await installMockNetwork(page);
+    await page.goto(`${origin}${prefix}/?utm_campaign=test`);
+    await expect.poll(() => network.analyticsRequests.length).toBe(1);
+
+    const providerLink = page.locator('a.home-provider-card').first();
+    const providerPath = new URL(await providerLink.getAttribute('href'), page.url()).pathname;
+    await providerLink.click();
+    await expect(page).toHaveURL(`${origin}${providerPath}`);
+    await expect.poll(() => network.analyticsRequests.length).toBe(2);
+
+    for (const [index, [ctaType, eventType]] of [
+      ['phone', 'phone_click'],
+      ['email', 'email_click'],
+      ['newPatient', 'new_patient_click'],
+      ['existingPatient', 'existing_patient_click'],
+    ].entries()) {
+      // Preview appointment actions are intentionally disabled.
+      const cta = page.locator(`[data-frontdoor-cta="${ctaType}"]:visible`).first();
+      if (label === 'preview' && await cta.count() === 0) continue;
+      await cta.click();
+      await expect.poll(() => network.analyticsRequests.filter(request => request.payload.event_type).length).toBe(index + 1);
+      expect(network.analyticsRequests.at(-1).payload).toMatchObject({
+        event_type: eventType,
+        page_path: providerPath,
+      });
+    }
+
+    for (const route of ['privacy', 'terms', 'accessibility']) {
+      const count = network.analyticsRequests.length;
+      await page.goto(`${origin}${prefix}/${route}/`);
+      await expect.poll(() => network.analyticsRequests.length).toBe(count + 1);
+    }
+
+    expect(network.analyticsRequests.filter(request => request.payload.event === 'page_view').map(request => request.payload.path)).toEqual([
+      `${prefix}/`, providerPath, `${prefix}/privacy/`, `${prefix}/terms/`, `${prefix}/accessibility/`,
+    ]);
+    for (const request of network.analyticsRequests) {
+      expect(request.payload).toMatchObject({ practice_slug: slug, utm_campaign: 'test' });
+    }
+    expect(await page.evaluate(() => localStorage.getItem('fdh_utm_campaign_expires_at'))).toBe(
+      String(new Date(fixedTimestamp()).getTime() + UTM_EXPIRY_MS),
+    );
+    expect(network.unexpectedRequests).toEqual([]);
+  });
+}
+
+test('@analytics standalone page views reuse campaign replacement and expiration', async ({ page }) => {
+  skipUnless('practice');
+  const network = await installMockNetwork(page);
+  await page.goto('https://drdronavalli.com/?utm_campaign=test');
+  await expect.poll(() => network.analyticsRequests.length).toBe(1);
+  await page.goto('https://drdronavalli.com/privacy/?utm_campaign=replacement');
+  await expect.poll(() => network.analyticsRequests.length).toBe(2);
+  await page.goto('https://drdronavalli.com/');
+  await expect.poll(() => network.analyticsRequests.length).toBe(3);
+  await page.locator('[data-frontdoor-cta="phone"]').first().click();
+  await expect.poll(() => network.analyticsRequests.length).toBe(4);
+  expect(network.analyticsRequests.slice(1).map(request => request.payload.utm_campaign)).toEqual([
+    'replacement', 'replacement', 'replacement',
+  ]);
+
+  await page.evaluate(() => localStorage.setItem('fdh_utm_campaign_expires_at', String(Date.now() - 1)));
+  await page.reload();
+  await expect.poll(() => network.analyticsRequests.length).toBe(5);
+  await page.locator('[data-frontdoor-cta="phone"]').first().click();
+  await expect.poll(() => network.analyticsRequests.length).toBe(6);
+  for (const request of network.analyticsRequests.slice(4)) {
+    expect(request.payload).not.toHaveProperty('utm_campaign');
+    expect(request.payload.practice_slug).toBe('drdronavalli');
+  }
+  expect(network.unexpectedRequests).toEqual([]);
+});
+
 test('@analytics preserves every CTA mapping, destination, context, and ID reuse', async ({ page }) => {
   skipUnless('practice');
   const network = await installMockNetwork(page);
   await installKnownStorage(page);
   await page.goto('https://drdronavalli.com/');
+  await expect.poll(() => network.analyticsRequests.length).toBe(1);
 
   const cases = [
     ['email', 'email_click'],
@@ -219,7 +299,7 @@ test('@analytics preserves every CTA mapping, destination, context, and ID reuse
     });
 
     await cta.click();
-    await expect.poll(() => network.analyticsRequests.length).toBe(index + 1);
+    await expect.poll(() => network.analyticsRequests.length).toBe(index + 2);
 
     expect(network.analyticsRequests.at(-1)).toEqual({
       url: 'https://analytics.frontdoor.health/event',
@@ -242,7 +322,7 @@ test('@analytics preserves every CTA mapping, destination, context, and ID reuse
     });
   }
 
-  expect(network.analyticsRequests).toHaveLength(cases.length);
+  expect(network.analyticsRequests).toHaveLength(cases.length + 1);
   expect(network.unexpectedRequests).toEqual([]);
 });
 
@@ -256,7 +336,7 @@ test('@analytics copy-email tracking does not break clipboard and toast behavior
   const email = await emailButton.getAttribute('data-copy-email');
   await emailButton.click();
 
-  await expect.poll(() => network.analyticsRequests.length).toBe(1);
+  await expect.poll(() => network.analyticsRequests.length).toBe(2);
   await expect.poll(() => page.evaluate(() => window.__clipboardWrites)).toEqual([email]);
   await expect(page.locator('[data-copy-toast]')).toBeVisible();
   expect(await page.evaluate(() => window.__promptCalls)).toEqual([]);
@@ -269,7 +349,7 @@ test('@analytics creates and reuses pseudonymous session and visitor IDs', async
 
   await page.locator('[data-frontdoor-cta="phone"]').first().click();
   await page.locator('[data-frontdoor-cta="email"]').first().click();
-  await expect.poll(() => network.analyticsRequests.length).toBe(2);
+  await expect.poll(() => network.analyticsRequests.length).toBe(3);
 
   const firstPayload = network.analyticsRequests[0].payload;
   const secondPayload = network.analyticsRequests[1].payload;
@@ -282,6 +362,8 @@ test('@analytics creates and reuses pseudonymous session and visitor IDs', async
   expect(firstPayload.visitor_id).toMatch(/^(?:[0-9a-f-]{36}|id-[a-z0-9-]+)$/);
   expect(secondPayload.session_id).toBe(firstPayload.session_id);
   expect(secondPayload.visitor_id).toBe(firstPayload.visitor_id);
+  expect(network.analyticsRequests[2].payload.session_id).toBe(firstPayload.session_id);
+  expect(network.analyticsRequests[2].payload.visitor_id).toBe(firstPayload.visitor_id);
   expect(storedIds).toEqual({
     sessionId: firstPayload.session_id,
     visitorId: firstPayload.visitor_id,

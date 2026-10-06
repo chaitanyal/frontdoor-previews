@@ -3,7 +3,7 @@
  * Practice document shell: theme attributes/tokens, SEO, JSON-LD, and runtime scripts.
  * Caller supplies config, resolved theme, pageKind, and a route-relative stylesheetHref.
  * Default slot is the body; named head/scripts slots extend the document.
- * Home/provider/directory/treatment pages enable CTA tracking and Lucide.
+ * All pages enable practice analytics; home/provider/directory/treatment enable Lucide.
  * Only indexable standalone practice builds link to their generated llms.txt.
  */
 import {
@@ -107,9 +107,9 @@ const jsonLdBlocks = tracksPractice
       )
     }
     <link rel="stylesheet" href={stylesheetHref} />
-    {tracksPractice && <script is:inline set:html={practiceSlugScript}></script>}
+    <script is:inline set:html={practiceSlugScript}></script>
     <script is:inline src="/shared/attribution.js"></script>
-    {tracksPractice && <script is:inline src="/shared/analytics.js"></script>}
+    <script is:inline src="/shared/analytics.js"></script>
     {tracksPractice && <script is:inline src="https://unpkg.com/lucide@latest"></script>}
     <style is:inline set:html={`:root{${themeCssProperties(theme)}}`}></style>
     <slot name="head" />

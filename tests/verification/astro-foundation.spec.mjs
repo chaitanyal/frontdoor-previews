@@ -199,8 +199,8 @@ test.describe.serial('Astro verification foundation', () => {
     expect(attributionIndex).toBeGreaterThan(slugIndex);
     expect(analyticsIndex).toBeGreaterThan(attributionIndex);
     expect(practicePrivacyHtml).toContain('/shared/attribution.js');
-    expect(practicePrivacyHtml).not.toContain('/shared/analytics.js');
-    expect(practicePrivacyHtml).not.toContain('FRONTDOOR_PRACTICE_SLUG');
+    expect(practicePrivacyHtml).toContain('/shared/analytics.js');
+    expect(practicePrivacyHtml).toContain('FRONTDOOR_PRACTICE_SLUG');
 
     const previewPrivacyHtml = readFileSync(
       path.join(
@@ -216,8 +216,8 @@ test.describe.serial('Astro verification foundation', () => {
       'utf8',
     );
     expect(previewPrivacyHtml).toContain('/shared/attribution.js');
-    expect(previewPrivacyHtml).not.toContain('/shared/analytics.js');
-    expect(previewPrivacyHtml).not.toContain('FRONTDOOR_PRACTICE_SLUG');
+    expect(previewPrivacyHtml).toContain('/shared/analytics.js');
+    expect(previewPrivacyHtml).toContain('FRONTDOOR_PRACTICE_SLUG');
     expect(previewPrivacyHtml).toContain(
       '<link rel="stylesheet" href="../assets/styles.css">',
     );

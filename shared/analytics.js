@@ -79,12 +79,12 @@
     return context;
   }
 
-  function trackPreviewPageView() {
+  function trackPageView() {
     try {
       if (isLocalPreview()) return;
 
       const path = window.location.pathname;
-      const practiceSlug = getPreviewSlug(path);
+      const practiceSlug = getPreviewSlug(path) || window.FRONTDOOR_PRACTICE_SLUG;
       if (!practiceSlug) return;
 
       const payload = {
@@ -146,8 +146,8 @@
   });
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", trackPreviewPageView);
+    document.addEventListener("DOMContentLoaded", trackPageView, { once: true });
   } else {
-    trackPreviewPageView();
+    trackPageView();
   }
 })();

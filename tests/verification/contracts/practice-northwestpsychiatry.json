@@ -82,12 +82,14 @@
         "../assets/styles.css",
         "../privacy/",
         "../terms/",
+        "/shared/analytics.js",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
-        "/shared/attribution.js"
+        "/shared/attribution.js",
+        "/shared/analytics.js"
       ],
-      "inlineScriptCount": 0,
+      "inlineScriptCount": 1,
       "ctaCounts": {}
     },
     {
@@ -113,12 +115,14 @@
         "../assets/styles.css",
         "../privacy/",
         "../terms/",
+        "/shared/analytics.js",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
-        "/shared/attribution.js"
+        "/shared/attribution.js",
+        "/shared/analytics.js"
       ],
-      "inlineScriptCount": 0,
+      "inlineScriptCount": 1,
       "ctaCounts": {}
     },
     {
@@ -295,12 +299,14 @@
         "../assets/styles.css",
         "../privacy/",
         "../terms/",
+        "/shared/analytics.js",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
-        "/shared/attribution.js"
+        "/shared/attribution.js",
+        "/shared/analytics.js"
       ],
-      "inlineScriptCount": 0,
+      "inlineScriptCount": 1,
       "ctaCounts": {}
     }
   ],
