@@ -84,8 +84,11 @@
       if (isLocalPreview()) return;
 
       const path = window.location.pathname;
-      const practiceSlug = getPreviewSlug(path) || window.FRONTDOOR_PRACTICE_SLUG;
+      const previewSlug = getPreviewSlug(path);
+      const practiceSlug = previewSlug || window.FRONTDOOR_PRACTICE_SLUG;
       if (!practiceSlug) return;
+      // Production views without campaign attribution must not invoke the Worker.
+      if (!previewSlug && !getUtmCampaign()) return;
 
       const payload = {
         event: "page_view",

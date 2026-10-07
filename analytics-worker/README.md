@@ -2,6 +2,16 @@
 
 Minimal Cloudflare Worker for recording preview page views and CTA click events in the existing `frontdoor_analytics` D1 database.
 
+All production page views require a nonempty `utm_campaign`. The shared browser
+script skips sending unattributed production views. The Worker also rejects
+missing, blank, or non-string campaigns with `{ "ok": true, "skipped": true }`
+without a D1 write, covering older clients and direct requests. Existing browser
+attribution retained for 60 days qualifies. Preview page views under
+`/previews/<practice>/` and CTA clicks continue to be recorded without a campaign.
+
+Run `npm test` (Node.js 22.18+ with native TypeScript support) and
+`npm run typecheck` from this directory to verify the Worker.
+
 This Worker only stores:
 
 - `practice_slug`

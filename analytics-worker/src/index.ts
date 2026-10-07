@@ -220,6 +220,14 @@ export default {
     const visitorId = optionalString(payload.visitor_id, 100);
     const eventTimestamp = optionalString(payload.timestamp, 64);
     const utmCampaign = optionalString(payload.utm_campaign, 500);
+    // Require campaign attribution for production page views, including older clients.
+    if (
+      eventType === "page_view" &&
+      !/^\/previews\/[^/]+(?:\/|$)/.test(pagePath ?? "") &&
+      !utmCampaign
+    ) {
+      return jsonResponse({ ok: true, skipped: true }, 200, origin);
+    }
     const practiceName = optionalString(payload.practice_name, 150);
     const specialty = optionalString(payload.specialty, 100);
     const hasWebsite =

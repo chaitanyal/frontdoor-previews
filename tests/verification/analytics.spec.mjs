@@ -246,6 +246,48 @@ for (const [label, origin, prefix, slug] of [
   });
 }
 
+for (const origin of ['https://drdronavalli.com', 'https://www.drdronavalli.com', 'https://another-practice.example']) {
+  test(`@analytics ${origin} skips unattributed production views but preserves clicks`, async ({ page }) => {
+    skipUnless('practice');
+    const network = await installMockNetwork(page);
+    if (origin === 'https://another-practice.example') {
+      // Exercise the shared runtime on a different practice without a new site build.
+      await page.route(`${origin}/**`, route => route.fulfill({
+        contentType: 'text/html',
+        body: `<html><head><script>window.FRONTDOOR_PRACTICE_SLUG = 'another-practice';</script>
+          <script>${readFileSync(path.join(repoRoot, 'shared/attribution.js'), 'utf8')}</script>
+          <script>${readFileSync(path.join(repoRoot, 'shared/analytics.js'), 'utf8')}</script></head>
+          <body><button data-frontdoor-cta="phone" data-frontdoor-destination="tel:+15125550100">Call</button></body></html>`,
+      }));
+    }
+    for (const route of ['/', '/privacy/', '/?utm_campaign=', '/?utm_campaign=%20%20']) {
+      await page.goto(`${origin}${route}`);
+      expect(network.analyticsRequests).toEqual([]);
+      expect(await page.evaluate(() => localStorage.getItem('fdh_visitor_id'))).toBeNull();
+    }
+    await page.locator('[data-frontdoor-cta="phone"]').first().click();
+    await expect.poll(() => network.analyticsRequests.length).toBe(1);
+    expect(network.analyticsRequests[0].payload.event_type).toBe('phone_click');
+    expect(network.analyticsRequests[0].payload).not.toHaveProperty('utm_campaign');
+    await page.goto(`${origin}/?utm_campaign=${UTM_CAMPAIGN}`);
+    await expect.poll(() => network.analyticsRequests.length).toBe(2);
+    expect(network.analyticsRequests[1].payload).toMatchObject({ event: 'page_view', utm_campaign: UTM_CAMPAIGN });
+    expect(network.unexpectedRequests).toEqual([]);
+  });
+}
+
+test('@analytics preview views still send without campaigns', async ({ page }) => {
+  skipUnless('preview');
+  const network = await installMockNetwork(page);
+  for (const [index, slug] of ['northwestpsychiatry', 'centexmh'].entries()) {
+    await page.goto(`https://frontdoor.health/previews/${slug}/`);
+    await expect.poll(() => network.analyticsRequests.length).toBe(index + 1);
+    expect(network.analyticsRequests[index].payload).toMatchObject({ event: 'page_view', practice_slug: slug });
+    expect(network.analyticsRequests[index].payload).not.toHaveProperty('utm_campaign');
+  }
+  expect(network.unexpectedRequests).toEqual([]);
+});
+
 test('@analytics standalone page views reuse campaign replacement and expiration', async ({ page }) => {
   skipUnless('practice');
   const network = await installMockNetwork(page);
@@ -263,9 +305,9 @@ test('@analytics standalone page views reuse campaign replacement and expiration
 
   await page.evaluate(() => localStorage.setItem('fdh_utm_campaign_expires_at', String(Date.now() - 1)));
   await page.reload();
-  await expect.poll(() => network.analyticsRequests.length).toBe(5);
+  expect(network.analyticsRequests.length).toBe(4);
   await page.locator('[data-frontdoor-cta="phone"]').first().click();
-  await expect.poll(() => network.analyticsRequests.length).toBe(6);
+  await expect.poll(() => network.analyticsRequests.length).toBe(5);
   for (const request of network.analyticsRequests.slice(4)) {
     expect(request.payload).not.toHaveProperty('utm_campaign');
     expect(request.payload.practice_slug).toBe('drdronavalli');
@@ -345,7 +387,7 @@ test('@analytics copy-email tracking does not break clipboard and toast behavior
 test('@analytics creates and reuses pseudonymous session and visitor IDs', async ({ page }) => {
   skipUnless('practice');
   const network = await installMockNetwork(page);
-  await page.goto('https://drdronavalli.com/');
+  await page.goto(`https://drdronavalli.com/?utm_campaign=${UTM_CAMPAIGN}`);
 
   await page.locator('[data-frontdoor-cta="phone"]').first().click();
   await page.locator('[data-frontdoor-cta="email"]').first().click();
