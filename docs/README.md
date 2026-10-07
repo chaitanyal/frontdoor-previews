@@ -13,6 +13,8 @@ for maintenance rules, and the [Astro source guide](../src/README.md) for code l
 - [Analytics Worker](../analytics-worker/README.md) and [Places Worker](../places-worker/README.md):
   backend-specific commands, run from each worker directory.
 - [Practice assessments and source evidence](../assessments/README.md).
+- [New-practice contact research](../../frontdoor-leadgen/docs/new-practice-contact-research.md): finding sourced email/LinkedIn contacts after shortlisting, with a repeatable workflow and automation boundaries.
+- [New-practice contact table](new-practice-contact-table.md): retained contacts, profile/WA filing attribution, and structured JSON records.
 - [Treatment pages](treatment-pages.md): configuration, shared routes, evidence and migration guidance.
 - [Practice link previews](social-share-images.md): clinic-facing metadata and branded share-image generation.
 - [Output and browser verification](../tests/verification/README.md).

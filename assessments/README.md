@@ -28,6 +28,7 @@ image-conversion scan.
 ## Current reports
 
 - [Central Texas Mental Health](centexmh/assessment.md)
+- [Kletz Psychiatry](kletz/assessment.md)
 - [North Hills Psychiatry](northhillspsychiatry/assessment.md)
 - [Northwest Psychiatry](northwestpsychiatry/assessment.md)
 

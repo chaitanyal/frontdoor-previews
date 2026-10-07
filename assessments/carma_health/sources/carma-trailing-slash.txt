@@ -1,0 +1,26 @@
+HTTP/2 308 
+cache-control: public, max-age=0, must-revalidate
+content-type: text/plain
+date: Fri, 02 Oct 2026 19:20:45 GMT
+location: /services/tms-therapy
+refresh: 0;url=/services/tms-therapy
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-id: cle1::6j2c2-1790968845534-88357c13b848
+
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 151518
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="tms-therapy"
+content-type: text/html; charset=utf-8
+date: Fri, 02 Oct 2026 19:20:45 GMT
+etag: "52a7aefad75762acfc0c2b61760b2240"
+last-modified: Thu, 01 Oct 2026 01:15:27 GMT
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-cache: HIT
+x-vercel-id: cle1::cstrm-1790968845600-064d2457e1ec
+content-length: 106738
+

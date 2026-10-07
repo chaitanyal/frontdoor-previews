@@ -1,0 +1,56 @@
+{
+  "input": "https://silentmindspsychiatry.com",
+  "normalized_url": "https://silentmindspsychiatry.com",
+  "domain": "silentmindspsychiatry.com",
+  "whois": "% IANA WHOIS server\n% for more information on IANA, visit http://www.iana.org\n% This query returned 1 object\n\nrefer:        whois.verisign-grs.com\n\ndomain:       COM\n\norganisation: VeriSign Global Registry Services\naddress:      12061 Bluemont Way\naddress:      Reston VA 20190\naddress:      United States of America (the)\n\ncontact:      administrative\nname:         Registry Customer Service\norganisation: VeriSign Global Registry Services\naddress:      12061 Bluemont Way\naddress:      Reston VA 20190\naddress:      United States of America (the)\nphone:        +1 703 925-6999\nfax-no:       +1 703 948 3978\ne-mail:       info@verisign-grs.com\n\ncontact:      technical\nname:         Registry Customer Service\norganisation: VeriSign Global Registry Services\naddress:      12061 Bluemont Way\naddress:      Reston VA 20190\naddress:      United States of America (the)\nphone:        +1 703 925-6999\nfax-no:       +1 703 948 3978\ne-mail:       info@verisign-grs.com\n\nnserver:      A.GTLD-SERVERS.NET 192.5.6.30 2001:503:a83e:0:0:0:2:30\nnserver:      B.GTLD-SERVERS.NET 192.33.14.30 2001:503:231d:0:0:0:2:30\nnserver:      C.GTLD-SERVERS.NET 192.26.92.30 2001:503:83eb:0:0:0:0:30\nnserver:      D.GTLD-SERVERS.NET 192.31.80.30 2001:500:856e:0:0:0:0:30\nnserver:      E.GTLD-SERVERS.NET 192.12.94.30 2001:502:1ca1:0:0:0:0:30\nnserver:      F.GTLD-SERVERS.NET 192.35.51.30 2001:503:d414:0:0:0:0:30\nnserver:      G.GTLD-SERVERS.NET 192.42.93.30 2001:503:eea3:0:0:0:0:30\nnserver:      H.GTLD-SERVERS.NET 192.54.112.30 2001:502:8cc:0:0:0:0:30\nnserver:      I.GTLD-SERVERS.NET 192.43.172.30 2001:503:39c1:0:0:0:0:30\nnserver:      J.GTLD-SERVERS.NET 192.48.79.30 2001:502:7094:0:0:0:0:30\nnserver:      K.GTLD-SERVERS.NET 192.52.178.30 2001:503:d2d:0:0:0:0:30\nnserver:      L.GTLD-SERVERS.NET 192.41.162.30 2001:500:d937:0:0:0:0:30\nnserver:      M.GTLD-SERVERS.NET 192.55.83.30 2001:501:b1f9:0:0:0:0:30\nds-rdata:     19718 13 2 8acbb0cd28f41250a80a491389424d341522d946b0da0c0291f2d3d771d7805a\n\nwhois:        whois.verisign-grs.com\n\nstatus:       ACTIVE\nremarks:      Registration information: http://www.verisigninc.com\n\ncreated:      1985-01-01\nchanged:      2026-03-10\nsource:       IANA\n\n# whois.verisign-grs.com\n\n   Domain Name: SILENTMINDSPSYCHIATRY.COM\n   Registry Domain ID: 3147994397_DOMAIN_COM-VRSN\n   Registrar WHOIS Server: whois.namecheap.com\n   Registrar URL: http://www.namecheap.com\n   Updated Date: 2026-09-30T16:29:45Z\n   Creation Date: 2026-09-30T16:29:40Z\n   Registry Expiry Date: 2027-09-30T16:29:40Z\n   Registrar: NameCheap, Inc.\n   Registrar IANA ID: 1068\n   Registrar Abuse Contact Email: abuse@namecheap.com\n   Registrar Abuse Contact Phone: +1.6613102107\n   Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited\n   Name Server: DNS1.REGISTRAR-SERVERS.COM\n   Name Server: DNS2.REGISTRAR-SERVERS.COM\n   DNSSEC: unsigned\n   URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/\n>>> Last update of whois database: 2026-10-06T03:04:02Z <<<\n\n# whois.namecheap.com\n\nDomain name: silentmindspsychiatry.com\nRegistry Domain ID: 3147994397_DOMAIN_COM-VRSN\nRegistrar WHOIS Server: whois.namecheap.com\nRegistrar URL: http://www.namecheap.com\nUpdated Date: 0001-01-01T00:00:00.00Z\nCreation Date: 2026-09-30T16:29:40.00Z\nRegistrar Registration Expiration Date: 2027-09-30T16:29:40.00Z\nRegistrar: NAMECHEAP INC\nRegistrar IANA ID: 1068\nRegistrar Abuse Contact Email: abuse@namecheap.com\nRegistrar Abuse Contact Phone: +1.9854014545\nReseller: NAMECHEAP INC\nDomain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited\nDomain Status: addPeriod https://icann.org/epp#addPeriod\nRegistry Registrant ID: \nRegistrant Name: Redacted for Privacy\nRegistrant Organization: Privacy service provided by Withheld for Privacy ehf\nRegistrant Street: Kalkofnsvegur 2 \nRegistrant City: Reykjavik\nRegistrant State/Province: Capital Region\nRegistrant Postal Code: 101\nRegistrant Country: IS\nRegistrant Phone: +354.4212434\nRegistrant Phone Ext: \nRegistrant Fax: \nRegistrant Fax Ext: \nRegistrant Email: 5c2893e2eba64aeb9add9492befcbabb.protect@withheldforprivacy.com\nRegistry Admin ID: \nAdmin Name: Redacted for Privacy\nAdmin Organization: Privacy service provided by Withheld for Privacy ehf\nAdmin Street: Kalkofnsvegur 2 \nAdmin City: Reykjavik\nAdmin State/Province: Capital Region\nAdmin Postal Code: 101\nAdmin Country: IS\nAdmin Phone: +354.4212434\nAdmin Phone Ext: \nAdmin Fax: \nAdmin Fax Ext: \nAdmin Email: 5c2893e2eba64aeb9add9492befcbabb.protect@withheldforprivacy.com\nRegistry Tech ID: \nTech Name: Redacted for Privacy\nTech Organization: Privacy service provided by Withheld for Privacy ehf\nTech Street: Kalkofnsvegur 2 \nTech City: Reykjavik\nTech State/Province: Capital Region\nTech Postal Code: 101\nTech Country: IS\nTech Phone: +354.4212434\nTech Phone Ext: \nTech Fax: \nTech Fax Ext: \nTech Email: 5c2893e2eba64aeb9add9492befcbabb.protect@withheldforprivacy.com\nName Server: dns1.registrar-servers.com\nName Server: dns2.registrar-servers.com\nDNSSEC: unsigned\nURL of the ICANN WHOIS Data Problem Reporting System: http://wdprs.internic.net/\n>>> Last update of WHOIS database: 2026-10-05T20:04:09.50Z <<<",
+  "dns": {
+    "a": "162.255.119.128",
+    "cname": "",
+    "ns": "dns2.registrar-servers.com.\ndns1.registrar-servers.com.",
+    "mx": "15 eforward4.registrar-servers.com.\n10 eforward1.registrar-servers.com.\n20 eforward5.registrar-servers.com.\n10 eforward3.registrar-servers.com.\n10 eforward2.registrar-servers.com.",
+    "txt": "\"v=spf1 include:spf.efwd.registrar-servers.com ~all\"",
+    "dmarc": ""
+  },
+  "pages": [
+    {
+      "url": "https://silentmindspsychiatry.com",
+      "status": "",
+      "final_url": "https://silentmindspsychiatry.com",
+      "title": "",
+      "description": "",
+      "file": "",
+      "keyword_hits": [],
+      "error": "timed out"
+    }
+  ],
+  "headers": {},
+  "blog_analysis": {
+    "detected": false,
+    "index_url": "",
+    "representative_article_url": "",
+    "platform": "",
+    "latest_visible_date": "",
+    "visible_post_count": 0,
+    "visible_dates": [],
+    "categories_or_tags_detected": false,
+    "pagination_detected": false,
+    "rss_detected": false,
+    "article_schema_detected": false,
+    "representative_article_canonical_detected": false,
+    "representative_article_meta_description_detected": false,
+    "representative_article_open_graph_detected": false,
+    "author_attribution_detected": false,
+    "external_asset_hosts": [],
+    "authorship_or_editorial_ownership": "not_confirmed"
+  },
+  "mobile_cta_analysis": {
+    "status": "not_detected",
+    "issue": "",
+    "cta_terms": [],
+    "cta_terms_in_nav": [],
+    "has_mobile_menu": false,
+    "has_sticky_or_floating_cta_signal": false,
+    "evidence": [],
+    "provider_evaluation_note": ""
+  }
+}

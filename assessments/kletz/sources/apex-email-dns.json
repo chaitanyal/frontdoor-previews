@@ -1,0 +1,11 @@
+{
+  "observed": "2026-10-02",
+  "queries": {
+    "MX kletzpsychiatry.com": "",
+    "TXT kletzpsychiatry.com": "",
+    "TXT _dmarc.kletzpsychiatry.com": "",
+    "CNAME selector1._domainkey.kletzpsychiatry.com": "",
+    "CNAME selector2._domainkey.kletzpsychiatry.com": "",
+    "TXT google._domainkey.kletzpsychiatry.com": ""
+  }
+}
