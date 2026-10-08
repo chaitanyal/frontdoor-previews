@@ -2,13 +2,15 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import worker from "../src/index.ts";
 
-async function record({ origin = "https://drdronavalli.com", ...payload } = {}) {
+async function record({ origin = "https://drdronavalli.com", cf, ...payload } = {}) {
   const writes = [];
-  const response = await worker.fetch(new Request("https://analytics.frontdoor.health/event", {
+  const request = new Request("https://analytics.frontdoor.health/event", {
     method: "POST",
     headers: { Origin: origin, "Content-Type": "application/json" },
     body: JSON.stringify({ practice_slug: "drdronavalli", event: "page_view", path: "/", ...payload }),
-  }), {
+  });
+  if (cf) Object.defineProperty(request, "cf", { value: cf });
+  const response = await worker.fetch(request, {
     RATE_LIMITER: { limit: async () => ({ success: true }) },
     DB: {
       prepare: () => ({
@@ -65,4 +67,13 @@ test("preview views and production CTA clicks still work without campaigns", asy
   const { writes } = await record({ event_type: "phone_click" });
   assert.equal(writes.length, 1);
   assert.equal(writes[0][1], "phone_click");
+});
+
+
+test("state metadata comes from Cloudflare, with nulls when unavailable", async () => {
+  const located = await record({ utm_campaign: "research", region: "Spoofed", region_code: "XX",
+    cf: { country: "US", city: "Austin", region: "Texas", regionCode: "TX" } });
+  assert.deepEqual(located.writes[0].slice(15), ["US", "Austin", "Texas", "TX"]);
+  const unknown = await record({ utm_campaign: "research", region: "Spoofed" });
+  assert.deepEqual(unknown.writes[0].slice(15), [null, null, null, null]);
 });

@@ -1,0 +1,2 @@
+ALTER TABLE events ADD COLUMN region TEXT;
+ALTER TABLE events ADD COLUMN region_code TEXT;

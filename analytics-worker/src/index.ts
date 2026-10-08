@@ -237,6 +237,8 @@ export default {
     const userAgent = optionalString(request.headers.get("User-Agent"), 500);
     const country = optionalString(request.cf?.country, 2);
     const city = optionalString(request.cf?.city, 100);
+    const region = optionalString(request.cf?.region, 100);
+    const regionCode = optionalString(request.cf?.regionCode, 10);
 
     try {
       await env.DB.prepare(`
@@ -257,9 +259,11 @@ INSERT INTO events (
   has_website,
   user_agent,
   country,
-  city
+  city,
+  region,
+  region_code
 )
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `)
       .bind(
         practiceSlug,
@@ -279,6 +283,8 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         userAgent,
         country,
         city,
+        region,
+        regionCode,
       )
       .run();
     } catch (error) {

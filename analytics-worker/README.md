@@ -31,6 +31,8 @@ This Worker only stores:
 - `user_agent`
 - `country`
 - `city`
+- `region` (state/province name)
+- `region_code` (state/province code)
 - timestamp
 
 For accepted preview requests, analytics may include the practice name, specialty, and whether a website was provided. It does not store IP addresses, cookies, personal names, email addresses, full submitted website URLs, other form contents, or PHI. Page-view events may include pseudonymous browser-generated `visitor_id` and `session_id` values.
@@ -55,6 +57,10 @@ npx wrangler login
 ```bash
 npx wrangler d1 migrations apply frontdoor_analytics --remote
 ```
+
+Apply the region migration before deploying the Worker. Location fields come from
+Cloudflare request metadata and remain null when unavailable. Existing rows retain
+unknown states; city names are not used to backfill them.
 
 ## Deploy Worker
 
