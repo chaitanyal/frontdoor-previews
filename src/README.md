@@ -81,8 +81,13 @@ formatting through `providerIdentityLine()`; do not format credentials separatel
 for each surface.
 The reflective variant places hero imagery in normal flow on smaller screens and
 uses the `home-provider-solo` hook for desktop introduction/card composition.
-Its mobile action bar observes the main hero/profile actions and appears once they
+The editorial and structured clinical themes' mobile action bar observes the main hero/profile actions and appears once they
 leave view; without JavaScript or IntersectionObserver the bar stays available.
+Base editorial practices share the spacing and readability improvements while
+retaining team cards and the original background-image hero composition. Their
+mobile hero height follows its content rather than reserving a tall empty area.
+Structured clinical practices use the same responsive spacing and mobile hero behavior;
+three-provider teams occupy one row at wide desktop sizes, with two columns on tablets.
 The existing provider classification identifies physicians (MD/DO or a supported
 physician role); “Dr.” alone does not make someone a physician. Physician profiles
 retain separate credential and specialty lines. Missing values do not produce an

@@ -134,7 +134,7 @@ another palette or font system.
 | --- | --- | --- | --- |
 | `calm-healthcare` | Soft cards, rounded geometry, reassuring blue and sage | Inter | Dr. Dronavalli; new-practice template |
 | `editorial-healthcare` | Premium editorial typography, warm surfaces, restrained ornament | Newsreader headings; Inter body | North Hills Psychiatry; Mariposa Psychiatry |
-| `structured-clinical` | Crisp clinical hierarchy, square geometry, dark blue and muted teal | Inter | Northwest Psychiatry |
+| `structured-clinical` | Crisp clinical hierarchy, square geometry, dark blue and muted teal | Newsreader headings; Inter body | Northwest Psychiatry |
 
 ### Supported design variants
 

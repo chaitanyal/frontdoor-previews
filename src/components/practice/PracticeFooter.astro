@@ -5,7 +5,7 @@
  * practiceRoot adjusts legal and mobile contact links for nested routes.
  * config.footer.frontdoorCredit enables the shared website attribution.
  * Fictional demos use one mobile consultation-section link and omit the phone action.
- * Reflective pages hide the mobile bar while their main consultation actions are visible.
+ * Editorial and structured clinical pages hide the mobile bar while their main appointment actions are visible.
  */
 import { HOME_SECTION_IDS, homeSectionNavigation } from '../../lib/home-sections.mjs';
 
@@ -83,7 +83,7 @@ const patientLinks = homeSectionNavigation(config)
     </a>}
   </div>
 </div>
-{config.designVariant === 'reflective' && (
+{['editorial-healthcare', 'structured-clinical'].includes(config.theme) && (
   <script is:inline>
     (() => {
       const bar = document.querySelector('.practice-mobile-actions');

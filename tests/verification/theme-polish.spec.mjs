@@ -173,6 +173,63 @@ test('@theme-polish reflective composition separates mobile imagery and keeps co
   }
 });
 
+test('@theme-polish base editorial practices keep team layouts and avoid duplicate mobile appointment controls', async ({ page }) => {
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  for (const [slug, cardCount] of [['centexmh', 3], ['northhillspsychiatry', 2]]) {
+    const root = path.resolve('.tmp/astro-dist/preview-all/previews', slug);
+    for (const width of [360, 390, 768, 1440, 2048]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
+      await page.addStyleTag({ content: '.fade-in-up{opacity:1!important;transform:none!important}' });
+      await page.evaluate(() => document.fonts.ready);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      await expect(page.locator('.home-providers a[href*="providers/"]').filter({ has: page.locator('img') })).toHaveCount(cardCount);
+      if (width < 768) {
+        expect((await page.locator('.home-hero').boundingBox()).height).toBeLessThan(740);
+        await page.locator('.home-hero-actions').scrollIntoViewIfNeeded();
+        await expect(page.locator('.practice-mobile-actions')).toBeHidden();
+        await page.locator('.home-location').scrollIntoViewIfNeeded();
+        await expect(page.locator('.practice-mobile-actions')).toBeVisible();
+      }
+    }
+  }
+});
+
+test('@theme-polish structured clinical team and mobile appointment controls adapt to available space', async ({ page }) => {
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  const root = path.resolve('.tmp/astro-dist/preview-all/previews/northwestpsychiatry');
+  for (const width of [360, 390, 768, 1024, 1440, 2048]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
+    await page.addStyleTag({ content: '.fade-in-up{opacity:1!important;transform:none!important}' });
+    await page.evaluate(() => document.fonts.ready);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    const cards = page.locator('.home-provider-card');
+    await expect(cards).toHaveCount(3);
+    const boxes = await Promise.all([0, 1, 2].map((i) => cards.nth(i).boundingBox()));
+    if (width >= 1280) {
+      expect(Math.abs(boxes[0].y - boxes[2].y)).toBeLessThan(2);
+    } else if (width >= 768) {
+      expect(Math.abs(boxes[0].y - boxes[1].y)).toBeLessThan(2);
+      expect(boxes[2].y).toBeGreaterThan(boxes[0].y);
+    }
+    if (width < 768) {
+      expect((await page.locator('.home-hero').boundingBox()).height).toBeLessThan(760);
+      await page.locator('.home-hero-actions').scrollIntoViewIfNeeded();
+      await expect(page.locator('.practice-mobile-actions')).toBeHidden();
+      await page.locator('.home-location').scrollIntoViewIfNeeded();
+      await expect(page.locator('.practice-mobile-actions')).toBeVisible();
+      await page.goto(pathToFileURL(path.join(root, 'providers/kathleen-nguyen/index.html')).href);
+      await page.locator('.provider-actions').scrollIntoViewIfNeeded();
+      await expect(page.locator('.practice-mobile-actions')).toBeHidden();
+      await page.locator('.provider-page-section').first().evaluate((section) => section.scrollIntoView({ block: 'start' }));
+      await expect(page.locator('.practice-mobile-actions')).toBeVisible();
+    }
+  }
+});
+
 test('@theme-polish marketing header/footer navigation preserves local destinations and responsive layout', async ({ page }) => {
   await installDeterministicBrowser(page);
   await installMockNetwork(page);
