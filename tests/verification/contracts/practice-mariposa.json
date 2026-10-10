@@ -44,7 +44,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 7,
+      "inlineScriptCount": 8,
       "ctaCounts": {
         "directions": 1,
         "email": 1,
@@ -160,7 +160,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 6,
+      "inlineScriptCount": 7,
       "ctaCounts": {
         "email": 1,
         "newPatient": 1,

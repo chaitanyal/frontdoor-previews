@@ -1,5 +1,5 @@
 ---
-/** Homepage introduction; explicit featured slugs retain the full directory roster. */
+/** Homepage introduction; solo hook supports theme composition. Featured slugs retain the full directory roster. */
 import ProviderCard from './ProviderCard.astro';
 import { homeContent } from '../../lib/practice-view.mjs';
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
@@ -13,7 +13,7 @@ const solo = config.providers.length === 1;
 ---
 {providers.length > 0 && (
   <section id={HOME_SECTION_IDS.providers} class="home-providers section border-t border-slate-200/70 bg-white">
-    <div class="section-shell">
+    <div class:list={['section-shell', solo && 'home-provider-solo']}>
       <div class="max-w-2xl">
         <p class="eyebrow">{content.providerEyebrow}</p>
         <h2 class="section-title">{content.providerTitle}</h2>

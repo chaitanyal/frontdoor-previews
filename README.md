@@ -141,6 +141,9 @@ another palette or font system.
 - `reflective`: a quieter, literary composition within
   `editorial-healthcare`. It uses the same Newsreader and Inter font system and
   is currently selected by Mariposa Psychiatry and the fictional Maya Bennett Psychology concept.
+  Its mobile hero places imagery above the copy; solo provider introductions sit
+  beside portrait cards on desktop. Session fees, consultation sections, office
+  details, and provider profiles share a restrained spacing and type scale.
 
 The variant is not a fourth theme. Prefer an existing theme and variant before
 adding another design family. New styles must apply through shared theme-scoped

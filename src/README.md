@@ -79,6 +79,10 @@ PA/NP roles prevent a doctoral title from implying physician status.
 Homepage cards, compact directory cards, and provider profiles share this identity
 formatting through `providerIdentityLine()`; do not format credentials separately
 for each surface.
+The reflective variant places hero imagery in normal flow on smaller screens and
+uses the `home-provider-solo` hook for desktop introduction/card composition.
+Its mobile action bar observes the main hero/profile actions and appears once they
+leave view; without JavaScript or IntersectionObserver the bar stays available.
 The existing provider classification identifies physicians (MD/DO or a supported
 physician role); “Dr.” alone does not make someone a physician. Physician profiles
 retain separate credential and specialty lines. Missing values do not produce an

@@ -41,7 +41,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 5,
+      "inlineScriptCount": 6,
       "ctaCounts": {}
     },
     {
@@ -149,7 +149,7 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 4,
+      "inlineScriptCount": 5,
       "ctaCounts": {}
     },
     {

@@ -141,6 +141,38 @@ test('@theme-polish fictional psychology concept discloses its identity and acce
   }
 });
 
+test('@theme-polish reflective composition separates mobile imagery and keeps consultation actions available', async ({ page }) => {
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  for (const slug of ['mariposa', 'mayabennett']) {
+    const root = path.resolve('.tmp/astro-dist/preview-all/previews', slug);
+    for (const width of [360, 390, 768, 1024, 1440, 2048]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
+      await page.addStyleTag({ content: '.fade-in-up{opacity:1!important;transform:none!important}' });
+      await page.evaluate(() => document.fonts.ready);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      const image = await page.locator('.home-hero > img').boundingBox();
+      const title = await page.locator('.home-hero-title').boundingBox();
+      if (width < 1024) {
+        expect(image.y + image.height).toBeLessThanOrEqual(title.y);
+        expect(image.height).toBeLessThanOrEqual(352);
+      }
+      if (width >= 1024) {
+        const intro = await page.locator('.home-provider-solo > div').first().boundingBox();
+        const card = await page.locator('.home-provider-grid').boundingBox();
+        expect(intro.x + intro.width).toBeLessThanOrEqual(card.x);
+      }
+      if (width < 768) {
+        await page.locator('.home-hero-actions').scrollIntoViewIfNeeded();
+        await expect(page.locator('.practice-mobile-actions')).toBeHidden();
+        await page.locator('.home-location').scrollIntoViewIfNeeded();
+        await expect(page.locator('.practice-mobile-actions')).toBeVisible();
+      }
+    }
+  }
+});
+
 test('@theme-polish marketing header/footer navigation preserves local destinations and responsive layout', async ({ page }) => {
   await installDeterministicBrowser(page);
   await installMockNetwork(page);

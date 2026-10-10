@@ -5,6 +5,7 @@
  * practiceRoot adjusts legal and mobile contact links for nested routes.
  * config.footer.frontdoorCredit enables the shared website attribution.
  * Fictional demos use one mobile consultation-section link and omit the phone action.
+ * Reflective pages hide the mobile bar while their main consultation actions are visible.
  */
 import { HOME_SECTION_IDS, homeSectionNavigation } from '../../lib/home-sections.mjs';
 
@@ -60,7 +61,7 @@ const patientLinks = homeSectionNavigation(config)
       </div>
     </footer>
 <div
-  class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"
+  class="practice-mobile-actions fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white p-3 md:hidden"
 >
   <div class:list={['mx-auto grid max-w-md gap-3', config.fictionalDemo ? 'grid-cols-1' : 'grid-cols-2']}>
     <a
@@ -82,6 +83,18 @@ const patientLinks = homeSectionNavigation(config)
     </a>}
   </div>
 </div>
+{config.designVariant === 'reflective' && (
+  <script is:inline>
+    (() => {
+      const bar = document.querySelector('.practice-mobile-actions');
+      const actions = document.querySelector('.home-hero-actions, .provider-actions');
+      if (!bar || !actions || !('IntersectionObserver' in window)) return;
+      new IntersectionObserver(([entry]) => {
+        bar.hidden = entry.isIntersecting;
+      }, { rootMargin: '0px 0px -80px 0px' }).observe(actions);
+    })();
+  </script>
+)}
 <div
   data-copy-toast
   class="pointer-events-none fixed inset-x-4 bottom-24 z-[60] mx-auto hidden max-w-sm rounded-2xl border border-slate-200 bg-white px-4 py-3 text-center text-sm font-semibold text-slate-950 shadow-lg md:bottom-6"
