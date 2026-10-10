@@ -54,7 +54,9 @@ const title = privacy ? 'Privacy' : terms ? 'Terms of Use' : 'Accessibility';
           {privacyPolicy ? 'Website Privacy' : practice.name}
         </h2>
         {
-          terms ? (
+          config.fictionalDemo ? (
+            <p>This is a fictional website concept created by FrontDoor Health. The clinician, qualifications, images, services, fees, and availability are illustrative. This example does not offer care or collect patient inquiries. Links for practice owners lead to FrontDoor Health.</p>
+          ) : terms ? (
             <>
               <p>
                 This website provides general information about the practice.

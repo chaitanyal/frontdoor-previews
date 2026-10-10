@@ -1,6 +1,7 @@
 ---
-/** Shared native provider link; optional percentage imagePosition adjusts authentic portrait crops. */
+/** Shared native provider link; non-physician identity wording matches profiles. Optional imagePosition adjusts portrait crops. */
 import { practiceAssetUrl } from '../../lib/assets.mjs';
+import { providerEntityType, providerIdentityLine } from '../../lib/practice-view.mjs';
 import Icon from './Icon.astro';
 interface Props {
   provider: Record<string, any>;
@@ -12,6 +13,8 @@ interface Props {
 }
 const { provider, config, isSingleProvider = false, compact = false, practiceRoot = './', directory = false } = Astro.props;
 const Heading = directory ? 'h2' : 'h3';
+const isPhysician = providerEntityType(provider).includes('Physician');
+const identityLine = providerIdentityLine(provider);
 const portraitStyle = provider.imagePosition
   ? `object-position: ${provider.imagePosition.x}% ${provider.imagePosition.y}%;`
   : undefined;
@@ -23,8 +26,8 @@ const portraitStyle = provider.imagePosition
   </div>
   <div class="provider-card-identity">
     <Heading class="provider-card-name">{provider.name}</Heading>
-    {provider.credentials && <p class="provider-card-credentials">{provider.credentials}</p>}
-    {provider.specialty && <p class="provider-card-role">{provider.specialty}</p>}
+    {identityLine && <p class="provider-card-credentials">{identityLine}</p>}
+    {provider.specialty && (isPhysician || !identityLine) && <p class="provider-card-role">{provider.specialty}</p>}
     <span class="provider-card-link" aria-hidden="true">View profile <Icon name="ArrowRight" class="h-4 w-4" /></span>
   </div>
 </a>
@@ -67,9 +70,9 @@ const portraitStyle = provider.imagePosition
         {provider.name}
       </h3>
       {
-        config.theme !== 'structured-clinical' && provider.credentials && (
+        (config.theme !== 'structured-clinical' || !isPhysician) && identityLine && (
           <p class="mt-1 text-sm leading-6 text-slate-500">
-            {provider.credentials}
+            {identityLine}
           </p>
         )
       }

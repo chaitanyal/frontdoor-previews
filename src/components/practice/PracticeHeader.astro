@@ -22,7 +22,7 @@ interface Props {
 
 const {
   config,
-  phoneHref = config.practice.phoneHref,
+  phoneHref = config.fictionalDemo ? 'https://frontdoor.health/#contact' : config.practice.phoneHref,
   providerLabels = {},
   providerPage = false,
   homeHref = '',
@@ -77,11 +77,11 @@ const hasTreatments = Boolean(config.treatments?.length);
             </a>
           </nav>
           <a
-            href={phoneHref}
-            data-frontdoor-cta="phone"
+            href={config.fictionalDemo ? '#appointment' : phoneHref}
+            data-frontdoor-cta={config.fictionalDemo ? undefined : 'phone'}
             class="btn-secondary min-h-[44px] px-3 py-2 text-sm md:hidden"
           >
-            {providerLabels.callOffice || 'Call Office'}
+            {config.fictionalDemo ? 'Consultation' : providerLabels.callOffice || 'Call Office'}
           </a>
         </>
       ) : (

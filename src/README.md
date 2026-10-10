@@ -49,6 +49,12 @@ Paths in the table are relative to `src/` unless they start with `sites/`, `shar
 ## Inputs and browser behavior
 
 Practice components commonly receive a validated `config` from `practice.json`.
+Optional `fictionalDemo: true` identifies illustrative outreach concepts. These must
+be noindex; the shared layout adds a disclosure on every page and omits clinical
+entity schemas. Appointment sections show patient-facing consultation copy with a disabled action; location sections display illustrative contact details with disabled phone/directions
+actions and omit Google reviews and live office status. Use original fictional identities and explicitly illustrative
+assets and facts. Optional `home.conditionsTitle`, `home.conditionsEyebrow`, and
+`home.navConditionsLabel` adapt the concerns section's language to the practice.
 Teams of five or more generate a complete `/providers/` directory; smaller teams
 can enable it with `providerDirectory: true`. Optional `home.featuredProviderSlugs`
 selects homepage cards; `providerDirectory: false` explicitly disables the directory.
@@ -60,6 +66,24 @@ share native links and retain preview indexing/action restrictions. Retirement r
 the selected slug and retains an enabled directory; production redirects lead there.
 Provider profiles show identity before portraits on mobile and render all supplied
 biography paragraphs and nonempty education categories.
+Across themes, non-physician profiles combine `credentials` and `specialty` into
+one line, such as “PhD · Clinical Psychologist.”
+PA-C profiles instead use “Certified Physician Assistant” to avoid repeating the
+abbreviation and its meaning. Additional qualifications such as CAQ in Psychiatry
+remain in `certifications` and the Education & Training section; clinical focus
+belongs in the tagline. Original credentials remain in `practice.json`.
+NP profiles use “Nurse Practitioner” on that identity line, with verified degrees
+and certifications in Education & Training. NP-specific credentials or an explicit
+nurse-practitioner role identify this case; APRN alone does not establish NP status.
+PA/NP roles prevent a doctoral title from implying physician status.
+Homepage cards, compact directory cards, and provider profiles share this identity
+formatting through `providerIdentityLine()`; do not format credentials separately
+for each surface.
+The existing provider classification identifies physicians (MD/DO or a supported
+physician role); “Dr.” alone does not make someone a physician. Physician profiles
+retain separate credential and specialty lines. Missing values do not produce an
+empty separator, and long identity lines may wrap on small screens. Keep the two
+source fields separate in `practice.json`; no practice-specific display flag is needed.
 Optional `footer.frontdoorCredit: true` adds a linked “Website by frontdoor.health”
 credit to practice home/treatment and legal footers, including preview builds.
 It is omitted by default. Practice home, provider, directory, and treatment footers
@@ -119,3 +143,5 @@ Follow the root AGENTS.md verification routing. For shared Astro changes, run
 `npm run verify:change`; browser tests and baseline guidance live in
 `tests/verification/README.md`. For visual changes, also inspect the built pages at
 mobile and desktop sizes using the repository's documented `file://` workflow.
+
+Listed `financialPolicy.fees` entries support an optional `description` string, rendered below the amount and duration to explain what the session includes.

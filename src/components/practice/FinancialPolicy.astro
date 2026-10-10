@@ -3,6 +3,7 @@
  * Homepage payment section driven by config.financialPolicy and config.insurance.
  * practice-view.mjs selects the insurance/policy presentation and normalizes fees;
  * keep payment facts in practice.json and reusable visual rules in shared theme CSS.
+ * Listed fees may include a short description of the session below the duration.
  */
 import {
   financialSectionMode,
@@ -118,6 +119,11 @@ const note = policy?.contactForRatesMessage
                   {fee.duration && (
                     <p class="home-fee-duration mt-1 text-sm leading-6 text-slate-500">
                       {fee.duration}
+                    </p>
+                  )}
+                  {fee.description && (
+                    <p class="home-fee-description mt-3 text-sm leading-6 text-slate-600">
+                      {fee.description}
                     </p>
                   )}
                 </div>

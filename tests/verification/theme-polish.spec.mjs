@@ -106,6 +106,41 @@ for (const [slug, output, theme] of sites) {
 }
 
 
+test('@theme-polish fictional psychology concept discloses its identity and accepts no patient inquiries', async ({ page }) => {
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  const root = path.resolve('.tmp/astro-dist/preview-all/previews/mayabennett');
+  const screenshots = path.resolve('.tmp/theme-polish/mayabennett');
+  const capture = process.env.FRONTDOOR_CAPTURE_SCREENSHOTS === '1';
+  if (capture) mkdirSync(screenshots, { recursive: true });
+  for (const width of [390, 2048]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const route of ['', 'providers/maya-bennett/', 'privacy/', 'terms/', 'accessibility/']) {
+      await page.goto(pathToFileURL(path.join(root, route, 'index.html')).href);
+      await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}.fade-in-up{opacity:1!important;transform:none!important}' });
+      await page.evaluate(() => document.fonts.ready);
+      await waitForImages(page.locator('img'));
+      await expect(page.locator('.concept-notice')).toContainText('A fictional practice.');
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
+      await expect(page.locator('body')).not.toContainText(/Alba Lara|Mariposa|Columbia University/);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      const destinations = await page.locator('a[href]').evaluateAll(links => links.map(link => link.getAttribute('href')));
+      expect(destinations.some(href => /^(tel:|mailto:)|forms\.gle|docs\.google\.com\/forms/.test(href))).toBe(false);
+      expect(await page.locator('form').count()).toBe(0);
+      const schemas = await page.locator('script[type="application/ld+json"]').allTextContents();
+      expect(schemas.join(' ')).not.toMatch(/"@type"\s*:\s*"(?:MedicalClinic|Physician|Person)"/);
+      if (!route || route.startsWith('providers/')) {
+        await expect(page.locator('.concept-appointment')).toHaveCSS('background-image', 'none');
+        await expect(page.locator('.concept-appointment [aria-disabled="true"]')).toBeVisible();
+        await expect(page.locator('.concept-appointment [aria-disabled="true"]')).toHaveText('Request a consultation');
+      }
+      if (capture && (!route || route.startsWith('providers/'))) {
+        await page.screenshot({ path: path.join(screenshots, `${width}-${route ? 'profile' : 'home'}.png`), fullPage: true });
+      }
+    }
+  }
+});
+
 test('@theme-polish marketing header/footer navigation preserves local destinations and responsive layout', async ({ page }) => {
   await installDeterministicBrowser(page);
   await installMockNetwork(page);

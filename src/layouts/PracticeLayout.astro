@@ -5,6 +5,7 @@
  * Default slot is the body; named head/scripts slots extend the document.
  * All pages enable practice analytics; home/provider/directory/treatment enable Lucide.
  * Only indexable standalone practice builds link to their generated llms.txt.
+ * Fictional demos disclose their status on every page and omit clinical entity schemas.
  */
 import {
   robotsMeta,
@@ -60,7 +61,7 @@ const llmsHref = process.env.FRONTDOOR_TARGET === 'practice' && config.seo?.allo
 const tracksPractice = ['home', 'provider', 'directory', 'treatment'].includes(pageKind);
 const practiceSlugScript =
   `window.FRONTDOOR_PRACTICE_SLUG = ${JSON.stringify(config.practice.slug)};`;
-const entityBlocks = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const entityBlocks = !config.fictionalDemo && jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 const mainEntityId = entityBlocks.find((block) => block?.['@id'])?.['@id'] || '';
 const jsonLdBlocks = tracksPractice
   ? [webPageSchema(social, mainEntityId), ...entityBlocks]
@@ -118,6 +119,12 @@ const jsonLdBlocks = tracksPractice
     ))}
   </head>
   <body class={bodyClass}>
+    {config.fictionalDemo && (
+      <aside class="concept-notice" aria-label="Website concept disclosure">
+        <p><strong>A fictional practice.</strong> Created by FrontDoor Health to show what your website could feel like. The clinician, images, and care details are illustrative.</p>
+        <a href="https://frontdoor.health/#contact">Get a preview for your practice →</a>
+      </aside>
+    )}
     <slot />
     <slot name="scripts" />
   </body>

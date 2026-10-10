@@ -4,6 +4,7 @@
  * homeVariant selects homepage composition; actionLinksDisabled suppresses
  * scheduling/portal/telehealth actions for configured previews. Contact cards remain available.
  * Optional telehealth copy and destination come from appointmentSection.telehealth.
+ * Fictional demos show patient-facing consultation copy with a disabled action.
  */
 import ContactCards from './ContactCards.astro';
 import Icon from './Icon.astro';
@@ -22,6 +23,7 @@ interface Props {
   actionLinksDisabled?: boolean;
   heading?: string;
   summary?: string;
+  fictionalDemo?: boolean;
 }
 
 const {
@@ -37,6 +39,7 @@ const {
   actionLinksDisabled = false,
   heading = 'Ready to schedule a visit?',
   summary = 'Contact the office directly or request an appointment online.',
+  fictionalDemo = false,
 } = Astro.props;
 const actions = [
   appointmentUrl
@@ -64,7 +67,18 @@ const containerClass = homeVariant
   : 'mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center';
 ---
 
-<section
+{fictionalDemo ? (
+  <section id={sectionId} class="home-appointment concept-appointment section" aria-labelledby={`${sectionId}-title`}>
+    <div class="section-shell">
+      <div class="max-w-3xl">
+        <p class="eyebrow">A first conversation</p>
+        <h2 id={`${sectionId}-title`} class="section-title">{heading}</h2>
+        <p class="section-copy">{summary}</p>
+        <span class="btn-primary mt-8 inline-flex" aria-disabled="true">Request a consultation</span>
+      </div>
+    </div>
+  </section>
+) : (<section
   id={sectionId}
   class:list={['home-appointment', sectionClass]}
   aria-labelledby={homeVariant ? 'contact-title' : undefined}
@@ -164,3 +178,4 @@ const containerClass = homeVariant
     </div>
   </div>
 </section>
+)}

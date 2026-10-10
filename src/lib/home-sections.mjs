@@ -31,7 +31,7 @@ export function homeSectionNavigation(config) {
     {
       key: 'conditions',
       id: HOME_SECTION_IDS.conditions,
-      label: 'Conditions',
+      label: config.home?.navConditionsLabel || 'Conditions',
       header: true,
       enabled: Boolean(config.conditions?.length),
     },

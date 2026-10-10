@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mariposa — step 1 hero review</title>
+  <style>
+    @font-face { font-family: Inter; src: url('../../../../shared/fonts/inter-latin.woff2'); }
+    @font-face { font-family: Newsreader; src: url('../../../../shared/fonts/newsreader-latin.woff2'); }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f4f0e8; color: #17211d; font: 16px/1.6 Inter, sans-serif; }
+    main { max-width: 1320px; margin: auto; padding: 40px 24px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2 { font-family: Newsreader, Georgia, serif; font-weight: 500; line-height: 1.1; }
+    h1 { font-size: 42px; margin-bottom: 12px; }
+    h2 { font-size: 30px; }
+    h3 { font-size: 16px; }
+    .note { max-width: 850px; color: #5f6b65; }
+    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    figure { margin: 0; }
+    figure img { display: block; width: 100%; aspect-ratio: 2.1; object-fit: cover; }
+    figcaption { padding: 12px 0; }
+    section { margin-top: 36px; border-top: 1px solid #d7d0c4; padding-top: 24px; }
+    .hero { display: grid; grid-template-columns: 1fr 1fr; background: #fbf9f4; }
+    .hero img { width: 100%; height: 100%; min-height: 490px; object-fit: cover; object-position: 70% center; }
+    .copy { padding: 48px; align-self: center; }
+    .copy h2 { font-size: clamp(36px, 4vw, 56px); }
+    .eyebrow { color: #8a4b34; font-size: 13px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .action { display: inline-block; padding: 12px 18px; border-radius: 30px; background: #24483d; color: white; font-size: 13px; }
+    .secondary { background: transparent; color: #24483d; border: 1px solid #d7d0c4; }
+    .crops { display: grid; grid-template-columns: minmax(0,390px) minmax(0,390px); gap: 32px; }
+    .crops img { width: 100%; object-fit: cover; object-position: 70% center; }
+    .crops .portrait { aspect-ratio: 4/5; }
+    .crops .mobile { aspect-ratio: 390/260; }
+    @media (max-width: 700px) {
+      main { padding: 24px 18px; }
+      .pair, .hero, .crops { grid-template-columns: 1fr; }
+      .hero img { min-height: 0; height: auto; aspect-ratio: 3/2; }
+      .copy { padding: 28px 22px; }
+      .copy h2 { font-size: 38px; }
+    }
+  </style>
+</head>
+<body><main>
+  <h1>Mariposa · hero image review</h1>
+  <p class="note">Step 1 candidate only. The existing copy appears below solely to evaluate the image in context. This is a standalone composition study, not an implemented theme or a website release.</p>
+  <div class="pair">
+    <figure><img src="../../../../sites/mariposa/images/hero/central-texas-limestone-path-v1.webp" alt="Current limestone-path hero with a pale wash"><figcaption><strong>Current asset</strong> · no additional page filters</figcaption></figure>
+    <figure><img src="central-texas-limestone-path-v2-candidate.png" alt="Edited limestone-path candidate with clearer greens and stone detail"><figcaption><strong>Candidate v2</strong> · ImageGen edit, no page filters</figcaption></figure>
+  </div>
+  <section>
+    <h2>Candidate beside existing copy</h2>
+    <p class="note">Proposed separate image panel; crop position 70% horizontally. No baked-in fade or text overlay. The current site still applies its own gradients and filters.</p>
+    <div class="hero">
+      <img src="central-texas-limestone-path-v2-candidate.png" alt="Limestone steps surrounded by oak shade and grasses">
+      <div class="copy"><p class="eyebrow">Austin, TX 78731</p><h2>Insight-oriented psychiatric care.</h2><p>Psychiatry and psychotherapy for adults seeking clarity, stability, and meaningful change.</p><div class="actions" aria-label="Noninteractive examples of existing action labels"><span class="action">Request Appointment</span><span class="action secondary">Meet Dr. Lara</span></div></div>
+    </div>
+  </section>
+  <section>
+    <h2>Crop checks</h2>
+    <p class="note">The path should remain readable in both crops. These are future-layout studies, not verification of the current site's responsive behavior.</p>
+    <div class="crops">
+      <figure><img class="portrait" src="central-texas-limestone-path-v2-candidate.png" alt="Portrait crop retaining the limestone steps"><figcaption>4:5 panel · 70% center</figcaption></figure>
+      <figure><img class="mobile" src="central-texas-limestone-path-v2-candidate.png" alt="Wide mobile crop retaining the limestone steps"><figcaption>390 × 260 mobile panel · 70% center</figcaption></figure>
+    </div>
+  </section>
+  <p class="note">Provenance: edited atmospheric regional imagery. The source's photographic provenance is unverified; neither image is represented here as the practice's office or a verified local landmark.</p>
+</main></body></html>

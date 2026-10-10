@@ -1,26 +1,23 @@
 {
-  "target": "practice-mariposa",
+  "target": "practice-mayabennett",
   "pages": [
     {
       "route": "/",
       "outputFile": "index.html",
-      "title": "Mariposa Psychiatry | Adult Psychiatry & Psychotherapy in Austin",
-      "description": "Adult psychiatry and psychodynamic psychotherapy with Dr. Alba Lara in Austin and via telehealth. Explore care, fees, and the practice inquiry process.",
+      "title": "Maya Bennett Psychology | Fictional Website Concept by FrontDoor Health",
+      "description": "A fictional psychology-practice website concept: warm, personal therapy-focused design by FrontDoor Health. Explore the example and request your own preview.",
       "robots": "noindex, nofollow",
-      "canonical": "https://frontdoor.health/previews/mariposa/",
+      "canonical": "https://frontdoor.health/previews/mayabennett/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/social/practice-share.png",
-        "url": "https://frontdoor.health/previews/mariposa/"
+        "image": "https://frontdoor.health/previews/mayabennett/images/social/practice-share.png",
+        "url": "https://frontdoor.health/previews/mayabennett/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/social/practice-share.png"
+        "image": "https://frontdoor.health/previews/mayabennett/images/social/practice-share.png"
       },
       "jsonLd": {
-        "count": 3,
+        "count": 1,
         "topLevelTypes": [
-          "MedicalClinic",
-          "Person",
-          "Physician",
           "WebPage"
         ]
       },
@@ -30,11 +27,11 @@
         "./#providers",
         "./accessibility/",
         "./assets/styles.css",
-        "./images/hero/central-texas-limestone-path-v2.webp",
+        "./images/hero/oak-meadow.webp",
         "./images/office/office.webp",
-        "./images/providers/alba-lara.webp",
+        "./images/providers/maya-bennett.webp",
         "./privacy/",
-        "./providers/alba-lara/",
+        "./providers/maya-bennett/",
         "./terms/",
         "/shared/analytics.js",
         "/shared/attribution.js"
@@ -44,21 +41,16 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 7,
-      "ctaCounts": {
-        "directions": 1,
-        "email": 1,
-        "newPatient": 1,
-        "phone": 3
-      }
+      "inlineScriptCount": 5,
+      "ctaCounts": {}
     },
     {
       "route": "/accessibility/",
       "outputFile": "accessibility/index.html",
-      "title": "Accessibility | Mariposa Psychiatry",
-      "description": "Accessibility information for Mariposa Psychiatry.",
+      "title": "Accessibility | Maya Bennett Psychology",
+      "description": "Accessibility information for Maya Bennett Psychology.",
       "robots": "noindex, nofollow",
-      "canonical": "https://frontdoor.health/previews/mariposa/accessibility/",
+      "canonical": "https://frontdoor.health/previews/mayabennett/accessibility/",
       "openGraphUrls": {
         "image": null,
         "url": null
@@ -88,10 +80,10 @@
     {
       "route": "/privacy/",
       "outputFile": "privacy/index.html",
-      "title": "Privacy | Mariposa Psychiatry",
-      "description": "Privacy information for Mariposa Psychiatry.",
+      "title": "Privacy | Maya Bennett Psychology",
+      "description": "Privacy information for Maya Bennett Psychology.",
       "robots": "noindex, nofollow",
-      "canonical": "https://frontdoor.health/previews/mariposa/privacy/",
+      "canonical": "https://frontdoor.health/previews/mayabennett/privacy/",
       "openGraphUrls": {
         "image": null,
         "url": null
@@ -119,25 +111,22 @@
       "ctaCounts": {}
     },
     {
-      "route": "/providers/alba-lara/",
-      "outputFile": "providers/alba-lara/index.html",
-      "title": "Dr. Alba Lara | Psychiatrist and Psychotherapist in Austin",
-      "description": "Meet Dr. Alba Lara, a psychiatrist offering psychodynamic psychotherapy and medication management for adults in Austin and via telehealth.",
+      "route": "/providers/maya-bennett/",
+      "outputFile": "providers/maya-bennett/index.html",
+      "title": "Dr. Maya Bennett | Fictional Psychologist Website Concept",
+      "description": "Meet the fictional clinician in FrontDoor Health’s therapy-focused website example.",
       "robots": "noindex, nofollow",
-      "canonical": "https://frontdoor.health/previews/mariposa/providers/alba-lara/",
+      "canonical": "https://frontdoor.health/previews/mayabennett/providers/maya-bennett/",
       "openGraphUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/providers/alba-lara.webp",
-        "url": "https://frontdoor.health/previews/mariposa/providers/alba-lara/"
+        "image": "https://frontdoor.health/previews/mayabennett/images/providers/maya-bennett.webp",
+        "url": "https://frontdoor.health/previews/mayabennett/providers/maya-bennett/"
       },
       "twitterUrls": {
-        "image": "https://frontdoor.health/previews/mariposa/images/providers/alba-lara.webp"
+        "image": "https://frontdoor.health/previews/mayabennett/images/providers/maya-bennett.webp"
       },
       "jsonLd": {
-        "count": 3,
+        "count": 1,
         "topLevelTypes": [
-          "BreadcrumbList",
-          "Person",
-          "Physician",
           "WebPage"
         ]
       },
@@ -149,7 +138,7 @@
         "../../#providers",
         "../../accessibility/",
         "../../assets/styles.css",
-        "../../images/providers/alba-lara.webp",
+        "../../images/providers/maya-bennett.webp",
         "../../privacy/",
         "../../terms/",
         "/shared/analytics.js",
@@ -160,20 +149,16 @@
         "/shared/analytics.js",
         "https://unpkg.com/lucide@latest"
       ],
-      "inlineScriptCount": 6,
-      "ctaCounts": {
-        "email": 1,
-        "newPatient": 1,
-        "phone": 4
-      }
+      "inlineScriptCount": 4,
+      "ctaCounts": {}
     },
     {
       "route": "/terms/",
       "outputFile": "terms/index.html",
-      "title": "Terms of Use | Mariposa Psychiatry",
-      "description": "Terms of Use information for Mariposa Psychiatry.",
+      "title": "Terms of Use | Maya Bennett Psychology",
+      "description": "Terms of Use information for Maya Bennett Psychology.",
       "robots": "noindex, nofollow",
-      "canonical": "https://frontdoor.health/previews/mariposa/terms/",
+      "canonical": "https://frontdoor.health/previews/mayabennett/terms/",
       "openGraphUrls": {
         "image": null,
         "url": null
@@ -207,14 +192,13 @@
     "assets/fonts/inter-latin.woff2",
     "assets/fonts/newsreader-latin.woff2",
     "assets/styles.css",
-    "images/hero/central-texas-limestone-path-v1.webp",
-    "images/hero/central-texas-limestone-path-v2.webp",
+    "images/hero/oak-meadow.webp",
     "images/office/office.webp",
-    "images/providers/alba-lara.webp",
+    "images/providers/maya-bennett.webp",
     "images/social/practice-share.png",
     "index.html",
     "privacy/index.html",
-    "providers/alba-lara/index.html",
+    "providers/maya-bennett/index.html",
     "robots.txt",
     "shared/analytics.js",
     "shared/attribution.js",

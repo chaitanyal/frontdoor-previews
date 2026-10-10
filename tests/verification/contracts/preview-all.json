@@ -689,7 +689,7 @@
       "route": "/previews/mariposa/",
       "outputFile": "previews/mariposa/index.html",
       "title": "Mariposa Psychiatry | Adult Psychiatry & Psychotherapy in Austin",
-      "description": "Meet Dr. Alba Lara, explore adult psychiatry and psychodynamic psychotherapy in Austin and online, and request care on a fast-loading website designed for phones and desktops.",
+      "description": "Adult psychiatry and psychodynamic psychotherapy with Dr. Alba Lara in Austin and via telehealth. Explore care, fees, and the practice inquiry process.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/mariposa/",
       "openGraphUrls": {
@@ -714,7 +714,7 @@
         "./#providers",
         "./accessibility/",
         "./assets/styles.css",
-        "./images/hero/central-texas-limestone-path-v1.webp",
+        "./images/hero/central-texas-limestone-path-v2.webp",
         "./images/office/office.webp",
         "./images/providers/alba-lara.webp",
         "./privacy/",
@@ -806,7 +806,7 @@
       "route": "/previews/mariposa/providers/alba-lara/",
       "outputFile": "previews/mariposa/providers/alba-lara/index.html",
       "title": "Dr. Alba Lara | Psychiatrist and Psychotherapist in Austin",
-      "description": "Meet Dr. Alba Lara and learn about her psychodynamic psychiatry, psychotherapy, and medication management services for adults.",
+      "description": "Meet Dr. Alba Lara, a psychiatrist offering psychodynamic psychotherapy and medication management for adults in Austin and via telehealth.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/mariposa/providers/alba-lara/",
       "openGraphUrls": {
@@ -858,6 +858,190 @@
       "description": "Terms of Use information for Mariposa Psychiatry.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/mariposa/terms/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/mayabennett/",
+      "outputFile": "previews/mayabennett/index.html",
+      "title": "Maya Bennett Psychology | Fictional Website Concept by FrontDoor Health",
+      "description": "A fictional psychology-practice website concept: warm, personal therapy-focused design by FrontDoor Health. Explore the example and request your own preview.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mayabennett/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/mayabennett/images/social/practice-share.png",
+        "url": "https://frontdoor.health/previews/mayabennett/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/mayabennett/images/social/practice-share.png"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "./#contact",
+        "./#location",
+        "./#providers",
+        "./accessibility/",
+        "./assets/styles.css",
+        "./images/hero/oak-meadow.webp",
+        "./images/office/office.webp",
+        "./images/providers/maya-bennett.webp",
+        "./privacy/",
+        "./providers/maya-bennett/",
+        "./terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 5,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/mayabennett/accessibility/",
+      "outputFile": "previews/mayabennett/accessibility/index.html",
+      "title": "Accessibility | Maya Bennett Psychology",
+      "description": "Accessibility information for Maya Bennett Psychology.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mayabennett/accessibility/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/mayabennett/privacy/",
+      "outputFile": "previews/mayabennett/privacy/index.html",
+      "title": "Privacy | Maya Bennett Psychology",
+      "description": "Privacy information for Maya Bennett Psychology.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mayabennett/privacy/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/mayabennett/providers/maya-bennett/",
+      "outputFile": "previews/mayabennett/providers/maya-bennett/index.html",
+      "title": "Dr. Maya Bennett | Fictional Psychologist Website Concept",
+      "description": "Meet the fictional clinician in FrontDoor Health’s therapy-focused website example.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mayabennett/providers/maya-bennett/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/mayabennett/images/providers/maya-bennett.webp",
+        "url": "https://frontdoor.health/previews/mayabennett/providers/maya-bennett/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/mayabennett/images/providers/maya-bennett.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#providers",
+        "../../accessibility/",
+        "../../assets/styles.css",
+        "../../images/providers/maya-bennett.webp",
+        "../../privacy/",
+        "../../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/previews/mayabennett/terms/",
+      "outputFile": "previews/mayabennett/terms/index.html",
+      "title": "Terms of Use | Maya Bennett Psychology",
+      "description": "Terms of Use information for Maya Bennett Psychology.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/mayabennett/terms/",
       "openGraphUrls": {
         "image": null,
         "url": null
@@ -1485,6 +1669,7 @@
     "previews/mariposa/assets/fonts/newsreader-latin.woff2",
     "previews/mariposa/assets/styles.css",
     "previews/mariposa/images/hero/central-texas-limestone-path-v1.webp",
+    "previews/mariposa/images/hero/central-texas-limestone-path-v2.webp",
     "previews/mariposa/images/office/office.webp",
     "previews/mariposa/images/providers/alba-lara.webp",
     "previews/mariposa/images/social/practice-share.png",
@@ -1492,6 +1677,18 @@
     "previews/mariposa/privacy/index.html",
     "previews/mariposa/providers/alba-lara/index.html",
     "previews/mariposa/terms/index.html",
+    "previews/mayabennett/accessibility/index.html",
+    "previews/mayabennett/assets/fonts/inter-latin.woff2",
+    "previews/mayabennett/assets/fonts/newsreader-latin.woff2",
+    "previews/mayabennett/assets/styles.css",
+    "previews/mayabennett/images/hero/oak-meadow.webp",
+    "previews/mayabennett/images/office/office.webp",
+    "previews/mayabennett/images/providers/maya-bennett.webp",
+    "previews/mayabennett/images/social/practice-share.png",
+    "previews/mayabennett/index.html",
+    "previews/mayabennett/privacy/index.html",
+    "previews/mayabennett/providers/maya-bennett/index.html",
+    "previews/mayabennett/terms/index.html",
     "previews/northhillspsychiatry/accessibility/index.html",
     "previews/northhillspsychiatry/assets/fonts/inter-latin.woff2",
     "previews/northhillspsychiatry/assets/fonts/newsreader-latin.woff2",
@@ -1528,7 +1725,7 @@
     "shared/attribution.js",
     "shared/google-ads.js"
   ],
-  "headers": "/previews/centexmh/*\n  X-Robots-Tag: noindex, nofollow\n/previews/mariposa/*\n  X-Robots-Tag: noindex, nofollow\n/previews/northhillspsychiatry/*\n  X-Robots-Tag: noindex, nofollow\n/previews/northwestpsychiatry/*\n  X-Robots-Tag: noindex, nofollow",
+  "headers": "/previews/centexmh/*\n  X-Robots-Tag: noindex, nofollow\n/previews/mariposa/*\n  X-Robots-Tag: noindex, nofollow\n/previews/mayabennett/*\n  X-Robots-Tag: noindex, nofollow\n/previews/northhillspsychiatry/*\n  X-Robots-Tag: noindex, nofollow\n/previews/northwestpsychiatry/*\n  X-Robots-Tag: noindex, nofollow",
   "robots": "User-agent: *\nAllow: /\n\nSitemap: https://frontdoor.health/sitemap.xml",
   "sitemapLocations": []
 }

@@ -1,0 +1,15 @@
+# Fictional concept imagery
+
+Generated October 9, 2026 with built-in ImageGen. Both outputs were approved by the user and converted to WebP at quality 82. The clinician is invented; the landscape is atmospheric. The user authorized reusing Mariposa's fictitious office image as a placeholder.
+
+## Portrait prompt
+
+Generate a single editorial professional portrait for a clearly labeled fictional psychology-practice website concept. This is an invented adult clinician, Dr. Maya Bennett, not a real person and not based on any reference person's likeness. Woman around 44 with medium-brown skin, shoulder-length naturally curly dark brown hair, thoughtful relaxed expression and a small natural smile. Oatmeal linen cardigan over a subdued terracotta blouse, no jewelry beyond tiny simple earrings. Chest-up portrait, seated comfortably near a window, softly blurred warm plaster wall and a hint of greenery, real skin texture, gentle daylight, believable everyday imperfections, no glossy fashion retouching. Person centered, leave enough headroom for a 4:5 portrait crop and a smaller square crop. Warm ivory, muted clay, quiet olive tones. Photograph-like contemporary editorial portrait. No white coat, medical equipment, office signage, logos, text, watermark, other people, montage, frames, or graphics. Make the image vertical 4:5.
+
+Original: `/Users/chaitanya/.codex/generated_images/01a12352-2490-7d42-8775-0773d71378f5/exec-2c78c8ac-5b8d-4a3f-b9c9-9d27b8eaf22f.png`.
+
+## Hero prompt
+
+Use case: photorealistic-natural. Asset: environmental hero image for a clearly labeled fictional solo psychology practice website concept, Maya Bennett Psychology. Generate a quietly beautiful, believable Central Texas landscape detail: a mature live oak at the edge of an open grassy meadow, a few soft dry grasses in the foreground, low rolling greenery beyond, natural irregular vegetation, no cultivated garden or manicured park. Calm diffuse late-afternoon light with readable shadows and subtle warmth; realistic fine texture, gentle atmospheric depth, no glow, haze overlay or dramatic sunbeams. Compose landscape 3:2 with the oak trunk and arching branch near center, grasses and meadow providing a simple spatial gesture. It will appear as a separate image panel beside text, and should work in a center-cropped portrait panel as well as a wide mobile crop. Keep the image detailed throughout, no blank or deliberately faded area for copy. Colors: quiet olive foliage, straw, warm limestone-neutral earth and soft sky, compatible with ivory, subdued rust and deep green interfaces. Natural documentary-style environmental photography, no oversaturation, HDR, fake bokeh, perfectly staged landscaping or postcard sunset. No people, buildings, office interiors, clinical equipment, butterflies, signs, text, logos or watermarks. This is atmospheric generated imagery, not a real clinic location.
+
+Original: `/Users/chaitanya/.codex/generated_images/01a12352-2490-7d42-8775-0773d71378f5/exec-d4e71310-30be-41a0-8838-9a45f6340425.png`.

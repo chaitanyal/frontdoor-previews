@@ -1,5 +1,5 @@
 ---
-/** Homepage conditions content, composed independently of the provider team. */
+/** Homepage concerns list; optional home labels adapt its language to the practice. */
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 interface Props { config: Record<string, any>; }
 const { config } = Astro.props;
@@ -23,8 +23,8 @@ const { conditions = [], conditionsIntro = '' } = config;
   </svg>
   <div class="section-shell relative">
     <div class="max-w-3xl">
-      <p class="eyebrow">Areas of care</p>
-      <h2 class="section-title">Conditions We Treat</h2>
+      <p class="eyebrow">{config.home?.conditionsEyebrow || 'Areas of care'}</p>
+      <h2 class="section-title">{config.home?.conditionsTitle || 'Conditions We Treat'}</h2>
       <p data-section-summary class="section-copy">{conditionsIntro}</p>
     </div>
     <ul

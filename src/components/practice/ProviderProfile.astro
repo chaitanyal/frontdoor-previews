@@ -5,6 +5,8 @@
  * ProviderPage supplies metadata, theme, and page-level scripts.
  * Empty clinical lists omit their sections when individual scope is not sourced.
  * Identity precedes the portrait on mobile; all approved biography/training content renders.
+ * Non-physician profiles combine credentials and professional role into one identity line.
+ * PA/NP profiles use concise role labels; specialty qualifications remain in training content.
  * Optional imagePosition keeps the same percentage focal point as provider cards.
  */
 import { practiceAssetUrl } from '../../lib/assets.mjs';
@@ -12,6 +14,8 @@ import {
   providerAffiliationMode,
   providerProfile,
   providerEntityType,
+  providerRoleLabel,
+  providerIdentityLine,
 } from '../../lib/practice-view.mjs';
 import AppointmentSection from './AppointmentSection.astro';
 import Icon from './Icon.astro';
@@ -64,7 +68,15 @@ const educationLabels: Record<string, string> = {
 const portraitStyle = provider.imagePosition
   ? `object-position: ${provider.imagePosition.x}% ${provider.imagePosition.y}%;`
   : undefined;
+const combinedCredentials = !providerEntityType(provider).includes('Physician') && provider.credentials && provider.specialty;
+const roleLabel = providerRoleLabel(provider);
+const identityLine = providerIdentityLine(provider);
 const educationRows = [
+  ...(roleLabel && provider.credentials &&
+      (roleLabel === 'Nurse Practitioner' || !provider.certifications?.length) ? [{
+    label: 'Credentials',
+    values: [provider.credentials],
+  }] : []),
   ...(provider.certifications?.length ? [{
     label: providerEntityType(provider).includes('Physician') ? 'Board Certification' : 'Certifications',
     values: provider.certifications,
@@ -103,14 +115,14 @@ const affiliationMode = providerAffiliationMode(profile);
             {profile.name}
           </h1>
           {
-            provider.credentials && (
+            identityLine && (
               <p class="provider-credentials mt-2 text-base font-semibold tracking-wide text-slate-500 md:text-lg">
-                {provider.credentials}
+                {identityLine}
               </p>
             )
           }
           {
-            (provider.specialty || provider.heroTitle) && (
+            !combinedCredentials && !roleLabel && (provider.specialty || provider.heroTitle) && (
               <p class="provider-hero-title mt-4 text-lg font-semibold text-brand-primary">
                 {provider.specialty || provider.heroTitle}
               </p>
@@ -133,13 +145,13 @@ const affiliationMode = providerAffiliationMode(profile);
             <a href="#appointment" class="btn-primary">
               {profile.labels.bookAppointment}
             </a>
-            <a
+            {!config.fictionalDemo && <a
               href={profile.phoneHref}
               data-frontdoor-cta="phone"
               class="btn-secondary"
             >
               {profile.labels.callOffice}
-            </a>
+            </a>}
           </div>
         </div>
         <div class="provider-portrait-shell mx-auto w-full max-w-md lg:max-w-none">
@@ -344,6 +356,7 @@ const affiliationMode = providerAffiliationMode(profile);
     )
   }
   <AppointmentSection
+    fictionalDemo={config.fictionalDemo}
     appointmentUrl={profile.appointmentUrl}
     patientPortalUrl={profile.patientPortalUrl}
     telehealth={config.appointmentSection?.telehealth}

@@ -140,7 +140,7 @@ another palette or font system.
 
 - `reflective`: a quieter, literary composition within
   `editorial-healthcare`. It uses the same Newsreader and Inter font system and
-  is currently selected by Mariposa Psychiatry.
+  is currently selected by Mariposa Psychiatry and the fictional Maya Bennett Psychology concept.
 
 The variant is not a fourth theme. Prefer an existing theme and variant before
 adding another design family. New styles must apply through shared theme-scoped
@@ -156,6 +156,7 @@ Current selections:
 drdronavalli         calm-healthcare
 northhillspsychiatry editorial-healthcare
 mariposa             editorial-healthcare + reflective
+mayabennett          editorial-healthcare + reflective (fictional outreach concept)
 northwestpsychiatry  structured-clinical
 ```
 

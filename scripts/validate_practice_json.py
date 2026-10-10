@@ -315,6 +315,8 @@ def validate_financial_policy(value: Any) -> None:
             require_string_key(fee, "amount", f"financialPolicy.fees[{index}]")
             if "duration" in fee:
                 require_string(fee["duration"], f"financialPolicy.fees[{index}].duration")
+            if "description" in fee:
+                require_string(fee["description"], f"financialPolicy.fees[{index}].description")
 
 
 def validate_provider_contact_override(value: Any, path: str) -> None:
@@ -346,6 +348,11 @@ def valid_theme_names() -> set[str]:
 
 
 def validate_practice_config(config: dict[str, Any], source: Path) -> None:
+    if "fictionalDemo" in config:
+        if not isinstance(config["fictionalDemo"], bool):
+            fail("fictionalDemo must be a boolean")
+        if config["fictionalDemo"] and config.get("seo", {}).get("allowIndexing") is not False:
+            fail("Fictional demos must set seo.allowIndexing to false")
     theme = require_string_key(config, "theme", "root")
     themes = valid_theme_names()
     if theme not in themes:

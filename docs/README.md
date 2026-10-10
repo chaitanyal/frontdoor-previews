@@ -5,6 +5,7 @@ for maintenance rules, and the [Astro source guide](../src/README.md) for code l
 
 ## Current guidance
 
+- [Rebekah Hage design and copy learnings](rebekah-hage-design-and-copy-learnings.md): reference observations and proposed improvements to FrontDoor marketing, practice themes, and generated copy.
 - [Google Maps integration](integrations/google-maps.md): design, rollout notes, and verification.
 - [Cloudflare deployment](deployment/cloudflare/README.md): infrastructure overview.
 - [Conservative Cloudflare build triggers](deployment/cloudflare/build-watch-paths.md): live watch/cache settings, validation, and future-project setup.

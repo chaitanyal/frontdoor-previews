@@ -3,11 +3,24 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { hasProviderDirectory, homepageProviders } from '../../src/lib/provider-team.mjs';
-import { practiceHomepageSchemas, providerDirectorySchemas, providerProfile, providerBreadcrumbSchema } from '../../src/lib/practice-view.mjs';
+import { practiceHomepageSchemas, providerDirectorySchemas, providerProfile, providerBreadcrumbSchema, providerIdentityLine, providerEntityType } from '../../src/lib/practice-view.mjs';
 import { practiceLlms } from '../../src/lib/practice-production.mjs';
 import { previewProviderDirectoryPaths } from '../../src/lib/preview-paths.mjs';
 
 const centex = JSON.parse(readFileSync('sites/centexmh/practice.json', 'utf8'));
+
+test('professional identity distinguishes doctoral clinicians, PAs, NPs, and physicians', () => {
+  for (const [provider, identity, types] of [
+    [{ name: 'Dr. Example Psychologist', credentials: 'PhD', specialty: 'Clinical Psychologist' }, 'PhD · Clinical Psychologist', ['Person']],
+    [{ name: 'Example PA', credentials: 'MPAM, PA-C, CAQ', specialty: 'Physician Assistant · Psychiatry' }, 'Certified Physician Assistant', ['Person']],
+    [{ name: 'Dr. Example NP', credentials: 'DNP, APRN, PMHNP-BC', specialty: 'Adult Psychiatry' }, 'Nurse Practitioner', ['Person']],
+    [{ name: 'Example Nurse', credentials: 'APRN', specialty: 'Advanced Practice Registered Nurse' }, 'APRN · Advanced Practice Registered Nurse', ['Person']],
+    [{ name: 'Dr. Example Physician', credentials: 'DO', specialty: 'Psychiatry' }, 'DO', ['Person', 'Physician']],
+  ]) {
+    assert.equal(providerIdentityLine(provider), identity);
+    assert.deepEqual(providerEntityType(provider), types);
+  }
+});
 
 test('portrait focal coordinates accept percentages and reject incomplete or unsafe values', () => {
   const python = 'import json,sys; from pathlib import Path; from scripts.validate_practice_json import validate_practice_config; validate_practice_config(json.load(sys.stdin), Path("sites/centexmh/practice.json"))';

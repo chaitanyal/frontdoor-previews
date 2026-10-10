@@ -3,6 +3,7 @@
  * Phone link or email-copy button with CTA tracking attributes.
  * Email buttons require CopyEmailScript on the containing page; href is for phone links.
  * Email display may wrap after @ while the copy value remains unchanged.
+ * Disabled cards retain their appearance without links, copy actions, or tracking.
  */
 import Icon from './Icon.astro';
 
@@ -12,6 +13,7 @@ interface Props {
   value: string;
   href?: string;
   variant?: 'lg' | 'sm';
+  disabled?: boolean;
 }
 
 const {
@@ -20,6 +22,7 @@ const {
   value,
   href = '',
   variant = 'lg',
+  disabled = false,
 } = Astro.props;
 const isEmail = type === 'email';
 const isCompact = variant === 'sm';
@@ -43,7 +46,15 @@ const valueClass = isCompact
 ---
 
 {
-  isEmail ? (
+  disabled ? (
+    <div class={`${base} ${size}`} aria-disabled="true">
+      <span class={iconClass}><Icon name={isEmail ? 'Mail' : 'Phone'} /></span>
+      <span class="min-w-0">
+        <span class={labelClass}>{label}</span>
+        <span class={valueClass}>{value}</span>
+      </span>
+    </div>
+  ) : isEmail ? (
     <button
       type="button"
       data-copy-email={value}

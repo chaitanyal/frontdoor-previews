@@ -3,10 +3,10 @@
   "designVariant": "reflective",
   "seo": {
     "title": "Mariposa Psychiatry | Adult Psychiatry & Psychotherapy in Austin",
-    "description": "Meet Dr. Alba Lara, explore adult psychiatry and psychodynamic psychotherapy in Austin and online, and request care on a fast-loading website designed for phones and desktops.",
+    "description": "Adult psychiatry and psychodynamic psychotherapy with Dr. Alba Lara in Austin and via telehealth. Explore care, fees, and the practice inquiry process.",
     "siteUrl": "https://frontdoor.health/previews/mariposa",
     "ogImage": "./images/social/practice-share.png",
-    "ogImageAlt": "Mariposa Psychiatry — Insight-oriented psychiatric care. Austin, TX 78731. Adult psychiatry and psychodynamic psychotherapy. (737) 321-5871",
+    "ogImageAlt": "Mariposa Psychiatry — Psychiatry and psychotherapy for adults. Austin, TX 78731. Adult psychiatry and psychodynamic psychotherapy. (512) 256-0547",
     "allowIndexing": false
   },
   "practice": {
@@ -14,34 +14,38 @@
     "name": "Mariposa Psychiatry",
     "tagline": "Adult psychiatry and psychodynamic psychotherapy",
     "locationLabel": "Austin, TX 78731",
-    "phone": "(737) 321-5871",
-    "phoneHref": "tel:+17373215871",
-    "email": "dr.alba.lara@gmail.com",
+    "phone": "(512) 256-0547",
+    "phoneHref": "tel:+15122560547",
+    "email": "frontdesk@mariposapsychmd.com",
     "address": {
       "addressLocality": "Austin",
       "addressRegion": "TX",
       "postalCode": "78731",
-      "addressCountry": "US"
+      "addressCountry": "US",
+      "streetAddress": "6850 Austin Center Blvd, Bldg 2, Ste 320"
     },
     "addressLines": [
+      "6850 Austin Center Blvd",
+      "Bldg 2, Ste 320",
       "Austin, TX 78731"
     ],
     "socialLinks": [],
-    "defaultAppointmentUrl": "https://forms.gle/hmX3to3etAw2yrRw5",
+    "defaultAppointmentUrl": "https://docs.google.com/forms/d/e/1FAIpQLSe33uQ4PKj2rJgp-WokAw0WwBIQ1gRwhcDINRCWb_477s46QA/viewform",
     "emergencyNotice": "If you are experiencing a mental health crisis or having thoughts of self-harm, call 911 or 988 immediately."
   },
   "hero": {
-    "image": "./images/hero/central-texas-limestone-path-v1.webp",
+    "image": "./images/hero/central-texas-limestone-path-v2.webp",
     "imageAlt": "Sunlit limestone path through native Central Texas vegetation",
-    "title": "Insight-oriented psychiatric care.",
-    "copy": "Psychiatry and psychotherapy for adults seeking clarity, stability, and meaningful change.",
-    "primaryCta": "Request Appointment",
+    "title": "Psychiatry and psychotherapy for adults.",
+    "copy": "Dr. Alba Lara offers psychodynamic psychotherapy and medication management, with care primarily online and limited in-person appointments in Austin.",
+    "primaryCta": "Inquire about care",
     "secondaryCta": "Meet Dr. Lara"
   },
   "home": {
-    "providerEyebrow": "Physician",
-    "providerTitle": "Meet Dr. Lara",
-    "providerCopy": "Psychodynamic psychiatry for adults seeking insight, stability, and meaningful change."
+    "providerEyebrow": "Your psychiatrist",
+    "providerTitle": "Meet Dr. Alba Lara",
+    "providerCopy": "Dr. Lara is board-certified in psychiatry and consultation-liaison psychiatry, the area of care where mental and physical health meet.",
+    "navProvidersLabel": "Meet Dr. Lara"
   },
   "trustItems": [
     {
@@ -70,7 +74,7 @@
       "imageAlt": "Dr. Alba Lara, psychiatrist and psychodynamic psychotherapist in Austin, Texas",
       "seo": {
         "title": "Dr. Alba Lara | Psychiatrist and Psychotherapist in Austin",
-        "description": "Meet Dr. Alba Lara and learn about her psychodynamic psychiatry, psychotherapy, and medication management services for adults."
+        "description": "Meet Dr. Alba Lara, a psychiatrist offering psychodynamic psychotherapy and medication management for adults in Austin and via telehealth."
       },
       "specialty": "Psychiatrist, MD",
       "specialties": [
@@ -85,11 +89,10 @@
         "Psychodynamic Psychotherapy",
         "Primarily Telehealth"
       ],
-      "tagline": "Bilingual psychiatrist specializing in psychosomatic medicine, complex mood disorders, and insight-oriented psychotherapy.",
+      "tagline": "Her clinical focus includes mood disorders and the emotional effects of medical illness.",
       "bioParagraphs": [
-        "Dr. Alba Lara is a psychiatrist and psychodynamic psychotherapist serving adults through Mariposa Psychiatry, a primarily virtual private-pay practice.",
-        "Her work integrates psychotherapy and psychiatry, with special attention to psychosomatic medicine, complex mood disorders, personality patterns, self-esteem, interpersonal functioning, and the emotional impact of medical illness.",
-        "She offers a thoughtful, gradual partnership for patients seeking more than a brief medication check, including psychotherapy and medication management when clinically appropriate."
+        "Dr. Alba Lara is a board-certified psychiatrist and psychotherapist. She completed psychiatry residency at UT Austin Dell Medical School and a consultation-liaison psychiatry fellowship at Columbia University.",
+        "Her work includes psychiatric care for mood disorders and for people whose mental health is affected by medical illness. She also offers psychodynamic psychotherapy, which explores patterns in emotional life and relationships."
       ],
       "conditions": [
         "Mood disorders",
@@ -110,9 +113,8 @@
         "Psychiatric evaluation",
         "Medication evaluation and management",
         "Psychiatric consultation or second opinion",
-        "Support with psychiatric documentation when clinically appropriate",
+        "FMLA documentation for established patients, when clinically appropriate",
         "Consultation-liaison psychiatry",
-        "ADHD evaluation",
         "Telepsychiatry"
       ],
       "languages": [
@@ -125,27 +127,29 @@
           "University of Texas at Austin Dell Medical School"
         ],
         "fellowship": [
-          "Psychodynamic Psychotherapy\nColumbia University Center for Psychoanalytic Training and Research"
+          "Consultation-Liaison Psychiatry\nColumbia University Vagelos College of Physicians & Surgeons"
         ]
       },
       "certifications": [
-        "Psychiatry, and Consultation-Liaison Psychiatry"
+        "Board-certified in Psychiatry",
+        "Board-certified in Consultation-Liaison Psychiatry",
+        "Transference Focused Psychotherapy (TFP), Columbia University Center for Psychoanalytic Training and Research"
       ],
       "affiliations": [
-        "American Academy of Geriatric Psychiatry",
-        "Academy of Consultation Liaison Psychiatry"
+        "American Association for Geriatric Psychiatry",
+        "Academy of Consultation-Liaison Psychiatry"
       ],
       "acceptsNewPatients": true,
       "aboutHeading": "About Dr. Lara",
       "whatToExpect": [
-        "A reflective, insight-oriented approach to psychotherapy and psychiatry.",
-        "Attention to long-standing patterns, medical complexity, relationships, and symptom relief.",
-        "A private-pay practice model with payment due at the time of service."
+        "An initial consultation to review your concerns, discuss options, and assess whether the practice is a fit.",
+        "Psychotherapy, medication management, or a combination, depending on the agreed treatment plan.",
+        "Private-pay appointments, with a card on file charged on the day of your visit."
       ],
-      "appointmentUrl": "https://forms.gle/hmX3to3etAw2yrRw5"
+      "appointmentUrl": "https://docs.google.com/forms/d/e/1FAIpQLSe33uQ4PKj2rJgp-WokAw0WwBIQ1gRwhcDINRCWb_477s46QA/viewform"
     }
   ],
-  "conditionsIntro": "Mariposa Psychiatry works with adults navigating mood symptoms, medical complexity, personality patterns, anxiety, grief, and life transitions.",
+  "conditionsIntro": "Care may address mood and anxiety concerns, relationship patterns, self-esteem, and the emotional impact of medical illness. Dr. Lara reviews each inquiry to determine whether the practice is an appropriate fit.",
   "conditions": [
     "Mood disorders",
     "Anxiety and stress",
@@ -165,104 +169,85 @@
   "financialPolicy": {
     "paymentModel": "cash_only",
     "pricingDisplay": "listed",
-    "summary": "Mariposa Psychiatry is a private-pay only practice. It is not in network with insurance plans and does not submit insurance claims.",
+    "summary": "Mariposa Psychiatry is private-pay and out of network with all insurance plans. The practice does not accept Medicare or Medicaid patients. A credit card must be kept on file and is charged on the day of your appointment.",
     "fees": [
       {
-        "label": "New patient evaluation",
+        "label": "Initial comprehensive consultation",
         "amount": "$450",
-        "duration": "60 minutes"
+        "duration": "75–90 minutes"
       },
       {
-        "label": "Follow-up visit",
+        "label": "Routine medication follow-up",
         "amount": "$225",
         "duration": "25 minutes"
       },
       {
-        "label": "Therapy session",
+        "label": "Psychotherapy session",
         "amount": "$300",
-        "duration": "45-50 minutes"
+        "duration": "50 minutes"
+      },
+      {
+        "label": "Extended follow-up or family visit",
+        "amount": "$450",
+        "duration": "55–60 minutes"
       }
     ],
     "paymentMethods": [
-      "Credit cards",
-      "Digital Payment Apps",
-      "Cash",
-      "Checks"
+      "Credit cards"
     ]
   },
   "faqs": [
     {
-      "question": "Is Mariposa Psychiatry accepting new patients?",
-      "answer": "The intake form is used to review practice inquiries. The practice notes that submitting the form does not guarantee acceptance as a patient."
+      "question": "Who does Dr. Lara see?",
+      "answer": "Dr. Lara works with adults ages 18–64. Her practice focuses on psychodynamic psychotherapy, mood disorders, and mental health concerns that overlap with medical illness."
+    },
+    {
+      "question": "Is she accepting new patients?",
+      "answer": "Yes, for care that fits the practice's clinical focus. Patients seeking both psychotherapy and psychiatric care with Dr. Lara are prioritized. Submit an inquiry to explore whether the practice is a fit for your needs."
     },
     {
       "question": "Are appointments online or in person?",
-      "answer": "The practice is primarily virtual, with some limited in-person availability in Northwest Austin."
+      "answer": "Most appointments are online, with limited in-person availability in Northwest Austin on Tuesdays. Telehealth is available to patients located in Texas, California, Arizona, New Mexico, Missouri, or New York."
     },
     {
-      "question": "Does Mariposa Psychiatry accept insurance?",
-      "answer": "No. Mariposa Psychiatry is private-pay only, out of network with insurance, and does not submit claims."
+      "question": "Does the practice accept insurance?",
+      "answer": "Mariposa Psychiatry is private-pay and out of network with all insurance plans. The practice does not accept Medicare or Medicaid patients."
     },
     {
-      "question": "Can I request a superbill?",
-      "answer": "The source form states that a superbill may be provided upon request."
+      "question": "How does payment work?",
+      "answer": "A credit card must be kept on file and is charged on the day of the appointment. Visit fees are listed in the Private Pay section."
+    },
+    {
+      "question": "What happens after I submit an inquiry?",
+      "answer": "Dr. Lara reviews the information to assess whether she can provide the care you need and contacts you about next steps. Submitting an inquiry does not confirm an appointment or acceptance into the practice."
     }
   ],
   "location": {
-    "title": "Austin Psychiatry Office",
+    "title": "Online care and Austin appointments",
     "officeImage": "./images/office/office.webp",
-    "officeImageAlt": "Austin, Texas office location for Mariposa Psychiatry",
-    "directionsHref": "https://www.google.com/maps/search/?api=1&query=Austin%2C%20TX%2078731",
+    "officeImageAlt": "Limestone building surrounded by trees and landscaping",
+    "directionsHref": "https://www.google.com/maps/search/?api=1&query=6850%20Austin%20Center%20Blvd%20Bldg%202%20Ste%20320%20Austin%20TX%2078731",
     "timeZone": "America/Chicago",
     "hours": [
       [
-        "Monday",
-        "9:00 AM - 5:00 PM"
-      ],
-      [
         "Tuesday",
-        "9:00 AM - 5:00 PM"
-      ],
-      [
-        "Wednesday",
-        "9:00 AM - 5:00 PM"
+        "By appointment"
       ],
       [
         "Thursday",
-        "9:00 AM - 5:00 PM"
-      ],
-      [
-        "Friday",
-        "9:00 AM - 5:00 PM"
+        "By appointment"
       ]
     ],
-    "weeklyHours": {
-      "Monday": {
-        "open": "09:00",
-        "close": "17:00"
-      },
-      "Tuesday": {
-        "open": "09:00",
-        "close": "17:00"
-      },
-      "Wednesday": {
-        "open": "09:00",
-        "close": "17:00"
-      },
-      "Thursday": {
-        "open": "09:00",
-        "close": "17:00"
-      },
-      "Friday": {
-        "open": "09:00",
-        "close": "17:00"
-      }
-    }
+    "summary": "Appointments are primarily online. Limited in-person appointments are available in Northwest Austin on Tuesdays. The practice sees patients by appointment on Tuesdays and Thursdays."
   },
   "footer": {
     "links": [
       "Privacy",
       "Accessibility"
     ]
+  },
+  "appointmentSection": {
+    "heading": "Considering care with Dr. Lara?",
+    "summary": "Start with the practice inquiry form. Dr. Lara will review your inquiry and contact you about next steps. For general questions, contact the office by phone or email."
   }
 }

@@ -1,7 +1,7 @@
 ---
 /**
  * Homepage office details and optional FAQs from config.location and config.faqs.
- * Includes contact cards and optional Google ratings; homepage scripts enhance hours.
+ * Includes contact cards and optional Google ratings; fictional demos disable contact actions and omit reviews/status.
  */
 import {
   homeContent,
@@ -34,7 +34,7 @@ const faqSummary =
 >
   <div class="section-shell">
     <div class="max-w-2xl">
-      <p class="eyebrow">Visit the office</p>
+      <p class="eyebrow">{config.fictionalDemo ? 'An illustrative setting' : 'Visit the office'}</p>
       <h2 class="section-title">{location.title}</h2>
       <p data-section-summary class="section-copy">{locationSummary}</p>
     </div>
@@ -57,7 +57,7 @@ const faqSummary =
             {practice.name}
           </h3>
           {
-            location.googleReviewSummary && (
+            !config.fictionalDemo && location.googleReviewSummary && (
               <GoogleReviewSummary
                 practiceSlug={practice.slug}
                 subjectName={practice.name}
@@ -103,19 +103,25 @@ const faqSummary =
             }
           </div>
           <div class="mt-8 grid gap-3">
-            <a
+            {config.fictionalDemo ? (
+              <button type="button" disabled class="btn-primary min-h-[52px] w-full">
+                <Icon name="MapPin" />
+                Get Directions
+              </button>
+            ) : (<a
               href={location.directionsHref}
               data-frontdoor-cta="directions"
               class="btn-primary min-h-[52px] w-full"
             >
               <Icon name="MapPin" />
               Get Directions
-            </a>
+            </a>)}
             <ContactCard
               type="phone"
               label="Call Office"
               value={practice.phone}
               href={practice.phoneHref}
+              disabled={config.fictionalDemo}
             />
           </div>
         </div>
@@ -128,16 +134,16 @@ const faqSummary =
             <span class="icon-chip h-9 w-9 sm:h-10 sm:w-10">
               <Icon name="Clock3" class="h-5 w-5" />
             </span>
-            Office Hours
+            {config.fictionalDemo && !location.weeklyHours ? 'Sessions' : 'Office Hours'}
           </h3>
-          <span
+          {!config.fictionalDemo && <span
             class="whitespace-nowrap rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-600"
             data-office-status
             data-time-zone={location.timeZone}
             data-weekly-hours={JSON.stringify(location.weeklyHours || {})}
           >
             Hours Listed
-          </span>
+          </span>}
         </div>
         <div class="mt-8 space-y-5">
           {

@@ -291,6 +291,14 @@ function assertPageImageMetadata(
       `WebPage.primaryImageOfPage must be ${expectedImage} in ${relativePath}.`,
     );
   }
+  // Fictional showcases retain page/image metadata without advertising a real clinician.
+  if (entityType === null) {
+    if (webPage?.mainEntity || jsonLd.some(block =>
+      ['Person', 'Physician', 'MedicalClinic'].some(type => hasSchemaType(block, type)))) {
+      throw new Error(`Fictional concept must omit clinical entity schemas in ${relativePath}.`);
+    }
+    return;
+  }
   const entity = jsonLd.find((block) => hasSchemaType(block, entityType));
   if (entity?.image !== expectedEntityImage) {
     throw new Error(
@@ -350,7 +358,9 @@ export async function validatePracticeOutput(outDir, config) {
     'index.html',
     canonicalUrl(config),
     homeImage,
-    config.providers?.length === 1 ? 'Physician' : 'MedicalClinic',
+    config.fictionalDemo ? null : config.providers?.length === 1
+      ? providerEntityType(config.providers[0]).includes('Physician') ? 'Physician' : 'Person'
+      : 'MedicalClinic',
     config.providers?.length === 1
       ? absoluteUrl(config, providerImageMetadata(config.providers[0]).image)
       : homeImage,
@@ -376,7 +386,7 @@ export async function validatePracticeOutput(outDir, config) {
       relativePath,
       canonicalUrl(config, `providers/${provider.slug}`),
       providerImage,
-      providerEntityType(provider).includes('Physician') ? 'Physician' : 'Person',
+      config.fictionalDemo ? null : providerEntityType(provider).includes('Physician') ? 'Physician' : 'Person',
     );
     const visiblePortrait = String(provider.image).replace(/^\.\//, '');
     if (!imageSources(html).some((source) => source.endsWith(visiblePortrait))) {

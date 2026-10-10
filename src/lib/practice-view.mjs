@@ -31,6 +31,17 @@ export function schemaMedicalSpecialty(value) {
   return unique.length === 1 ? unique[0] : unique;
 }
 
+// Keep PA/NP identity labels concise without discarding source credentials.
+export function providerRoleLabel(provider) {
+  const credentials = String(provider.credentials || '');
+  const specialty = String(provider.specialty || '');
+  if (/\bPA-C\b/i.test(credentials)) return 'Certified Physician Assistant';
+  if (/physician assistant/i.test(specialty)) return 'Physician Assistant';
+  if (/\b(?:NP|FNP|PMHNP|AGNP|AGACNP|AGPCNP|ANP|ACNP|PNP|WHNP|CNP)\b/i.test(credentials) ||
+      /nurse practitioner/i.test(specialty)) return 'Nurse Practitioner';
+  return '';
+}
+
 export function providerEntityType(provider) {
   const credentials = String(provider.credentials || '');
   const clinicalRole = [
@@ -39,9 +50,19 @@ export function providerEntityType(provider) {
     ...[provider.medicalSpecialty].flat(),
   ].filter(Boolean).join(' ');
   const isPhysician = /\b(?:m\.?d\.?|d\.?o\.?)\b/i.test(credentials) ||
-    (/^Dr\.\s/i.test(String(provider.name || '')) &&
+    (!providerRoleLabel(provider) && /^Dr\.\s/i.test(String(provider.name || '')) &&
       /psychiatr|physician|pulmonary|medicine/i.test(clinicalRole));
   return isPhysician ? ['Person', 'Physician'] : ['Person'];
+}
+
+// Cards and profiles share the same non-physician identity wording.
+export function providerIdentityLine(provider) {
+  const roleLabel = providerRoleLabel(provider);
+  if (roleLabel) return roleLabel;
+  if (!providerEntityType(provider).includes('Physician') && provider.credentials && provider.specialty) {
+    return `${provider.credentials} · ${provider.specialty}`;
+  }
+  return provider.credentials || '';
 }
 
 export function providerEntityId(config, provider) {

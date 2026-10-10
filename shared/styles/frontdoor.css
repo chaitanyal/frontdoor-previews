@@ -1066,7 +1066,28 @@ html[data-theme='structured-clinical'] .practice-footer a {
   color: rgba(255, 255, 255, 0.66);
 }
 
-/* Mariposa Psychiatry: reflective, literary, and intentionally unhurried. */
+/* Reflective: literary and intentionally unhurried. */
+/* Fictional showcase disclosures are distinct from the practice's patient copy. */
+.concept-notice {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem 1.5rem;
+  padding: 0.8rem 1.5rem;
+  background: #e5eadd;
+  color: #24483d;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+.concept-notice p { max-width: 52rem; }
+.concept-notice a { text-decoration: underline; text-underline-offset: 0.2rem; font-weight: 600; }
+html[data-theme='editorial-healthcare'] .home-appointment.concept-appointment.section {
+  background: var(--color-sage);
+  border-color: var(--color-border);
+}
+html[data-theme='editorial-healthcare'] .concept-appointment .section-title { color: var(--color-text-primary); }
+
 html[data-theme='editorial-healthcare'][data-design-variant='reflective'] body::before {
   position: fixed;
   inset: 0;
@@ -1106,7 +1127,7 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
 
 html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero .image-treatment {
   right: auto;
-  width: 55%;
+  width: 50%;
   filter: brightness(0.9) contrast(0.98) saturate(0.7) sepia(0.08);
 }
 
@@ -1114,9 +1135,8 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   background: linear-gradient(
     90deg,
     rgba(244, 239, 231, 0.05) 0%,
-    rgba(244, 239, 231, 0.08) 45%,
-    rgba(244, 239, 231, 0.9) 60%,
-    rgba(244, 239, 231, 1) 72%
+    rgba(244, 239, 231, 0.08) 42%,
+    rgba(244, 239, 231, 1) 50%
   );
 }
 
@@ -1125,7 +1145,8 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
 }
 
 html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-content {
-  width: 43%;
+  /* Align the text with the centered page shell, beyond the viewport's image half. */
+  width: calc(50% - 2rem);
   max-width: none;
   margin-left: auto;
 }
@@ -1154,12 +1175,14 @@ html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-
   border-radius: 0;
   padding: 0;
   background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 html[data-theme='editorial-healthcare'][data-design-variant='reflective'] .home-hero-title {
   max-width: 34rem;
   color: var(--color-text-primary);
-  font-size: clamp(3.5rem, 5.3vw, 5.75rem);
+  font-size: clamp(3.2rem, 4vw, 4.5rem);
   font-weight: 500;
   line-height: 0.94;
   letter-spacing: -0.045em;

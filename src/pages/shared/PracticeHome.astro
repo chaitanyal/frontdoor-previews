@@ -44,6 +44,7 @@ const { config, theme, isPreview = false } = Astro.props;
     <TreatmentCards config={config} />
     <FinancialPolicy config={config} />
     <AppointmentSection
+      fictionalDemo={config.fictionalDemo}
       appointmentUrl={config.practice.defaultAppointmentUrl}
       patientPortalUrl={config.practice.patientPortalUrl}
       telehealth={config.appointmentSection?.telehealth}

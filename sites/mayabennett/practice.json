@@ -1,0 +1,275 @@
+{
+  "theme": "editorial-healthcare",
+  "seo": {
+    "title": "Maya Bennett Psychology | Fictional Website Concept by FrontDoor Health",
+    "description": "A fictional psychology-practice website concept: warm, personal therapy-focused design by FrontDoor Health. Explore the example and request your own preview.",
+    "siteUrl": "https://frontdoor.health/previews/mayabennett/",
+    "allowIndexing": false,
+    "ogImage": "./images/social/practice-share.png",
+    "ogImageAlt": "Maya Bennett Psychology \u2014 a fictional therapy website concept by FrontDoor Health",
+    "locale": "en_US"
+  },
+  "practice": {
+    "slug": "mayabennett",
+    "name": "Maya Bennett Psychology",
+    "tagline": "Psychotherapy for adults",
+    "locationLabel": "Austin, Texas",
+    "phone": "(512) 555-0148",
+    "phoneHref": "https://frontdoor.health/#contact",
+    "email": "hello@mayabennett.example",
+    "addressLines": [
+      "1840 Meadowlight Lane",
+      "Suite 210",
+      "Austin, TX 78731"
+    ],
+    "address": {
+      "addressLocality": "Austin",
+      "addressRegion": "TX",
+      "addressCountry": "US",
+      "streetAddress": "1840 Meadowlight Lane, Suite 210",
+      "postalCode": "78731"
+    },
+    "socialLinks": [],
+    "disableExternalActionLinksInPreview": true,
+    "emergencyNotice": "This fictional example does not offer clinical care."
+  },
+  "hero": {
+    "image": "./images/hero/oak-meadow.webp",
+    "imageAlt": "Generated landscape of an oak tree overlooking a quiet meadow",
+    "title": "Therapy for what you\u2019re carrying.",
+    "copy": "A space to explore anxiety, relationships, and the patterns that leave you feeling stuck. Psychotherapy for adults with Dr. Maya Bennett.",
+    "primaryCta": "Explore a first conversation",
+    "secondaryCta": "Meet Dr. Bennett"
+  },
+  "providerProfileSections": {
+    "expectations": true
+  },
+  "treatments": [],
+  "trustItems": [
+    {
+      "icon": "CalendarCheck",
+      "text": "New Patients Welcome"
+    },
+    {
+      "icon": "WalletCards",
+      "text": "Private Pay Psychotherapy"
+    },
+    {
+      "icon": "HeartHandshake",
+      "text": "Relationships and Self-Understanding"
+    },
+    {
+      "icon": "Video",
+      "text": "Online and In Person Sessions"
+    }
+  ],
+  "providers": [
+    {
+      "slug": "maya-bennett",
+      "name": "Dr. Maya Bennett",
+      "specialty": "Clinical psychologist",
+      "image": "./images/providers/maya-bennett.webp",
+      "imageAlt": "AI-generated portrait of fictional psychologist Dr. Maya Bennett",
+      "imagePosition": {
+        "x": 50,
+        "y": 25
+      },
+      "seo": {
+        "title": "Dr. Maya Bennett | Fictional Psychologist Website Concept",
+        "description": "Meet the fictional clinician in FrontDoor Health\u2019s therapy-focused website example."
+      },
+      "tagline": "Psychotherapy for adults navigating anxiety, relationship difficulties, and life transitions.",
+      "heroTrustItems": [
+        "Individual psychotherapy",
+        "Adults"
+      ],
+      "specialties": [
+        "Psychodynamic psychotherapy",
+        "Relationships",
+        "Self-understanding"
+      ],
+      "conditions": [
+        "Anxiety and stress",
+        "Relationship patterns",
+        "Self-esteem and identity",
+        "Grief and loss",
+        "Life transitions",
+        "The emotional impact of illness"
+      ],
+      "services": [
+        "Individual psychotherapy",
+        "Psychodynamic psychotherapy",
+        "Online sessions"
+      ],
+      "aboutHeading": "A space to understand what feels difficult",
+      "bioParagraphs": [
+        "I work with adults who are navigating anxiety, difficult relationships, loss, or changes in their lives. You may know what you want to talk about, or simply have a sense that something feels stuck. You do not need to have it all put into words before we begin.",
+        "My approach is psychodynamic. Together, we explore what is happening now and how earlier experiences may shape your feelings, relationships, and sense of yourself. We pay attention to patterns that keep returning, including those that may be difficult to notice on your own.",
+        "I bring a background in clinical psychology to this work, with doctoral education at The University of Texas at Austin and training in adult psychotherapy. In our conversations, there is room for both the concerns that brought you here and the parts of your life that matter beyond them.",
+        "Reaching out can feel like a significant step. A first conversation gives us a chance to discuss what you are looking for, answer your questions, and consider whether working together feels like a fit."
+      ],
+      "whatToExpect": [
+        "We begin with what brings you to therapy and what you would like to understand or change.",
+        "We explore recurring patterns in feelings and relationships at a pace we discuss together.",
+        "You can ask questions about the approach and consider whether the therapeutic relationship feels right for you."
+      ],
+      "credentials": "PhD",
+      "education": {
+        "graduate": "PhD in Clinical Psychology\nThe University of Texas at Austin",
+        "clinicalInternship": "Adult outpatient psychotherapy",
+        "additionalTraining": "Psychodynamic psychotherapy"
+      }
+    }
+  ],
+  "conditionsIntro": "You may be facing a recent change, a difficult relationship, or a familiar feeling that keeps returning. These are some of the concerns we can make room for in therapy.",
+  "conditions": [
+    "Anxiety and stress",
+    "Relationship patterns",
+    "Self-esteem and identity",
+    "Grief and loss",
+    "Life transitions",
+    "The emotional impact of illness"
+  ],
+  "insurance": {
+    "enabled": false
+  },
+  "faqs": [
+    {
+      "question": "What is psychodynamic therapy?",
+      "answer": "Psychodynamic therapy explores how past experiences and patterns in relationships may shape your emotional life today. The work makes space for understanding those patterns alongside what is happening now."
+    },
+    {
+      "question": "Do I need to know exactly what I want to work on?",
+      "answer": "You can begin with a concern, a question, or a sense that something feels stuck. Therapy can provide space to put those experiences into words and explore them over time."
+    },
+    {
+      "question": "What would a first conversation involve?",
+      "answer": "In this example, a first conversation would explore what brings you to therapy, what you hope for, and whether the approach feels like a fit. The consultation button is illustrative and does not submit an inquiry."
+    },
+    {
+      "question": "Is this a real practice?",
+      "answer": "No. Maya Bennett Psychology and Dr. Maya Bennett are fictional. FrontDoor Health created this example to show a warm, personal website direction for psychologists and counselors. No patient appointments or inquiries are accepted here."
+    }
+  ],
+  "location": {
+    "title": "A quieter place to begin.",
+    "summary": "Based in Austin, with sessions available online and in person.",
+    "officeImage": "./images/office/office.webp",
+    "officeImageAlt": "Fictional office placeholder: a limestone building with trees and landscaping",
+    "directionsHref": "https://frontdoor.health/#contact",
+    "timeZone": "America/Chicago",
+    "hours": [
+      [
+        "Monday",
+        "9:00 AM \u2013 5:00 PM"
+      ],
+      [
+        "Tuesday",
+        "9:00 AM \u2013 5:00 PM"
+      ],
+      [
+        "Wednesday",
+        "9:00 AM \u2013 5:00 PM"
+      ],
+      [
+        "Thursday",
+        "9:00 AM \u2013 5:00 PM"
+      ],
+      [
+        "Friday",
+        "9:00 AM \u2013 5:00 PM"
+      ],
+      [
+        "Saturday\u2013Sunday",
+        "Closed"
+      ]
+    ],
+    "telehealthNotice": "Sample availability for a fictional practice",
+    "weeklyHours": {
+      "Monday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Tuesday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Wednesday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Thursday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Friday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Saturday": {
+        "closed": true
+      },
+      "Sunday": {
+        "closed": true
+      }
+    }
+  },
+  "footer": {
+    "links": [
+      "Privacy",
+      "Terms",
+      "Accessibility"
+    ],
+    "frontdoorCredit": true
+  },
+  "fictionalDemo": true,
+  "designVariant": "reflective",
+  "home": {
+    "navProvidersLabel": "Meet Dr. Bennett",
+    "providerEyebrow": "A person to talk with",
+    "providerTitle": "Meet Dr. Maya Bennett",
+    "providerCopy": "Therapy begins with a relationship. Dr. Bennett\u2019s approach makes room for both the difficulties you bring and the person you are beyond them.",
+    "conditionsTitle": "What brings you here?",
+    "conditionsEyebrow": "Room for the whole story",
+    "navConditionsLabel": "How I help"
+  },
+  "providerProfileLabels": {
+    "bookAppointment": "Explore a first conversation",
+    "callOffice": "For practice owners",
+    "providers": "Meet Dr. Bennett",
+    "conditions": "How I help",
+    "conditionsTreated": "Concerns we can explore",
+    "treatmentServices": "Ways to work together",
+    "howProviderHelps": "What therapy can look like",
+    "educationTraining": "Education & Training"
+  },
+  "financialPolicy": {
+    "paymentModel": "cash_only",
+    "pricingDisplay": "listed",
+    "summary": "I do not accept insurance. This is a private-pay practice. Session fees are listed below.",
+    "fees": [
+      {
+        "label": "Comprehensive Assessment",
+        "amount": "$300",
+        "description": "An initial session to discuss what brings you to therapy, review your history, and explore your goals and next steps.",
+        "duration": "75 minutes"
+      },
+      {
+        "label": "Individual Therapy",
+        "amount": "$185",
+        "duration": "53 minutes",
+        "description": "A one-on-one session to explore anxiety, relationships, and patterns in your emotional life."
+      },
+      {
+        "label": "Couples Therapy",
+        "amount": "$220",
+        "duration": "60 minutes",
+        "description": "A session for partners to explore relationship difficulties and how they communicate with each other."
+      }
+    ]
+  },
+  "appointmentSection": {
+    "heading": "You can begin with a conversation.",
+    "summary": "A first conversation is a chance to share what brings you here, ask questions, and explore whether working together feels right. You do not need to have everything figured out before reaching out."
+  }
+}

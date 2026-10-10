@@ -19,6 +19,7 @@ test('@provider-experience featured team, directory and profiles work without Ja
     await page.getByRole('link', { name: 'View all 7 providers' }).click();
     await expect(page).toHaveURL(`${centexUrl}providers/`);
     await expect(page.locator('.provider-card')).toHaveCount(7);
+    await expect(page.locator('.provider-card').filter({ hasText: 'Julie Williams' }).locator('.provider-card-credentials')).toHaveText('Certified Physician Assistant');
     const team = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => scripts.map(script => JSON.parse(script.textContent)).find(schema => schema['@type'] === 'ItemList'));
     expect(team.numberOfItems).toBe(7);
     await page.locator('.provider-card').filter({ hasText: 'Julie Williams' }).focus();
@@ -33,7 +34,7 @@ test('@provider-experience featured team, directory and profiles work without Ja
 test('@provider-experience profiles preserve biographies and lead with mobile identity across themes', async ({ page }) => {
   await installDeterministicBrowser(page);
   await installMockNetwork(page);
-  for (const slug of ['drdronavalli', 'centexmh', 'mariposa', 'northwestpsychiatry', 'northhillspsychiatry']) {
+  for (const slug of ['drdronavalli', 'centexmh', 'mariposa', 'mayabennett', 'northwestpsychiatry', 'northhillspsychiatry']) {
     const config = JSON.parse(readFileSync(`sites/${slug}/practice.json`, 'utf8'));
     const base = slug === 'drdronavalli' ? 'https://drdronavalli.com/' : `https://frontdoor.health/previews/${slug}/`;
     for (const provider of config.providers) {
@@ -41,6 +42,14 @@ test('@provider-experience profiles preserve biographies and lead with mobile id
         await page.setViewportSize({ width, height: 1000 });
         await page.goto(`${base}providers/${provider.slug}/`);
         await expect(page.locator('h1')).toHaveText(provider.name);
+        if (/\bPA-C\b/.test(provider.credentials || '')) {
+          await expect(page.locator('.provider-credentials')).toHaveText('Certified Physician Assistant');
+          await expect(page.locator('.provider-hero-title')).toHaveCount(0);
+        }
+        if (slug === 'mayabennett') {
+          await expect(page.locator('.provider-credentials')).toHaveText('PhD · Clinical psychologist');
+          await expect(page.locator('.provider-hero-title')).toHaveCount(0);
+        }
         await expect(page.locator('.provider-body-copy > p')).toHaveCount(provider.bioParagraphs?.length || 1);
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
         if (width < 1024) {
