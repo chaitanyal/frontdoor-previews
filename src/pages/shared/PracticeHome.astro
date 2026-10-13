@@ -2,6 +2,7 @@
 /**
  * Shared homepage composition for standalone practices and both preview targets.
  * Receives validated config/resolved theme; isPreview gates configured external actions.
+ * Added concerns follow the hero; replacement concerns retain their original position.
  * Owns section order, homepage schema, and browser behavior for office hours.
  */
 import AppointmentSection from '../../components/practice/AppointmentSection.astro';
@@ -14,6 +15,7 @@ import PracticeFooter from '../../components/practice/PracticeFooter.astro';
 import PracticeHeader from '../../components/practice/PracticeHeader.astro';
 import ProviderTeam from '../../components/practice/ProviderTeam.astro';
 import Conditions from '../../components/practice/Conditions.astro';
+import RecognizableConcerns from '../../components/practice/RecognizableConcerns.astro';
 import TreatmentCards from '../../components/practice/TreatmentCards.astro';
 import PracticeLayout from '../../layouts/PracticeLayout.astro';
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
@@ -39,12 +41,15 @@ const { config, theme, isPreview = false } = Astro.props;
   <PracticeHeader config={config} />
   <main id="main-content" tabindex="-1">
     <HomeHero config={config} />
+    {!config.careGuidance?.replaceConditions && <RecognizableConcerns config={config} />}
     <ProviderTeam config={config} />
-    <Conditions config={config} />
+    {config.careGuidance?.replaceConditions && <RecognizableConcerns config={config} />}
+    {!config.careGuidance?.replaceConditions && <Conditions config={config} />}
     <TreatmentCards config={config} />
     <FinancialPolicy config={config} />
     <AppointmentSection
       fictionalDemo={config.fictionalDemo}
+      consultationLabel={config.hero.primaryCta}
       appointmentUrl={config.practice.defaultAppointmentUrl}
       patientPortalUrl={config.practice.patientPortalUrl}
       telehealth={config.appointmentSection?.telehealth}

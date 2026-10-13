@@ -27,7 +27,7 @@ const {
 const { hero, practice } = config;
 const currentYear = new Date().getFullYear();
 const patientLinks = homeSectionNavigation(config)
-  .filter((section) => ['providers', 'treatments', 'resources', 'location', 'contact'].includes(section.key))
+  .filter((section) => ['providers', 'careGuidance', 'treatments', 'resources', 'location', 'contact'].includes(section.key))
   .map((section) => ({
     label: section.key === 'contact' ? 'Appointments & contact' : section.label,
     href: section.pagePath ? `${practiceRoot}${section.pagePath}` : `${practiceRoot}#${section.id}`,

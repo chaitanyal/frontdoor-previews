@@ -146,6 +146,7 @@ export function practiceLlms(config, siteUrl) {
 
   const sectionDescriptions = {
     providers: 'provider profiles',
+    careGuidance: 'when to seek care',
     conditions: 'areas of care',
     treatments: 'treatments',
     contact: 'appointments and contact',

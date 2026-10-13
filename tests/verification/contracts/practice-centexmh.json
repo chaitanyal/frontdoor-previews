@@ -25,6 +25,7 @@
         ]
       },
       "localAssetUrls": [
+        "./#care-guidance",
         "./#contact",
         "./#location",
         "./#patient-resources",
@@ -166,6 +167,7 @@
       },
       "localAssetUrls": [
         "../",
+        "../#care-guidance",
         "../#conditions",
         "../#contact",
         "../#faq",
@@ -230,6 +232,7 @@
       "localAssetUrls": [
         "../",
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",
@@ -282,6 +285,7 @@
       "localAssetUrls": [
         "../",
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",
@@ -334,6 +338,7 @@
       "localAssetUrls": [
         "../",
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",
@@ -386,6 +391,7 @@
       "localAssetUrls": [
         "../",
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",
@@ -439,6 +445,7 @@
       "localAssetUrls": [
         "../",
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",
@@ -491,6 +498,7 @@
       "localAssetUrls": [
         "../",
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",
@@ -543,6 +551,7 @@
       "localAssetUrls": [
         "../",
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",
@@ -626,6 +635,7 @@
       },
       "localAssetUrls": [
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#faq",
@@ -675,6 +685,7 @@
       },
       "localAssetUrls": [
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#faq",

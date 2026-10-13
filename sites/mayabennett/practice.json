@@ -37,8 +37,8 @@
     "image": "./images/hero/oak-meadow.webp",
     "imageAlt": "Generated landscape of an oak tree overlooking a quiet meadow",
     "title": "Therapy for what you\u2019re carrying.",
-    "copy": "A space to explore anxiety, relationships, and the patterns that leave you feeling stuck. Psychotherapy for adults with Dr. Maya Bennett.",
-    "primaryCta": "Explore a first conversation",
+    "copy": "A space to explore anxiety, relationships, and the patterns that leave you feeling stuck. Individual and couples therapy for adults with Dr. Maya Bennett.",
+    "primaryCta": "Request a free consultation",
     "secondaryCta": "Meet Dr. Bennett"
   },
   "providerProfileSections": {
@@ -80,7 +80,7 @@
       },
       "tagline": "Psychotherapy for adults navigating anxiety, relationship difficulties, and life transitions.",
       "heroTrustItems": [
-        "Individual psychotherapy",
+        "Individual & couples therapy",
         "Adults"
       ],
       "specialties": [
@@ -98,15 +98,15 @@
       ],
       "services": [
         "Individual psychotherapy",
+        "Couples therapy",
         "Psychodynamic psychotherapy",
         "Online sessions"
       ],
       "aboutHeading": "A space to understand what feels difficult",
       "bioParagraphs": [
-        "I work with adults who are navigating anxiety, difficult relationships, loss, or changes in their lives. You may know what you want to talk about, or simply have a sense that something feels stuck. You do not need to have it all put into words before we begin.",
+        "I work with adults navigating anxiety, difficult relationships, loss, or changes in their lives. I also work with couples exploring relationship difficulties and how they communicate. You do not need to have it all put into words before we begin.",
         "My approach is psychodynamic. Together, we explore what is happening now and how earlier experiences may shape your feelings, relationships, and sense of yourself. We pay attention to patterns that keep returning, including those that may be difficult to notice on your own.",
-        "I bring a background in clinical psychology to this work, with doctoral education at The University of Texas at Austin and training in adult psychotherapy. In our conversations, there is room for both the concerns that brought you here and the parts of your life that matter beyond them.",
-        "Reaching out can feel like a significant step. A first conversation gives us a chance to discuss what you are looking for, answer your questions, and consider whether working together feels like a fit."
+        "Reaching out can feel like a significant step. A free 15-minute consultation gives us a chance to discuss what you are looking for, answer your questions, and consider whether working together feels like a fit."
       ],
       "whatToExpect": [
         "We begin with what brings you to therapy and what you would like to understand or change.",
@@ -121,6 +121,11 @@
       }
     }
   ],
+  "careGuidance": {
+    "contentKeys": ["psychotherapy"],
+    "navLabel": "How I help",
+    "replaceConditions": true
+  },
   "conditionsIntro": "You may be facing a recent change, a difficult relationship, or a familiar feeling that keeps returning. These are some of the concerns we can make room for in therapy.",
   "conditions": [
     "Anxiety and stress",
@@ -143,8 +148,8 @@
       "answer": "You can begin with a concern, a question, or a sense that something feels stuck. Therapy can provide space to put those experiences into words and explore them over time."
     },
     {
-      "question": "What would a first conversation involve?",
-      "answer": "In this example, a first conversation would explore what brings you to therapy, what you hope for, and whether the approach feels like a fit. The consultation button is illustrative and does not submit an inquiry."
+      "question": "How is the free consultation different from the assessment?",
+      "answer": "The first conversation is a free 15-minute consultation to ask questions and see whether working together feels like a fit. If we decide to proceed, the next step is a separate 75-minute comprehensive assessment to explore your concerns, history, and goals in more depth. The assessment costs $300 for either an individual or a couple. This is a fictional practice; the consultation button does not submit an inquiry."
     },
     {
       "question": "Is this a real practice?",
@@ -234,7 +239,7 @@
     "navConditionsLabel": "How I help"
   },
   "providerProfileLabels": {
-    "bookAppointment": "Explore a first conversation",
+    "bookAppointment": "Request a free consultation",
     "callOffice": "For practice owners",
     "providers": "Meet Dr. Bennett",
     "conditions": "How I help",
@@ -249,9 +254,15 @@
     "summary": "I do not accept insurance. This is a private-pay practice. Session fees are listed below.",
     "fees": [
       {
+        "label": "Free Consultation",
+        "amount": "Free",
+        "duration": "15 minutes",
+        "description": "A first conversation to ask questions and see whether working together feels like a fit."
+      },
+      {
         "label": "Comprehensive Assessment",
         "amount": "$300",
-        "description": "An initial session to discuss what brings you to therapy, review your history, and explore your goals and next steps.",
+        "description": "For an individual or a couple, the assessment fee is $300. This session follows the consultation and explores your concerns, history, and goals in more depth.",
         "duration": "75 minutes"
       },
       {
@@ -269,7 +280,7 @@
     ]
   },
   "appointmentSection": {
-    "heading": "You can begin with a conversation.",
-    "summary": "A first conversation is a chance to share what brings you here, ask questions, and explore whether working together feels right. You do not need to have everything figured out before reaching out."
+    "heading": "Start with a free 15-minute consultation.",
+    "summary": "Ask questions and see whether working together feels right. If we decide to proceed, we’ll schedule a separate 75-minute comprehensive assessment ($300)."
   }
 }

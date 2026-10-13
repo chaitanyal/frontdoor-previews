@@ -35,6 +35,7 @@ compose their own content using `components/marketing/` and `MarketingLayout.ast
 | Homepage section order or page-level interactions | `pages/shared/PracticeHome.astro`. |
 | Homepage section navigation or visibility rules | `lib/home-sections.mjs`; keep section IDs and navigation consistent. |
 | A section's markup or layout | Its file in `components/practice/`; read the frontmatter description and props. |
+| Recognizable concerns and shared specialty copy | `components/practice/RecognizableConcerns.astro`, `lib/care-guidance.mjs`, and `shared/content/care-guidance.json`; see [configuration and content boundaries](../docs/recognizable-concerns-and-conditions.md). |
 | Provider presentation and contact fallbacks | `components/practice/ProviderCard.astro`, `ProviderTeam.astro`, `ProviderDirectory.astro`, `ProviderProfile.astro`, and `lib/practice-view.mjs`. |
 | Treatment cards, pages and routes | `components/practice/TreatmentCards.astro`, `pages/shared/TreatmentPage.astro`, and `lib/preview-paths.mjs`; see [treatment-page guidance](../docs/treatment-pages.md). |
 | Metadata or structured data | `lib/seo.mjs`, `lib/practice-view.mjs`, and the shared page/layout passing the data. |
@@ -109,6 +110,17 @@ Optional `appointmentSection.telehealth` supplies `heading`, `summary`, `label`
 and an HTTPS `url` for scheduled-visit access in homepage/provider appointment
 sections. It respects preview action disabling and uses existing-patient CTA tracking.
 `lib/practice-view.mjs` derives display values; layouts receive the resolved theme.
+Optional `careGuidance` selects shared psychiatry/psychotherapy copy with
+`contentKeys`, optional concern selection and heading/intro/navigation overrides,
+and optional practice-specific `practiceHelp` when it adds information. Multiple keys require explicit
+heading, introduction, and four to six unique concern IDs; duplicate concerns merge
+into one list. `replaceConditions: true` replaces the homepage conditions section
+while retaining its `#conditions` anchor for existing provider links. Otherwise,
+the new section precedes the retained condition list at `#care-guidance`.
+Only replacement sections add a header item; all selected sections appear in
+patient-information footers. Treatment links reference existing configured slugs,
+and appointment actions remain in existing page sections. Shared source metadata
+stays internal; it does not establish practice-specific services or credentials.
 Optional `treatments` entries generate `/treatment/<slug>/` in standalone builds
 and `/previews/<practice>/treatment/<slug>/` in both preview targets. The optional
 `treatmentSection` supplies homepage heading/summary. Non-empty lists enable

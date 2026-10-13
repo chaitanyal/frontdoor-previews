@@ -252,6 +252,86 @@ def validate_treatments(config: dict[str, Any]) -> None:
                     fail(f"{resource_path}.url must be an HTTPS URL or start with ./")
 
 
+def validate_care_guidance(config: dict[str, Any]) -> None:
+    if "careGuidance" not in config:
+        return
+    guidance = require_mapping(config["careGuidance"], "careGuidance")
+    supported = {"contentKeys", "concernIds", "heading", "introduction", "navLabel", "replaceConditions", "practiceHelp"}
+    if set(guidance) - supported:
+        fail("careGuidance contains unsupported fields")
+    content_path = Path(__file__).resolve().parents[1] / "shared/content/care-guidance.json"
+    try:
+        catalog = json.loads(content_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        fail(f"Unable to read shared care guidance: {error}")
+    require_mapping(catalog, "care guidance catalog")
+    keys = require_key(guidance, "contentKeys", "careGuidance")
+    validate_string_list(keys, "careGuidance.contentKeys", min_items=1)
+    if len(keys) != len(set(keys)) or any(key not in catalog for key in keys):
+        fail("careGuidance.contentKeys must select unique existing content keys")
+    concerns: set[str] = set()
+    for key in keys:
+        entry_path = f"care guidance catalog.{key}"
+        entry = require_mapping(catalog[key], entry_path)
+        for field in ["heading", "introduction", "reviewedOn"]:
+            require_string_key(entry, field, entry_path)
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", entry["reviewedOn"]):
+            fail(f"{entry_path}.reviewedOn must use YYYY-MM-DD")
+        items = require_list(require_key(entry, "concerns", entry_path), f"{entry_path}.concerns")
+        if len(items) < 4:
+            fail(f"{entry_path}.concerns must contain at least 4 concerns")
+        ids: set[str] = set()
+        for index, item in enumerate(items):
+            item_path = f"{entry_path}.concerns[{index}]"
+            require_mapping(item, item_path)
+            for field in ["id", "title", "description"]:
+                require_string_key(item, field, item_path)
+            if item["id"] in ids:
+                fail(f"{item_path}.id duplicates another concern")
+            ids.add(item["id"])
+        if len(items) > 6 or "defaultConcernIds" in entry:
+            defaults = require_key(entry, "defaultConcernIds", entry_path)
+            validate_string_list(defaults, f"{entry_path}.defaultConcernIds", min_items=4)
+            if len(defaults) > 6 or len(defaults) != len(set(defaults)) or any(item not in ids for item in defaults):
+                fail(f"{entry_path}.defaultConcernIds must select 4 to 6 unique existing concerns")
+        concerns.update(ids)
+        sources = require_list(require_key(entry, "sources", entry_path), f"{entry_path}.sources")
+        if not sources:
+            fail(f"{entry_path}.sources must contain at least one source")
+        for index, source in enumerate(sources):
+            source_path = f"{entry_path}.sources[{index}]"
+            require_mapping(source, source_path)
+            for field in ["title", "supports"]:
+                require_string_key(source, field, source_path)
+            require_https_url(require_key(source, "url", source_path), f"{source_path}.url")
+    for field in ["heading", "introduction", "navLabel"]:
+        if field in guidance:
+            require_string(guidance[field], f"careGuidance.{field}")
+    if len(keys) > 1:
+        for field in ["heading", "introduction", "concernIds"]:
+            require_key(guidance, field, "careGuidance")
+    if "concernIds" in guidance:
+        selected = guidance["concernIds"]
+        validate_string_list(selected, "careGuidance.concernIds", min_items=4)
+        if len(selected) > 6 or len(selected) != len(set(selected)) or any(item not in concerns for item in selected):
+            fail("careGuidance.concernIds must select 4 to 6 unique concerns from the selected content")
+    if "replaceConditions" in guidance and not isinstance(guidance["replaceConditions"], bool):
+        fail("careGuidance.replaceConditions must be a boolean")
+    if "practiceHelp" not in guidance:
+        return
+    help_copy = require_mapping(require_key(guidance, "practiceHelp", "careGuidance"), "careGuidance.practiceHelp")
+    if set(help_copy) - {"heading", "summary", "treatmentSlugs"}:
+        fail("careGuidance.practiceHelp contains unsupported fields")
+    for field in ["heading", "summary"]:
+        require_string_key(help_copy, field, "careGuidance.practiceHelp")
+    if "treatmentSlugs" in help_copy:
+        slugs = help_copy["treatmentSlugs"]
+        validate_string_list(slugs, "careGuidance.practiceHelp.treatmentSlugs", min_items=1)
+        existing = {item["slug"] for item in config.get("treatments", [])}
+        if len(slugs) != len(set(slugs)) or any(slug not in existing for slug in slugs):
+            fail("careGuidance.practiceHelp.treatmentSlugs must select unique existing treatments")
+
+
 def validate_google_review_summary(value: Any, path: str) -> None:
     summary = require_mapping(value, path)
     for retired_key in ["rating", "reviewCount"]:
@@ -522,6 +602,7 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
     validate_string_list(require_key(config, "conditions", "root"), "conditions", min_items=1)
     require_string_key(config, "conditionsIntro", "root")
     validate_treatments(config)
+    validate_care_guidance(config)
 
     if "financialPolicy" in config:
         validate_financial_policy(config["financialPolicy"])

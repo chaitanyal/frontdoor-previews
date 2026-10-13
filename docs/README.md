@@ -15,6 +15,8 @@ for maintenance rules, and the [Astro source guide](../src/README.md) for code l
   backend-specific commands, run from each worker directory.
 - [Practice assessments and source evidence](../assessments/README.md).
 - [Treatment pages](treatment-pages.md): configuration, shared routes, evidence and migration guidance.
+- [Recognizable concerns and conditions treated](recognizable-concerns-and-conditions.md): proposed shared specialty content, practice configuration boundaries, and homepage coexistence.
+- [Mental health terminology](content/mental-health-terminology.md): psychiatry versus psychotherapy, provider roles, and application to FrontDoor content and practice configuration.
 - [Practice link previews](social-share-images.md): clinic-facing metadata and branded share-image generation.
 - [Output and browser verification](../tests/verification/README.md).
 - [Build and verification improvement plan](buildimprovement.md): proposed changes

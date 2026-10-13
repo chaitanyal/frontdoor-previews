@@ -12,7 +12,7 @@
   "practice": {
     "slug": "centexmh",
     "name": "Central Texas Mental Health",
-    "tagline": "Adult Psychiatry",
+    "tagline": "Adult Psychiatry · TMS · Spravato",
     "locationLabel": "Round Rock, Texas",
     "phone": "(512) 964-6992",
     "phoneHref": "tel:+15129646992",
@@ -56,7 +56,7 @@
     "image": "./images/hero/centexmh-limestone-creek-v2.webp",
     "imageAlt": "Generated Central Texas landscape of a limestone creek beneath live oak trees",
     "title": "Adult psychiatric care in Round Rock.",
-    "copy": "Board-certified psychiatrist Dr. Michael Musgrove and our psychiatric physician assistants provide medication management for adults. NeuroStar TMS Therapy and Spravato offer additional options for depression treatment.",
+    "copy": "When mood, worry, or attention makes everyday life harder, you may not know where to turn. We provide psychiatric evaluation and medication management for adults, with additional depression treatment options including TMS and Spravato.",
     "primaryCta": "Request Appointment",
     "secondaryCta": "Meet Our Providers"
   },
@@ -129,7 +129,7 @@
       "tagline": "Adult psychiatric care with a background in psychology and urgent-care practice.",
       "bioParagraphs": [
         "Julie Williams has cared for adults at Central Texas Mental Health since 2009. Her background includes psychology and urgent-care practice.",
-        "Julie holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
+        "Julie’s Psychiatry CAQ recognizes additional knowledge and experience in psychiatric care beyond general physician assistant certification."
       ],
       "education": {
         "physicianAssistantProgram": "UT Health San Antonio",
@@ -158,7 +158,7 @@
       },
       "bioLinks": [
         {
-          "text": "Certificate of Added Qualifications (CAQ) in Psychiatry",
+          "text": "Psychiatry CAQ",
           "url": "https://www.nccpa.net/specialty-certificates/"
         }
       ]
@@ -171,7 +171,7 @@
       "tagline": "Psychiatric evaluations and ongoing medication management for adults.",
       "bioParagraphs": [
         "Renee Moreland trained as a physician assistant at Rosalind Franklin University of Medicine and Science.",
-        "Renee holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
+        "Renee’s Psychiatry CAQ recognizes additional knowledge and experience in psychiatric care beyond general physician assistant certification."
       ],
       "education": {
         "physicianAssistantProgram": "Rosalind Franklin University of Medicine and Science"
@@ -198,7 +198,7 @@
       },
       "bioLinks": [
         {
-          "text": "Certificate of Added Qualifications (CAQ) in Psychiatry",
+          "text": "Psychiatry CAQ",
           "url": "https://www.nccpa.net/specialty-certificates/"
         }
       ]
@@ -211,7 +211,7 @@
       "tagline": "Providing adult psychiatric care at Centex since 2019.",
       "bioParagraphs": [
         "Caitlin Keen joined Central Texas Mental Health in 2019. She earned her physician assistant master’s degree at Francis Marion University.",
-        "Caitlin holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
+        "Caitlin’s Psychiatry CAQ recognizes additional knowledge and experience in psychiatric care beyond general physician assistant certification."
       ],
       "education": {
         "physicianAssistantProgram": "Francis Marion University",
@@ -239,7 +239,7 @@
       },
       "bioLinks": [
         {
-          "text": "Certificate of Added Qualifications (CAQ) in Psychiatry",
+          "text": "Psychiatry CAQ",
           "url": "https://www.nccpa.net/specialty-certificates/"
         }
       ]
@@ -252,7 +252,7 @@
       "tagline": "Adult psychiatric care, with a background in neuroscience.",
       "bioParagraphs": [
         "Emily Morris earned her Master of Medical Science in Physician Assistant studies at Nova Southeastern University.",
-        "Emily holds a Certificate of Added Qualifications (CAQ) in Psychiatry from NCCPA. This voluntary credential recognizes advanced psychiatric knowledge and experience beyond general PA certification. Earning it requires psychiatry-focused continuing education, at least 2,000 hours of psychiatric practice, and a specialty examination."
+        "Emily’s Psychiatry CAQ recognizes additional knowledge and experience in psychiatric care beyond general physician assistant certification."
       ],
       "education": {
         "physicianAssistantProgram": "Nova Southeastern University",
@@ -280,7 +280,7 @@
       },
       "bioLinks": [
         {
-          "text": "Certificate of Added Qualifications (CAQ) in Psychiatry",
+          "text": "Psychiatry CAQ",
           "url": "https://www.nccpa.net/specialty-certificates/"
         }
       ]
@@ -351,7 +351,7 @@
       }
     }
   ],
-  "conditionsIntro": "Care focuses on psychiatric evaluation and medication management for adults. The practice also offers TMS and Spravato for depression; contact the office to discuss these services.",
+  "conditionsIntro": "We provide care for adults with the following conditions.",
   "conditions": [
     "Depression",
     "Anxiety & Panic",
@@ -361,8 +361,12 @@
     "Schizophrenia",
     "Schizoaffective Disorder"
   ],
+  "careGuidance": {
+    "contentKeys": ["psychiatry"],
+    "concernIds": ["mood", "worry", "attention", "mood-changes", "intrusive-thoughts", "unusual-experiences"]
+  },
   "treatmentSection": {
-    "heading": "Additional options for depression",
+    "heading": "Additional treatment options for depression",
     "summary": "When antidepressants have not provided enough relief, there may be another approach to consider. Explore TMS and Spravato, then talk with our office about an evaluation."
   },
   "treatments": [
@@ -600,7 +604,7 @@
     "featuredProviderSlugs": ["michael-musgrove", "julie-williams", "emily-morris"],
     "providerEyebrow": "Providers",
     "providerTitle": "Meet the care team",
-    "providerCopy": "Our board-certified psychiatrist and physician assistants bring experience and thoughtful care to adult mental health, with treatment options ranging from medication management to NeuroStar TMS Therapy and Spravato."
+    "providerCopy": "Our board-certified psychiatrist and physician assistants provide psychiatric evaluation and medication management for adults."
   },
   "providerProfileLabels": {
     "howProviderHelps": "Care and professional background"

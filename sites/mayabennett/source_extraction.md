@@ -1,5 +1,25 @@
 # Maya Bennett Psychology — fictional concept ledger
 
+## Recognizable concerns — October 13, 2026
+
+The homepage now selects shared `psychotherapy` content from
+[`shared/content/care-guidance.json`](../../shared/content/care-guidance.json),
+with educational references and a source-review date. It replaces the overlapping
+homepage concern-label list while retaining the `#conditions` anchor. The original
+labels remain in configuration for provider and other factual summaries.
+
+The practice-help paragraph paraphrases the existing authorized fictional adult
+psychodynamic approach and first-conversation framing documented below. It adds
+no verified real-world credential, availability, clinical outcome, or prescribing
+claim. Fictional disclosures, noindex, and disabled patient actions remain required.
+
+The October 13 copy refinement introduces the already-authorized fictional couples
+therapy offering in the homepage hero, provider badge, service list, and biography.
+The biography paraphrases the existing fee description about relationship
+difficulties and communication; no new modality, credential, or outcome is claimed.
+User-selected wording replaces abstract descriptions of life changes and illness
+in the shared psychotherapy entry.
+
 Created October 9, 2026, at the user's request as an outreach example for psychologists and counselors. This is a fictional demonstration, not a prospect assessment or verified clinical practice.
 
 ## Identity and content
@@ -52,3 +72,9 @@ At the user’s request, each published fee includes an original one-sentence se
 ## Assessment-first fee schedule
 
 The user replaced individual clinical supervision with a patient-facing Comprehensive Assessment, followed by Individual Therapy and Couples Therapy. The user selected a $300 assessment fee and then specified a 75-minute duration. Existing individual therapy ($185/53 minutes) and couples therapy ($220/60 minutes) remain. The assessment description is original fictional copy covering presenting concerns, history, goals, and next steps; no medication services or psychiatric credentials were imported from the reference screenshot. This supersedes the earlier supervision offering.
+
+## Free introductory consultation
+
+On October 13, 2026, the user defined the “first conversation” as a free 15-minute consultation. It provides time for questions and considering fit. If both parties decide to proceed, the separate 75-minute comprehensive assessment costs $300. Buttons, appointment copy, the fee schedule, FAQ, and provider biography reflect this sequence. These are authorized fictional demo details; consultation actions remain disabled.
+
+The user clarified that the $300 assessment fee applies to either an individual or a couple. The fee description and FAQ now state this explicitly. The shortened biography retains the audience, psychodynamic approach, and free consultation; Education & Training retains the training details.

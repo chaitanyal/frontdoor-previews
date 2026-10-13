@@ -8,6 +8,7 @@ import { hasProviderDirectory } from './provider-team.mjs';
 
 export const HOME_SECTION_IDS = Object.freeze({
   providers: 'providers',
+  careGuidance: 'care-guidance',
   conditions: 'conditions',
   treatments: 'treatments',
   financial: 'insurance',
@@ -29,11 +30,18 @@ export function homeSectionNavigation(config) {
       enabled: Boolean(config.providers?.length),
     },
     {
+      key: 'careGuidance',
+      id: config.careGuidance?.replaceConditions ? HOME_SECTION_IDS.conditions : HOME_SECTION_IDS.careGuidance,
+      label: config.careGuidance?.navLabel || 'When to seek care',
+      header: Boolean(config.careGuidance?.replaceConditions),
+      enabled: Boolean(config.careGuidance),
+    },
+    {
       key: 'conditions',
       id: HOME_SECTION_IDS.conditions,
       label: config.home?.navConditionsLabel || 'Conditions',
       header: true,
-      enabled: Boolean(config.conditions?.length),
+      enabled: Boolean(config.conditions?.length) && !config.careGuidance?.replaceConditions,
     },
     {
       key: 'treatments',

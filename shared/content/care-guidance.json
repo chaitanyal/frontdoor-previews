@@ -1,0 +1,131 @@
+{
+  "psychotherapy": {
+    "heading": "What brings you here?",
+    "introduction": "When worry, relationships, or life changes feel difficult, therapy can offer space to understand what you are experiencing.",
+    "concerns": [
+      {
+        "id": "worry",
+        "title": "Worry that is hard to quiet",
+        "description": "Feeling tense or unable to settle."
+      },
+      {
+        "id": "relationships",
+        "title": "Difficult relationship patterns",
+        "description": "The same conflicts or disconnection keep returning."
+      },
+      {
+        "id": "self-worth",
+        "title": "Being hard on yourself",
+        "description": "Self-doubt affects how you see yourself."
+      },
+      {
+        "id": "loss",
+        "title": "Grief and loss",
+        "description": "Making sense of life after a loss."
+      },
+      {
+        "id": "change",
+        "title": "Finding your way through change",
+        "description": "A change in your life has left you unsure of what comes next."
+      },
+      {
+        "id": "illness",
+        "title": "The emotional weight of illness",
+        "description": "Living with illness has changed how you feel about yourself."
+      }
+    ],
+    "reviewedOn": "2026-10-13",
+    "sources": [
+      {
+        "title": "NIMH: Psychotherapies",
+        "url": "https://www.nimh.nih.gov/health/topics/psychotherapies",
+        "supports": "Reasons to seek therapy, daily functioning, and general description of psychotherapy."
+      }
+    ]
+  },
+  "psychiatry": {
+    "heading": "Does any of this feel familiar?",
+    "introduction": "You may know what feels difficult without knowing why. These are some experiences that can bring people to psychiatric care.",
+    "defaultConcernIds": ["mood", "worry", "attention", "sleep", "mood-changes", "ongoing-difficulty"],
+    "concerns": [
+      {
+        "id": "mood",
+        "title": "Things feel harder to enjoy",
+        "description": "You feel low or disconnected from things you once enjoyed."
+      },
+      {
+        "id": "worry",
+        "title": "Worry or panic takes over",
+        "description": "Worry or sudden waves of panic interrupt your day."
+      },
+      {
+        "id": "attention",
+        "title": "It's hard to stay on track",
+        "description": "You lose focus, forget tasks, or struggle to get started."
+      },
+      {
+        "id": "sleep",
+        "title": "You can't get the rest you need",
+        "description": "You lie awake or feel worn out during the day."
+      },
+      {
+        "id": "mood-changes",
+        "title": "Your mood and energy feel unpredictable",
+        "description": "Changes in mood, energy, or sleep disrupt your routine."
+      },
+      {
+        "id": "ongoing-difficulty",
+        "title": "You've tried care, but still feel stuck",
+        "description": "You're still having a hard time despite previous treatment."
+      },
+      {
+        "id": "intrusive-thoughts",
+        "title": "Thoughts or routines feel hard to stop",
+        "description": "Unwanted thoughts or repeated checking take up your day."
+      },
+      {
+        "id": "unusual-experiences",
+        "title": "Experiences others don't seem to share",
+        "description": "Hearing or seeing things others don't can feel confusing."
+      }
+    ],
+    "reviewedOn": "2026-10-13",
+    "sources": [
+      {
+        "title": "NIMH: My Mental Health: Do I Need Help?",
+        "url": "https://www.nimh.nih.gov/health/publications/my-mental-health-do-i-need-help",
+        "supports": "Recognizable changes in mood, interest, concentration, sleep, energy, and daily functioning."
+      },
+      {
+        "title": "American Psychiatric Association: What is Psychiatry?",
+        "url": "https://www.psychiatry.org/patients-families/what-is-psychiatry",
+        "supports": "Psychiatric evaluation and general range of treatments."
+      },
+      {
+        "title": "NIMH: Psychotherapies",
+        "url": "https://www.nimh.nih.gov/health/topics/psychotherapies",
+        "supports": "Discussing ongoing difficulties and considering other care approaches."
+      },
+      {
+        "title": "NIMH: Bipolar Disorder",
+        "url": "https://www.nimh.nih.gov/health/topics/bipolar-disorder",
+        "supports": "Changes in mood, energy, and sleep; concern wording does not establish a diagnosis."
+      },
+      {
+        "title": "NIMH: Panic Disorder: What You Need to Know",
+        "url": "https://www.nimh.nih.gov/health/publications/panic-disorder-when-fear-overwhelms",
+        "supports": "Sudden episodes of intense fear or discomfort described in everyday language as waves of panic."
+      },
+      {
+        "title": "NIMH: Obsessive-Compulsive Disorder",
+        "url": "https://www.nimh.nih.gov/health/topics/obsessive-compulsive-disorder-ocd",
+        "supports": "Recurring thoughts and repetitive behaviors that interfere with daily life."
+      },
+      {
+        "title": "NIMH: Understanding Psychosis",
+        "url": "https://www.nimh.nih.gov/health/publications/understanding-psychosis",
+        "supports": "Hearing or seeing things others do not; these experiences can have multiple causes and require assessment."
+      }
+    ]
+  }
+}

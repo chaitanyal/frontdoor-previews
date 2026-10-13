@@ -2168,6 +2168,13 @@ html[data-theme='structured-clinical'] .provider-affiliations-card {
    Keep action, financial, location, and credential panels as the visual anchors. */
 .section-title, .provider-section-title { text-wrap: balance; }
 .section-copy { max-width: 42rem; color: var(--color-text-secondary); }
+.home-care-guidance { border-top: 1px solid var(--color-border); background: var(--color-surface); }
+.home-care-guidance .care-concerns li,
+.home-care-guidance .care-guidance-explanation { border-color: var(--color-border); }
+.home-care-guidance .care-concern-title { color: var(--color-text-primary); font-family: var(--font-heading), Georgia, serif; }
+.home-care-guidance .care-concern-copy { color: var(--color-text-secondary); }
+html[data-theme='editorial-healthcare'] .home-care-guidance .care-concern-title,
+html[data-theme='structured-clinical'] .home-care-guidance .care-concern-title { font-weight: 500; }
 html[data-theme] .home-location .section-copy { color: var(--color-text-primary); }
 html[data-theme='calm-healthcare'] .eyebrow { color: var(--color-primary); }
 html[data-theme='calm-healthcare'] .badge-brand { color: #215D3F; }

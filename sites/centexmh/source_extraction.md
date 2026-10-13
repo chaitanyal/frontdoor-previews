@@ -1,5 +1,38 @@
 # Central Texas Mental Health — Source Extraction
 
+## Recognizable concerns — October 13, 2026
+
+The homepage selects shared `psychiatry` educational content from
+[`shared/content/care-guidance.json`](../../shared/content/care-guidance.json),
+which retains authoritative references and a source-review date. General concern
+examples do not establish a diagnosis, clinic acceptance, or treatment eligibility.
+
+The initial `careGuidance.practiceHelp` summary used S4 for adult psychiatric evaluation,
+medication-management emphasis, and obtaining ongoing psychotherapy separately.
+See [retained appointments evidence](../../assessments/centexmh/sources/current/page-3.html).
+TMS and Spravato availability comes from S6 and the existing treatment-page evidence
+in this ledger. Links reuse the configured `tms` and `spravato` entries. The summary
+does not assign advanced treatments to every clinician or promise eligibility.
+
+Current official-page fetches did not resolve through the web tool during this
+change; the practice-specific facts rely on retained evidence already in the ledger.
+The October 13 editorial refinement removes that closing summary to avoid repeating
+existing provider and treatment sections. The shared concerns now describe everyday
+experiences, without diagnosis or eligibility claims. TMS and Spravato links remain
+in the existing Treatment Options section rather than the concerns component.
+
+The subsequent editorial pass clarifies evaluation and medication management in
+the hero while retaining TMS/Spravato there and in the treatment section. Team and
+conditions introductions no longer repeat the treatment names. These descriptions
+use the same S1/S2/S4/S6 evidence; no new clinical offering is inferred.
+
+Centex explicitly selects six shared concern IDs: low mood, worry/panic, attention,
+mood/energy changes, unwanted thoughts/repeated routines, and experiences others do
+not share. The shared catalog retains NIMH references for this educational wording.
+The selection reflects the verified conditions list, but does not map experiences
+to a diagnosis or establish individual treatment eligibility. Sleep and difficulties
+despite previous care remain available in the shared catalog for other selections.
+
 Observed September 30, 2026. Preview synthesis from user-supplied evidence, refreshed official pages, and professional profiles read in the user's Chrome browser. The current clinic roster controls display names and inclusion; conflicting profiles are not treated as proof of a departure. No existing source file was overwritten.
 
 ## Source Inventory
@@ -263,6 +296,8 @@ Added a brief second biography paragraph for Julie Williams, Renee Moreland, Cai
 CAQ verification: site validation/build and output-contract check passed; preview rebuilt. All four revised biographies and NCCPA links were checked at mobile and desktop widths with no overflow or broken images. Only those four provider bioParagraphs/bioLinks changed; the other three providers are unchanged. No deployment.
 
 User display preference, September 30, 2026: restore “PA-C, CAQ” beneath Julie Williams, Renee Moreland, Caitlin Keen and Emily Morris on both homepage cards and provider profiles, matching the annotated screenshots. Keep the Psychiatry CAQ badge and explanatory biography paragraph; this explicit preference supersedes the earlier hero credential simplification. Megan Brady and Rosabelle Pong remain PA-C.
+
+October 13, 2026: at the user’s request, shortened each CAQ explanation to one sentence about additional psychiatric knowledge and experience beyond general PA certification. Existing credential displays and NCCPA links remain. The treatment-section heading now reads “Additional treatment options for depression.” These are editorial changes to previously supported claims.
 
 ### Appointment-section telehealth access
 

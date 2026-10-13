@@ -106,6 +106,46 @@ for (const [slug, output, theme] of sites) {
 }
 
 
+test('@theme-polish care guidance replaces Maya concerns and preserves Centex conditions and treatments', async ({ page }) => {
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  for (const slug of ['mayabennett', 'centexmh']) {
+    const root = path.resolve('.tmp/astro-dist/preview-all/previews', slug);
+    for (const width of [390, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
+      await page.evaluate(() => document.fonts.ready);
+      const guidance = page.locator('.home-care-guidance');
+      await expect(guidance).toHaveCount(1);
+      await expect(guidance.locator('.care-concerns > li')).toHaveCount(6);
+      await expect(guidance.locator('.care-guidance-explanation')).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      await verifyNavigationDestinations(page, 'header a, footer nav a, .home-care-guidance a');
+      if (slug === 'mayabennett') {
+        await expect(guidance).toHaveAttribute('id', 'conditions');
+        await expect(page.locator('.home-conditions')).toHaveCount(0);
+        await expect(page.locator('[id="conditions"]')).toHaveCount(1);
+      } else {
+        await expect(guidance).toHaveAttribute('id', 'care-guidance');
+        await expect(page.locator('.home-conditions')).toHaveCount(1);
+        const order = await page.locator('.home-care-guidance, .home-providers, .home-conditions, .home-treatments').evaluateAll(items => items.map(item => item.id));
+        expect(order).toEqual(['care-guidance', 'providers', 'conditions', 'treatments']);
+        await expect(page.locator('.home-treatments a[href="./treatment/tms/"]')).toHaveCount(1);
+        await expect(page.locator('.home-treatments a[href="./treatment/spravato/"]')).toHaveCount(1);
+      }
+      if (process.env.FRONTDOOR_CAPTURE_SCREENSHOTS === '1') {
+        const screenshots = path.resolve('.tmp/theme-polish', slug);
+        mkdirSync(screenshots, { recursive: true });
+        await guidance.screenshot({ path: path.join(screenshots, `${width}-care-guidance.png`) });
+      }
+    }
+  }
+  const root = path.resolve('.tmp/astro-dist/preview-all/previews/northhillspsychiatry');
+  await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
+  await expect(page.locator('.home-care-guidance')).toHaveCount(0);
+  await expect(page.locator('.home-conditions')).toHaveCount(1);
+});
+
 test('@theme-polish fictional psychology concept discloses its identity and accepts no patient inquiries', async ({ page }) => {
   await installDeterministicBrowser(page);
   await installMockNetwork(page);
@@ -132,7 +172,7 @@ test('@theme-polish fictional psychology concept discloses its identity and acce
       if (!route || route.startsWith('providers/')) {
         await expect(page.locator('.concept-appointment')).toHaveCSS('background-image', 'none');
         await expect(page.locator('.concept-appointment [aria-disabled="true"]')).toBeVisible();
-        await expect(page.locator('.concept-appointment [aria-disabled="true"]')).toHaveText('Request a consultation');
+        await expect(page.locator('.concept-appointment [aria-disabled="true"]')).toHaveText('Request a free consultation');
       }
       if (capture && (!route || route.startsWith('providers/'))) {
         await page.screenshot({ path: path.join(screenshots, `${width}-${route ? 'profile' : 'home'}.png`), fullPage: true });
