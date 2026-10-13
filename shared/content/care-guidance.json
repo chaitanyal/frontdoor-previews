@@ -1,37 +1,84 @@
 {
+  "pulmonology": {
+    "heading": "When to see a pulmonologist",
+    "introduction": "Breathing and sleep problems can show up in everyday ways.",
+    "concerns": [
+      {
+        "id": "breathlessness",
+        "title": "Getting winded walking or climbing stairs"
+      },
+      {
+        "id": "persistent-cough",
+        "title": "A cough that won't go away"
+      },
+      {
+        "id": "wheezing",
+        "title": "Wheezing or noisy breathing"
+      },
+      {
+        "id": "ongoing-phlegm",
+        "title": "Frequently coughing up mucus"
+      },
+      {
+        "id": "sleep-breathing",
+        "title": "Waking up gasping or being told you snore"
+      },
+      {
+        "id": "daytime-sleepiness",
+        "title": "Feeling sleepy despite a full night's rest"
+      }
+    ],
+    "reviewedOn": "2026-10-13",
+    "sources": [
+      {
+        "title": "National Cancer Institute: Pulmonologist",
+        "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/pulmonologist",
+        "supports": "General role of a pulmonologist in diagnosing and treating lung disease; the introduction does not establish practice-specific services."
+      },
+      {
+        "title": "NHLBI: COPD Symptoms",
+        "url": "https://www.nhlbi.nih.gov/health/copd/symptoms",
+        "supports": "Breathlessness with activity, ongoing cough, mucus, and wheezing; these experiences do not establish COPD."
+      },
+      {
+        "title": "American Lung Association: Warning Signs of Lung Disease",
+        "url": "https://www.lung.org/lung-health-diseases/warning-signs-of-lung-disease",
+        "supports": "Persistent cough, breathlessness, ongoing mucus, and noisy breathing can warrant evaluation and have multiple possible causes."
+      },
+      {
+        "title": "NHLBI: Sleep Apnea Symptoms",
+        "url": "https://www.nhlbi.nih.gov/health/sleep-apnea/symptoms",
+        "supports": "Loud snoring, observed breathing pauses, gasping during sleep, and daytime sleepiness; select sleep entries only for practices with verified relevant services."
+      }
+    ]
+  },
   "psychotherapy": {
     "heading": "What brings you here?",
-    "introduction": "When worry, relationships, or life changes feel difficult, therapy can offer space to understand what you are experiencing.",
+    "introduction": "You may recognize some of these experiences in your own life.",
     "concerns": [
       {
         "id": "worry",
-        "title": "Worry that is hard to quiet",
-        "description": "Feeling tense or unable to settle."
+        "title": "Worry that is hard to quiet"
       },
       {
         "id": "relationships",
-        "title": "Difficult relationship patterns",
-        "description": "The same conflicts or disconnection keep returning."
+        "title": "The same relationship conflicts keep returning"
       },
       {
         "id": "self-worth",
-        "title": "Being hard on yourself",
-        "description": "Self-doubt affects how you see yourself."
+        "title": "Being hard on yourself"
       },
       {
         "id": "loss",
-        "title": "Grief and loss",
-        "description": "Making sense of life after a loss."
+        "title": "Finding your way after a loss"
       },
       {
         "id": "change",
-        "title": "Finding your way through change",
-        "description": "A change in your life has left you unsure of what comes next."
+        "title": "A life change leaves you unsure what comes next"
       },
       {
         "id": "illness",
-        "title": "The emotional weight of illness",
-        "description": "Living with illness has changed how you feel about yourself."
+        "title": "Illness has changed how you feel about yourself"
       }
     ],
     "reviewedOn": "2026-10-13",
@@ -45,48 +92,47 @@
   },
   "psychiatry": {
     "heading": "Does any of this feel familiar?",
-    "introduction": "You may know what feels difficult without knowing why. These are some experiences that can bring people to psychiatric care.",
-    "defaultConcernIds": ["mood", "worry", "attention", "sleep", "mood-changes", "ongoing-difficulty"],
+    "introduction": "You may know what feels difficult without knowing why.",
+    "defaultConcernIds": [
+      "mood",
+      "worry",
+      "attention",
+      "sleep",
+      "mood-changes",
+      "ongoing-difficulty"
+    ],
     "concerns": [
       {
         "id": "mood",
-        "title": "Things feel harder to enjoy",
-        "description": "You feel low or disconnected from things you once enjoyed."
+        "title": "Feeling low or losing interest in things you enjoyed"
       },
       {
         "id": "worry",
-        "title": "Worry or panic takes over",
-        "description": "Worry or sudden waves of panic interrupt your day."
+        "title": "Worry or panic takes over"
       },
       {
         "id": "attention",
-        "title": "It's hard to stay on track",
-        "description": "You lose focus, forget tasks, or struggle to get started."
+        "title": "Struggling to focus, remember tasks, or get started"
       },
       {
         "id": "sleep",
-        "title": "You can't get the rest you need",
-        "description": "You lie awake or feel worn out during the day."
+        "title": "You can't get the rest you need"
       },
       {
         "id": "mood-changes",
-        "title": "Your mood and energy feel unpredictable",
-        "description": "Changes in mood, energy, or sleep disrupt your routine."
+        "title": "Your mood and energy feel unpredictable"
       },
       {
         "id": "ongoing-difficulty",
-        "title": "You've tried care, but still feel stuck",
-        "description": "You're still having a hard time despite previous treatment."
+        "title": "You've tried care, but still feel stuck"
       },
       {
         "id": "intrusive-thoughts",
-        "title": "Thoughts or routines feel hard to stop",
-        "description": "Unwanted thoughts or repeated checking take up your day."
+        "title": "Unwanted thoughts or repeated checking feel hard to stop"
       },
       {
         "id": "unusual-experiences",
-        "title": "Experiences others don't seem to share",
-        "description": "Hearing or seeing things others don't can feel confusing."
+        "title": "Hearing or seeing things others don't"
       }
     ],
     "reviewedOn": "2026-10-13",

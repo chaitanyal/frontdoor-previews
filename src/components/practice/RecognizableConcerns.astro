@@ -1,6 +1,7 @@
 ---
 /**
- * Optional symptom-first section, with optional verified practice-help copy.
+ * Optional symptom-first section; concern descriptions and verified practice-help
+ * copy are optional so shared content can use compact, single-phrase concerns.
  * Replacement preserves #conditions for existing provider/profile links. Treatment
  * links use configured slugs; appointment actions remain in existing page sections.
  */
@@ -30,7 +31,7 @@ const treatments = (config.treatments || []).filter((treatment) =>
         {content.concerns.map((concern) => (
           <li class="border-t pt-5">
             <h3 class="care-concern-title text-lg font-semibold leading-snug">{concern.title}</h3>
-            <p class="care-concern-copy mt-3 text-base leading-7">{concern.description}</p>
+            {concern.description && <p class="care-concern-copy mt-3 text-base leading-7">{concern.description}</p>}
           </li>
         ))}
       </ul>

@@ -56,3 +56,80 @@ Not evaluated for this targeted update.
 ## Conflicts or Uncertainty
 
 None identified for the requested biography affiliation statement.
+
+## Recognizable concerns integration — October 13, 2026
+
+Selected the reusable `pulmonology` entry from
+[`shared/content/care-guidance.json`](../../shared/content/care-guidance.json).
+Six concerns describe breathlessness with activity, persistent cough, wheezing,
+ongoing phlegm, breathing interruptions during sleep, and daytime sleepiness.
+The shared catalog retains clinical sources and its review date; these experiences
+are general educational framing, not diagnoses or additional practice services.
+
+The [official HMC physician profile](https://hmcdoctors.com/find-a-doctor-by-name-2/goutham-dronavalli-pulmonology/),
+observed October 13, 2026, names Dr. Goutham Dronavalli in its visible heading and
+lists bronchitis, asthma, COPD, emphysema, shortness of breath, and “Sleep Apnea and
+Sleep Disorders.” This supports the pulmonary and sleep scope of the selected
+concerns. Its browser title incorrectly names another physician; the visible
+heading, body, phone, and linked pulmonology directory identify Dr. Dronavalli.
+Do not use that title as evidence for provider identity.
+
+The new section follows the hero, before the provider introduction. Conditions
+We Treat retains the existing complete list. No closing practice-help paragraph
+was added because the existing provider section already explains his care.
+Existing appointment, portal, and emergency instructions remain. Coughing up
+blood and severe acute symptoms are excluded from routine concerns; see
+[separate urgent-symptom guidance](../../docs/content/pulmonology.md).
+
+Local verification: configuration regressions, HTML validation, and all output
+contracts passed. Accepted contract differences add only concerns-navigation
+links. All 37 theme, provider, and analytics browser tests passed; new assertions
+check six concerns, section order, and condition-list preservation at 390, 768,
+and 1440 pixels. Mobile and desktop screenshots were visually inspected. No
+production deployment was performed for this integration.
+
+## Provider biography refinement — October 13, 2026
+
+At the user's request, shortened the first provider biography paragraph while
+preserving fellowship training at Baylor College of Medicine, subsequent lung
+transplantation work at St. Luke’s Medical Center, the Associate Professor role
+at UTHealth Houston, and pulmonary/sleep care through HMC in Sugar Land. The
+official HMC physician profile linked above supports the training, transplant,
+and academic background. Only `providers[0].bioParagraphs[0]` changed; the homepage
+tagline and second biography paragraph remain unchanged.
+
+## Testing FAQ correction — October 13, 2026
+
+Removed allergy immunotherapy from `faqs[1].answer` because it is treatment,
+not diagnostic testing. The [American College of Allergy, Asthma & Immunology](https://acaai.org/allergies/management-treatment/allergy-immunotherapy/)
+supports this distinction. The answer retains the existing testing options,
+uses “breathing tests” for pulmonary function testing, and removes internal
+source-attribution wording. This correction does not change the practice's
+service offerings.
+
+## Appointment wording alignment — October 13, 2026
+
+At the user's request, aligned home/provider appointment actions to “Request
+Appointment.” The appointment heading, summary, and FAQ now describe the existing
+Healow route and office phone option. The scheduling section uses the optional
+`appointmentSection.primaryCtaLabel`; its destination and tracking remain unchanged.
+The public Healow page identifies Dr. Dronavalli, but the full booking/confirmation
+process was not tested. Request wording avoids asserting immediate confirmation.
+
+The FAQ no longer recommends email for appointment requests. Retained original
+contact notes describe email as unmonitored; its current role has not been
+confirmed. The existing email contact remains available without a new promise
+about response times. Emergency guidance remains distinct from routine requests.
+
+## Persuasive copy refinement — October 13, 2026
+
+Applied the user-approved tagline to the homepage card and provider page. It
+names Baylor fellowship training, lung-transplant experience, and academic
+medicine before describing the purpose of care. The official HMC physician
+profile linked above supports that experience. “Helps patients overcome” remains
+benefit framing, not a guarantee of cure or a reported treatment outcome.
+
+Simplified three provider service labels to “Breathing tests (pulmonary function
+testing),” “Home testing for sleep apnea,” and “CPAP / BiPAP treatment management.”
+These paraphrase the existing services without changing their scope. The expert
+headline, biography, concerns, and appointment instructions remain unchanged.

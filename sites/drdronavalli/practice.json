@@ -78,8 +78,9 @@
     "secondaryCta": "Meet Dr. Dronavalli"
   },
   "appointmentSection": {
-    "heading": "Ready to schedule with Dr. Dronavalli?",
-    "summary": "Request an appointment with a board-certified pulmonologist in Sugar Land or contact the office directly."
+    "heading": "Take the next step toward better breathing and sleep.",
+    "summary": "Get started online or call (832) 500-1430.",
+    "primaryCtaLabel": "Request Appointment"
   },
   "home": {
     "navProvidersLabel": "About",
@@ -89,6 +90,7 @@
     "insuranceFallback": "Please contact the office to confirm insurance and payment options."
   },
   "providerProfileLabels": {
+    "bookAppointment": "Request Appointment",
     "hospitalAffiliationsIntro": "Active privileges at leading Houston-area hospitals."
   },
   "trustItems": [
@@ -127,9 +129,9 @@
       ],
       "specialty": "Pulmonary Disease & Sleep Medicine",
       "medicalSpecialty": "https://schema.org/Pulmonary",
-      "tagline": "Combining advanced academic insight with personalized care, Dr. Dronavalli helps patients overcome complex breathing disorders and chronic sleep conditions. Welcoming new patients at our Sugar Land clinic.",
+      "tagline": "Dr. Dronavalli brings Baylor fellowship training, lung-transplant experience, and academic medicine to your care. He helps patients overcome complex breathing disorders and chronic sleep conditions.",
       "bioParagraphs": [
-        "Dr. Goutham Dronavalli provides comprehensive, evidence-based care for complex lung diseases and sleep disorders through Hillcroft Medical Center at its Sugar Land location. As an Associate Professor at UTHealth Houston, he bridges current medical research with compassionate clinical care.",
+        "Dr. Goutham Dronavalli completed fellowship training at Baylor College of Medicine and worked in lung transplantation at St. Luke’s Medical Center. An Associate Professor at UTHealth Houston, he also provides pulmonary and sleep care through Hillcroft Medical Center in Sugar Land.",
         "Specializing in advanced diagnostic evaluations, Dr. Dronavalli performs pulmonary function testing, allergy screenings, and home sleep studies. He works closely with each patient to design individualized treatment plans focused on clear communication, effective long-term management, and measurable improvements in your daily life."
       ],
       "bioLinks": [
@@ -147,10 +149,10 @@
         "Insomnia & Sleep-Disordered Breathing"
       ],
       "services": [
-        "Comprehensive Pulmonary Function Testing (PFTs)",
-        "Home Sleep Apnea Testing (HSAT)",
+        "Breathing tests (pulmonary function testing)",
+        "Home testing for sleep apnea",
         "Six-Minute Walk Testing (Oxygen Evaluation)",
-        "CPAP / BiPAP Therapy Management",
+        "CPAP / BiPAP treatment management",
         "Allergy Evaluation & Management",
         "Chronic Medication Management"
       ],
@@ -196,6 +198,10 @@
       "appointmentUrl": "https://healow.com/apps/provider/goutham-dronavalli-3201534"
     }
   ],
+  "careGuidance": {
+    "contentKeys": ["pulmonology"],
+    "navLabel": "When to seek care"
+  },
   "conditionsIntro": "Evaluation and care for common and complex respiratory conditions.",
   "conditions": [
     "Asthma",
@@ -275,11 +281,11 @@
     },
     {
       "question": "What testing is available in office?",
-      "answer": "Services listed by the practice include pulmonary function testing, six-minute walk testing, allergy skin testing, allergy immunotherapy, and home sleep studies."
+      "answer": "Testing options include breathing tests, six-minute walk testing, allergy skin testing, and home sleep studies."
     },
     {
       "question": "How do I request an appointment?",
-      "answer": "Call the office at (832) 500-1430 or contact the practice by email. For urgent questions, the practice recommends phone or fax rather than email."
+      "answer": "Request an appointment online, or call (832) 500-1430. For medical emergencies, call 911 or go to the nearest emergency room."
     },
     {
       "question": "Which insurance plans do you accept?",

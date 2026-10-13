@@ -284,8 +284,10 @@ def validate_care_guidance(config: dict[str, Any]) -> None:
         for index, item in enumerate(items):
             item_path = f"{entry_path}.concerns[{index}]"
             require_mapping(item, item_path)
-            for field in ["id", "title", "description"]:
+            for field in ["id", "title"]:
                 require_string_key(item, field, item_path)
+            if "description" in item:
+                require_string_key(item, "description", item_path)
             if item["id"] in ids:
                 fail(f"{item_path}.id duplicates another concern")
             ids.add(item["id"])
@@ -492,6 +494,8 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         appointment_section = require_mapping(config["appointmentSection"], "appointmentSection")
         require_string_key(appointment_section, "heading", "appointmentSection")
         require_string_key(appointment_section, "summary", "appointmentSection")
+        if "primaryCtaLabel" in appointment_section:
+            require_string_key(appointment_section, "primaryCtaLabel", "appointmentSection")
         if "telehealth" in appointment_section:
             telehealth = require_mapping(appointment_section["telehealth"], "appointmentSection.telehealth")
             for key in ["heading", "summary", "label"]:

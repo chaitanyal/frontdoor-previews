@@ -63,6 +63,7 @@ const { config, theme, isPreview = false } = Astro.props;
       sectionId={HOME_SECTION_IDS.contact}
       homeVariant
       heading={config.appointmentSection?.heading}
+      primaryCtaLabel={config.appointmentSection?.primaryCtaLabel}
       summary={config.appointmentSection?.summary}
     />
     <LocationFaq config={config} />

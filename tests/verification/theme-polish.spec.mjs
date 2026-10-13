@@ -51,6 +51,11 @@ for (const [slug, output, theme] of sites) {
         await verifyNavigationDestinations(page, 'footer nav a');
         if (!route || route.startsWith('providers/')) {
           await verifyNavigationDestinations(page, 'header a');
+          if (slug === 'drdronavalli') {
+            const appointmentLinks = page.locator(`a[href="${config.practice.defaultAppointmentUrl}"]`);
+            expect(await appointmentLinks.count()).toBeGreaterThan(0);
+            for (const link of await appointmentLinks.all()) await expect(link).toHaveText('Request Appointment');
+          }
         }
         for (const link of await page.locator('footer nav a').all()) {
           const box = await link.boundingBox();
@@ -58,6 +63,17 @@ for (const [slug, output, theme] of sites) {
         }
 
         if (!route) {
+          if (slug === 'drdronavalli') {
+            const guidance = page.locator('.home-care-guidance');
+            await expect(guidance).toHaveAttribute('id', 'care-guidance');
+            await expect(guidance.locator('.care-concerns > li')).toHaveCount(6);
+            await expect(guidance.locator('.care-guidance-explanation')).toHaveCount(0);
+            const order = await page.locator('.home-care-guidance, .home-providers, .home-conditions').evaluateAll(items => items.map(item => item.id));
+            expect(order).toEqual(['care-guidance', 'providers', 'conditions']);
+            await expect(page.locator('.home-conditions')).toHaveCount(1);
+            await expect(page.locator('.home-conditions')).toContainText('COPD');
+            if (capture) await guidance.screenshot({ path: path.join(screenshots, `${width}-care-guidance.png`) });
+          }
           if (theme === 'structured-clinical' && await page.locator('.home-resources').count()) {
             const resources = page.locator('.home-resources .patient-resource-list');
             await expect(resources).toHaveCSS('border-top-width', '0px');

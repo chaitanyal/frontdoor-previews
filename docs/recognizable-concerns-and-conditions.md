@@ -1,6 +1,6 @@
 # Recognizable concerns and conditions treated
 
-Status: milestones 1 and 2 implemented and verified on October 13, 2026.
+Status: milestones 1 and 2 implemented and verified on October 13, 2026. Milestone 4 content is source-reviewed and validated. Milestone 5 is applied and verified locally. WHOIS content-selection guidance is documented. The latest compact-copy edits have not been built or verified.
 
 ## Purpose
 
@@ -57,6 +57,38 @@ fear-based escalation or implying inevitable deterioration. Keep urgent concerns
 such as coughing up blood, separate from routine appointment prompts and review
 the associated guidance before publishing.
 
+## Default editorial standard: compact recognition
+
+Use the same compact presentation for every new specialty:
+
+- One patient-facing heading and one short introductory sentence.
+- Four to six standalone concern phrases, using concrete everyday experiences.
+- Omit concern descriptions by default. Add one only when it supplies essential
+  meaning that a concise phrase cannot convey; do not repeat the title.
+- Keep the shared grid and subtle dividers. Do not add specialty-specific layouts,
+  icons, cards, or another appointment CTA.
+- Keep diagnoses in Conditions Treated and care explanations in existing provider
+  or treatment sections. Add `practiceHelp` only for distinct, verified information.
+- Retain source references and review dates internally. Concern phrases do not
+  diagnose patients or establish treatment eligibility.
+
+Pulmonology, psychiatry, and psychotherapy now use this compact content format.
+Practice selection controls relevance, not a separate presentation mode. The latest
+copy changes remain unbuilt and unverified at the user's request.
+
+## WHOIS selection handoff
+
+The WHOIS skill now recommends content from explicit service evidence. It records
+catalog keys, concern IDs, patient population, claim scope, source URLs and excerpts,
+plus unresolved details. Hybrid care uses one combined selection; integrated
+support during medication visits does not establish regular psychotherapy services.
+Pulmonology sleep concerns require verified sleep services. Unsupported specialties
+require a new source-backed catalog entry before activation.
+
+This is guidance for manual assessments, not automatic detection in the WHOIS
+Python helpers or batch CSV. Verified `practice.json` controls publication. Wider
+preview rollout and behavioral verification of the new guidance remain outstanding.
+
 ## What belongs in practice.json
 
 `practice.json` selects the shared content and retains facts about the particular
@@ -78,7 +110,7 @@ practice. The implemented selector for the Maya pilot is:
 
 | Field | Behavior |
 | --- | --- |
-| `contentKeys` | Required unique catalog keys; currently `psychiatry` and `psychotherapy`. Pulmonology remains milestone 4. |
+| `contentKeys` | Required unique catalog keys: `psychiatry`, `psychotherapy`, and `pulmonology`. Dr. Dronavalli selects pulmonology. |
 | `heading`, `introduction`, `navLabel` | Optional wording overrides; heading and introduction are required for hybrid selection. |
 | `concernIds` | Optional ordered selection of four to six unique concerns; required for hybrid selection. Shared IDs merge without duplication, with the first content key supplying wording. |
 | `replaceConditions` | Optional boolean, default false. Replacement retains `#conditions`; otherwise the section uses `#care-guidance` before the condition list. |
@@ -92,7 +124,8 @@ without crowding the header. Catalog source metadata remains internal; its revie
 date records source and editorial review, not clinician approval.
 
 Local-review refinement, October 13: keep the public section concise with one
-introductory sentence, six brief concerns, and a short practice-help summary.
+introductory sentence and four to six standalone concern phrases. Omit repeating
+descriptions and use a practice-help summary only when it adds distinct information.
 Remove the separate “Why explore care?” and general specialty-explanation paragraphs.
 The introduction incorporates the reason to explore care; practice-help copy
 explains the relevant service. Do not add another appointment CTA in this section.
@@ -212,7 +245,9 @@ including mobile/tablet/desktop concerns checks and fictional-demo restrictions.
 Captured pilot screenshots were visually reviewed. Review pages are available at
 `.tmp/astro-dist/preview-all/previews/mayabennett/index.html` and
 `.tmp/astro-dist/preview-all/previews/centexmh/index.html`.
-Milestones 3 through 5 remain pending. This plan covers content, implementation, and local
+Milestone 3's WHOIS guidance is documented; wider mental health rollout remains
+pending. Milestone 4's pulmonology content and WHOIS selection guidance are documented. Milestone 5
+is applied and verified locally. This plan covers content, implementation, and local
 verification. It does not authorize production deployment.
 
 Use Maya and Centex as the first two integrations before updating all mental
@@ -272,7 +307,8 @@ Deliverables:
   hybrid payment model. Mark missing or conflicting information as unresolved;
   do not infer services from titles, credentials, or educational articles.
   The assessment recommends selection; verified practice configuration controls
-  what the site publishes. This is a future skill update, not work performed here.
+  what the site publishes. This guidance is now documented in the WHOIS skill;
+  its behavioral review and wider rollout remain outstanding.
 - Review every mental health preview's verified services and patient population
   before selecting shared content. Include North Hills, Northwest, and Mariposa,
   alongside the Maya and Centex pilots.
@@ -296,6 +332,14 @@ the starter template.
 
 ### Milestone 4: Create pulmonology content
 
+Content progress, October 13, 2026: added the reusable `pulmonology` catalog entry
+with six short concerns and authoritative source metadata. The first four cover
+COPD-related experiences without implying a diagnosis; two sleep concerns require
+verified practice sleep services. [Content and urgent-symptom guidance](content/pulmonology.md)
+records source mapping and a separate notice for future integration. No practice
+configuration or shared layout changed at that step. WHOIS selection guidance is
+now documented; its behavioral review remains outstanding.
+
 Deliverables:
 
 - Add `pulmonology` content using the format and component established earlier.
@@ -313,6 +357,15 @@ component without a new layout or practice-only styling. Run checks affected by
 adding shared content; no deployment or practice activation occurs in this milestone.
 
 ### Milestone 5: Apply pulmonology content to Dr. Dronavalli
+
+Local integration, October 13, 2026: selected all six pulmonology concerns, placed
+after the hero and before providers. The official HMC physician profile confirms
+his pulmonary and sleep-disorder scope. The complete condition list, existing
+provider care explanation, and contact actions remain. No repetitive closing
+practice-help block was added. Configuration regressions, HTML validation, all
+output contracts, and all 37 theme/provider/analytics browser tests passed.
+Mobile/tablet/desktop checks cover the new section and navigation; mobile and
+desktop screenshots were visually inspected. Production release remains separate.
 
 Deliverables:
 

@@ -4,6 +4,7 @@
  * homeVariant selects homepage composition; actionLinksDisabled suppresses
  * scheduling/portal/telehealth actions for configured previews. Contact cards remain available.
  * Optional telehealth copy and destination come from appointmentSection.telehealth.
+ * primaryCtaLabel optionally aligns the scheduling action with practice terminology.
  * Fictional demos show patient-facing consultation copy with a disabled action.
  */
 import ContactCards from './ContactCards.astro';
@@ -24,6 +25,7 @@ interface Props {
   heading?: string;
   summary?: string;
   consultationLabel?: string;
+  primaryCtaLabel?: string;
   fictionalDemo?: boolean;
 }
 
@@ -41,12 +43,13 @@ const {
   heading = 'Ready to schedule a visit?',
   summary = 'Contact the office directly or request an appointment online.',
   consultationLabel = 'Request a consultation',
+  primaryCtaLabel = 'New Patient Appointment',
   fictionalDemo = false,
 } = Astro.props;
 const actions = [
   appointmentUrl
     ? {
-        label: 'New Patient Appointment',
+        label: primaryCtaLabel,
         url: appointmentUrl,
         primary: true,
         iconName: 'CalendarCheck',

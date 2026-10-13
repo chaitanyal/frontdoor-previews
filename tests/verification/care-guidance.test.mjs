@@ -57,7 +57,7 @@ test('hybrid selection produces one ordered concern list without duplicate conce
 test('Maya replaces concerns at the existing anchor; Centex retains conditions and treatments', () => {
   const maya = JSON.parse(readFileSync('sites/mayabennett/practice.json', 'utf8'));
   const centex = JSON.parse(readFileSync('sites/centexmh/practice.json', 'utf8'));
-  const original = JSON.parse(readFileSync('sites/drdronavalli/practice.json', 'utf8'));
+  const original = JSON.parse(readFileSync('sites/northhillspsychiatry/practice.json', 'utf8'));
   const mayaSections = homeSectionNavigation(maya);
   assert.equal(mayaSections.find((item) => item.key === 'careGuidance').id, 'conditions');
   assert.equal(mayaSections.some((item) => item.key === 'conditions'), false);

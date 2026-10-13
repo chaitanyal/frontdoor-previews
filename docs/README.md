@@ -17,6 +17,7 @@ for maintenance rules, and the [Astro source guide](../src/README.md) for code l
 - [Treatment pages](treatment-pages.md): configuration, shared routes, evidence and migration guidance.
 - [Recognizable concerns and conditions treated](recognizable-concerns-and-conditions.md): proposed shared specialty content, practice configuration boundaries, and homepage coexistence.
 - [Mental health terminology](content/mental-health-terminology.md): psychiatry versus psychotherapy, provider roles, and application to FrontDoor content and practice configuration.
+- [Pulmonology concerns](content/pulmonology.md): reusable patient-facing copy, COPD coverage, sleep-service scope, and separate urgent-symptom guidance.
 - [Practice link previews](social-share-images.md): clinic-facing metadata and branded share-image generation.
 - [Output and browser verification](../tests/verification/README.md).
 - [Build and verification improvement plan](buildimprovement.md): proposed changes

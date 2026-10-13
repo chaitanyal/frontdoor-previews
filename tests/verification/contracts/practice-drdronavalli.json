@@ -25,6 +25,7 @@
         ]
       },
       "localAssetUrls": [
+        "./#care-guidance",
         "./#contact",
         "./#location",
         "./#patient-resources",
@@ -155,6 +156,7 @@
       },
       "localAssetUrls": [
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",

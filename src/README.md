@@ -109,8 +109,10 @@ on the privacy page. Shared website privacy disclosures remain separate.
 Optional `appointmentSection.telehealth` supplies `heading`, `summary`, `label`
 and an HTTPS `url` for scheduled-visit access in homepage/provider appointment
 sections. It respects preview action disabling and uses existing-patient CTA tracking.
+Optional `appointmentSection.primaryCtaLabel` overrides the scheduling action
+label on home and provider pages without changing its destination or tracking.
 `lib/practice-view.mjs` derives display values; layouts receive the resolved theme.
-Optional `careGuidance` selects shared psychiatry/psychotherapy copy with
+Optional `careGuidance` selects shared psychiatry, psychotherapy, or pulmonology copy with
 `contentKeys`, optional concern selection and heading/intro/navigation overrides,
 and optional practice-specific `practiceHelp` when it adds information. Multiple keys require explicit
 heading, introduction, and four to six unique concern IDs; duplicate concerns merge
@@ -121,6 +123,7 @@ Only replacement sections add a header item; all selected sections appear in
 patient-information footers. Treatment links reference existing configured slugs,
 and appointment actions remain in existing page sections. Shared source metadata
 stays internal; it does not establish practice-specific services or credentials.
+Concern descriptions are optional; single-phrase concerns render without a description paragraph.
 Optional `treatments` entries generate `/treatment/<slug>/` in standalone builds
 and `/previews/<practice>/treatment/<slug>/` in both preview targets. The optional
 `treatmentSection` supplies homepage heading/summary. Non-empty lists enable
