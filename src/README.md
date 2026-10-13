@@ -119,6 +119,7 @@ heading, introduction, and four to six unique concern IDs; duplicate concerns me
 into one list. `replaceConditions: true` replaces the homepage conditions section
 while retaining its `#conditions` anchor for existing provider links. Otherwise,
 the new section precedes the retained condition list at `#care-guidance`.
+All selected concerns sections follow the hero and precede providers, including replacements.
 Only replacement sections add a header item; all selected sections appear in
 patient-information footers. Treatment links reference existing configured slugs,
 and appointment actions remain in existing page sections. Shared source metadata

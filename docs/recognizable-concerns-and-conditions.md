@@ -180,8 +180,8 @@ explanations. A suggested reading sequence is:
 4. Conditions treated and treatment options.
 5. Insurance, appointment information, and other practical details.
 
-This sequence places Centex's concerns before its providers. Replacement concerns,
-such as Maya's, retain their existing position after the provider introduction.
+This sequence places concerns before providers, including replacement concerns
+such as Maya's, so patients can establish fit before reading about the clinician.
 It does not move existing appointment actions. “How the practice helps” can be
 the closing part of the new component rather than another standalone section.
 

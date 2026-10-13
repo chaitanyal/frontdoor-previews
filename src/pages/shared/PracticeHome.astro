@@ -2,7 +2,7 @@
 /**
  * Shared homepage composition for standalone practices and both preview targets.
  * Receives validated config/resolved theme; isPreview gates configured external actions.
- * Added concerns follow the hero; replacement concerns retain their original position.
+ * All recognizable concerns follow the hero, including replacement sections.
  * Owns section order, homepage schema, and browser behavior for office hours.
  */
 import AppointmentSection from '../../components/practice/AppointmentSection.astro';
@@ -41,9 +41,8 @@ const { config, theme, isPreview = false } = Astro.props;
   <PracticeHeader config={config} />
   <main id="main-content" tabindex="-1">
     <HomeHero config={config} />
-    {!config.careGuidance?.replaceConditions && <RecognizableConcerns config={config} />}
+    <RecognizableConcerns config={config} />
     <ProviderTeam config={config} />
-    {config.careGuidance?.replaceConditions && <RecognizableConcerns config={config} />}
     {!config.careGuidance?.replaceConditions && <Conditions config={config} />}
     <TreatmentCards config={config} />
     <FinancialPolicy config={config} />

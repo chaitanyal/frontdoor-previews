@@ -141,6 +141,8 @@ test('@theme-polish care guidance replaces Maya concerns and preserves Centex co
         await expect(guidance).toHaveAttribute('id', 'conditions');
         await expect(page.locator('.home-conditions')).toHaveCount(0);
         await expect(page.locator('[id="conditions"]')).toHaveCount(1);
+        const order = await page.locator('.home-care-guidance, .home-providers').evaluateAll(items => items.map(item => item.id));
+        expect(order).toEqual(['conditions', 'providers']);
       } else {
         await expect(guidance).toHaveAttribute('id', 'care-guidance');
         await expect(page.locator('.home-conditions')).toHaveCount(1);
