@@ -1516,7 +1516,7 @@
       "route": "/previews/northwestpsychiatry/",
       "outputFile": "previews/northwestpsychiatry/index.html",
       "title": "Northwest Psychiatry | Adult Psychiatric Care in Austin",
-      "description": "Meet providers, explore adult psychiatric evaluations and medication management, and find forms and appointment information on a fast-loading website designed for phones and desktops.",
+      "description": "Adult psychiatric evaluations and ongoing medication management in Northwest Austin. Meet our psychiatrist and physician assistants, and find insurance and appointment information.",
       "robots": "noindex, nofollow",
       "canonical": "https://frontdoor.health/previews/northwestpsychiatry/",
       "openGraphUrls": {
@@ -1536,6 +1536,7 @@
         ]
       },
       "localAssetUrls": [
+        "./#care-guidance",
         "./#contact",
         "./#location",
         "./#patient-resources",
@@ -1659,6 +1660,7 @@
       },
       "localAssetUrls": [
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",
@@ -1707,6 +1709,7 @@
       },
       "localAssetUrls": [
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",
@@ -1755,6 +1758,7 @@
       },
       "localAssetUrls": [
         "../../",
+        "../../#care-guidance",
         "../../#conditions",
         "../../#contact",
         "../../#location",

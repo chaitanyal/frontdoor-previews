@@ -143,3 +143,21 @@
 Reviewed homepage, three provider profiles and FAQs using the updated practice-copywriter rules. Removed redundant physician MD display, repeated PA credential badges, generic care adjectives and bios that duplicated complete education/condition lists. Preserved detailed qualifications, user-supplied Delada credentials, specific clinical experience and all factual scope. Removed treatment-planning/shared-decision labels from service lists while retaining meaningful care-approach language in bios. FAQ answers now state supported facts directly, with patient-specific insurance verification retained. [Editorial decisions and source mapping](../../assessments/northwestpsychiatry/sources/provider-copy-concision-review.md). This is a wording review of existing evidence, not a current credential or insurance re-verification.
 
 Verification: `npm run verify:site -- northwestpsychiatry`, preview build and the skill audit passed (zero audit errors/warnings). Browser checks covered the homepage and all three profiles at mobile and desktop widths: exact copy, credentials/headlines, badges, FAQ expansion, images, overflow and disabled preview destinations. Walia retains Physician structured-data classification after the display simplification. No shared template changes or deployment.
+
+## Compact concerns and booking copy — October 13, 2026
+
+- Selected shared psychiatry concerns for low mood, worry/panic, attention, sleep,
+  mood/energy changes, and unusual perceptual experiences. Existing service and
+  condition evidence supports the selection; concern phrases do not diagnose
+  patients or establish treatment eligibility. The complete condition list remains.
+- Shortened the hero to core evaluation and medication-management services; broader
+  scope remains in Conditions We Treat. Revised the SEO description to describe
+  care and patient information rather than website implementation features.
+- The user confirmed on October 13 that NextPatient supports direct appointment
+  booking. Aligned the appointment-section action with existing Book Appointment
+  labels and described choosing an appointment online or calling for help.
+- Provider biography and training edits were explicitly declined. Medicare
+  participation remains unresolved as recorded above; this copy edit does not
+  resolve or change the insurance list.
+- Rebuilt the local preview for user review without running verification suites.
+  Required release checks run through the repository hook when committing.

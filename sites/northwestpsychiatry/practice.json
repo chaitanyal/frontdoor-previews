@@ -2,7 +2,7 @@
   "theme": "structured-clinical",
   "seo": {
     "title": "Northwest Psychiatry | Adult Psychiatric Care in Austin",
-    "description": "Meet providers, explore adult psychiatric evaluations and medication management, and find forms and appointment information on a fast-loading website designed for phones and desktops.",
+    "description": "Adult psychiatric evaluations and ongoing medication management in Northwest Austin. Meet our psychiatrist and physician assistants, and find insurance and appointment information.",
     "ogImage": "./images/social/practice-share.png",
     "ogImageAlt": "Northwest Psychiatry — Adult psychiatric care in Northwest Austin Located in Northwest Austin, Texas. Adult Psychiatry in Northwest Austin. (512) 342-7979",
     "locale": "en_US",
@@ -41,9 +41,14 @@
     "image": "./images/hero/austin-skyline.webp",
     "imageAlt": "Austin skyline and surrounding green space at sunset",
     "title": "Adult psychiatric care in Northwest Austin",
-    "copy": "Psychiatric evaluations and ongoing medication management for mood, anxiety, attention, sleep, trauma and cognitive concerns.",
+    "copy": "Psychiatric evaluations and ongoing medication management for adults facing difficulties with mood, anxiety, attention, or sleep.",
     "primaryCta": "Book Appointment",
     "secondaryCta": "Meet Our Providers"
+  },
+  "appointmentSection": {
+    "heading": "Take the next step toward care.",
+    "summary": "Choose an appointment online, or call (512) 342-7979 for help.",
+    "primaryCtaLabel": "Book Appointment"
   },
   "home": {
     "providerEyebrow": "Providers",
@@ -251,6 +256,10 @@
       "appointmentUrl": "https://www.northwestpsychiatry.com/scheduling/"
     }
   ],
+  "careGuidance": {
+    "contentKeys": ["psychiatry"],
+    "concernIds": ["mood", "worry", "attention", "sleep", "mood-changes", "unusual-experiences"]
+  },
   "conditionsIntro": "Evaluation and ongoing care for common and complex adult psychiatric concerns.",
   "conditions": [
     "Depression",
