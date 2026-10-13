@@ -34,8 +34,28 @@ exact `test` values. It includes `research` campaigns and does not exclude names
 merely containing `test`. Do not change the filter silently when the user requests a different
 scope; modify the command only if necessary and verify the new behavior.
 
-Report the date range, campaign, site, city/state, page views, sessions, browser
-IDs, and local visit times when useful. Distinguish zero matching rows from query
+The Python query also excludes this exact internal user agent before aggregation:
+
+```text
+Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 FrontDoor-Internal
+```
+
+Other user agents, including missing/blank values, remain eligible.
+
+Always format user-facing visit tables with exactly these columns in this order:
+
+| Site | City | Tag | TimeStamp | Page Views |
+|---|---|---|---|---:|
+
+Include the exact campaign tag in every row. Display timestamps in
+`America/Chicago`, including the date, time, and timezone. For aggregated rows,
+show the first-to-last visit time range (a single timestamp when both match);
+for event-level drilldowns, show each recorded timestamp and its page-view count.
+Put state/province in the City cell when available. Report the overall date range
+outside the table. Sessions, browser IDs, and missing-ID counts may be explained
+outside the table when useful; do not add columns for them.
+
+Distinguish zero matching rows from query
 failure. Keep unknown locations unknown. Counts of sessions/browser IDs are distinct
 within each row; do not sum them as globally distinct visitors. Report missing-ID
 counts if they affect interpretation. Use `region` or `region_code` for state/province;

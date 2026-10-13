@@ -12,6 +12,10 @@ from zoneinfo import ZoneInfo
 
 LOCAL = ZoneInfo('America/Chicago')
 DEFAULT_REPO = Path(__file__).resolve().parents[4]
+EXCLUDED_USER_AGENT = (
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
+    '(KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 FrontDoor-Internal'
+)
 
 
 def start_date(value):
@@ -43,6 +47,7 @@ WHERE created_at >= '{start.strftime('%Y-%m-%d %H:%M:%S')}'
  AND (practice_slug = 'drdronavalli' OR page_path LIKE '/previews/%')
  AND NULLIF(TRIM(utm_campaign), '') IS NOT NULL
  AND LOWER(TRIM(utm_campaign)) != 'test'
+ AND COALESCE(user_agent, '') != '{EXCLUDED_USER_AGENT}'
 GROUP BY practice_slug, utm_campaign, city, region, region_code, country
 ORDER BY practice_slug, page_views DESC, city;"""
 
@@ -89,13 +94,15 @@ def main(argv=None):
         'start_date': args.start_date.isoformat(), 'timezone': str(LOCAL),
         'queried_at_utc': end.isoformat(),
         'excluded_campaigns': ['test', '(missing/blank)'],
+        'excluded_user_agents': [EXCLUDED_USER_AGENT],
         'total_page_views': sum(row['page_views'] for row in rows), 'rows': rows,
     }
     if args.json:
         print(json.dumps(report, indent=2))
     else:
         print(f"Since {args.start_date} 00:00 America/Chicago through {end.astimezone(LOCAL):%Y-%m-%d %H:%M:%S %Z}")
-        print('Excluded: test (case-insensitive exact match), and missing/blank campaigns.\n')
+        print('Excluded: test (case-insensitive exact match), and missing/blank campaigns.')
+        print(f'Excluded user agent (exact match): {EXCLUDED_USER_AGENT}\n')
         print('Site | Campaign | City, State | Views | Sessions | Browser IDs | Last visit')
         for row in rows:
             print(f"{row['practice_slug']} | {row['utm_campaign']} | {row['city'] or 'Unknown'}, {row['region'] or row['region_code'] or 'Unknown'} | {row['page_views']} | {row['sessions']} | {row['browser_ids']} | {row['last_local']}")
