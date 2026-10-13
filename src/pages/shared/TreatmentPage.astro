@@ -2,7 +2,8 @@
 /**
  * Evergreen treatment page shared by all build targets. Config supplies clinic copy;
  * relative links assume treatment/<slug>/ beneath the practice root. Phone contact
- * stays available in previews; scheduling destinations are not used on this page.
+ * stays available in previews; fictional demos disable patient contact actions.
+ * Scheduling destinations are not used on this page.
  */
 import Icon from '../../components/practice/Icon.astro';
 import PracticeHeader from '../../components/practice/PracticeHeader.astro';
@@ -64,7 +65,9 @@ const breadcrumbs = {
             <a href={treatment.certification.url} class="nav-link mt-3 inline-block min-h-[44px] py-2 text-sm text-brand-primary underline underline-offset-4">{treatment.certification.linkLabel}</a>
           </aside>
         )}
-        <a href={practice.phoneHref} data-frontdoor-cta="phone" class="btn-primary mt-8">{treatment.cta.label}<Icon name="Phone" /></a>
+        {config.fictionalDemo
+          ? <span aria-disabled="true" class="btn-primary mt-8 inline-flex">{treatment.cta.label}</span>
+          : <a href={practice.phoneHref} data-frontdoor-cta="phone" class="btn-primary mt-8">{treatment.cta.label}<Icon name="Phone" /></a>}
       </div>
     </section>
     <div class="section bg-white">
@@ -106,7 +109,9 @@ const breadcrumbs = {
       <div class="mx-auto max-w-3xl">
         <h2 id="treatment-contact-title" class="font-serif text-3xl font-semibold leading-tight md:text-4xl">{treatment.cta.heading}</h2>
         <p class="mt-5 text-lg leading-8 text-slate-300">{treatment.cta.summary}</p>
-        <a href={practice.phoneHref} data-frontdoor-cta="phone" class="btn-secondary mt-7"><Icon name="Phone" />{treatment.cta.label}: {practice.phone}</a>
+        {config.fictionalDemo
+          ? <span aria-disabled="true" class="btn-secondary mt-7 inline-flex">{treatment.cta.label}</span>
+          : <a href={practice.phoneHref} data-frontdoor-cta="phone" class="btn-secondary mt-7"><Icon name="Phone" />{treatment.cta.label}: {practice.phone}</a>}
         <p class="mt-6 text-sm leading-6 text-slate-300">{practice.emergencyNotice}</p>
       </div>
     </section>

@@ -1,0 +1,408 @@
+{
+  "target": "practice-westlakepsychiatry",
+  "pages": [
+    {
+      "route": "/",
+      "outputFile": "index.html",
+      "title": "Westlake Psychiatry & Therapy | Fictional Practice Concept",
+      "description": "A fictional West Lake Hills practice offering adult psychiatry, talk therapy, TMS and Spravato. A website concept by FrontDoor.Health.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/westlakepsychiatry/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/hero/limestone-creek.webp",
+        "url": "https://frontdoor.health/previews/westlakepsychiatry/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/hero/limestone-creek.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "./#care-guidance",
+        "./#contact",
+        "./#location",
+        "./#providers",
+        "./#treatments",
+        "./accessibility/",
+        "./assets/styles.css",
+        "./images/hero/limestone-creek.webp",
+        "./images/office/office.webp",
+        "./images/providers/elena-morgan.webp",
+        "./images/providers/jordan-lee.webp",
+        "./images/providers/rachel-ellis.webp",
+        "./privacy/",
+        "./providers/elena-morgan/",
+        "./providers/jordan-lee/",
+        "./providers/rachel-ellis/",
+        "./terms/",
+        "./treatment/spravato/",
+        "./treatment/tms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 6,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/accessibility/",
+      "outputFile": "accessibility/index.html",
+      "title": "Accessibility | Westlake Psychiatry & Therapy",
+      "description": "Accessibility information for Westlake Psychiatry & Therapy.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/westlakepsychiatry/accessibility/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/privacy/",
+      "outputFile": "privacy/index.html",
+      "title": "Privacy | Westlake Psychiatry & Therapy",
+      "description": "Privacy information for Westlake Psychiatry & Therapy.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/westlakepsychiatry/privacy/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/providers/elena-morgan/",
+      "outputFile": "providers/elena-morgan/index.html",
+      "title": "Dr. Elena Morgan | Fictional Psychiatrist Profile",
+      "description": "Meet Dr. Elena Morgan, a fictional board-certified psychiatrist with 15 years of clinical experience and fellowship training in interventional psychiatry.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/westlakepsychiatry/providers/elena-morgan/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/providers/elena-morgan.webp",
+        "url": "https://frontdoor.health/previews/westlakepsychiatry/providers/elena-morgan/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/providers/elena-morgan.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#care-guidance",
+        "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#providers",
+        "../../#treatments",
+        "../../accessibility/",
+        "../../assets/styles.css",
+        "../../images/providers/elena-morgan.webp",
+        "../../privacy/",
+        "../../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 5,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/providers/jordan-lee/",
+      "outputFile": "providers/jordan-lee/index.html",
+      "title": "Jordan Lee, PA-C, CAQ | Fictional Psychiatry Profile",
+      "description": "Meet Jordan Lee, a fictional physician assistant with a Psychiatry CAQ and a background in psychology and primary care, providing adult psychiatric evaluations and medication management.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/westlakepsychiatry/providers/jordan-lee/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/providers/jordan-lee.webp",
+        "url": "https://frontdoor.health/previews/westlakepsychiatry/providers/jordan-lee/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/providers/jordan-lee.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#care-guidance",
+        "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#providers",
+        "../../#treatments",
+        "../../accessibility/",
+        "../../assets/styles.css",
+        "../../images/providers/jordan-lee.webp",
+        "../../privacy/",
+        "../../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 5,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/providers/rachel-ellis/",
+      "outputFile": "providers/rachel-ellis/index.html",
+      "title": "Rachel Ellis, DSW, LCSW | Fictional Therapist Profile",
+      "description": "Meet Rachel Ellis, a fictional clinical social worker with 17 years of experience offering trauma-informed, culturally responsive individual therapy for adults.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/westlakepsychiatry/providers/rachel-ellis/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/providers/rachel-ellis.webp",
+        "url": "https://frontdoor.health/previews/westlakepsychiatry/providers/rachel-ellis/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/providers/rachel-ellis.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#care-guidance",
+        "../../#conditions",
+        "../../#contact",
+        "../../#location",
+        "../../#providers",
+        "../../#treatments",
+        "../../accessibility/",
+        "../../assets/styles.css",
+        "../../images/providers/rachel-ellis.webp",
+        "../../privacy/",
+        "../../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 5,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/terms/",
+      "outputFile": "terms/index.html",
+      "title": "Terms of Use | Westlake Psychiatry & Therapy",
+      "description": "Terms of Use information for Westlake Psychiatry & Therapy.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/westlakepsychiatry/terms/",
+      "openGraphUrls": {
+        "image": null,
+        "url": null
+      },
+      "twitterUrls": {
+        "image": null
+      },
+      "jsonLd": {
+        "count": 0,
+        "topLevelTypes": []
+      },
+      "localAssetUrls": [
+        "../accessibility/",
+        "../assets/styles.css",
+        "../privacy/",
+        "../terms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js"
+      ],
+      "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/treatment/spravato/",
+      "outputFile": "treatment/spravato/index.html",
+      "title": "Spravato | Westlake Fictional Practice Concept",
+      "description": "Learn what Spravato is, why it is used for treatment-resistant depression, and what supervised treatment involves. A fictional practice example.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/westlakepsychiatry/treatment/spravato/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/hero/limestone-creek.webp",
+        "url": "https://frontdoor.health/previews/westlakepsychiatry/treatment/spravato/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/hero/limestone-creek.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#care-guidance",
+        "../../#care-options",
+        "../../#conditions",
+        "../../#contact",
+        "../../#faq",
+        "../../#insurance",
+        "../../#location",
+        "../../#providers",
+        "../../#treatments",
+        "../../accessibility/",
+        "../../assets/styles.css",
+        "../../privacy/",
+        "../../terms/",
+        "../tms/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/treatment/tms/",
+      "outputFile": "treatment/tms/index.html",
+      "title": "TMS | Westlake Fictional Practice Concept",
+      "description": "Learn what TMS is, why it is used for depression, and what treatment involves. A fictional Westlake Psychiatry & Therapy example.",
+      "robots": "noindex, nofollow",
+      "canonical": "https://frontdoor.health/previews/westlakepsychiatry/treatment/tms/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/hero/limestone-creek.webp",
+        "url": "https://frontdoor.health/previews/westlakepsychiatry/treatment/tms/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/previews/westlakepsychiatry/images/hero/limestone-creek.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "WebPage"
+        ]
+      },
+      "localAssetUrls": [
+        "../../",
+        "../../#care-guidance",
+        "../../#care-options",
+        "../../#conditions",
+        "../../#contact",
+        "../../#faq",
+        "../../#insurance",
+        "../../#location",
+        "../../#providers",
+        "../../#treatments",
+        "../../accessibility/",
+        "../../assets/styles.css",
+        "../../privacy/",
+        "../../terms/",
+        "../spravato/",
+        "/shared/analytics.js",
+        "/shared/attribution.js"
+      ],
+      "runtimeScripts": [
+        "/shared/attribution.js",
+        "/shared/analytics.js",
+        "https://unpkg.com/lucide@latest"
+      ],
+      "inlineScriptCount": 4,
+      "ctaCounts": {}
+    }
+  ],
+  "outputFiles": [
+    "_headers",
+    "accessibility/index.html",
+    "assets/fonts/inter-latin.woff2",
+    "assets/fonts/newsreader-latin.woff2",
+    "assets/styles.css",
+    "images/hero/limestone-creek.webp",
+    "images/office/office.webp",
+    "images/providers/elena-morgan.webp",
+    "images/providers/jordan-lee.webp",
+    "images/providers/rachel-ellis.webp",
+    "index.html",
+    "privacy/index.html",
+    "providers/elena-morgan/index.html",
+    "providers/jordan-lee/index.html",
+    "providers/rachel-ellis/index.html",
+    "robots.txt",
+    "shared/analytics.js",
+    "shared/attribution.js",
+    "shared/google-ads.js",
+    "terms/index.html",
+    "treatment/spravato/index.html",
+    "treatment/tms/index.html"
+  ],
+  "headers": "/*\n  X-Robots-Tag: noindex, nofollow",
+  "robots": "User-agent: *\nAllow: /\n\nSitemap: https://frontdoor.health/sitemap.xml",
+  "sitemapLocations": []
+}

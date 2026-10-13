@@ -4,6 +4,7 @@
  * practice-view.mjs selects the insurance/policy presentation and normalizes fees;
  * keep payment facts in practice.json and reusable visual rules in shared theme CSS.
  * Listed fees may include a short description of the session below the duration.
+ * Insurance contact controls remain visible but disabled for fictional demos.
  */
 import {
   financialSectionMode,
@@ -83,7 +84,7 @@ const note = policy?.contactForRatesMessage
             <p class="text-base leading-7 text-slate-700">
               {insurance.verification.description || ''}
             </p>
-            <ContactCards practice={practice} variant="sm" />
+            <ContactCards practice={practice} variant="sm" disabled={config.fictionalDemo} />
           </div>
         )}
         {insurance.disclaimer && (

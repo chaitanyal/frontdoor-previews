@@ -5,7 +5,8 @@
  * scheduling/portal/telehealth actions for configured previews. Contact cards remain available.
  * Optional telehealth copy and destination come from appointmentSection.telehealth.
  * primaryCtaLabel optionally aligns the scheduling action with practice terminology.
- * Fictional demos show patient-facing consultation copy with a disabled action.
+ * Fictional demos use compact copy by default; standard presentation shows the
+ * full contact card with every patient action disabled.
  */
 import ContactCards from './ContactCards.astro';
 import Icon from './Icon.astro';
@@ -27,6 +28,7 @@ interface Props {
   consultationLabel?: string;
   primaryCtaLabel?: string;
   fictionalDemo?: boolean;
+  presentation?: 'compact' | 'standard';
 }
 
 const {
@@ -45,9 +47,10 @@ const {
   consultationLabel = 'Request a consultation',
   primaryCtaLabel = 'New Patient Appointment',
   fictionalDemo = false,
+  presentation = 'compact',
 } = Astro.props;
 const actions = [
-  appointmentUrl
+  appointmentUrl || fictionalDemo
     ? {
         label: primaryCtaLabel,
         url: appointmentUrl,
@@ -72,11 +75,11 @@ const containerClass = homeVariant
   : 'mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center';
 ---
 
-{fictionalDemo ? (
+{fictionalDemo && presentation === 'compact' ? (
   <section id={sectionId} class="home-appointment concept-appointment section" aria-labelledby={`${sectionId}-title`}>
     <div class="section-shell">
       <div class="max-w-3xl">
-        <p class="eyebrow">A first conversation</p>
+        <p class="eyebrow">Getting started</p>
         <h2 id={`${sectionId}-title`} class="section-title">{heading}</h2>
         <p class="section-copy">{summary}</p>
         <span class="btn-primary mt-8 inline-flex" aria-disabled="true">{consultationLabel}</span>
@@ -91,7 +94,7 @@ const containerClass = homeVariant
   <div class={containerClass}>
     <div>
       <p class="text-sm font-semibold uppercase tracking-wide text-sage-100">
-        REQUEST CARE
+        {fictionalDemo ? 'Getting started' : 'REQUEST CARE'}
       </p>
       <h2
         id={homeVariant ? 'contact-title' : undefined}
@@ -114,7 +117,7 @@ const containerClass = homeVariant
         actions.length > 0 && (
           <div class="space-y-3">
             {actions.map((action) =>
-              actionLinksDisabled ? (
+              actionLinksDisabled || fictionalDemo ? (
                 <span
                   aria-disabled="true"
                   class={`${
@@ -149,7 +152,7 @@ const containerClass = homeVariant
         <section data-telehealth class:list={['space-y-3', actions.length > 0 && 'mt-7 border-t border-slate-200 pt-6']}>
           <h3 class="text-xl font-semibold tracking-tight text-slate-950">{telehealth.heading}</h3>
           <p class="text-base leading-7 text-slate-600">{telehealth.summary}</p>
-          {actionLinksDisabled ? (
+          {actionLinksDisabled || fictionalDemo ? (
             <span aria-disabled="true" class="btn-secondary w-full cursor-default justify-center px-5 py-4 text-base">
               <Icon name="Video" />
               {telehealth.label}
@@ -171,7 +174,7 @@ const containerClass = homeVariant
         <h3 class="text-2xl font-semibold tracking-tight text-slate-950">
           Contact the Office
         </h3>
-        <ContactCards practice={{ phone, phoneHref, email }} />
+        <ContactCards practice={{ phone, phoneHref, email }} disabled={fictionalDemo} />
       </div>
       {
         emergencyNotice && (

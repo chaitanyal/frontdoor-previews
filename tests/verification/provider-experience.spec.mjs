@@ -6,6 +6,45 @@ import { installDeterministicBrowser, installMockNetwork, waitForImages } from '
 
 const centexUrl = 'https://frontdoor.health/previews/centexmh/';
 
+test('@provider-experience Westlake fictional pages retain disclosures, disabled actions and responsive layouts', async ({ page }) => {
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  const root = path.resolve('.tmp/astro-dist/preview/previews/westlakepsychiatry');
+  const config = JSON.parse(readFileSync('sites/westlakepsychiatry/practice.json', 'utf8'));
+  const routes = ['', 'privacy/', 'accessibility/', 'terms/',
+    ...config.providers.map(provider => `providers/${provider.slug}/`),
+    ...config.treatments.map(treatment => `treatment/${treatment.slug}/`)];
+  const capture = process.env.FRONTDOOR_CAPTURE_SCREENSHOTS === '1';
+  const screenshots = path.resolve('.tmp/provider-experience/westlakepsychiatry');
+  if (capture) mkdirSync(screenshots, { recursive: true });
+  for (const width of [390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const route of routes) {
+      await page.goto(pathToFileURL(path.join(root, route, 'index.html')).href);
+      await page.addStyleTag({ content: '.fade-in-up{opacity:1!important;transform:none!important}' });
+      await page.evaluate(() => document.fonts.ready);
+      await waitForImages(page.locator('img'));
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
+      await expect(page.getByRole('complementary', { name: 'Website concept disclosure' })).toContainText('A fictional practice.');
+      const schemaTypes = await page.locator('script[type="application/ld+json"]').evaluateAll(scripts => scripts.map(script => JSON.parse(script.textContent)['@type']));
+      expect(schemaTypes.every(type => type === 'WebPage')).toBe(true);
+      await expect(page.locator('a[href^="tel:"], a[href^="mailto:"], [data-copy-email], [data-frontdoor-cta="phone"], [data-frontdoor-cta="newPatient"], [data-frontdoor-cta="existingPatient"]')).toHaveCount(0);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      if (!route) {
+        await expect(page.locator('#care-options')).toContainText('Psychiatry, therapy, or both.');
+        await expect(page.locator('.home-financial [aria-disabled="true"]')).toHaveCount(2);
+        await expect(page.locator('.home-appointment [aria-disabled="true"]')).toHaveCount(3);
+        const surfaces = await page.locator('.home-financial, .home-appointment, .home-location').evaluateAll(nodes => nodes.map(node => getComputedStyle(node).backgroundColor));
+        expect(surfaces[0]).not.toBe(surfaces[1]);
+        expect(surfaces[1]).not.toBe(surfaces[2]);
+      }
+      if (capture && width !== 768 && !['privacy/', 'accessibility/', 'terms/'].includes(route)) {
+        await page.screenshot({ path: path.join(screenshots, `${width}-${route.replaceAll('/', '-') || 'home'}.png`), fullPage: true });
+      }
+    }
+  }
+});
+
 test('@provider-experience featured team, directory and profiles work without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: 'reduce' });
   try {

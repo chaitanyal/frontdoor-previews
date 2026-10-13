@@ -494,6 +494,9 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
         appointment_section = require_mapping(config["appointmentSection"], "appointmentSection")
         require_string_key(appointment_section, "heading", "appointmentSection")
         require_string_key(appointment_section, "summary", "appointmentSection")
+        if "presentation" in appointment_section:
+            if appointment_section["presentation"] not in ("compact", "standard"):
+                fail("appointmentSection.presentation must be compact or standard")
         if "primaryCtaLabel" in appointment_section:
             require_string_key(appointment_section, "primaryCtaLabel", "appointmentSection")
         if "telehealth" in appointment_section:
@@ -605,6 +608,18 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
 
     validate_string_list(require_key(config, "conditions", "root"), "conditions", min_items=1)
     require_string_key(config, "conditionsIntro", "root")
+    if "careOptions" in config:
+        care_options = require_mapping(config["careOptions"], "careOptions")
+        for key in ["heading", "summary"]:
+            require_string_key(care_options, key, "careOptions")
+        items = require_list(require_key(care_options, "items", "careOptions"), "careOptions.items")
+        if not items:
+            fail("careOptions.items must contain at least one service")
+        for index, item in enumerate(items):
+            item_path = f"careOptions.items[{index}]"
+            require_mapping(item, item_path)
+            for key in ["heading", "summary"]:
+                require_string_key(item, key, item_path)
     validate_treatments(config)
     validate_care_guidance(config)
 

@@ -15,6 +15,7 @@ import PracticeFooter from '../../components/practice/PracticeFooter.astro';
 import PracticeHeader from '../../components/practice/PracticeHeader.astro';
 import ProviderTeam from '../../components/practice/ProviderTeam.astro';
 import Conditions from '../../components/practice/Conditions.astro';
+import CareOptions from '../../components/practice/CareOptions.astro';
 import RecognizableConcerns from '../../components/practice/RecognizableConcerns.astro';
 import TreatmentCards from '../../components/practice/TreatmentCards.astro';
 import PracticeLayout from '../../layouts/PracticeLayout.astro';
@@ -43,11 +44,13 @@ const { config, theme, isPreview = false } = Astro.props;
     <HomeHero config={config} />
     <RecognizableConcerns config={config} />
     <ProviderTeam config={config} />
+    <CareOptions config={config} />
     {!config.careGuidance?.replaceConditions && <Conditions config={config} />}
     <TreatmentCards config={config} />
     <FinancialPolicy config={config} />
     <AppointmentSection
       fictionalDemo={config.fictionalDemo}
+      presentation={config.appointmentSection?.presentation}
       consultationLabel={config.hero.primaryCta}
       appointmentUrl={config.practice.defaultAppointmentUrl}
       patientPortalUrl={config.practice.patientPortalUrl}

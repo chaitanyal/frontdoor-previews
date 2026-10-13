@@ -362,8 +362,17 @@
     "Schizoaffective Disorder"
   ],
   "careGuidance": {
-    "contentKeys": ["psychiatry"],
-    "concernIds": ["mood", "worry", "attention", "mood-changes", "intrusive-thoughts", "unusual-experiences"]
+    "contentKeys": [
+      "psychiatry"
+    ],
+    "concernIds": [
+      "mood",
+      "worry",
+      "attention",
+      "mood-changes",
+      "intrusive-thoughts",
+      "unusual-experiences"
+    ]
   },
   "treatmentSection": {
     "heading": "Additional treatment options for depression",
@@ -373,47 +382,59 @@
     {
       "slug": "tms",
       "name": "NeuroStar TMS Therapy",
-      "title": "NeuroStar TMS Therapy",
+      "title": "NeuroStar TMS Therapy for depression",
       "certification": {
         "label": "NeuroStar University Certified",
         "summary": "Central Texas Mental Health is a NeuroStar University certified practice, with specialized training in NeuroStar TMS treatment.",
         "url": "https://neurostar.com/providers/central-texas-mental-health/",
         "linkLabel": "View our NeuroStar provider listing"
       },
-      "summary": "An in-office, non-drug treatment for adults with depression who have not had satisfactory improvement with antidepressant medication. Central Texas Mental Health offers TMS in Round Rock.",
+      "summary": "When antidepressants have not brought enough relief, TMS offers a different way to treat depression. It uses magnetic stimulation rather than medication and does not require surgery or anesthesia.",
       "seo": {
         "title": "TMS Therapy in Round Rock | Central Texas Mental Health",
-        "description": "Learn about NeuroStar TMS Therapy for depression at Central Texas Mental Health in Round Rock, including treatment visits, safety and how to contact the office."
+        "description": "Learn what TMS is, why it is used for depression, and what treatment involves. Central Texas Mental Health in Round Rock."
       },
       "sections": [
         {
           "heading": "What is TMS?",
           "paragraphs": [
-            "Transcranial magnetic stimulation (TMS) uses targeted magnetic pulses to stimulate areas of the brain involved in mood regulation. NeuroStar is an FDA-cleared TMS system for treating major depressive disorder in adults who have not improved sufficiently with prior antidepressant treatment."
+            "Transcranial magnetic stimulation (TMS) is a noninvasive treatment that delivers focused magnetic pulses through a coil placed against the scalp. These pulses stimulate brain circuits involved in mood regulation, with the goal of reducing depression symptoms.",
+            "TMS is not an antidepressant medication. You remain awake during treatment, without sedation or anesthesia."
           ]
         },
         {
-          "heading": "What does a treatment visit involve?",
+          "heading": "Why is TMS used for depression?",
           "paragraphs": [
-            "You sit in a treatment chair while a coil rests against your head. During treatment, you may hear clicking and feel a tapping sensation. You remain awake, and treatment does not require sedation or anesthesia.",
-            "TMS involves a series of office visits. Your clinician determines the treatment plan and session schedule. Discuss the time commitment with the office before starting."
+            "Depression can continue to affect your energy, interest in life, and ability to manage everyday tasks even after trying medication. TMS offers another treatment option when antidepressants have not helped enough or have been difficult to tolerate.",
+            "Research supports TMS for reducing depression symptoms. The aim is meaningful relief that helps you return to daily life; the degree and timing of improvement vary. TMS can be part of a broader plan that also includes medication or talk therapy."
+          ]
+        },
+        {
+          "heading": "What does treatment feel like?",
+          "paragraphs": [
+            "You sit in a chair while the coil delivers magnetic pulses. You may hear clicking and feel tapping on your scalp. Before treatment begins, the clinician identifies the treatment area and adjusts the stimulation settings.",
+            "A typical course involves appointments five days a week for four to six weeks. Session length and the full schedule depend on the device and treatment plan. This is a general expectation, not a fixed schedule for every patient."
+          ]
+        },
+        {
+          "heading": "How is progress assessed?",
+          "paragraphs": [
+            "Your clinician reviews changes in symptoms and daily functioning throughout treatment. Improvement may build over a series of sessions. Follow-up care depends on your response and whether symptoms return."
           ]
         },
         {
           "heading": "Safety and suitability",
           "paragraphs": [
-            "Discomfort at or near the treatment site is the most common side effect. TMS also carries a rare risk of seizure. Non-removable conductive metal in or near the head can make treatment unsuitable; tell your clinician about any implanted devices or metal before an evaluation.",
-            "Your clinician reviews your medical history and prior treatments to decide whether TMS is appropriate. Results vary from person to person."
-          ]
-        },
-        {
-          "heading": "Discussing treatment and coverage",
-          "paragraphs": [
-            "Call our office to discuss a TMS evaluation. Have your medication history and insurance information available so you can ask about the evaluation process, treatment schedule and coverage requirements."
+            "Headache and scalp discomfort can occur; seizures are a rare risk. Tell your clinician about any seizure history, implanted devices, or metal in or near your head. Some implants or metal can make TMS unsuitable.",
+            "An evaluation considers your depression, previous treatments, and medical history before deciding whether TMS is appropriate."
           ]
         }
       ],
       "resources": [
+        {
+          "title": "NIMH: Brain stimulation therapies",
+          "url": "https://www.nimh.nih.gov/health/topics/brain-stimulation-therapies/brain-stimulation-therapies"
+        },
         {
           "title": "NeuroStar: How TMS treatment works",
           "url": "https://neurostar.com/what-is-neurostar-advanced-therapy/"
@@ -433,36 +454,43 @@
       "slug": "spravato",
       "name": "Spravato",
       "title": "Spravato for treatment-resistant depression",
-      "summary": "Spravato (esketamine) is an FDA-approved nasal spray for adults with treatment-resistant depression. Central Texas Mental Health offers Spravato in Round Rock.",
+      "summary": "Spravato is an FDA-approved esketamine nasal spray for adults with treatment-resistant depression. It offers another treatment option when antidepressants have not provided enough relief.",
       "seo": {
         "title": "Spravato in Round Rock | Central Texas Mental Health",
-        "description": "Learn about Spravato for treatment-resistant depression at Central Texas Mental Health in Round Rock, including supervised visits, monitoring and next steps."
+        "description": "Learn what Spravato is, why it is used for treatment-resistant depression, and what supervised treatment involves. Central Texas Mental Health."
       },
       "sections": [
         {
           "heading": "What is Spravato?",
           "paragraphs": [
-            "Spravato contains esketamine and can be prescribed for treatment-resistant depression with or without an oral antidepressant. Your clinician reviews your symptoms, previous treatments and medical history to determine whether it is appropriate for you."
+            "Spravato contains esketamine, a medicine related to ketamine. It is given as a nasal spray under medical supervision, rather than taken at home. It acts on NMDA receptors involved in glutamate signaling in the brain; its exact antidepressant mechanism is not fully understood."
           ]
         },
         {
-          "heading": "What happens during a treatment visit?",
+          "heading": "Why is it used for depression?",
           "paragraphs": [
-            "You use the nasal spray under a healthcare professional's supervision and remain for monitoring for at least two hours afterward. Your care team assesses when you are ready to leave.",
+            "Trying treatment and still feeling depressed can be discouraging. Treatment-resistant depression generally means that at least two antidepressant treatments have not provided enough improvement. Spravato offers a different medication approach for adults in this situation.",
+            "For treatment-resistant depression, Spravato can be prescribed on its own or with an oral antidepressant. The goal is relief from symptoms that interfere with daily life. Response varies, so continued treatment depends on how you are doing."
+          ]
+        },
+        {
+          "heading": "What happens during a visit?",
+          "paragraphs": [
+            "You use the nasal spray under supervision, then stay for monitoring for at least two hours. The care team checks your blood pressure and breathing and determines when you can safely leave.",
             "Arrange a ride home. Do not drive or operate machinery until the next day after a restful sleep."
+          ]
+        },
+        {
+          "heading": "How often is treatment given?",
+          "paragraphs": [
+            "For treatment-resistant depression, treatment usually starts twice weekly for four weeks. Visits then become less frequent, depending on response. Your clinician assesses benefit after the initial phase and adjusts the ongoing schedule."
           ]
         },
         {
           "heading": "Important safety information",
           "paragraphs": [
-            "Spravato can cause sedation, dissociation, breathing problems and increased blood pressure. It also carries risks of abuse and misuse and a warning about suicidal thoughts and behaviors. It is available through a restricted safety program called REMS.",
-            "Review the Medication Guide with your clinician, including your medical history, other medicines, pregnancy plans and all potential risks. Spravato is not a substitute for emergency care or hospitalization when needed."
-          ]
-        },
-        {
-          "heading": "Planning for treatment",
-          "paragraphs": [
-            "Call our office to discuss an evaluation, treatment visit schedule and insurance requirements. Have your prior treatment history and insurance details available, and consider how you will arrange transportation for visits."
+            "Spravato can cause sleepiness, dizziness, nausea, and dissociation—a feeling of disconnection from yourself or your surroundings. Risks also include increased blood pressure, breathing problems, and abuse or misuse. It carries an antidepressant warning about suicidal thoughts and behaviors, especially in younger patients.",
+            "Spravato is available only through a restricted safety program called REMS. Review the Medication Guide and your medical history with your clinician. It does not replace emergency care or hospitalization when needed."
           ]
         }
       ],
@@ -601,7 +629,11 @@
     ]
   },
   "home": {
-    "featuredProviderSlugs": ["michael-musgrove", "julie-williams", "emily-morris"],
+    "featuredProviderSlugs": [
+      "michael-musgrove",
+      "julie-williams",
+      "emily-morris"
+    ],
     "providerEyebrow": "Providers",
     "providerTitle": "Meet the care team",
     "providerCopy": "Our board-certified psychiatrist and physician assistants provide psychiatric evaluation and medication management for adults."

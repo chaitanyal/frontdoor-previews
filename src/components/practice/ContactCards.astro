@@ -1,13 +1,15 @@
 ---
 /**
  * Contact-card group receiving a contact object as practice (phone, phoneHref, email).
- * Always renders phone; email is optional. Supports compact sizing and label overrides.
+ * Always renders phone; email is optional. Supports compact sizing, labels,
+ * and disabled cards for fictional practices.
  */
 import ContactCard from './ContactCard.astro';
 
 interface Props {
   practice: Record<string, any>;
   variant?: 'lg' | 'sm';
+  disabled?: boolean;
   labels?: {
     email?: string;
     phone?: string;
@@ -17,6 +19,7 @@ interface Props {
 const {
   practice,
   variant = 'lg',
+  disabled = false,
   labels = {},
 } = Astro.props;
 ---
@@ -33,6 +36,7 @@ const {
     value={practice.phone}
     href={practice.phoneHref}
     variant={variant}
+    disabled={disabled}
   />
   {
     practice.email && (
@@ -41,6 +45,7 @@ const {
         label={labels.email || 'Email'}
         value={practice.email}
         variant={variant}
+        disabled={disabled}
       />
     )
   }

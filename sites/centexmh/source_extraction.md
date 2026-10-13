@@ -136,6 +136,11 @@ Practice-level diagnoses from S2: depression, bipolar disorder, anxiety/panic, O
 
 ### Treatment-page evidence — October 1, 2026
 
+October 13 educational revision: expanded what TMS/Spravato are and why they are
+used, followed by general visit expectations, response assessment, and safety.
+Removed the separate office-planning sections; retained existing contact actions
+and verified NeuroStar certification. See the updated treatment-page evidence below.
+
 See [treatment-page copy and evidence](../../assessments/centexmh/sources/treatment-page-copy.md)
 for the field mapping to supplied HTML, NeuroStar guidance and Spravato prescribing
 information revised March 2026. `treatments` contains two evidence-supported adult

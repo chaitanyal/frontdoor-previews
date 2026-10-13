@@ -1,0 +1,504 @@
+{
+  "theme": "editorial-healthcare",
+  "seo": {
+    "title": "Westlake Psychiatry & Therapy | Fictional Practice Concept",
+    "description": "A fictional West Lake Hills practice offering adult psychiatry, talk therapy, TMS and Spravato. A website concept by FrontDoor.Health.",
+    "siteUrl": "https://frontdoor.health/previews/westlakepsychiatry/",
+    "allowIndexing": false,
+    "ogImage": "./images/hero/limestone-creek.webp",
+    "ogImageAlt": "An illustrative Central Texas limestone creek and oak trees",
+    "locale": "en_US"
+  },
+  "practice": {
+    "slug": "westlakepsychiatry",
+    "name": "Westlake Psychiatry & Therapy",
+    "tagline": "Psychiatry · Therapy · TMS · Spravato",
+    "locationLabel": "West Lake Hills, Texas",
+    "phone": "(512) 555-0156",
+    "phoneHref": "https://frontdoor.health/#contact",
+    "email": "hello@westlakepsychiatry.example",
+    "addressLines": [
+      "999 Bee Cave Road",
+      "West Lake Hills, TX 78746"
+    ],
+    "address": {
+      "streetAddress": "999 Bee Cave Road",
+      "addressLocality": "West Lake Hills",
+      "addressRegion": "TX",
+      "postalCode": "78746",
+      "addressCountry": "US"
+    },
+    "medicalSpecialty": "https://schema.org/Psychiatric",
+    "socialLinks": [],
+    "disableExternalActionLinksInPreview": true,
+    "emergencyNotice": "This fictional practice does not provide clinical care. For immediate danger, call 911. For a mental health crisis, call or text 988."
+  },
+  "hero": {
+    "image": "./images/hero/limestone-creek.webp",
+    "imageAlt": "Illustrative Central Texas landscape with a limestone creek beneath live oak trees",
+    "title": "Psychiatry and therapy, with room for your whole story.",
+    "copy": "Medication management and talk therapy for adults, with TMS and Spravato when depression needs another approach. A small care team in West Lake Hills, serving the Austin area.",
+    "primaryCta": "Request Appointment",
+    "secondaryCta": "Meet Our Team"
+  },
+  "providerProfileSections": {
+    "expectations": false
+  },
+  "treatments": [
+    {
+      "slug": "tms",
+      "name": "TMS Therapy",
+      "title": "TMS Therapy for depression",
+      "summary": "When antidepressants have not brought enough relief, TMS offers a different way to treat depression. It uses magnetic stimulation rather than medication and does not require surgery or anesthesia.",
+      "seo": {
+        "title": "TMS | Westlake Fictional Practice Concept",
+        "description": "Learn what TMS is, why it is used for depression, and what treatment involves. A fictional Westlake Psychiatry & Therapy example."
+      },
+      "sections": [
+        {
+          "heading": "What is TMS?",
+          "paragraphs": [
+            "Transcranial magnetic stimulation (TMS) is a noninvasive treatment that delivers focused magnetic pulses through a coil placed against the scalp. These pulses stimulate brain circuits involved in mood regulation, with the goal of reducing depression symptoms.",
+            "TMS is not an antidepressant medication. You remain awake during treatment, without sedation or anesthesia."
+          ]
+        },
+        {
+          "heading": "Why is TMS used for depression?",
+          "paragraphs": [
+            "Depression can continue to affect your energy, interest in life, and ability to manage everyday tasks even after trying medication. TMS offers another treatment option when antidepressants have not helped enough or have been difficult to tolerate.",
+            "Research supports TMS for reducing depression symptoms. The aim is meaningful relief that helps you return to daily life; the degree and timing of improvement vary. TMS can be part of a broader plan that also includes medication or talk therapy."
+          ]
+        },
+        {
+          "heading": "What does treatment feel like?",
+          "paragraphs": [
+            "You sit in a chair while the coil delivers magnetic pulses. You may hear clicking and feel tapping on your scalp. Before treatment begins, the clinician identifies the treatment area and adjusts the stimulation settings.",
+            "A typical course involves appointments five days a week for four to six weeks. Session length and the full schedule depend on the device and treatment plan. This is a general expectation, not a fixed schedule for every patient."
+          ]
+        },
+        {
+          "heading": "How is progress assessed?",
+          "paragraphs": [
+            "Your clinician reviews changes in symptoms and daily functioning throughout treatment. Improvement may build over a series of sessions. Follow-up care depends on your response and whether symptoms return."
+          ]
+        },
+        {
+          "heading": "Safety and suitability",
+          "paragraphs": [
+            "Headache and scalp discomfort can occur; seizures are a rare risk. Tell your clinician about any seizure history, implanted devices, or metal in or near your head. Some implants or metal can make TMS unsuitable.",
+            "An evaluation considers your depression, previous treatments, and medical history before deciding whether TMS is appropriate."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "title": "NIMH: Brain stimulation therapies",
+          "url": "https://www.nimh.nih.gov/health/topics/brain-stimulation-therapies/brain-stimulation-therapies"
+        }
+      ],
+      "cta": {
+        "heading": "Explore whether TMS fits your needs",
+        "summary": "Start with an evaluation of your depression and treatment history. An evaluation does not guarantee eligibility or insurance coverage.",
+        "label": "Request a TMS Evaluation"
+      }
+    },
+    {
+      "slug": "spravato",
+      "name": "Spravato",
+      "title": "Spravato for treatment-resistant depression",
+      "summary": "Spravato is an FDA-approved esketamine nasal spray for adults with treatment-resistant depression. It offers another treatment option when antidepressants have not provided enough relief.",
+      "seo": {
+        "title": "Spravato | Westlake Fictional Practice Concept",
+        "description": "Learn what Spravato is, why it is used for treatment-resistant depression, and what supervised treatment involves. A fictional practice example."
+      },
+      "sections": [
+        {
+          "heading": "What is Spravato?",
+          "paragraphs": [
+            "Spravato contains esketamine, a medicine related to ketamine. It is given as a nasal spray under medical supervision, rather than taken at home. It acts on NMDA receptors involved in glutamate signaling in the brain; its exact antidepressant mechanism is not fully understood."
+          ]
+        },
+        {
+          "heading": "Why is it used for depression?",
+          "paragraphs": [
+            "Trying treatment and still feeling depressed can be discouraging. Treatment-resistant depression generally means that at least two antidepressant treatments have not provided enough improvement. Spravato offers a different medication approach for adults in this situation.",
+            "For treatment-resistant depression, Spravato can be prescribed on its own or with an oral antidepressant. The goal is relief from symptoms that interfere with daily life. Response varies, so continued treatment depends on how you are doing."
+          ]
+        },
+        {
+          "heading": "What happens during a visit?",
+          "paragraphs": [
+            "You use the nasal spray under supervision, then stay for monitoring for at least two hours. The care team checks your blood pressure and breathing and determines when you can safely leave.",
+            "Arrange a ride home. Do not drive or operate machinery until the next day after a restful sleep."
+          ]
+        },
+        {
+          "heading": "How often is treatment given?",
+          "paragraphs": [
+            "For treatment-resistant depression, treatment usually starts twice weekly for four weeks. Visits then become less frequent, depending on response. Your clinician assesses benefit after the initial phase and adjusts the ongoing schedule."
+          ]
+        },
+        {
+          "heading": "Important safety information",
+          "paragraphs": [
+            "Spravato can cause sleepiness, dizziness, nausea, and dissociation—a feeling of disconnection from yourself or your surroundings. Risks also include increased blood pressure, breathing problems, and abuse or misuse. It carries an antidepressant warning about suicidal thoughts and behaviors, especially in younger patients.",
+            "Spravato is available only through a restricted safety program called REMS. Review the Medication Guide and your medical history with your clinician. It does not replace emergency care or hospitalization when needed."
+          ]
+        }
+      ],
+      "resources": [
+        {
+          "title": "Spravato prescribing information and Medication Guide",
+          "url": "https://www.janssenlabels.com/package-insert/product-monograph/prescribing-information/SPRAVATO-pi.pdf"
+        }
+      ],
+      "cta": {
+        "heading": "Explore whether Spravato fits your needs",
+        "summary": "An evaluation helps identify appropriate treatment options. Eligibility and insurance coverage require separate review.",
+        "label": "Request a Spravato Evaluation"
+      }
+    }
+  ],
+  "trustItems": [
+    {
+      "icon": "UserCheck",
+      "text": "Adults 18 and older"
+    },
+    {
+      "icon": "ShieldCheck",
+      "text": "Insurance accepted"
+    },
+    {
+      "icon": "Heart",
+      "text": "Psychiatry and talk therapy"
+    },
+    {
+      "icon": "Brain",
+      "text": "TMS and Spravato"
+    }
+  ],
+  "providers": [
+    {
+      "slug": "elena-morgan",
+      "name": "Dr. Elena Morgan",
+      "specialty": "Psychiatrist · Adult & Interventional Psychiatry",
+      "tagline": "Adult psychiatric care with a focus on depression and finding a path forward when previous treatment has not helped enough.",
+      "heroTrustItems": [
+        "15 Years of Clinical Experience",
+        "Board-Certified Psychiatrist",
+        "Fellowship-Trained"
+      ],
+      "bioParagraphs": [
+        "Dr. Elena Morgan helps adults navigate depression, anxiety, bipolar disorder, and ADHD, including those who have tried treatment and still feel stuck.",
+        "Her fellowship training in interventional psychiatry informs her work with TMS and Spravato. She considers your symptoms, previous treatments, medical history, and goals when exploring options. Medication visits include time to talk about what you are experiencing and how care fits into your everyday life.",
+        "Dr. Morgan and Jordan provide psychiatric care and medication management. Rachel provides regular talk therapy. When you choose both, the clinicians work together across separate appointments."
+      ],
+      "services": [
+        "Adult psychiatric evaluations",
+        "Medication management",
+        "TMS treatment and evaluations",
+        "Spravato treatment and evaluations"
+      ],
+      "conditions": [
+        "Depression",
+        "Anxiety disorders",
+        "Bipolar disorder",
+        "ADHD"
+      ],
+      "certifications": [
+        "Psychiatry — American Board of Psychiatry and Neurology"
+      ],
+      "image": "./images/providers/elena-morgan.webp",
+      "imageAlt": "AI-generated portrait of Dr. Elena Morgan, a fictional psychiatrist",
+      "seo": {
+        "title": "Dr. Elena Morgan | Fictional Psychiatrist Profile",
+        "description": "Meet Dr. Elena Morgan, a fictional board-certified psychiatrist with 15 years of clinical experience and fellowship training in interventional psychiatry."
+      },
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "credentials": "MD",
+      "education": {
+        "medicalSchool": "Doctor of Medicine — University of Texas Medical Branch, Galveston",
+        "residency": [
+          "Psychiatry — Baylor College of Medicine"
+        ],
+        "fellowship": [
+          "Interventional Psychiatry — Yale School of Medicine"
+        ]
+      }
+    },
+    {
+      "slug": "jordan-lee",
+      "name": "Jordan Lee",
+      "credentials": "PA-C, CAQ",
+      "specialty": "Physician Assistant · Adult Psychiatry",
+      "tagline": "Adult psychiatric care informed by a background in psychology and primary care, with a focus on clear medication guidance.",
+      "heroTrustItems": [
+        "Psychiatry CAQ",
+        "Psychology & Primary Care Background"
+      ],
+      "bioParagraphs": [
+        "Jordan Lee brings a background in psychology and primary care to adult psychiatric evaluations and medication management. That experience informs a practical approach to understanding how mood, attention, sleep, and physical health affect everyday life.",
+        "Jordan works with Dr. Morgan to explore treatment options, explain medication benefits and side effects, and review how your care is progressing. Visits make room for your questions and preferences, whether you are starting treatment or reconsidering an existing plan.",
+        "Jordan’s Psychiatry CAQ recognizes additional knowledge and experience in psychiatric care beyond general physician assistant certification."
+      ],
+      "services": [
+        "Psychiatric evaluations",
+        "Medication management",
+        "Medication education"
+      ],
+      "conditions": [
+        "Depression",
+        "Anxiety disorders",
+        "ADHD",
+        "Insomnia"
+      ],
+      "certifications": [
+        "Physician Assistant (PA-C) — NCCPA",
+        "Certificate of Added Qualifications in Psychiatry — NCCPA"
+      ],
+      "image": "./images/providers/jordan-lee.webp",
+      "imageAlt": "AI-generated portrait of Jordan Lee, a fictional psychiatric physician assistant",
+      "seo": {
+        "title": "Jordan Lee, PA-C, CAQ | Fictional Psychiatry Profile",
+        "description": "Meet Jordan Lee, a fictional physician assistant with a Psychiatry CAQ and a background in psychology and primary care, providing adult psychiatric evaluations and medication management."
+      },
+      "medicalSpecialty": "https://schema.org/Psychiatric",
+      "education": {
+        "physicianAssistantProgram": "Master of Physician Assistant Studies — University of Texas Medical Branch, Galveston",
+        "undergraduate": "Bachelor of Science in Psychology — Texas State University"
+      },
+      "bioLinks": [
+        {
+          "text": "Psychiatry CAQ",
+          "url": "https://www.nccpa.net/specialty-certificates/"
+        }
+      ],
+      "aboutHeading": "Clinical background"
+    },
+    {
+      "slug": "rachel-ellis",
+      "name": "Rachel Ellis",
+      "credentials": "DSW, LCSW",
+      "specialty": "Clinical Social Worker & Therapist",
+      "tagline": "Trauma-informed therapy for adults navigating anxiety, relationship difficulties, and the effects of trauma or racialized stress.",
+      "heroTrustItems": [
+        "17 Years of Clinical Experience",
+        "Trauma-Informed Therapy",
+        "Culturally Responsive Care"
+      ],
+      "bioParagraphs": [
+        "Rachel Ellis is a licensed clinical social worker with a doctorate in social work and 17 years of experience supporting individuals and families. At Westlake, she provides individual therapy for adults navigating trauma, racialized stress, depression, anxiety, and relationship difficulties.",
+        "Rachel considers the whole person: your identity, family relationships, community, and the wider pressures affecting your life. Her approach makes space for the impact of racism and cultural experiences without asking you to set those parts of your story aside.",
+        "Through trauma-informed therapy, Rachel helps you explore patterns that cause pain, strengthen your sense of connection, and work toward changes that matter to you. She offers regular talk therapy on its own or alongside psychiatric care with Dr. Morgan or Jordan."
+      ],
+      "services": [
+        "Individual psychotherapy for adults",
+        "Trauma-informed therapy",
+        "Culturally responsive therapy",
+        "Therapy alongside psychiatric care"
+      ],
+      "conditions": [
+        "Trauma & PTSD",
+        "Racialized stress",
+        "Depression",
+        "Anxiety",
+        "Relationship difficulties",
+        "Grief and loss",
+        "Life transitions"
+      ],
+      "certifications": [
+        "Licensed Clinical Social Worker (LCSW)"
+      ],
+      "image": "./images/providers/rachel-ellis.webp",
+      "imageAlt": "AI-generated portrait of Rachel Ellis, a fictional therapist",
+      "seo": {
+        "title": "Rachel Ellis, DSW, LCSW | Fictional Therapist Profile",
+        "description": "Meet Rachel Ellis, a fictional clinical social worker with 17 years of experience offering trauma-informed, culturally responsive individual therapy for adults."
+      },
+      "education": {
+        "graduate": [
+          "Doctor of Social Work — University of Pennsylvania",
+          "Master of Social Work — University of Texas at Austin"
+        ],
+        "undergraduate": "Bachelor of Arts in Psychology — Texas State University"
+      },
+      "aboutHeading": "Approach & clinical background"
+    }
+  ],
+  "conditionsIntro": "Care for adults with depression, anxiety, attention, sleep, and mood concerns. Therapy also makes room for grief, relationship difficulties, and life changes.",
+  "conditions": [
+    "Depression",
+    "Anxiety & Panic",
+    "ADHD",
+    "Bipolar Disorder",
+    "Trauma-Related Concerns",
+    "Insomnia"
+  ],
+  "insurance": {
+    "enabled": true,
+    "section_label": "Insurance",
+    "headline": "Insurance Coverage",
+    "summary": "We accept insurance for psychiatric care and talk therapy. Contact the office before scheduling to confirm participation for your provider and plan.",
+    "coverage_types": [
+      "Aetna",
+      "Blue Cross Blue Shield",
+      "Cigna",
+      "UnitedHealthcare"
+    ],
+    "verification": {
+      "enabled": true,
+      "description": "Insurance participation varies by provider, plan, and service. For TMS and Spravato, ask about coverage requirements, prior authorization, and your share of the cost."
+    },
+    "disclaimer": "Your insurance plan determines coverage and benefits. Listing a carrier does not guarantee coverage for a specific service."
+  },
+  "faqs": [
+    {
+      "question": "Do I need medication, therapy, or both?",
+      "answer": "You do not have to decide before asking for care. Psychiatric care explores symptoms and treatment options, including medication. Talk therapy offers regular time to work through feelings and patterns. You can use either service or both."
+    },
+    {
+      "question": "Would I see the same person for medication and therapy?",
+      "answer": "Our psychiatrist and physician assistant provide psychiatric care. Our therapist provides ongoing talk therapy. If you choose both, you have separate appointments with the relevant clinicians."
+    },
+    {
+      "question": "What happens at my first appointment?",
+      "answer": "For psychiatric care, your first visit is an evaluation of your concerns, health history, previous treatments, and goals. For therapy, your first session explores what brings you in and what you want help with."
+    },
+    {
+      "question": "When might I explore TMS or Spravato?",
+      "answer": "If depression continues despite previous antidepressant treatment, an evaluation can help you explore additional options. Your symptoms alone do not establish eligibility for either treatment."
+    },
+    {
+      "question": "Does accepting insurance mean my treatment is covered?",
+      "answer": "No. Participation and benefits depend on your provider, plan, and service. TMS and Spravato may require prior authorization. Ask about coverage and out-of-pocket costs before starting care."
+    }
+  ],
+  "location": {
+    "title": "A small practice in West Lake Hills.",
+    "summary": "An illustrative Austin-area setting for this fictional practice. The office image and contact details are sample content.",
+    "officeImage": "./images/office/office.webp",
+    "officeImageAlt": "Illustrative limestone office building among live oak trees; not a real Westlake practice location",
+    "directionsHref": "https://frontdoor.health/#contact",
+    "timeZone": "America/Chicago",
+    "hours": [
+      [
+        "Monday",
+        "9:00 AM – 5:00 PM"
+      ],
+      [
+        "Tuesday",
+        "9:00 AM – 5:00 PM"
+      ],
+      [
+        "Wednesday",
+        "9:00 AM – 5:00 PM"
+      ],
+      [
+        "Thursday",
+        "9:00 AM – 5:00 PM"
+      ],
+      [
+        "Friday",
+        "9:00 AM – 5:00 PM"
+      ],
+      [
+        "Saturday–Sunday",
+        "Closed"
+      ]
+    ],
+    "telehealthNotice": "Fictional office and contact details. No clinical appointments are available.",
+    "weeklyHours": {
+      "Monday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Tuesday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Wednesday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Thursday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Friday": {
+        "open": "09:00",
+        "close": "17:00"
+      },
+      "Saturday": {
+        "closed": true
+      },
+      "Sunday": {
+        "closed": true
+      }
+    }
+  },
+  "footer": {
+    "links": [
+      "Privacy",
+      "Terms",
+      "Accessibility"
+    ],
+    "frontdoorCredit": true
+  },
+  "fictionalDemo": true,
+  "home": {
+    "providerEyebrow": "Your care team",
+    "providerTitle": "Three clinicians. More ways to find your footing.",
+    "providerCopy": "Our psychiatrist and physician assistant provide evaluation and medication management. Our therapist offers ongoing talk therapy. You can work with one service or combine them.",
+    "navProvidersLabel": "Our Team"
+  },
+  "careGuidance": {
+    "contentKeys": [
+      "psychiatry",
+      "psychotherapy"
+    ],
+    "heading": "Does any of this feel familiar?",
+    "introduction": "You do not need to know what to call it to start talking about it.",
+    "concernIds": [
+      "mood",
+      "worry",
+      "attention",
+      "relationships",
+      "change",
+      "ongoing-difficulty"
+    ]
+  },
+  "careOptions": {
+    "heading": "Psychiatry, therapy, or both.",
+    "summary": "You can choose either kind of care or combine them. If you choose both, your clinicians work together while you have separate appointments.",
+    "items": [
+      {
+        "heading": "Psychiatry & medication management",
+        "summary": "Medication visits include time to talk about what you are experiencing, not just your prescription. Our psychiatrist or physician assistant helps you explore treatment options and review how medication is working."
+      },
+      {
+        "heading": "Talk therapy",
+        "summary": "Regular sessions with our therapist focus on feelings, relationships, and patterns in your life. You can work on these concerns through therapy alone or alongside medication care."
+      }
+    ]
+  },
+  "treatmentSection": {
+    "heading": "When depression needs another approach.",
+    "summary": "If previous antidepressant treatment has not brought enough relief, TMS or Spravato may be options to explore. An evaluation helps determine whether either treatment fits your history and needs."
+  },
+  "financialPolicy": {
+    "paymentModel": "insurance",
+    "pricingDisplay": "hidden",
+    "summary": "We accept insurance for psychiatric care and talk therapy. Before your first visit, our office checks participation for your provider, plan, and service."
+  },
+  "appointmentSection": {
+    "presentation": "standard",
+    "heading": "Start with what you need.",
+    "summary": "Tell us whether you are looking for psychiatric care, talk therapy, or a depression-treatment evaluation. Our office helps you find the appropriate first appointment.",
+    "primaryCtaLabel": "Request Appointment"
+  },
+  "providerProfileLabels": {
+    "bookAppointment": "Request Appointment",
+    "callOffice": "For practice owners",
+    "providers": "Our Team"
+  }
+}

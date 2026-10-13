@@ -5,6 +5,29 @@ in `sites/centexmh/practice.json`; this document records source mapping and excl
 
 ## Sources
 
+### October 13 educational refresh
+
+Original wording now emphasizes what treatment is and why patients consider it.
+CARMAhealth's [TMS page](https://carmahealth.com/services/tms-therapy) and
+[Spravato page](https://carmahealth.com/services/spravato) informed organization.
+Spravato required direct HTML retrieval after web extraction failed. No CARMA
+protocol, staffing, prices, coverage claims, response percentages, or certification
+was transferred. Its conflicting oral-antidepressant statements were resolved
+against T5: adult TRD may be treated with or without an oral antidepressant.
+
+[NIMH brain stimulation therapies](https://www.nimh.nih.gov/health/topics/brain-stimulation-therapies/brain-stimulation-therapies),
+reviewed October 13, supports magnetic stimulation, treatment rationale,
+typical five-days-weekly/four-to-six-week course, awake office visits, and safety.
+The schedule is explicitly general, not Centex's confirmed protocol. T5 supports
+Spravato's NMDA receptor description with uncertain exact antidepressant mechanism,
+TRD rationale, initial twice-weekly/four-week phase and response-based continuation.
+Existing NeuroStar naming/certification and contact actions remain.
+
+Copywriter/copyreviewer pass: treatment purpose and audience are clear; benefits
+remain treatment goals; plain-language safety includes dissociation explanation.
+Separate office-planning paragraphs were removed in favor of general education.
+No clinical response guarantee or new operational promise was added.
+
 - **T1** User-supplied [NeuroStar HTML](NeuroStarTMSTherapy.html), corresponding to
   [the official clinic TMS page](https://www.centexmh.com/tms/index.htm).
   Supports clinic offering, adult depression focus, office treatment and contact.

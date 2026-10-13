@@ -160,6 +160,7 @@ drdronavalli         calm-healthcare
 northhillspsychiatry editorial-healthcare
 mariposa             editorial-healthcare + reflective
 mayabennett          editorial-healthcare + reflective (fictional outreach concept)
+westlakepsychiatry   editorial-healthcare (fictional hybrid-care concept)
 northwestpsychiatry  structured-clinical
 ```
 

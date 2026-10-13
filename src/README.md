@@ -111,6 +111,9 @@ and an HTTPS `url` for scheduled-visit access in homepage/provider appointment
 sections. It respects preview action disabling and uses existing-patient CTA tracking.
 Optional `appointmentSection.primaryCtaLabel` overrides the scheduling action
 label on home and provider pages without changing its destination or tracking.
+Optional `appointmentSection.presentation: "standard"` gives fictional demos the
+full appointment/contact layout with all patient actions disabled. The default
+fictional presentation remains compact; real-practice actions remain unchanged.
 `lib/practice-view.mjs` derives display values; layouts receive the resolved theme.
 Optional `careGuidance` selects shared psychiatry, psychotherapy, or pulmonology copy with
 `contentKeys`, optional concern selection and heading/intro/navigation overrides,
@@ -125,6 +128,11 @@ patient-information footers. Treatment links reference existing configured slugs
 and appointment actions remain in existing page sections. Shared source metadata
 stays internal; it does not establish practice-specific services or credentials.
 Concern descriptions are optional; single-phrase concerns render without a description paragraph.
+Optional `careOptions` supplies a heading, summary, and `items` with heading/summary
+pairs for core services after providers and before conditions. It renders only
+when configured and adds a Services navigation item. Advanced treatments remain
+in the separate treatment section. Fictional demos disable treatment contact
+actions and insurance contact cards.
 Optional `treatments` entries generate `/treatment/<slug>/` in standalone builds
 and `/previews/<practice>/treatment/<slug>/` in both preview targets. The optional
 `treatmentSection` supplies homepage heading/summary. Non-empty lists enable
