@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { captureScreenshot } from '../../scripts/verification/screenshots.mjs';
 import { readFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -39,7 +40,7 @@ test('@provider-experience Westlake fictional pages retain disclosures, disabled
         expect(surfaces[1]).not.toBe(surfaces[2]);
       }
       if (capture && width !== 768 && !['privacy/', 'accessibility/', 'terms/'].includes(route)) {
-        await page.screenshot({ path: path.join(screenshots, `${width}-${route.replaceAll('/', '-') || 'home'}.png`), fullPage: true });
+        await captureScreenshot(page, path.join(screenshots, `${width}-${route.replaceAll('/', '-') || 'home'}.png`), { suite: 'providers' });
       }
     }
   }
@@ -157,7 +158,7 @@ test('@provider-screenshots captures local homepage, directory and profile layou
       await section.scrollIntoViewIfNeeded();
       await waitForImages(section.locator('img'));
       await page.evaluate(() => document.fonts.ready);
-      await section.screenshot({ path: path.join(output, `${name}-${label}.png`) });
+      await captureScreenshot(page, path.join(output, `${name}-${label}.png`), { selector, suite: 'providers' });
     }
   }
 });

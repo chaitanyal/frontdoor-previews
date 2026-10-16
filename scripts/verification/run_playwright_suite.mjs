@@ -43,7 +43,7 @@ const result = spawnSync(
     'test',
     '--config=playwright.config.mjs',
     '--grep',
-    suite === 'providers' ? `@provider-experience${screenshots ? '|@provider-screenshots' : ''}` : suite === 'themes' ? '@theme-polish' : `@${suite}`,
+    suite === 'providers' ? `@provider-experience${screenshots ? '|@provider-screenshots' : ''}` : suite === 'themes' ? `@theme-polish${screenshots ? '|@review-screenshots' : ''}` : `@${suite}`,
     ...passthroughArgs,
   ],
   {

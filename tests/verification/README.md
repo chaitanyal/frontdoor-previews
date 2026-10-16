@@ -101,6 +101,40 @@ Checks cover mobile/tablet/desktop home, provider, and legal pages, footer link
 resolution and touch targets, keyboard FAQ operation, and horizontal overflow.
 File-based screenshots are saved in `.tmp/theme-polish/`.
 
+### Implementation and visual review
+
+Complete implementation, then run the applicable verification. For visual changes:
+
+```bash
+npm run verify:change -- --screenshots
+```
+
+The runner retains normal change-based check selection and adds theme coverage and
+saved visual comparisons when screenshots are requested. Screenshot capture includes
+marketing home, case study, secondary pages, and form error/loading states, plus representative practice and
+preview home/provider/legal pages. Standard review widths are 390px and 1440px;
+existing additional responsive checks and section captures remain.
+
+Marketing review captures load built `file://` pages with the deterministic local
+marketing stylesheet. External services remain mocked. Full-page captures clear
+focus and return to the top after loading fonts/images; section captures retain the
+specified section. This prevents earlier navigation assertions from moving sticky
+headers into arbitrary screenshot positions.
+
+Open `.tmp/visual-review/manifest.json` to find each capture's page URL, viewport,
+optional section selector, suite, and file path. Captures from the same input
+fingerprint accumulate; changed inputs start a new manifest. Missing screenshot
+files prevent reuse of a screenshot-producing suite's passing receipt.
+
+Open and visually inspect affected images. Check overflow/clipping, text wrapping,
+spacing/alignment, image crops, sticky navigation/mobile actions, and changed form
+states. Capture alone does not establish approval. Report checks, inspected images,
+and unresolved issues separately.
+
+Review current output and differences before `npm run test:visual:update`. Run
+applicable verification after changing saved baselines; baseline changes invalidate
+prior receipts. Keep the same browser/environment for repeatable pixel comparisons.
+
 Focused treatment configuration and route checks (no build or browser required):
 
 ```bash

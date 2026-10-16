@@ -199,7 +199,33 @@ test('browser results preserve only complete passing suites after a failure', ()
   assert.deepEqual(passedBrowserSuites(report, ['themes', 'analytics', 'providers']), ['themes']);
   assert.deepEqual(passedBrowserSuites({ ...report, errors: [{ message: 'setup failed' }] }, ['themes']), []);
   assert.deepEqual(passedBrowserSuites({ suites: [] }, ['themes']), []);
+  const captures = { suites: [{ specs: [spec('@theme-polish one', 'passed'), spec('@review-screenshots marketing', 'failed')] }] };
+  assert.deepEqual(passedBrowserSuites(captures, ['themes'], true), []);
+  assert.deepEqual(passedBrowserSuites(captures, ['themes'], false), ['themes']);
+  const optional = spec('@visual optional local assets', 'skipped');
+  optional.tests[0].expectedStatus = 'skipped';
+  assert.deepEqual(passedBrowserSuites({ suites: [{ specs: [spec('@visual page', 'passed'), optional] }] }, ['visual']), ['visual']);
+  assert.deepEqual(passedBrowserSuites({ suites: [{ specs: [optional] }] }, ['visual']), []);
 });
+
+test('screenshot receipts require retained files and manifests discard stale inputs', () => fixture(({ evaluate }) => {
+  const screenshotsUrl = pathToFileURL(path.resolve('scripts/verification/screenshots.mjs')).href;
+  const result = evaluate(`
+    const { prepareScreenshotManifest, hasScreenshotArtifacts, SCREENSHOT_MANIFEST } = await import(${JSON.stringify(screenshotsUrl)});
+    const fs = await import('node:fs');
+    prepareScreenshotManifest('first');
+    fs.writeFileSync('.tmp/capture.png', 'capture fixture');
+    fs.writeFileSync(SCREENSHOT_MANIFEST, JSON.stringify({ input: 'first', screenshots: [{ file: '.tmp/capture.png', suite: 'themes' }] }));
+    prepareScreenshotManifest('first');
+    const retained = hasScreenshotArtifacts('themes', 'first');
+    const stale = hasScreenshotArtifacts('themes', 'other');
+    fs.rmSync('.tmp/capture.png');
+    const missing = hasScreenshotArtifacts('themes', 'first');
+    prepareScreenshotManifest('second');
+    console.log(JSON.stringify({ retained, stale, missing, entries: JSON.parse(fs.readFileSync(SCREENSHOT_MANIFEST)).screenshots }));
+  `);
+  assert.deepEqual(result, { retained: true, stale: false, missing: false, entries: [] });
+}));
 
 test('reviewed baselines use unchanged artifacts without builds and reject stale or altered evidence', () => fixture(({ root, write, evaluate }) => {
   write('sites/one/practice.json', '{}');

@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { captureScreenshot } from '../../scripts/verification/screenshots.mjs';
 import { mkdirSync, readFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -76,7 +77,7 @@ for (const [slug, output, theme] of sites) {
             expect(order).toEqual(['care-guidance', 'providers', 'conditions']);
             await expect(page.locator('.home-conditions')).toHaveCount(1);
             await expect(page.locator('.home-conditions')).toContainText('COPD');
-            if (capture) await guidance.screenshot({ path: path.join(screenshots, `${width}-care-guidance.png`) });
+            if (capture) await captureScreenshot(page, path.join(screenshots, `${width}-care-guidance.png`), { selector: '.home-care-guidance' });
           }
           if (theme === 'structured-clinical' && await page.locator('.home-resources').count()) {
             const resources = page.locator('.home-resources .patient-resource-list');
@@ -116,10 +117,10 @@ for (const [slug, output, theme] of sites) {
             const section = page.locator(selector);
             if (!capture || !(await section.count())) continue;
             await section.scrollIntoViewIfNeeded();
-            await section.screenshot({ path: path.join(screenshots, `${width}-${selector.slice(1)}.png`) });
+            await captureScreenshot(page, path.join(screenshots, `${width}-${selector.slice(1)}.png`), { selector });
           }
         }
-        if (capture && width !== 768) await page.screenshot({ path: path.join(screenshots, `${width}-${route ? route.startsWith('providers') ? 'profile' : 'privacy' : 'home'}.png`), fullPage: true });
+        if (capture && width !== 768) await captureScreenshot(page, path.join(screenshots, `${width}-${route ? route.startsWith('providers') ? 'profile' : 'privacy' : 'home'}.png`));
       }
     }
   });
@@ -158,7 +159,7 @@ test('@theme-polish care guidance replaces Maya concerns and preserves Centex co
       if (process.env.FRONTDOOR_CAPTURE_SCREENSHOTS === '1') {
         const screenshots = path.resolve('.tmp/theme-polish', slug);
         mkdirSync(screenshots, { recursive: true });
-        await guidance.screenshot({ path: path.join(screenshots, `${width}-care-guidance.png`) });
+        await captureScreenshot(page, path.join(screenshots, `${width}-care-guidance.png`), { selector: '.home-care-guidance' });
       }
     }
   }
@@ -175,7 +176,7 @@ test('@theme-polish fictional psychology concept discloses its identity and acce
   const screenshots = path.resolve('.tmp/theme-polish/mayabennett');
   const capture = process.env.FRONTDOOR_CAPTURE_SCREENSHOTS === '1';
   if (capture) mkdirSync(screenshots, { recursive: true });
-  for (const width of [390, 2048]) {
+  for (const width of [390, 1440, 2048]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const route of ['', 'providers/maya-bennett/', 'privacy/', 'terms/', 'accessibility/']) {
       await page.goto(pathToFileURL(path.join(root, route, 'index.html')).href);
@@ -197,7 +198,7 @@ test('@theme-polish fictional psychology concept discloses its identity and acce
         await expect(page.locator('.concept-appointment [aria-disabled="true"]')).toHaveText('Request a free consultation');
       }
       if (capture && (!route || route.startsWith('providers/'))) {
-        await page.screenshot({ path: path.join(screenshots, `${width}-${route ? 'profile' : 'home'}.png`), fullPage: true });
+        await captureScreenshot(page, path.join(screenshots, `${width}-${route ? 'profile' : 'home'}.png`));
       }
     }
   }
@@ -353,4 +354,49 @@ test('@theme-polish marketing reduced motion and skip destinations cover seconda
   await heroAction.hover();
   await expect(heroAction).toHaveCSS('transform', 'none');
   await expect(heroAction).toHaveCSS('transition-duration', '0s');
+});
+
+test('@review-screenshots marketing pages and form states use local review captures', async ({ page }) => {
+  test.skip(process.env.FRONTDOOR_CAPTURE_SCREENSHOTS !== '1', 'Opt-in screenshot capture');
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  const root = path.resolve('.tmp/astro-dist/marketing');
+  const output = path.resolve('.tmp/theme-polish/marketing');
+  const css = readFileSync('.tmp/playwright-fixtures/marketing.css', 'utf8');
+  const routes = [
+    ['home', 'index.html'], ['case-study', 'case-studies/drdronavalli/index.html'],
+    ['about', 'about/index.html'], ['privacy', 'privacy/index.html'],
+    ['case-studies', 'case-studies/index.html'], ['transformations', 'transformations/index.html'],
+    ['404', '404.html'],
+  ];
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const [name, route] of routes) {
+      await page.goto(pathToFileURL(path.join(root, route)).href);
+      await page.addStyleTag({ content: css });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      await captureScreenshot(page, path.join(output, `${width}-${name}.png`));
+      if (name !== 'home') continue;
+      for (const [section, selector] of [['hero', 'main > section:first-child'], ['results', '#results'], ['contact', '#contact']]) {
+        await captureScreenshot(page, path.join(output, `${width}-${section}.png`), { selector });
+      }
+      await page.locator('#name').fill('Verification Tester');
+      await page.locator('#practiceName').fill('Review Clinic');
+      await page.locator('#specialty').selectOption('Psychiatry');
+      await page.locator('#email').fill('verification@example.com');
+      await page.locator('#website').fill('not a valid website');
+      await page.locator('#preview-request-submit').click();
+      await expect(page.locator('#website-error')).toBeVisible();
+      await captureScreenshot(page, path.join(output, `${width}-form-error.png`), { selector: '#preview-request-form' });
+      await page.locator('#website').fill('review.example');
+      // Hold this local submission in the loading state without sending a request.
+      await page.evaluate(() => {
+        const originalFetch = window.fetch.bind(window);
+        window.fetch = (input, options) => input === '/api/preview-request' ? new Promise(() => {}) : originalFetch(input, options);
+      });
+      await page.locator('#preview-request-submit').click();
+      await expect(page.locator('#preview-request-submit')).toHaveAttribute('aria-busy', 'true');
+      await captureScreenshot(page, path.join(output, `${width}-form-loading.png`), { selector: '#preview-request-form' });
+    }
+  }
 });

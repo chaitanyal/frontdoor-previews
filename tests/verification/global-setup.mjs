@@ -1,7 +1,8 @@
 import { mkdirSync } from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { ensureBuild, timed } from '../../scripts/verification/state.mjs';
+import { ensureBuild, fingerprint, timed } from '../../scripts/verification/state.mjs';
+import { prepareScreenshotManifest } from '../../scripts/verification/screenshots.mjs';
 
 const repoRoot = process.cwd();
 const marketingCss = path.join(
@@ -53,6 +54,7 @@ function compileMarketingTestCss() {
 
 export default function globalSetup() {
   if (process.env.FRONTDOOR_STAGING === '1') return;
+  if (process.env.FRONTDOOR_CAPTURE_SCREENSHOTS === '1') prepareScreenshotManifest(fingerprint());
   const scope = process.env.FRONTDOOR_TEST_SCOPE;
   if (!scope || scope === 'marketing') {
     runAstroBuild('build:astro:marketing');

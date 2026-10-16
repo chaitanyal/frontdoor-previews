@@ -4,6 +4,7 @@ import path from 'node:path';
 import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { checksFor } from './verification/change-plan.mjs';
+import { hasScreenshotArtifacts, SCREENSHOT_MANIFEST } from './verification/screenshots.mjs';
 import { assertIndexMatches, command, ensureBuild, fingerprint, recordCheck, reusableCheck, timed } from './verification/state.mjs';
 
 export function runChecks(checks, { dryRun = false, staged = false, fresh = false } = {}) {
@@ -51,9 +52,13 @@ export function passedBrowserSuites(report, suites, screenshots = false) {
   visit(report);
   const tags = { themes: 'theme-polish', providers: 'provider-experience', analytics: 'analytics', visual: 'visual' };
   return suites.filter(suite => {
-    const pattern = new RegExp(`@${tags[suite]}(?: |$)${screenshots && suite === 'providers' ? '|@provider-screenshots(?: |$)' : ''}`);
+    const pattern = new RegExp(`@${tags[suite]}(?: |$)${screenshots && suite === 'providers' ? '|@provider-screenshots(?: |$)' : ''}${screenshots && suite === 'themes' ? '|@review-screenshots(?: |$)' : ''}`);
     const matching = specs.filter(spec => pattern.test(spec.title));
-    return !report.errors?.length && matching.length > 0 && matching.every(spec => spec.tests?.length && spec.tests.every(test => test.results?.at(-1)?.status === 'passed'));
+    const passed = test => test.results?.at(-1)?.status === 'passed';
+    // Visual's extra local-asset check intentionally runs only with --scope=practice.
+    const expectedVisualSkip = test => suite === 'visual' && test.expectedStatus === 'skipped' && test.results?.at(-1)?.status === 'skipped';
+    return !report.errors?.length && matching.some(spec => spec.tests?.some(passed)) &&
+      matching.every(spec => spec.tests?.length && spec.tests.every(test => passed(test) || expectedVisualSkip(test)));
   });
 }
 
@@ -62,7 +67,7 @@ function browserChecks(suites, { dryRun, fresh, screenshots = false }) {
   const receipt = suite => `browser:${suite}:all-targets:${screenshots ? 'screenshots' : 'assertions'}`;
   const pending = suites.filter(suite => {
     console.log(`Required check: ${receipt(suite)}`);
-    if (!dryRun && !fresh && reusableCheck(receipt(suite))) {
+    if (!dryRun && !fresh && reusableCheck(receipt(suite)) && (!screenshots || !['themes', 'providers'].includes(suite) || hasScreenshotArtifacts(suite, fingerprint()))) {
       console.log(`Reusing verified checks: ${receipt(suite)}`);
       return false;
     }
@@ -75,7 +80,7 @@ function browserChecks(suites, { dryRun, fresh, screenshots = false }) {
   let failure;
   try {
     timed('browser checks', () => command(path.resolve('node_modules/.bin/playwright'), [
-      'test', '--config=playwright.config.mjs', '--reporter=line,json', '--grep', pending.map(suite => `@${tags[suite]}(?: |$)`).concat(screenshots && pending.includes('providers') ? ['@provider-screenshots(?: |$)'] : []).join('|'),
+      'test', '--config=playwright.config.mjs', '--reporter=line,json', '--grep', pending.map(suite => `@${tags[suite]}(?: |$)`).concat(screenshots && pending.includes('providers') ? ['@provider-screenshots(?: |$)'] : [], screenshots && pending.includes('themes') ? ['@review-screenshots(?: |$)'] : []).join('|'),
     ], { stdio: 'inherit', env: { ...process.env, PLAYWRIGHT_JSON_OUTPUT_NAME: reportPath, FRONTDOOR_CAPTURE_SCREENSHOTS: screenshots ? '1' : '', FRONTDOOR_STAGING: '', FRONTDOOR_TEST_SCOPE: '', FRONTDOOR_TEST_SITE: '', FRONTDOOR_TEST_PREVIEW_SITE: 'ALL' } }));
   } catch (error) { failure = error; }
   const passed = existsSync(reportPath) ? passedBrowserSuites(JSON.parse(readFileSync(reportPath, 'utf8')), pending, screenshots) : [];
@@ -102,12 +107,14 @@ if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
     }
     const screenshots = args.includes('--screenshots') || plan.includes('screenshots');
     const suites = [...new Set((args.find(arg => arg.startsWith('--browser='))?.slice(10) || '').split(',').filter(Boolean).concat(plan.filter(check => check.startsWith('browser:')).map(check => check.slice(8))))].sort();
+    if (screenshots) for (const suite of ['themes', 'visual']) if (!suites.includes(suite)) suites.push(suite);
     if (suites.some(suite => !['themes', 'providers', 'analytics', 'visual'].includes(suite))) {
       throw new Error('Supported --browser suites: themes,providers,analytics,visual');
     }
     timed('verification total', () => {
       runChecks(checks, { dryRun, staged, fresh });
       browserChecks(suites, { dryRun, fresh, screenshots });
+      if (screenshots && !dryRun) console.log(`Screenshot manifest: ${SCREENSHOT_MANIFEST}. Open and visually inspect affected captures before reporting completion.`);
       if (staged && !dryRun && suites.length) assertIndexMatches();
     });
     if (!checks.length && !suites.length) console.log('No build checks required for these files.');

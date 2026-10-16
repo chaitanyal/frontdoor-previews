@@ -339,6 +339,31 @@ Prefer:
 
 Do not start a local HTTP server unless a specific task requires HTTP behavior.
 
+## Implementation and Visual Verification
+
+Complete implementation before running verification. For visual changes, use
+`npm run verify:change -- --screenshots`; the runner selects required checks and
+includes theme and marketing screenshot capture plus saved visual comparisons.
+Add explicit browser suites when the affected behavior requires additional coverage.
+Keep build workflows sequential.
+
+Review `.tmp/visual-review/manifest.json` after capture. It lists each screenshot's
+page URL, viewport, section selector when applicable, and file path. Required review
+viewports are 390px mobile and 1440px desktop; additional responsive checks remain.
+Use section captures when full-page images make details too small.
+
+Open and visually inspect affected screenshots before reporting completion. Check:
+
+- horizontal overflow, clipping, typography, wrapping, spacing, and alignment;
+- image crops and proportions;
+- sticky headers and mobile action bars;
+- affected interaction states, including form errors and loading indicators.
+
+Capture does not establish visual approval. Fix discovered issues and rerun affected
+checks. Refresh saved visual baselines only after inspecting the current output and
+reviewing intentional differences, then rerun applicable verification. Report checks
+passed, screenshots inspected, and unresolved issues separately.
+
 ---
 
 # Accessibility
