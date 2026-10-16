@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /** One orchestration path for manual verification and the staged-file hook. */
 import path from 'node:path';
-import { existsSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { checksFor } from './verification/change-plan.mjs';
 import { hasScreenshotArtifacts, SCREENSHOT_MANIFEST } from './verification/screenshots.mjs';
-import { assertIndexMatches, command, ensureBuild, fingerprint, recordCheck, reusableCheck, timed } from './verification/state.mjs';
+import { assertIndexMatches, command, ensureBuild, fingerprint, recordCheck, reusableCheck, timed, verificationTools } from './verification/state.mjs';
 
 export function runChecks(checks, { dryRun = false, staged = false, fresh = false } = {}) {
   if (staged && !dryRun && checks.length) assertIndexMatches();
@@ -25,6 +25,21 @@ export function runChecks(checks, { dryRun = false, staged = false, fresh = fals
         names = ['marketing', 'practice-drdronavalli', 'preview-all'];
       } else if (check === 'contracts:all') {
         command(process.execPath, ['scripts/verification/verify_output_contracts.mjs', '--check', ...(fresh ? ['--fresh'] : [])], { stdio: 'inherit' });
+      } else if (check.startsWith('contracts:targets:')) {
+        command(process.execPath, ['scripts/verification/verify_output_contracts.mjs', '--check', `--targets=${check.slice(18)}`, ...(fresh ? ['--fresh'] : [])], { stdio: 'inherit' });
+      } else if (check === 'tooling') {
+        for (const file of verificationTools.filter(file => file.endsWith('.mjs') && existsSync(file))) command(process.execPath, ['--check', file]);
+        command(process.execPath, ['--test', 'tests/verification/verification-state.test.mjs'], { stdio: 'inherit' });
+      } else if (check.startsWith('test:')) {
+        const file = check.slice(5);
+        const files = existsSync(file) ? [file] : readdirSync('tests/verification').filter(name => name.endsWith('.test.mjs')).map(name => `tests/verification/${name}`);
+        command(process.execPath, ['--test', ...files], { stdio: 'inherit' });
+      } else if (check.startsWith('spec:')) {
+        const file = check.slice(5);
+        command(path.resolve('node_modules/.bin/playwright'), ['test', '--config=playwright.config.mjs', ...(existsSync(file) ? [file] : [])], {
+          stdio: 'inherit', env: { ...process.env, FRONTDOOR_CAPTURE_SCREENSHOTS: '', FRONTDOOR_STAGING: '', FRONTDOOR_TEST_SCOPE: '', FRONTDOOR_TEST_SITE: '', FRONTDOOR_TEST_PREVIEW_SITE: 'ALL' },
+        });
+        names = ['marketing', 'practice-drdronavalli', 'preview-all'];
       } else if (check.startsWith('site:')) {
         command(process.execPath, ['scripts/verify_site.mjs', check.slice(5), ...(fresh ? ['--fresh'] : [])], { stdio: 'inherit' });
       } else if (check === 'contracts:marketing') {
@@ -37,7 +52,7 @@ export function runChecks(checks, { dryRun = false, staged = false, fresh = fals
       }
     });
     // Full and site commands record their own complete artifact lists.
-    if (!check.startsWith('site:') && !['contracts:all'].includes(check)) recordCheck(check, names, input);
+    if (!check.startsWith('site:') && !check.startsWith('contracts:targets:') && check !== 'contracts:all') recordCheck(check, names, input);
     if (fingerprint() !== input) throw new Error('Verification inputs changed during checks; rerun verification.');
   }
   if (staged && !dryRun && checks.length) assertIndexMatches();
@@ -62,12 +77,19 @@ export function passedBrowserSuites(report, suites, screenshots = false) {
   });
 }
 
+export function reusableBrowserCheck(suite, screenshots = false) {
+  const prefix = `browser:${suite}:all-targets:`;
+  if (!screenshots) return reusableCheck(`${prefix}assertions`) || reusableCheck(`${prefix}screenshots`);
+  return reusableCheck(`${prefix}screenshots`) &&
+    (!['themes', 'providers'].includes(suite) || hasScreenshotArtifacts(suite, fingerprint()));
+}
+
 function browserChecks(suites, { dryRun, fresh, screenshots = false }) {
   const tags = { themes: 'theme-polish', providers: 'provider-experience', analytics: 'analytics', visual: 'visual' };
   const receipt = suite => `browser:${suite}:all-targets:${screenshots ? 'screenshots' : 'assertions'}`;
   const pending = suites.filter(suite => {
     console.log(`Required check: ${receipt(suite)}`);
-    if (!dryRun && !fresh && reusableCheck(receipt(suite)) && (!screenshots || !['themes', 'providers'].includes(suite) || hasScreenshotArtifacts(suite, fingerprint()))) {
+    if (!dryRun && !fresh && reusableBrowserCheck(suite, screenshots)) {
       console.log(`Reusing verified checks: ${receipt(suite)}`);
       return false;
     }
@@ -100,14 +122,16 @@ if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
       'diff', ...(staged ? ['--cached'] : ['HEAD']), '--no-renames', '--name-only', '-z', '--diff-filter=ACDMRT',
     ]).split('\0').filter(Boolean);
     if (!staged && !supplied.length) files.push(...command('git', ['ls-files', '--others', '--exclude-standard', '-z']).split('\0').filter(Boolean));
-    const plan = args.includes('--all') ? ['contracts:all'] : checksFor(files);
+    const plan = args.includes('--all') ? ['contracts:all', 'browser:themes', 'browser:providers', 'browser:analytics'] : checksFor(files);
     let checks = plan.filter(check => !check.startsWith('browser:') && check !== 'screenshots');
     if (checks.some(check => check.startsWith('site:') && !existsSync(path.join('sites', check.slice(5), 'practice.json')))) {
       checks = [...checks.filter(check => !check.startsWith('site:')), 'contracts:all'];
     }
     const screenshots = args.includes('--screenshots') || plan.includes('screenshots');
     const suites = [...new Set((args.find(arg => arg.startsWith('--browser='))?.slice(10) || '').split(',').filter(Boolean).concat(plan.filter(check => check.startsWith('browser:')).map(check => check.slice(8))))].sort();
-    if (screenshots) for (const suite of ['themes', 'visual']) if (!suites.includes(suite)) suites.push(suite);
+    if (screenshots && !suites.some(suite => ['themes', 'providers'].includes(suite))) {
+      throw new Error('Screenshot capture requires a selected themes or providers suite. Add --browser=themes or --browser=providers; pixel comparisons use --browser=visual separately.');
+    }
     if (suites.some(suite => !['themes', 'providers', 'analytics', 'visual'].includes(suite))) {
       throw new Error('Supported --browser suites: themes,providers,analytics,visual');
     }

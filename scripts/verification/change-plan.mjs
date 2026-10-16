@@ -1,5 +1,5 @@
 /** Explicit behavior routing; unknown or mixed website impact retains full coverage. */
-import { relevantInput } from './state.mjs';
+import { relevantInput, verificationTools } from './state.mjs';
 
 export function checksFor(files) {
   const relevant = files.filter(relevantInput);
@@ -9,10 +9,21 @@ export function checksFor(files) {
     checks.push('places:typecheck', 'places:test');
     if (places.includes('places-worker/wrangler.toml')) checks.push('places:config');
   }
-  const website = relevant.filter(file => !file.startsWith('places-worker/'));
-  if (!website.length) return checks;
+  const tooling = relevant.filter(file => verificationTools.includes(file) || file === 'tests/verification/verification-state.test.mjs');
+  if (tooling.length) checks.push('tooling');
+  const tests = relevant.filter(file => /^tests\/verification\/[^/]+\.test\.mjs$/.test(file) && !tooling.includes(file));
+  checks.push(...tests.map(file => `test:${file}`));
+  const specs = relevant.filter(file => /^tests\/verification\/[^/]+\.spec\.mjs$/.test(file));
+  const browserSpecs = { 'theme-polish': 'themes', 'provider-experience': 'providers', analytics: 'analytics', visual: 'visual' };
+  checks.push(...specs.map(file => browserSpecs[file.split('/').at(-1).slice(0, -9)] ? `browser:${browserSpecs[file.split('/').at(-1).slice(0, -9)]}` : `spec:${file}`));
+  const baselines = relevant.filter(file => file.startsWith('tests/verification/visual-baselines/'));
+  if (baselines.length) checks.push('browser:visual');
+  const contracts = relevant.filter(file => /^tests\/verification\/contracts\/[^/]+\.json$/.test(file));
+  if (contracts.length) checks.push(`contracts:targets:${contracts.map(file => file.split('/').at(-1).slice(0, -5)).sort().join(',')}`);
+  const website = relevant.filter(file => !file.startsWith('places-worker/') &&
+    ![...tooling, ...tests, ...specs, ...baselines, ...contracts].includes(file));
+  if (!website.length) return [...new Set(checks)];
   const siteFor = file => file.match(/^sites\/([^/]+)\//)?.[1];
-  const contractFor = file => file.match(/^tests\/verification\/contracts\/practice-([a-z0-9-]+)\.json$/)?.[1];
   const sites = new Set(website.map(siteFor).filter(Boolean));
   const styling = file => file === 'shared/styles/frontdoor.css';
   const providers = file => /^src\/components\/practice\/Provider[^/]+\.astro$/.test(file) || file === 'src/lib/provider-team.mjs';
@@ -22,8 +33,8 @@ export function checksFor(files) {
     'src/lib/home-sections.mjs',
   ].includes(file);
   const analytics = file => /^(?:analytics-worker\/|functions\/|shared\/(?:analytics|attribution|google-ads)\.js$)/.test(file) || file === 'src/components/practice/CopyEmailScript.astro' || file === 'src/components/marketing/PreviewRequestForm.astro';
-  const infrastructure = file => /^(?:scripts\/|src\/(?:entries|layouts)\/)/.test(file) || /^(?:package(?:-lock)?\.json|astro\.config\.mjs|tailwind\.config\.js|shared\/themes\.json)$/.test(file) || /^src\/lib\/(?:practice-data|preview-paths|seo|sitemap)\.mjs$/.test(file);
-  if (sites.size && !sites.has('template') && website.every(file => siteFor(file) || sites.has(contractFor(file)))) {
+  const infrastructure = file => /^(?:scripts\/|tests\/|src\/(?:entries|layouts)\/)/.test(file) || /^(?:package(?:-lock)?\.json|astro\.config\.mjs|tailwind\.config\.js|shared\/themes\.json)$/.test(file) || /^src\/lib\/(?:practice-data|preview-paths|seo|sitemap)\.mjs$/.test(file);
+  if (sites.size && !sites.has('template') && website.every(siteFor)) {
     checks.push(...[...sites].sort().map(site => `site:${site}`));
   } else if (website.every(file => file.startsWith('marketing/') || file.startsWith('src/entries/marketing/') || file.startsWith('src/components/marketing/')) && !website.some(analytics)) {
     checks.push('contracts:marketing');
@@ -31,9 +42,9 @@ export function checksFor(files) {
     // Preview ALL contains editorial, structured and reflective representatives.
     checks.push('contracts:representatives', 'browser:themes', 'screenshots');
   } else if (website.every(providers)) {
-    checks.push('contracts:all', 'browser:providers', 'browser:analytics');
+    checks.push('contracts:representatives', 'browser:providers', 'browser:analytics');
   } else if (website.every(analytics)) {
-    checks.push('contracts:all', 'browser:analytics');
+    checks.push(website.every(file => file.startsWith('src/components/marketing/') || file.startsWith('functions/')) ? 'contracts:marketing' : 'contracts:representatives', 'browser:analytics');
   } else {
     checks.push('contracts:all');
     if (website.some(infrastructure)) checks.push('browser:themes', 'browser:providers', 'browser:analytics');
@@ -45,7 +56,7 @@ export function checksFor(files) {
   }
   // Apply after target routing so marketing-only and mixed edits retain their gates.
   if (website.some(navigation)) checks.push('browser:themes');
-  return [...new Set(checks)];
+  return [...new Set(checks)].filter(check => !check.startsWith('contracts:targets:') || !checks.includes('contracts:all'));
 }
 
 // Include the previous eligibility when a practice stops being published as a preview.

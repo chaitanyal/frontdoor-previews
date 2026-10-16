@@ -310,7 +310,7 @@ export function verifyOutputContracts({ update = false, fresh = false, targets }
   const input = fingerprint();
   timed('configuration regressions', () => run(process.execPath, ['--test',
     'tests/verification/treatments.test.mjs', 'tests/verification/care-guidance.test.mjs', 'tests/verification/provider-team.test.mjs',
-    'tests/verification/practice-llms.test.mjs', 'tests/verification/verification-state.test.mjs']));
+    'tests/verification/practice-llms.test.mjs', ...(!targets ? ['tests/verification/verification-state.test.mjs'] : [])]));
 
   const artifacts = [];
   const differences = [];

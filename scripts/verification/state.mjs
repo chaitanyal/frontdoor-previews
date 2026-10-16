@@ -5,7 +5,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { performance } from 'node:perf_hooks';
 
-const VERSION = 1;
+const VERSION = 2;
 const ROOT = process.cwd();
 const STATE = path.join(ROOT, '.tmp', 'verification-state');
 const hash = value => createHash('sha256').update(value).digest('hex');
@@ -25,12 +25,24 @@ export function command(executable, args, options = {}) {
 }
 
 // Research/local state and current non-rendered Markdown do not affect website checks.
-// Other Git-visible inputs (including new files, tests, lockfiles, assets and workers)
-// are deliberately conservative dependencies until finer selection is implemented.
+// Check fingerprints retain tests and tooling; build fingerprints exclude known
+// verification-only inputs. Unknown inputs remain conservative dependencies.
 export function relevantInput(file) {
   const publishedMarkdown = /^(?:sites\/[^/]+\/(?:assets|images)\/|marketing\/(?:assets|case-studies)\/|shared\/branding\/|src\/(?!README\.md$))/.test(file);
   return !/^(?:docs|assessments|\.codex|\.agents)\//.test(file) &&
     (!file.toLowerCase().endsWith('.md') || publishedMarkdown) && !/(?:^|\/)(?:\.DS_Store|__pycache__)(?:\/|$)/.test(file);
+}
+
+export const verificationTools = [
+  'scripts/verify_change.mjs', 'scripts/verify_site.mjs', 'scripts/run_staged_checks.mjs',
+  'scripts/verification/change-plan.mjs', 'scripts/verification/state.mjs',
+  'scripts/verification/screenshots.mjs', 'scripts/verification/run_playwright_suite.mjs',
+  'scripts/verification/verify_output_contracts.mjs', 'playwright.config.mjs', 'githooks/pre-commit',
+];
+
+export function buildInput(file) {
+  return !file.startsWith('tests/') && !/^(?:analytics|places)-worker\/test\//.test(file) &&
+    !verificationTools.includes(file);
 }
 
 export function sourceSnapshot({ index = false, root = ROOT } = {}) {
@@ -71,7 +83,7 @@ export function assertIndexMatches(root = ROOT) {
 }
 
 export function fingerprint({ build = false } = {}) {
-  const versions = ['astro', 'tailwindcss', '@playwright/test'].map(name => {
+  const versions = ['astro', 'tailwindcss', ...(!build ? ['@playwright/test'] : [])].map(name => {
     const file = path.join(ROOT, 'node_modules', name, 'package.json');
     return [name, existsSync(file) ? JSON.parse(readFileSync(file)).version : null];
   });
@@ -79,7 +91,7 @@ export function fingerprint({ build = false } = {}) {
   const dotenv = readdirSync(ROOT).filter(file => /^\.env(?:\.|$)/.test(file)).sort()
     .filter(file => { const stat = lstatSync(path.join(ROOT, file)); return stat.isFile() || stat.isSymbolicLink(); })
     .map(file => [file, hash(readFileSync(path.join(ROOT, file)))]);
-  return hash(JSON.stringify({ version: VERSION, source: sourceSnapshot().filter(([file]) => !build || !file.startsWith('tests/verification/contracts/')), versions,
+  return hash(JSON.stringify({ version: VERSION, source: sourceSnapshot().filter(([file]) => !build || buildInput(file)), versions,
     node: process.version, executable: process.execPath, platform: process.platform, arch: process.arch,
     python: command('python3', ['--version']).trim(), environment, dotenv }));
 }

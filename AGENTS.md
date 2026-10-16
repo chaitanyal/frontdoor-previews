@@ -96,8 +96,8 @@ that proves the requested result:
 - Switch to an existing palette: run
   `npm run theme:set -- <practice-slug> <theme-name>` and then verify that site.
 - Shared components, schemas, scripts, a new theme definition, or changes spanning
-  multiple subsystems: run `npm run verify:change` (retains the full output-contract
-  matrix for shared changes). For visual/provider/action changes, add the relevant
+  multiple subsystems: run `npm run verify:change` (selects focused checks for known behavior and the full
+  output-contract matrix for broad or unknown changes). For visual/provider/action changes, add the relevant
   browser suites in the same run, for example
   `npm run verify:change -- --browser=themes,providers,analytics`.
 
@@ -342,9 +342,10 @@ Do not start a local HTTP server unless a specific task requires HTTP behavior.
 ## Implementation and Visual Verification
 
 Complete implementation before running verification. For visual changes, use
-`npm run verify:change -- --screenshots`; the runner selects required checks and
-includes theme and marketing screenshot capture plus saved visual comparisons.
-Add explicit browser suites when the affected behavior requires additional coverage.
+`npm run verify:change -- --screenshots` when theme/provider suites are already
+selected. Otherwise add `--browser=themes` or `--browser=providers` explicitly.
+Capture does not add unrelated suites or saved pixel comparisons; request
+`--browser=visual` separately when those comparisons are needed.
 Keep build workflows sequential.
 
 Review `.tmp/visual-review/manifest.json` after capture. It lists each screenshot's
@@ -442,8 +443,15 @@ The long-term goal is:
 CSS checks representative theme targets (all three themes and reflective) and
 captures screenshots; practice/marketing header and footer changes, and the shared
 section-navigation registry, automatically add theme assertions; provider changes
-add provider/analytics assertions;
-routing/build/dependency changes retain full contracts and all three behavior
+add provider/analytics assertions and use representative contracts. Analytics-only
+changes also use representatives; marketing form/endpoint changes use marketing
+contracts. Verification tooling runs syntax and workflow regressions without website
+builds. Changed unit/browser test files run directly; baseline-only changes check
+the affected contract targets or visual suite. Unknown test fixtures retain broad
+coverage. Build fingerprints exclude known verification-only inputs; check
+fingerprints still include them. Screenshot-enabled passes satisfy assertion-only
+hook checks for the same inputs.
+Routing/build/dependency changes retain full contracts and all three behavior
 suites. Unknown/mixed changes retain full contracts. Practice verification also
 checks dependent marketing output for preview-eligible practices and the featured
 practice. The hook uses the same selection and reuses individual passing suites.

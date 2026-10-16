@@ -11,12 +11,20 @@ npm run verify:change
 npm run verify:change -- --browser=themes,providers,analytics
 ```
 
-The default selector preserves staged-file routing: site-only changes use site
-checks, marketing-only changes use marketing contracts, and shared/mixed changes
-use the full eight-target matrix (expands with the practice roster). Browser suites
-are explicit in this phase; further behavioral selection is deferred. The runner
-uses changed and untracked files; `--staged` selects the Git index, and `--dry-run`
-prints the required checks. Worker changes retain their existing checks.
+The selector follows affected behavior. Site-only changes use site checks; marketing
+content uses marketing contracts. Provider-only and analytics-only changes use
+three representative targets: marketing, standalone Dr. Dronavalli, and preview ALL.
+Marketing form/endpoint changes use marketing contracts plus analytics assertions.
+Routing/build/dependency changes and unknown website impact retain full contracts.
+The runner uses changed and untracked files; `--staged` selects the Git index, and
+`--dry-run` prints required checks. Places Worker checks remain unchanged.
+
+Verification tooling selects syntax checks and workflow regressions without website
+builds. Changed unit tests run directly; changed browser spec files run directly
+against existing valid builds. Deleted test files run remaining tests of that type.
+Contract-only baseline changes select their named targets; screenshot baselines
+select visual comparisons. Unknown shared test helpers/fixtures retain full
+contracts and theme/provider/analytics coverage.
 
 Build artifacts are isolated at `.tmp/astro-dist/<target>-<site>/` (marketing stays
 at `.tmp/astro-dist/marketing/`). Compatibility links at `practice/` and `preview/`
@@ -27,7 +35,10 @@ builds. Deployment commands still generate `dist/` as before.
 
 Local records in `.tmp/verification-state/` fingerprint Git-visible source, assets,
 tests, lockfiles, configuration, installed tool versions, selected environment
-settings, local dotenv files, and artifact contents. Records include an integrity
+settings, local dotenv files, and artifact contents. Build fingerprints exclude
+tests, baselines, known verification scripts, hooks, Playwright configuration, and
+the installed Playwright version. These remain check inputs. Build scripts, HTML
+validation, source, assets, configuration, and lockfiles still invalidate builds. Records include an integrity
 checksum; missing/corrupt records or altered output are rejected. Research and
 non-build Markdown are excluded; Markdown in source and publishable asset folders
 remains an input. If another Markdown location becomes a build input, update
@@ -109,8 +120,10 @@ Complete implementation, then run the applicable verification. For visual change
 npm run verify:change -- --screenshots
 ```
 
-The runner retains normal change-based check selection and adds theme coverage and
-saved visual comparisons when screenshots are requested. Screenshot capture includes
+The runner retains normal change-based selection. Capture requires a selected
+theme or provider suite; add `--browser=themes` or `--browser=providers` if the
+change does not select one. Capture never adds unrelated suites or pixel
+comparisons; request `--browser=visual` separately. Theme screenshot capture includes
 marketing home, case study, secondary pages, and form error/loading states, plus representative practice and
 preview home/provider/legal pages. Standard review widths are 390px and 1440px;
 existing additional responsive checks and section captures remain.
@@ -185,8 +198,9 @@ stylesheet. Lucide and Turnstile receive deterministic local stubs.
 
 `npm run verify:change -- --dry-run` prints automatic coverage. Shared CSS selects
 marketing, standalone Dr. Dronavalli and preview ALL plus all theme representatives
-(including reflective), with screenshot capture. Provider changes add provider and
-analytics assertions. Practice/marketing headers and footers, and the shared
+(including reflective), with screenshot capture. Provider-only changes add provider and analytics assertions against representative
+contracts. Analytics-only changes use representative contracts; marketing
+form/endpoint-only changes use marketing contracts. Practice/marketing headers and footers, and the shared
 home-section navigation registry, automatically add theme checks. Those checks
 verify local header/footer destinations, focusability, responsive layout, and
 marketing contact activation. Marketing-only navigation edits retain marketing
@@ -207,6 +221,8 @@ npm run test:themes -- --screenshots
 
 The combined runner retains per-suite passing receipts after a failure; rerun the
 same required command to check failures without repeating valid passed suites.
+A valid screenshot-enabled suite also satisfies assertion-only hook checks.
+Screenshot reuse additionally requires retained capture artifacts for themes/providers.
 
 To review intentional contract changes without rebuilding twice:
 
@@ -220,7 +236,7 @@ npm run verify:change
 Review reports every selected difference and never records a pass. Acceptance is
 an explicit approval of the reviewed manifest and validates source, artifacts and
 snapshot contents before writing any baseline. It does not build or record a pass;
-final verification still runs. Check fingerprints include baselines; build
-fingerprints exclude them. Changed baseline content invalidates checks while
+final verification still runs. Check fingerprints include tests, tooling, and baselines; build
+fingerprints exclude known verification-only inputs. Changed baseline content invalidates checks while
 unchanged build artifacts are reusable. Legacy capture/update commands remain
 explicit baseline writes. Workflows must still run sequentially.

@@ -118,6 +118,31 @@ test('receipts reject changed checks, configuration, environment, dotenv and art
   assert.equal(evaluate(`const before=state.fingerprint(); state.command('python3',['-c','from pathlib import Path; Path("src/input.js").write_text("changed mid-check")']); let failed=false; try {state.recordCheck('changed',[],before);} catch {failed=true;} console.log(JSON.stringify(failed));`), true);
 }));
 
+test('test and verification-only edits invalidate checks without rebuilding website output', () => fixture(({ write, evaluate }) => {
+  const build = `state.ensureBuild('practice','one'); console.log(JSON.stringify(Number(state.command('cat',['.tmp/count']))));`;
+  assert.equal(evaluate(build), 1);
+  evaluate(`state.recordCheck('example',['practice-one']); console.log(JSON.stringify(true));`);
+  for (const file of ['tests/new-check.mjs', 'tests/verification/visual-baselines/example.png', 'scripts/verify_change.mjs', 'playwright.config.mjs']) {
+    write(file, 'changed verification input');
+    assert.equal(evaluate(`console.log(JSON.stringify(state.reusableCheck('example')));`), false);
+    assert.equal(evaluate(build), 1);
+  }
+  write('scripts/validate_built_html.py', 'changed build validator');
+  assert.equal(evaluate(build), 2);
+}));
+
+test('screenshot passes satisfy assertion checks but assertion passes cannot satisfy captures', () => fixture(({ write, evaluate }) => {
+  const runnerUrl = pathToFileURL(path.resolve('scripts/verify_change.mjs')).href;
+  const reuse = `const {reusableBrowserCheck} = await import(${JSON.stringify(runnerUrl)}); console.log(JSON.stringify([reusableBrowserCheck('themes'), reusableBrowserCheck('themes',true)]));`;
+  evaluate(`state.ensureBuild('practice','one'); state.recordCheck('browser:themes:all-targets:assertions',['practice-one']); console.log(JSON.stringify(true));`);
+  assert.deepEqual(evaluate(reuse), [true, false]);
+  evaluate(`const fs=await import('node:fs'); fs.rmSync('.tmp/verification-state/checks',{recursive:true}); state.recordCheck('browser:themes:all-targets:screenshots',['practice-one']); console.log(JSON.stringify(true));`);
+  // Captures can disappear after review without invalidating the completed assertions.
+  assert.deepEqual(evaluate(reuse), [true, false]);
+  write('src/input.js', 'changed website');
+  assert.deepEqual(evaluate(reuse), [false, false]);
+}));
+
 test('selection retains full shared coverage and includes deleted inputs and both rename sides', () => {
   assert.deepEqual(checksFor(['docs/buildimprovement.md', 'assessments/example/page.png']), []);
   assert.deepEqual(checksFor(['sites/centexmh/practice.json']), ['site:centexmh']);
@@ -168,12 +193,40 @@ test('behavior selection chooses publishing contracts and relevant browser suite
   assert.equal(affectsMarketing('drdronavalli', {seo:{allowIndexing:true}}, 'drdronavalli'), true);
   assert.equal(affectsMarketing('other', {seo:{allowIndexing:true}}, 'drdronavalli'), false);
   assert.equal(affectsMarketing('other', {seo:{allowIndexing:true}}, 'drdronavalli', {seo:{allowIndexing:false}}), true);
-  assert.deepEqual(checksFor(['src/components/practice/ProviderCard.astro']), ['contracts:all', 'browser:providers', 'browser:analytics']);
-  assert.deepEqual(checksFor(['shared/analytics.js']), ['contracts:all', 'browser:analytics']);
+  assert.deepEqual(checksFor(['src/components/practice/ProviderCard.astro']), ['contracts:representatives', 'browser:providers', 'browser:analytics']);
+  assert.deepEqual(checksFor(['shared/analytics.js']), ['contracts:representatives', 'browser:analytics']);
   assert.deepEqual(checksFor(['src/lib/practice-production.mjs']), ['contracts:all']);
   assert.deepEqual(checksFor(['shared/styles/frontdoor.css', 'src/components/practice/ProviderProfile.astro']), ['contracts:all', 'browser:themes', 'screenshots', 'browser:providers', 'browser:analytics']);
   assert.deepEqual(checksFor(['src/lib/preview-paths.mjs']), ['contracts:all', 'browser:themes', 'browser:providers', 'browser:analytics']);
   assert.deepEqual(checksFor(['sites/template/practice.json']), ['contracts:all']);
+});
+
+test('verification changes select focused checks and combine with website impact', () => {
+  assert.deepEqual(checksFor(['scripts/verify_change.mjs', 'scripts/verification/state.mjs', 'tests/verification/verification-state.test.mjs']), ['tooling']);
+  assert.deepEqual(checksFor(['scripts/verify_change.mjs', 'sites/centexmh/practice.json']), ['tooling', 'site:centexmh']);
+  assert.deepEqual(checksFor(['tests/verification/provider-team.test.mjs']), ['test:tests/verification/provider-team.test.mjs']);
+  assert.deepEqual(checksFor(['tests/verification/analytics.spec.mjs']), ['browser:analytics']);
+  assert.deepEqual(checksFor(['tests/verification/analytics.spec.mjs', 'shared/analytics.js']), ['browser:analytics', 'contracts:representatives']);
+  assert.deepEqual(checksFor(['tests/verification/google-maps.spec.mjs']), ['spec:tests/verification/google-maps.spec.mjs']);
+  assert.deepEqual(checksFor(['tests/verification/visual-baselines/marketing-home-iphone.png']), ['browser:visual']);
+  assert.deepEqual(checksFor(['tests/verification/contracts/practice-centexmh.json']), ['contracts:targets:practice-centexmh']);
+  assert.deepEqual(checksFor(['src/components/marketing/PreviewRequestForm.astro']), ['contracts:marketing', 'browser:analytics']);
+  assert.deepEqual(checksFor(['tests/verification/helpers/static-site.mjs']), ['contracts:all', 'browser:themes', 'browser:providers', 'browser:analytics']);
+});
+
+test('screenshot requests retain selected suites and full audit retains all behavior suites', () => {
+  const runner = path.resolve('scripts/verify_change.mjs');
+  const run = (...args) => spawnSync(process.execPath, [runner, '--dry-run', ...args], { encoding: 'utf8' });
+  const capture = run('--file=src/components/practice/ProviderCard.astro', '--screenshots');
+  assert.equal(capture.status, 0, capture.stderr);
+  assert.match(capture.stdout, /browser:providers:all-targets:screenshots/);
+  assert.doesNotMatch(capture.stdout, /browser:(?:themes|visual):/);
+  const missing = run('--file=sites/centexmh/practice.json', '--screenshots');
+  assert.notEqual(missing.status, 0);
+  assert.match(missing.stderr, /requires a selected themes or providers suite/);
+  const full = run('--all');
+  assert.equal(full.status, 0, full.stderr);
+  for (const suite of ['themes', 'providers', 'analytics']) assert.match(full.stdout, new RegExp(`browser:${suite}:`));
 });
 
 test('headers, footers and section navigation select theme checks alone or in mixed edits', () => {
