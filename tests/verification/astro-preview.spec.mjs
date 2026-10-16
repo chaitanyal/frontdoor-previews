@@ -8,6 +8,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
+import { ensureBuild } from '../../scripts/verification/state.mjs';
 import {
   verifyMarketingOutputContract,
   verifyMarketingPreviewOutputContract,
@@ -26,6 +27,25 @@ const northHillsRoot = path.join(
   'previews',
   'northhillspsychiatry',
 );
+const practices = readdirSync(path.join(repoRoot, 'sites')).filter(slug =>
+  slug !== 'template' && existsSync(path.join(repoRoot, 'sites', slug, 'practice.json')),
+).map(slug => ({ slug, config: JSON.parse(readFileSync(path.join(repoRoot, 'sites', slug, 'practice.json'), 'utf8')) }));
+const eligiblePractices = practices.filter(({ config }) => config.seo.allowIndexing === false);
+const northHills = practices.find(({ slug }) => slug === 'northhillspsychiatry').config;
+
+function expectedRoutes(config) {
+  return [
+    'accessibility/index.html', 'index.html', 'privacy/index.html', 'terms/index.html',
+    ...config.providers.map(provider => `providers/${provider.slug}/index.html`),
+    ...((config.providerDirectory ?? config.providers.length >= 5) ? ['providers/index.html'] : []),
+    ...(config.treatments || []).map(treatment => `treatment/${treatment.slug}/index.html`),
+  ].sort();
+}
+
+function jsonLdTypes(html) {
+  return [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
+    .flatMap(match => [JSON.parse(match[1])['@type']].flat());
+}
 
 function walkFiles(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -67,21 +87,15 @@ test.describe.serial('Astro preview verification', () => {
   test('@astro-preview passes the North Hills single-preview gate first', async ({
     page,
   }) => {
+    ensureBuild('preview', 'northhillspsychiatry');
     verifyPreviewOutputContract('northhillspsychiatry');
     expectNoindexCoverage(previewRoot, ['northhillspsychiatry']);
     expect(existsSync(path.join(previewRoot, 'sitemap.xml'))).toBe(false);
 
     expect(
       htmlFiles(northHillsRoot).map((file) =>
-        path.relative(northHillsRoot, file).split(path.sep).join('/')),
-    ).toEqual([
-      'accessibility/index.html',
-      'index.html',
-      'privacy/index.html',
-      'providers/diana-samuel/index.html',
-      'providers/zita-samuel/index.html',
-      'terms/index.html',
-    ]);
+        path.relative(northHillsRoot, file).split(path.sep).join('/')).sort(),
+    ).toEqual(expectedRoutes(northHills));
 
     for (const forbidden of ['practice.json', '.DS_Store']) {
       expect(walkFiles(previewRoot).some((file) => path.basename(file) === forbidden)).toBe(false);
@@ -93,7 +107,7 @@ test.describe.serial('Astro preview verification', () => {
     const network = await installMockNetwork(page);
     for (const relativePath of [
       'index.html',
-      'providers/zita-samuel/index.html',
+      ...northHills.providers.map(provider => `providers/${provider.slug}/index.html`),
       'privacy/index.html',
       'accessibility/index.html',
       'terms/index.html',
@@ -117,16 +131,19 @@ test.describe.serial('Astro preview verification', () => {
     const resourceUrls = await page
       .locator('[data-frontdoor-cta="resource"]')
       .evaluateAll((links) => links.map((link) => link.href));
-    expect(resourceUrls.length).toBeGreaterThan(0);
+    const resources = northHills.resourceGroups?.length ? northHills.resourceGroups.flatMap(group => group.resources) : northHills.resources || [];
+    expect(resourceUrls).toEqual(resources.map(resource => new URL(resource.url, pathToFileURL(path.join(northHillsRoot, 'index.html'))).href));
     for (const resourceUrl of resourceUrls) {
-      expect(resourceUrl.startsWith('file:')).toBe(true);
-      expect(statSync(fileURLToPath(resourceUrl)).isFile()).toBe(true);
+      if (resourceUrl.startsWith('file:')) expect(statSync(fileURLToPath(resourceUrl)).isFile()).toBe(true);
+      else expect(new URL(resourceUrl).protocol).toBe('https:');
     }
     expect(network.unexpectedRequests).toEqual([]);
   });
 
   test('@astro-preview rejects an indexable practice', () => {
-    const result = runBuild('build:astro:preview', 'drdronavalli');
+    const indexable = practices.find(({ config }) => config.seo.allowIndexing === true);
+    expect(indexable, 'An indexable practice must cover preview rejection').toBeDefined();
+    const result = runBuild('build:astro:preview', indexable.slug);
     expect(result.status).not.toBe(0);
     expect(result.stderr).toContain(
       'Preview builds require seo.allowIndexing=false',
@@ -139,41 +156,40 @@ test.describe.serial('Astro preview verification', () => {
     const result = runBuild('build:astro:preview:all');
     expect(result.status, `${result.stdout}\n${result.stderr}`).toBe(0);
     verifyPreviewOutputContract('ALL');
-    expectNoindexCoverage(previewRoot, ['mariposa', 'northhillspsychiatry']);
+    expectNoindexCoverage(previewRoot, eligiblePractices.map(({ slug }) => slug));
     expect(existsSync(path.join(previewRoot, 'sitemap.xml'))).toBe(false);
 
     const generatedPractices = readdirSync(path.join(previewRoot, 'previews'))
       .filter((entry) => statSync(path.join(previewRoot, 'previews', entry)).isDirectory())
       .sort();
-    expect(generatedPractices).toEqual([
-      'mariposa',
-      'northhillspsychiatry',
-      'northwestpsychiatry',
-    ]);
-    expect(generatedPractices).not.toContain('drdronavalli');
+    expect(generatedPractices).toEqual(eligiblePractices.map(({ slug }) => slug).sort());
+    for (const { slug, config } of practices) if (config.seo.allowIndexing !== false) expect(generatedPractices).not.toContain(slug);
     expect(generatedPractices).not.toContain('template');
 
-    for (const [practiceId, providerSlug, theme] of [
-      ['mariposa', 'alba-lara', 'editorial-healthcare'],
-      ['northhillspsychiatry', 'zita-samuel', 'editorial-healthcare'],
-      ['northwestpsychiatry', 'arvinder-walia', 'structured-clinical'],
-    ]) {
-      const providerHtml = readFileSync(
-        path.join(
-          previewRoot,
-          'previews',
-          practiceId,
-          'providers',
-          providerSlug,
-          'index.html',
-        ),
-        'utf8',
-      );
-      expect(providerHtml).toContain(`data-theme="${theme}"`);
-      expect(providerHtml).toContain('class="provider-page ');
-      expect(providerHtml).toContain('provider-hero');
-      expect(providerHtml).toContain('data-provider-section="conditions"');
-      expect(providerHtml).toContain('home-conditions');
+    for (const { slug: practiceId, config } of eligiblePractices) {
+      const root = path.join(previewRoot, 'previews', practiceId);
+      expect(htmlFiles(root).map(file => path.relative(root, file).split(path.sep).join('/')).sort()).toEqual(expectedRoutes(config));
+      for (const provider of config.providers) {
+        const providerHtml = readFileSync(
+          path.join(
+            previewRoot,
+            'previews',
+            practiceId,
+            'providers',
+            provider.slug,
+            'index.html',
+          ),
+          'utf8',
+        );
+        expect(providerHtml).toContain(`data-theme="${config.theme}"`);
+        expect(providerHtml).toContain('class="provider-page ');
+        expect(providerHtml).toContain('provider-hero');
+        expect(providerHtml.includes('data-provider-section="conditions"')).toBe(Boolean((provider.conditions || provider.specialties || config.conditions || []).length));
+        if (config.fictionalDemo) {
+          expect(providerHtml).toContain('Website concept');
+          expect(jsonLdTypes(providerHtml)).toEqual(['WebPage']);
+        }
+      }
     }
 
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -186,7 +202,7 @@ test.describe.serial('Astro preview verification', () => {
           'previews',
           'northwestpsychiatry',
           'providers',
-          'arvinder-walia',
+          practices.find(({ slug }) => slug === 'northwestpsychiatry').config.providers[0].slug,
           'index.html',
         ),
       ).href,
@@ -236,10 +252,7 @@ test.describe.serial('Astro preview verification', () => {
     verifyMarketingPreviewOutputContract();
 
     const marketingRoot = path.join(repoRoot, '.tmp', 'astro-dist', 'marketing');
-    expectNoindexCoverage(marketingRoot, [
-      'mariposa',
-      'northhillspsychiatry',
-    ]);
+    expectNoindexCoverage(marketingRoot, eligiblePractices.map(({ slug }) => slug));
     const sitemap = readFileSync(path.join(marketingRoot, 'sitemap.xml'), 'utf8');
     expect(sitemap).not.toContain('/previews/');
   });

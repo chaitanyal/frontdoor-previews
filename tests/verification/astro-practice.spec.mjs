@@ -13,7 +13,6 @@ import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { verifyPracticeOutputContract } from '../../scripts/verification/verify_output_contracts.mjs';
 import { homeSectionNavigation } from '../../src/lib/home-sections.mjs';
-import { homepageProviders } from '../../src/lib/provider-team.mjs';
 import {
   practiceServiceArea,
   providerEntityId,
@@ -304,7 +303,9 @@ test.describe.serial('Astro production practice builds', () => {
         hasSchemaType(block, 'WebPage'));
       const clinicSchema = homeSchemas.find((block) =>
         hasSchemaType(block, 'MedicalClinic'));
-      const featuredProviders = homepageProviders(config);
+      const featuredProviders = config.home?.featuredProviderSlugs?.length
+        ? config.home.featuredProviderSlugs.map(slug => config.providers.find(provider => provider.slug === slug))
+        : config.providers;
       expect(clinicSchema).toBeDefined();
       expect(clinicSchema.address).toEqual({
         '@type': 'PostalAddress',

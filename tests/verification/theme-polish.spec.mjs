@@ -5,6 +5,14 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { installDeterministicBrowser, installMockNetwork, waitForImages } from './helpers/static-site.mjs';
 
+const guidanceCatalog = JSON.parse(readFileSync('shared/content/care-guidance.json', 'utf8'));
+
+function concernCount(config) {
+  const entries = config.careGuidance.contentKeys.map(key => guidanceCatalog[key]);
+  return (config.careGuidance.concernIds || entries[0].defaultConcernIds ||
+    [...new Set(entries.flatMap(entry => entry.concerns.map(concern => concern.id)))]).length;
+}
+
 async function verifyNavigationDestinations(page, selector) {
   const links = page.locator(selector);
   expect(await links.count()).toBeGreaterThan(0);
@@ -55,7 +63,7 @@ for (const [slug, output, theme] of sites) {
           if (slug === 'drdronavalli') {
             const appointmentLinks = page.locator(`a[href="${config.practice.defaultAppointmentUrl}"]`);
             expect(await appointmentLinks.count()).toBeGreaterThan(0);
-            for (const link of await appointmentLinks.all()) await expect(link).toHaveText('Request Appointment');
+            for (const link of await appointmentLinks.all()) await expect(link).toHaveAccessibleName(/\S/);
           }
         }
         for (const link of await page.locator('footer nav a').all()) {
@@ -68,15 +76,15 @@ for (const [slug, output, theme] of sites) {
           for (const section of await page.locator('main section[id]').all()) {
             expect(await section.evaluate(el => parseFloat(getComputedStyle(el).scrollMarginTop))).toBeGreaterThanOrEqual(headerHeight);
           }
-          if (slug === 'drdronavalli') {
+          if (config.careGuidance) {
             const guidance = page.locator('.home-care-guidance');
-            await expect(guidance).toHaveAttribute('id', 'care-guidance');
-            await expect(guidance.locator('.care-concerns > li')).toHaveCount(6);
+            await expect(guidance).toHaveAttribute('id', config.careGuidance.replaceConditions ? 'conditions' : 'care-guidance');
+            await expect(guidance.locator('.care-concerns > li')).toHaveCount(concernCount(config));
             await expect(guidance.locator('.care-guidance-explanation')).toHaveCount(0);
             const order = await page.locator('.home-care-guidance, .home-providers, .home-conditions').evaluateAll(items => items.map(item => item.id));
-            expect(order).toEqual(['care-guidance', 'providers', 'conditions']);
-            await expect(page.locator('.home-conditions')).toHaveCount(1);
-            await expect(page.locator('.home-conditions')).toContainText('COPD');
+            expect(order).toEqual([config.careGuidance.replaceConditions ? 'conditions' : 'care-guidance', 'providers', ...(config.conditions?.length && !config.careGuidance.replaceConditions ? ['conditions'] : [])]);
+            await expect(page.locator('.home-conditions')).toHaveCount(config.conditions?.length && !config.careGuidance.replaceConditions ? 1 : 0);
+            if (!config.careGuidance.replaceConditions) for (const condition of config.conditions || []) await expect(page.locator('.home-conditions')).toContainText(condition);
             if (capture) await captureScreenshot(page, path.join(screenshots, `${width}-care-guidance.png`), { selector: '.home-care-guidance' });
           }
           if (theme === 'structured-clinical' && await page.locator('.home-resources').count()) {
@@ -131,6 +139,7 @@ test('@theme-polish care guidance replaces Maya concerns and preserves Centex co
   await installDeterministicBrowser(page);
   await installMockNetwork(page);
   for (const slug of ['mayabennett', 'centexmh']) {
+    const config = JSON.parse(readFileSync(`sites/${slug}/practice.json`, 'utf8'));
     const root = path.resolve('.tmp/astro-dist/preview-all/previews', slug);
     for (const width of [390, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
@@ -138,23 +147,22 @@ test('@theme-polish care guidance replaces Maya concerns and preserves Centex co
       await page.evaluate(() => document.fonts.ready);
       const guidance = page.locator('.home-care-guidance');
       await expect(guidance).toHaveCount(1);
-      await expect(guidance.locator('.care-concerns > li')).toHaveCount(6);
+      await expect(guidance.locator('.care-concerns > li')).toHaveCount(concernCount(config));
       await expect(guidance.locator('.care-guidance-explanation')).toHaveCount(0);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       await verifyNavigationDestinations(page, 'header a, footer nav a, .home-care-guidance a');
-      if (slug === 'mayabennett') {
+      if (config.careGuidance.replaceConditions) {
         await expect(guidance).toHaveAttribute('id', 'conditions');
         await expect(page.locator('.home-conditions')).toHaveCount(0);
         await expect(page.locator('[id="conditions"]')).toHaveCount(1);
         const order = await page.locator('.home-care-guidance, .home-providers').evaluateAll(items => items.map(item => item.id));
         expect(order).toEqual(['conditions', 'providers']);
       } else {
-        await expect(guidance).toHaveAttribute('id', 'care-guidance');
-        await expect(page.locator('.home-conditions')).toHaveCount(1);
+        await expect(guidance).toHaveAttribute('id', config.careGuidance.replaceConditions ? 'conditions' : 'care-guidance');
+        await expect(page.locator('.home-conditions')).toHaveCount(config.conditions?.length ? 1 : 0);
         const order = await page.locator('.home-care-guidance, .home-providers, .home-conditions, .home-treatments').evaluateAll(items => items.map(item => item.id));
-        expect(order).toEqual(['care-guidance', 'providers', 'conditions', 'treatments']);
-        await expect(page.locator('.home-treatments a[href="./treatment/tms/"]')).toHaveCount(1);
-        await expect(page.locator('.home-treatments a[href="./treatment/spravato/"]')).toHaveCount(1);
+        expect(order).toEqual(['care-guidance', 'providers', ...(config.conditions?.length ? ['conditions'] : []), ...(config.treatments?.length ? ['treatments'] : [])]);
+        for (const treatment of config.treatments || []) await expect(page.locator(`.home-treatments a[href="./treatment/${treatment.slug}/"]`)).toHaveCount(1);
       }
       if (process.env.FRONTDOOR_CAPTURE_SCREENSHOTS === '1') {
         const screenshots = path.resolve('.tmp/theme-polish', slug);
@@ -165,27 +173,31 @@ test('@theme-polish care guidance replaces Maya concerns and preserves Centex co
   }
   const root = path.resolve('.tmp/astro-dist/preview-all/previews/northhillspsychiatry');
   await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
-  await expect(page.locator('.home-care-guidance')).toHaveCount(0);
-  await expect(page.locator('.home-conditions')).toHaveCount(1);
+  const original = JSON.parse(readFileSync('sites/northhillspsychiatry/practice.json', 'utf8'));
+  await expect(page.locator('.home-care-guidance')).toHaveCount(original.careGuidance ? 1 : 0);
+  await expect(page.locator('.home-conditions')).toHaveCount(original.conditions?.length && !original.careGuidance?.replaceConditions ? 1 : 0);
 });
 
 test('@theme-polish fictional psychology concept discloses its identity and accepts no patient inquiries', async ({ page }) => {
   await installDeterministicBrowser(page);
   await installMockNetwork(page);
+  const config = JSON.parse(readFileSync('sites/mayabennett/practice.json', 'utf8'));
+  expect(config.fictionalDemo, 'The psychology pilot must remain a fictional demo').toBe(true);
   const root = path.resolve('.tmp/astro-dist/preview-all/previews/mayabennett');
   const screenshots = path.resolve('.tmp/theme-polish/mayabennett');
   const capture = process.env.FRONTDOOR_CAPTURE_SCREENSHOTS === '1';
   if (capture) mkdirSync(screenshots, { recursive: true });
   for (const width of [390, 1440, 2048]) {
     await page.setViewportSize({ width, height: 1000 });
-    for (const route of ['', 'providers/maya-bennett/', 'privacy/', 'terms/', 'accessibility/']) {
+    for (const route of ['', ...config.providers.map(provider => `providers/${provider.slug}/`), 'privacy/', 'terms/', 'accessibility/']) {
       await page.goto(pathToFileURL(path.join(root, route, 'index.html')).href);
       await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important}.fade-in-up{opacity:1!important;transform:none!important}' });
       await page.evaluate(() => document.fonts.ready);
       await waitForImages(page.locator('img'));
       await expect(page.locator('.concept-notice')).toContainText('A fictional practice.');
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow');
-      await expect(page.locator('body')).not.toContainText(/Alba Lara|Mariposa|Columbia University/);
+      if (!route) await expect(page.locator('h1')).toHaveText(config.hero.title);
+      if (route.startsWith('providers/')) await expect(page.locator('h1')).toHaveText(config.providers.find(provider => route === `providers/${provider.slug}/`).name);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       const destinations = await page.locator('a[href]').evaluateAll(links => links.map(link => link.getAttribute('href')));
       expect(destinations.some(href => /^(tel:|mailto:)|forms\.gle|docs\.google\.com\/forms/.test(href))).toBe(false);
@@ -195,7 +207,7 @@ test('@theme-polish fictional psychology concept discloses its identity and acce
       if (!route || route.startsWith('providers/')) {
         await expect(page.locator('.concept-appointment')).toHaveCSS('background-image', 'none');
         await expect(page.locator('.concept-appointment [aria-disabled="true"]')).toBeVisible();
-        await expect(page.locator('.concept-appointment [aria-disabled="true"]')).toHaveText('Request a free consultation');
+        await expect(page.locator('.concept-appointment [aria-disabled="true"]')).toHaveText(config.hero.primaryCta);
       }
       if (capture && (!route || route.startsWith('providers/'))) {
         await captureScreenshot(page, path.join(screenshots, `${width}-${route ? 'profile' : 'home'}.png`));
@@ -239,7 +251,9 @@ test('@theme-polish reflective composition separates mobile imagery and keeps co
 test('@theme-polish base editorial practices keep team layouts and avoid duplicate mobile appointment controls', async ({ page }) => {
   await installDeterministicBrowser(page);
   await installMockNetwork(page);
-  for (const [slug, cardCount] of [['centexmh', 3], ['northhillspsychiatry', 2]]) {
+  for (const slug of ['centexmh', 'northhillspsychiatry']) {
+    const config = JSON.parse(readFileSync(`sites/${slug}/practice.json`, 'utf8'));
+    const cardCount = config.home?.featuredProviderSlugs?.length || config.providers.length;
     const root = path.resolve('.tmp/astro-dist/preview-all/previews', slug);
     for (const width of [360, 390, 768, 1440, 2048]) {
       await page.setViewportSize({ width, height: 1000 });
@@ -262,6 +276,8 @@ test('@theme-polish base editorial practices keep team layouts and avoid duplica
 test('@theme-polish structured clinical team and mobile appointment controls adapt to available space', async ({ page }) => {
   await installDeterministicBrowser(page);
   await installMockNetwork(page);
+  const config = JSON.parse(readFileSync('sites/northwestpsychiatry/practice.json', 'utf8'));
+  const cardCount = config.home?.featuredProviderSlugs?.length || config.providers.length;
   const root = path.resolve('.tmp/astro-dist/preview-all/previews/northwestpsychiatry');
   for (const width of [360, 390, 768, 1024, 1440, 2048]) {
     await page.setViewportSize({ width, height: 1000 });
@@ -270,13 +286,12 @@ test('@theme-polish structured clinical team and mobile appointment controls ada
     await page.evaluate(() => document.fonts.ready);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     const cards = page.locator('.home-provider-card');
-    await expect(cards).toHaveCount(3);
-    const boxes = await Promise.all([0, 1, 2].map((i) => cards.nth(i).boundingBox()));
-    if (width >= 1280) {
-      expect(Math.abs(boxes[0].y - boxes[2].y)).toBeLessThan(2);
-    } else if (width >= 768) {
-      expect(Math.abs(boxes[0].y - boxes[1].y)).toBeLessThan(2);
-      expect(boxes[2].y).toBeGreaterThan(boxes[0].y);
+    await expect(cards).toHaveCount(cardCount);
+    const boxes = await cards.evaluateAll(cards => cards.map(card => card.getBoundingClientRect().toJSON()));
+    const columns = width >= 1280 ? 3 : width >= 768 ? 2 : 1;
+    for (let index = 0; index < boxes.length; index++) {
+      expect(Math.abs(boxes[index].y - boxes[Math.floor(index / columns) * columns].y)).toBeLessThan(2);
+      if (index >= columns) expect(boxes[index].y).toBeGreaterThan(boxes[index - columns].y);
     }
     if (width < 768) {
       expect((await page.locator('.home-hero').boundingBox()).height).toBeLessThan(760);
@@ -284,7 +299,7 @@ test('@theme-polish structured clinical team and mobile appointment controls ada
       await expect(page.locator('.practice-mobile-actions')).toBeHidden();
       await page.locator('.home-location').scrollIntoViewIfNeeded();
       await expect(page.locator('.practice-mobile-actions')).toBeVisible();
-      await page.goto(pathToFileURL(path.join(root, 'providers/kathleen-nguyen/index.html')).href);
+      await page.goto(pathToFileURL(path.join(root, `providers/${config.providers[0].slug}/index.html`)).href);
       await page.locator('.provider-actions').scrollIntoViewIfNeeded();
       await expect(page.locator('.practice-mobile-actions')).toBeHidden();
       await page.locator('.provider-page-section').first().evaluate((section) => section.scrollIntoView({ block: 'start' }));

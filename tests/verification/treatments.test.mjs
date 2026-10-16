@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { loadPracticeData } from '../../src/lib/practice-data.mjs';
+import { readFileSync } from 'node:fs';
 import { practiceLlms } from '../../src/lib/practice-production.mjs';
 import { previewTreatmentPaths } from '../../src/lib/preview-paths.mjs';
 
@@ -46,17 +46,14 @@ test('preview routes and llms.txt include configured treatments and omit clinics
   const previous = process.env.FRONTDOOR_ASTRO_PRACTICE_IDS;
   process.env.FRONTDOOR_ASTRO_PRACTICE_IDS = JSON.stringify(['centexmh', 'northhillspsychiatry']);
   try {
+    const configs = ['centexmh', 'northhillspsychiatry'].map(slug => ({ slug, config: JSON.parse(readFileSync(`sites/${slug}/practice.json`, 'utf8')) }));
     const paths = await previewTreatmentPaths(process.cwd());
-    assert.deepEqual(paths.map((item) => item.params), [
-      { practice: 'centexmh', treatment: 'tms' },
-      { practice: 'centexmh', treatment: 'spravato' },
-    ]);
-    const { config } = await loadPracticeData(process.cwd(), 'centexmh');
-    const llms = practiceLlms(config, 'https://example.com');
-    assert.ok(llms.includes('https://example.com/treatment/tms/'));
-    assert.ok(llms.includes('https://example.com/treatment/spravato/'));
-    const { config: noTreatments } = await loadPracticeData(process.cwd(), 'northhillspsychiatry');
-    assert.equal(practiceLlms(noTreatments, 'https://example.com').includes('/treatment/'), false);
+    assert.deepEqual(paths.map(item => item.params), configs.flatMap(({ slug, config }) => (config.treatments || []).map(treatment => ({ practice: slug, treatment: treatment.slug }))));
+    for (const { config } of configs) {
+      const llms = practiceLlms(config, 'https://example.com');
+      assert.equal(llms.includes('/treatment/'), Boolean(config.treatments?.length));
+      for (const treatment of config.treatments || []) assert.ok(llms.includes(`https://example.com/treatment/${treatment.slug}/`));
+    }
   } finally {
     if (previous === undefined) delete process.env.FRONTDOOR_ASTRO_PRACTICE_IDS;
     else process.env.FRONTDOOR_ASTRO_PRACTICE_IDS = previous;

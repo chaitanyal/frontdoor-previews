@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
 import { careGuidanceContent } from '../../src/lib/care-guidance.mjs';
 import { homeSectionNavigation } from '../../src/lib/home-sections.mjs';
 import { practiceLlms } from '../../src/lib/practice-production.mjs';
@@ -54,22 +53,22 @@ test('hybrid selection produces one ordered concern list without duplicate conce
   assert.throws(() => careGuidanceContent({ careGuidance: { ...single, contentKeys: ['unknown'] } }), /Unknown care guidance/);
 });
 
-test('Maya replaces concerns at the existing anchor; Centex retains conditions and treatments', () => {
-  const maya = JSON.parse(readFileSync('sites/mayabennett/practice.json', 'utf8'));
-  const centex = JSON.parse(readFileSync('sites/centexmh/practice.json', 'utf8'));
-  const original = JSON.parse(readFileSync('sites/northhillspsychiatry/practice.json', 'utf8'));
-  const mayaSections = homeSectionNavigation(maya);
-  assert.equal(mayaSections.find((item) => item.key === 'careGuidance').id, 'conditions');
-  assert.equal(mayaSections.some((item) => item.key === 'conditions'), false);
-  const centexSections = homeSectionNavigation(centex).map((item) => item.key);
-  assert.ok(centexSections.indexOf('careGuidance') < centexSections.indexOf('conditions'));
-  assert.ok(centexSections.includes('treatments'));
+test('replacement guidance shares its anchor while additive guidance retains conditions and treatments', () => {
+  const replacement = { careGuidance: { ...single, replaceConditions: true }, conditions: ['Example concern'] };
+  const additive = { careGuidance: { contentKeys: ['psychiatry'], concernIds: ['mood', 'worry', 'attention', 'mood-changes', 'intrusive-thoughts', 'unusual-experiences'] }, conditions: ['Example concern'], treatments: [{ slug: 'example', name: 'Example treatment', seo: { description: 'Example care.' } }] };
+  const original = {};
+  const replacementSections = homeSectionNavigation(replacement);
+  assert.equal(replacementSections.find((item) => item.key === 'careGuidance').id, 'conditions');
+  assert.equal(replacementSections.some((item) => item.key === 'conditions'), false);
+  const additiveSections = homeSectionNavigation(additive).map((item) => item.key);
+  assert.ok(additiveSections.indexOf('careGuidance') < additiveSections.indexOf('conditions'));
+  assert.ok(additiveSections.includes('treatments'));
   assert.equal(homeSectionNavigation(original).some((item) => item.key === 'careGuidance'), false);
-  assert.ok(practiceLlms(centex, 'https://example.com').includes('when to seek care'));
-  assert.equal(careGuidanceContent(maya).concerns.length, 6);
-  const centexConcerns = careGuidanceContent(centex).concerns.map((item) => item.id);
-  assert.ok(centexConcerns.includes('intrusive-thoughts'));
-  assert.ok(centexConcerns.includes('unusual-experiences'));
+  assert.ok(practiceLlms(additive, 'https://example.com').includes('when to seek care'));
+  assert.equal(careGuidanceContent(replacement).concerns.length, 6);
+  const selectedConcerns = careGuidanceContent(additive).concerns.map((item) => item.id);
+  assert.ok(selectedConcerns.includes('intrusive-thoughts'));
+  assert.ok(selectedConcerns.includes('unusual-experiences'));
   const defaults = careGuidanceContent({ careGuidance: { contentKeys: ['psychiatry'] } });
   assert.equal(defaults.concerns.length, 6);
   assert.ok(defaults.concerns.some((item) => item.id === 'sleep'));

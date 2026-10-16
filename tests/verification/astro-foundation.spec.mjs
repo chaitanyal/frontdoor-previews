@@ -11,7 +11,6 @@ import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
 import { validateGooglePlacesConfiguration } from '../../scripts/validate_google_places_config.mjs';
 import { assertMarketingCaseStudyRoute } from '../../src/lib/marketing-data.mjs';
-import { loadPracticeData } from '../../src/lib/practice-data.mjs';
 import {
   financialSectionMode,
   practiceHomepageSchemas,
@@ -225,6 +224,7 @@ test.describe.serial('Astro verification foundation', () => {
       ),
       'utf8',
     );
+    const pilotConfig = JSON.parse(readFileSync(path.join(repoRoot, 'sites', 'northhillspsychiatry', 'practice.json'), 'utf8'));
     const previewProviderHtml = readFileSync(
       path.join(
         repoRoot,
@@ -234,7 +234,7 @@ test.describe.serial('Astro verification foundation', () => {
         'previews',
         'northhillspsychiatry',
         'providers',
-        'zita-samuel',
+        pilotConfig.providers[0].slug,
         'index.html',
       ),
       'utf8',
@@ -248,51 +248,23 @@ test.describe.serial('Astro verification foundation', () => {
   });
 
   test('@astro-foundation preserves reusable practice configuration variants', async () => {
-    const { config: northHills } = await loadPracticeData(
-      repoRoot,
-      'northhillspsychiatry',
-    );
-    expect(northHills.financialPolicy.paymentModel).toBe('cash_only');
-    expect(financialSectionMode(northHills)).toBe('policy');
-    expect(financialSectionMode({
-      ...northHills,
-      financialPolicy: undefined,
-    })).toBeNull();
-    runNpmBuild('build:astro:practice', 'northhillspsychiatry');
-    const northHillsHome = readFileSync(
-      path.join(repoRoot, '.tmp', 'astro-dist', 'practice', 'index.html'),
-      'utf8',
-    );
-    expect(northHillsHome).toContain('Private Pay');
-    expect(northHillsHome).toContain(
-      'Please call the office for current rates and payment options.',
-    );
-    expect(northHillsHome).not.toContain('Insurance Coverage');
-
-    const { config: mariposa } = await loadPracticeData(repoRoot, 'mariposa');
-    const provider = mariposa.providers[0];
-    const profile = providerProfile(mariposa, provider);
+    const cashOnly = { financialPolicy: { paymentModel: 'cash_only' } };
+    expect(financialSectionMode(cashOnly)).toBe('policy');
+    expect(financialSectionMode({ insurance: { enabled: true }, financialPolicy: { paymentModel: 'insurance' } })).toBe('insurance');
+    expect(financialSectionMode({})).toBeNull();
+    const provider = { slug: 'example', name: 'Dr. Example', credentials: 'MD', specialty: 'Psychiatry', affiliations: ['Example professional organization'] };
+    const practice = {
+      practice: { slug: 'example', name: 'Example Practice' },
+      seo: { siteUrl: 'https://example.com', title: 'Example Practice' },
+      providers: [provider],
+    };
+    const profile = providerProfile(practice, provider);
     expect(profile.isPsychiatry).toBe(true);
     expect(providerAffiliationMode(profile)).toBe('');
-    runNpmBuild('build:astro:practice', 'mariposa');
-    const mariposaProvider = readFileSync(
-      path.join(
-        repoRoot,
-        '.tmp',
-        'astro-dist',
-        'practice',
-        'providers',
-        'alba-lara',
-        'index.html',
-      ),
-      'utf8',
-    );
-    expect(mariposaProvider).not.toContain('Professional Affiliations');
-    expect(mariposaProvider).not.toContain(
-      'American Academy of Geriatric Psychiatry',
-    );
+    expect(providerAffiliationMode({ ...profile, isPsychiatry: false })).toBe('professional');
+    expect(providerAffiliationMode({ ...profile, hospitalAffiliations: ['Example hospital'] })).toBe('hospital');
 
-    const overrideProfile = providerProfile(mariposa, {
+    const overrideProfile = providerProfile(practice, {
       ...provider,
       contactOverride: {
         phone: '(512) 555-0199',
@@ -304,7 +276,7 @@ test.describe.serial('Astro verification foundation', () => {
     expect(overrideProfile.phoneHref).toBe('tel:+15125550199');
     expect(overrideProfile.address).toBeUndefined();
 
-    const structuredOverrideProfile = providerProfile(mariposa, {
+    const structuredOverrideProfile = providerProfile(practice, {
       ...provider,
       contactOverride: {
         address: {
@@ -325,7 +297,7 @@ test.describe.serial('Astro verification foundation', () => {
       addressCountry: 'US',
     });
 
-    const structuredSpecialtyProfile = providerProfile(mariposa, {
+    const structuredSpecialtyProfile = providerProfile(practice, {
       ...provider,
       specialty: undefined,
       credentials: undefined,

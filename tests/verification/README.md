@@ -2,6 +2,20 @@
 
 These tests lock the reviewed Astro static output and browser behavior.
 
+## Test responsibilities
+
+See [milestone 4](../../docs/milestone-4-test-maintenance.md) for priorities and scope.
+Validators own configuration shape and safety. Unit tests use independent synthetic
+inputs for transformation rules. Contracts protect reviewed output. Integration
+checks compare rendered facts with raw `practice.json`; browser checks verify
+interactions, responsive behavior, and configured destinations. Evidence ledgers
+support factual accuracy. Tests cannot establish whether practice facts are true.
+
+Keep changing names, slugs, counts, and eligibility in configuration. Keep fixed
+synthetic edge cases and intentional pilot/theme identities explicit. Do not derive
+expected selections using the production function being tested. Reviewed pixel
+fixtures and mandatory noindex/disclosure rules remain deliberate fixed contracts.
+
 ## Build-once workflow
 
 For a change spanning shared code, run the existing coverage through one runner:
