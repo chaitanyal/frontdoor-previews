@@ -16,7 +16,7 @@ window.tailwind.config = {
         },
         sage: {
           100: '#DCE8E2',
-          700: '#5C8A79',
+          700: '#426B5B',
         },
       },
     },

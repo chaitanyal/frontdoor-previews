@@ -33,7 +33,7 @@ const { featured } = Astro.props;
               Before
             </figcaption>
             <div class="aspect-[4/5] overflow-hidden bg-white">
-              <img src={featured.beforeImage} alt={`Previous ${featured.practiceName} website before the FrontDoor Health redesign`} loading="lazy" class="h-full w-full object-cover object-top" />
+              <img {...featured.imageDimensions.before} src={featured.beforeImage} alt={`Previous ${featured.practiceName} website before the FrontDoor Health redesign`} loading="lazy" class="h-full w-full object-cover object-top" />
             </div>
           </figure>
 
@@ -43,7 +43,7 @@ const { featured } = Astro.props;
               <span class="text-xs font-medium uppercase tracking-wide text-sage-700">FrontDoor</span>
             </figcaption>
             <div class="aspect-[4/5] overflow-hidden bg-white">
-              <img src={featured.afterImage} alt={`Redesigned ${featured.practiceName} website by FrontDoor Health`} loading="lazy" class="h-full w-full object-cover object-top" />
+              <img {...featured.imageDimensions.after} src={featured.afterImage} alt={`Redesigned ${featured.practiceName} website by FrontDoor Health`} loading="lazy" class="h-full w-full object-cover object-top" />
             </div>
           </figure>
         </div>

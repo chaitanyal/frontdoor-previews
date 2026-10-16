@@ -33,19 +33,9 @@ const description = 'FrontDoor Health helps independent healthcare practices cre
   tailwindConfig="inline"
   title={title}
 >
-  <style is:inline slot="head">
-    @font-face {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 400 800;
-      font-display: swap;
-      src: url('./assets/fonts/inter-latin.woff2') format('woff2');
-    }
-  </style>
-
   <HomeHeader />
 
-  <main>
+  <main id="main-content" tabindex="-1">
     <FeaturedPracticeHero {featured} />
 
     <section id="what" class="bg-brand-900 px-5 py-16 text-white lg:px-8 lg:py-24" aria-labelledby="patient-questions-title">

@@ -3,6 +3,7 @@
  * Practice homepage hero from config.practice, config.hero, and config.trustItems.
  * Resolves display copy through homeContent(); theme composition lives in shared CSS.
  */
+import { imageDimensions } from '../../lib/image-dimensions.mjs';
 import { homeContent } from '../../lib/practice-view.mjs';
 import { HOME_SECTION_IDS } from '../../lib/home-sections.mjs';
 import Icon from './Icon.astro';
@@ -14,12 +15,15 @@ interface Props {
 const { config } = Astro.props;
 const { practice, hero, trustItems = [] } = config;
 const content = homeContent(config);
+const heroDimensions = await imageDimensions(`sites/${config.practice.slug}/${hero.image}`);
 ---
 
 <section
   class="home-hero fade-in-up relative isolate min-h-[680px] overflow-hidden bg-warm-50 sm:min-h-[760px]"
 >
   <img
+    {...heroDimensions}
+    fetchpriority="high"
     src={hero.image}
     alt={content.heroImageAlt}
     class="image-treatment absolute inset-0 -z-20 h-full w-full object-cover object-[62%_center]"

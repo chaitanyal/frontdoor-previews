@@ -1,3 +1,4 @@
+import { imageDimensions } from './image-dimensions.mjs';
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -78,6 +79,12 @@ export async function loadMarketingData(repoRoot) {
         marketing.featuredPracticeAfterImage,
       )}`,
       caseStudyUrl: `./case-studies/${practiceId}/`,
+      imageDimensions: {
+        hero: await imageDimensions(path.join(repoRoot, 'sites', practiceId, heroImage)),
+        preview: await imageDimensions(path.join(repoRoot, marketing.featuredPracticePreviewImage)),
+        before: await imageDimensions(path.join(repoRoot, marketing.featuredPracticeBeforeImage)),
+        after: await imageDimensions(path.join(repoRoot, marketing.featuredPracticeAfterImage)),
+      },
       metrics,
       description:
         marketing.featuredPracticeDescription || practice.seo?.description || '',

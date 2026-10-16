@@ -63,6 +63,10 @@ for (const [slug, output, theme] of sites) {
         }
 
         if (!route) {
+          const headerHeight = (await page.locator('header').boundingBox()).height;
+          for (const section of await page.locator('main section[id]').all()) {
+            expect(await section.evaluate(el => parseFloat(getComputedStyle(el).scrollMarginTop))).toBeGreaterThanOrEqual(headerHeight);
+          }
           if (slug === 'drdronavalli') {
             const guidance = page.locator('.home-care-guidance');
             await expect(guidance).toHaveAttribute('id', 'care-guidance');
@@ -295,6 +299,19 @@ test('@theme-polish marketing header/footer navigation preserves local destinati
     await page.setViewportSize({ width, height: 1000 });
     await page.goto('https://frontdoor.health/');
     await page.evaluate(() => document.fonts.ready);
+    await page.keyboard.press('Tab');
+    await expect(page.locator('.skip-link')).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('#main-content')).toBeFocused();
+    const contrast = await page.locator('#results .text-sage-700').first().evaluate(el => {
+      const luminance = color => color.match(/[\d.]+/g).slice(0, 3).map(Number).map(v => v / 255)
+        .map(v => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)
+        .reduce((sum, v, i) => sum + v * [0.2126, 0.7152, 0.0722][i], 0);
+      const foreground = luminance(getComputedStyle(el).color);
+      const background = luminance(getComputedStyle(el.closest('#results')).backgroundColor);
+      return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
+    });
+    expect(contrast).toBeGreaterThanOrEqual(4.5);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     // The existing mock serves the same marketing artifact over HTTPS with its test CSS.
     // Resolve link destinations against the corresponding local file for asset/anchor checks.
@@ -314,5 +331,26 @@ test('@theme-polish marketing header/footer navigation preserves local destinati
     await contact.focus();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL('https://frontdoor.health/#contact');
+    const header = await page.locator('header').boundingBox();
+    const heading = await page.locator('#contact h2').boundingBox();
+    expect(heading.y).toBeGreaterThanOrEqual(header.y + header.height);
   }
+});
+
+test('@theme-polish marketing reduced motion and skip destinations cover secondary pages', async ({ page }) => {
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const route of ['', 'about/', 'privacy/', 'case-studies/', 'case-studies/drdronavalli/', 'transformations/', '404.html']) {
+    await page.goto(`https://frontdoor.health/${route}`);
+    await page.keyboard.press('Tab');
+    await expect(page.locator('.skip-link')).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('#main-content')).toBeFocused();
+  }
+  await page.goto('https://frontdoor.health/');
+  const heroAction = page.locator('a[href="#contact"]').filter({ hasText: 'Request Your Free Preview' });
+  await heroAction.hover();
+  await expect(heroAction).toHaveCSS('transform', 'none');
+  await expect(heroAction).toHaveCSS('transition-duration', '0s');
 });

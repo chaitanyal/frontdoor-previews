@@ -3,6 +3,7 @@
  * Marketing lead form and browser submission handler; takes no props.
  * Posts to /api/preview-request with Turnstile and attribution data, then emits
  * analytics and conversion hooks only for accepted requests.
+ * Field errors keep descriptions associated with controls and focus the first failure.
  */
 const formScript = `
 window.lucide?.createIcons();
@@ -10,8 +11,9 @@ window.lucide?.createIcons();
 (() => {
   const form = document.getElementById('preview-request-form');
   const submitButton = document.getElementById('preview-request-submit');
+  const submitLabel = document.getElementById('preview-request-submit-label');
   const status = document.getElementById('preview-request-status');
-  if (!form || !submitButton || !status) return;
+  if (!form || !submitButton || !submitLabel || !status) return;
   let isSubmitting = false;
   let hasSubmitted = false;
 
@@ -23,6 +25,33 @@ window.lucide?.createIcons();
         : 'bg-amber-50 text-amber-900'
     );
   }
+
+  function showFieldError(name, message, focus = true) {
+    const field = form.elements.namedItem(name);
+    const error = document.getElementById(field.id + '-error');
+    field.setAttribute('aria-invalid', 'true');
+    error.textContent = message;
+    error.hidden = false;
+    if (focus) showStatus(message, 'error');
+    if (focus) field.focus();
+  }
+
+  form.addEventListener('invalid', (event) => {
+    event.preventDefault();
+    const field = event.target;
+    showFieldError(field.name, field.validationMessage, field === form.querySelector(':invalid'));
+  }, true);
+
+  function clearFieldError(event) {
+    const field = event.target;
+    const error = document.getElementById(field.id + '-error');
+    if (!error) return;
+    field.removeAttribute('aria-invalid');
+    error.hidden = true;
+    error.textContent = '';
+  }
+  form.addEventListener('input', clearFieldError);
+  form.addEventListener('change', clearFieldError);
 
   function getUtmCampaign() {
     return window.FrontdoorAttribution?.getUtmCampaign?.() || null;
@@ -96,23 +125,23 @@ window.lucide?.createIcons();
     const website = normalizeWebsiteUrl(websiteInput);
 
     if (!name) {
-      showStatus('Please enter your name.', 'error');
+      showFieldError('name', 'Please enter your name.');
       return;
     }
     if (!practiceName) {
-      showStatus('Please enter your practice name.', 'error');
+      showFieldError('practiceName', 'Please enter your practice name.');
       return;
     }
     if (!specialty) {
-      showStatus('Please select a specialty.', 'error');
+      showFieldError('specialty', 'Please select a specialty.');
       return;
     }
     if (!email || !form.elements.email.checkValidity()) {
-      showStatus('Please enter a valid email address.', 'error');
+      showFieldError('email', 'Please enter a valid email address.');
       return;
     }
     if (websiteInput && !website) {
-      showStatus('Please enter a valid website URL.', 'error');
+      showFieldError('websiteUrl', 'Please enter a valid website URL.');
       return;
     }
 
@@ -124,7 +153,8 @@ window.lucide?.createIcons();
 
     isSubmitting = true;
     submitButton.disabled = true;
-    submitButton.textContent = 'Sending...';
+    submitButton.setAttribute('aria-busy', 'true');
+    submitLabel.textContent = 'Sending…';
     status.className = 'hidden rounded-2xl px-4 py-3 text-sm font-medium';
 
     try {
@@ -154,15 +184,16 @@ window.lucide?.createIcons();
       form.reset();
       window.turnstile?.reset();
       hasSubmitted = true;
-      submitButton.textContent = 'Request Sent';
+      submitLabel.textContent = 'Request Sent';
       showStatus('Thanks. I will review your practice website and follow up.', 'success');
     } catch (error) {
       window.turnstile?.reset();
       showStatus(error.message || 'Unable to send your request right now.', 'error');
       submitButton.disabled = false;
-      submitButton.textContent = 'Request a Free Preview';
+      submitLabel.textContent = 'Request a Free Preview';
     } finally {
       isSubmitting = false;
+      submitButton.removeAttribute('aria-busy');
     }
   });
 })();
@@ -185,16 +216,18 @@ window.lucide?.createIcons();
       <div class="space-y-6">
         <div>
           <label for="name" class="text-sm font-medium text-slate-700">Name</label>
-          <input id="name" name="name" autocomplete="name" required maxlength="100" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="Your name" />
+          <input id="name" name="name" autocomplete="name" aria-describedby="name-error" required maxlength="100" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="Your name" />
+          <p id="name-error" hidden class="mt-2 text-sm text-red-800"></p>
         </div>
         <div>
           <label for="practiceName" class="text-sm font-medium text-slate-700">Practice name</label>
-          <input id="practiceName" name="practiceName" autocomplete="organization" required maxlength="150" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="Your practice name" />
+          <input id="practiceName" name="practiceName" autocomplete="organization" aria-describedby="practiceName-error" required maxlength="150" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="Your practice name" />
+          <p id="practiceName-error" hidden class="mt-2 text-sm text-red-800"></p>
         </div>
         <div>
           <label for="specialty" class="text-sm font-medium text-slate-700">Specialty</label>
           <!-- Keep these options synchronized with ALLOWED_SPECIALTIES in functions/api/preview-request.js. -->
-          <select id="specialty" name="specialty" required class="mt-2 h-[58px] w-full rounded-2xl border border-slate-300 bg-white px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50">
+          <select id="specialty" name="specialty" aria-describedby="specialty-error" required class="mt-2 h-[58px] w-full rounded-2xl border border-slate-300 bg-white px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50">
             <option value="" selected disabled>Select a specialty</option>
             <option value="Cardiology">Cardiology</option>
             <option value="Dermatology">Dermatology</option>
@@ -221,15 +254,18 @@ window.lucide?.createIcons();
             <option value="Urology">Urology</option>
             <option value="Other">Other</option>
           </select>
+          <p id="specialty-error" hidden class="mt-2 text-sm text-red-800"></p>
         </div>
         <div>
           <label for="email" class="text-sm font-medium text-slate-700">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required maxlength="254" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="you@example.com" />
+          <input id="email" name="email" type="email" autocomplete="email" spellcheck="false" aria-describedby="email-error" required maxlength="254" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="you@example.com" />
+          <p id="email-error" hidden class="mt-2 text-sm text-red-800"></p>
         </div>
         <div>
           <label for="website" class="text-sm font-medium text-slate-700">Current practice website (optional)</label>
-          <input id="website" name="websiteUrl" inputmode="url" autocomplete="url" maxlength="500" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="https://yourpractice.com" />
-          <p class="mt-2 text-sm text-slate-500">Don't have a website yet? Leave this blank.</p>
+          <input id="website" name="websiteUrl" inputmode="url" autocomplete="url" spellcheck="false" aria-describedby="website-help website-error" maxlength="500" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="https://yourpractice.com" />
+          <p id="website-help" class="mt-2 text-sm text-slate-500">Don't have a website yet? Leave this blank.</p>
+          <p id="website-error" hidden class="mt-2 text-sm text-red-800"></p>
         </div>
         <div class="hidden" aria-hidden="true">
           <label for="companyWebsite">Company website</label>
@@ -237,7 +273,7 @@ window.lucide?.createIcons();
         </div>
         <div class="cf-turnstile" data-sitekey="0x4AAAAAADeia3tun_3f12Pa"></div>
         <p id="preview-request-status" class="hidden rounded-2xl px-4 py-3 text-sm font-medium" role="status" aria-live="polite"></p>
-        <button id="preview-request-submit" type="submit" class="w-full rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-brand-900 disabled:cursor-not-allowed disabled:opacity-70">Request a Free Preview</button>
+        <button id="preview-request-submit" type="submit" class="w-full rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-brand-900 disabled:cursor-not-allowed disabled:opacity-70"><span class="request-spinner" aria-hidden="true"></span><span id="preview-request-submit-label">Request a Free Preview</span></button>
       </div>
     </form>
   </div>

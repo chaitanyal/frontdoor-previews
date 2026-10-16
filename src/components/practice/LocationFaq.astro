@@ -3,6 +3,7 @@
  * Homepage office details and optional FAQs from config.location and config.faqs.
  * Includes contact cards and optional Google ratings; fictional demos disable contact actions and omit reviews/status.
  */
+import { imageDimensions } from '../../lib/image-dimensions.mjs';
 import {
   homeContent,
   practiceServiceArea,
@@ -26,6 +27,7 @@ const locationSummary =
 const faqSummary =
   config.faqIntro ||
   'Answers to common questions about appointments, care, and practice policies.';
+const officeDimensions = await imageDimensions(`sites/${config.practice.slug}/${location.officeImage}`);
 ---
 
 <section
@@ -42,6 +44,7 @@ const faqSummary =
       <div class="soft-card overflow-hidden">
         <div class="relative h-72 overflow-hidden">
           <img
+            {...officeDimensions}
             src={location.officeImage}
             alt={location.officeImageAlt}
             loading="lazy"
@@ -194,7 +197,7 @@ const faqSummary =
         >
           {faqs.map((faq, index) => (
             <details
-              class="group p-7 transition-all duration-300 hover:bg-white/70"
+              class="group p-7 transition-colors duration-300 hover:bg-white/70"
               open={index === 0}
             >
               <summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between rounded-xl text-base font-semibold text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300">

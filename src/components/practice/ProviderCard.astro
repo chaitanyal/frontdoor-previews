@@ -1,5 +1,6 @@
 ---
 /** Shared native provider link; non-physician identity wording matches profiles. Optional imagePosition adjusts portrait crops. */
+import { imageDimensions } from '../../lib/image-dimensions.mjs';
 import { practiceAssetUrl } from '../../lib/assets.mjs';
 import { providerEntityType, providerIdentityLine } from '../../lib/practice-view.mjs';
 import Icon from './Icon.astro';
@@ -18,11 +19,12 @@ const identityLine = providerIdentityLine(provider);
 const portraitStyle = provider.imagePosition
   ? `object-position: ${provider.imagePosition.x}% ${provider.imagePosition.y}%;`
   : undefined;
+const portraitDimensions = await imageDimensions(`sites/${config.practice.slug}/${provider.image}`);
 ---
 {compact ? (
 <a class="provider-card provider-card--compact" href={`${practiceRoot}providers/${provider.slug}/`} aria-label={`View profile for ${provider.name}`}>
   <div class="provider-card-portrait">
-    <img loading="lazy" src={practiceAssetUrl(provider.image, practiceRoot === '../' ? 1 : 0)} alt={provider.imageAlt} style={portraitStyle} width="240" height="240" class="image-treatment" />
+    <img loading="lazy" src={practiceAssetUrl(provider.image, practiceRoot === '../' ? 1 : 0)} alt={provider.imageAlt} style={portraitStyle} {...portraitDimensions} class="image-treatment" />
   </div>
   <div class="provider-card-identity">
     <Heading class="provider-card-name">{provider.name}</Heading>
@@ -52,6 +54,7 @@ const portraitStyle = provider.imagePosition
       }`}
     >
       <img
+        {...portraitDimensions}
         loading="lazy"
         src={practiceAssetUrl(provider.image, practiceRoot === '../' ? 1 : 0)}
         alt={provider.imageAlt}

@@ -31,6 +31,7 @@
         "./#patient-resources",
         "./#providers",
         "./accessibility/",
+        "./assets/fonts/inter-latin.woff2",
         "./assets/resources/asthama_test.pdf",
         "./assets/resources/cat_test_form.pdf",
         "./assets/resources/hipaa_release.pdf",
@@ -83,6 +84,7 @@
       },
       "localAssetUrls": [
         "../accessibility/",
+        "../assets/fonts/inter-latin.woff2",
         "../assets/styles.css",
         "../llms.txt",
         "../privacy/",
@@ -117,6 +119,7 @@
       },
       "localAssetUrls": [
         "../accessibility/",
+        "../assets/fonts/inter-latin.woff2",
         "../assets/styles.css",
         "../llms.txt",
         "../privacy/",
@@ -163,6 +166,7 @@
         "../../#patient-resources",
         "../../#providers",
         "../../accessibility/",
+        "../../assets/fonts/inter-latin.woff2",
         "../../assets/styles.css",
         "../../images/providers/goutham_dronavalli.webp",
         "../../llms.txt",
@@ -204,6 +208,7 @@
       },
       "localAssetUrls": [
         "../accessibility/",
+        "../assets/fonts/inter-latin.woff2",
         "../assets/styles.css",
         "../llms.txt",
         "../privacy/",

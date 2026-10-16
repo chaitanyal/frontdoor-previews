@@ -554,9 +554,27 @@ test('@analytics client validation failures emit no API call, event, or conversi
   await fillMarketingForm(page, { websiteUrl: 'not a valid website' });
 
   await expect(page.locator('#preview-request-status')).toHaveText('Please enter a valid website URL.');
+  await expect(page.locator('#website')).toBeFocused();
+  await expect(page.locator('#website')).toHaveAttribute('aria-invalid', 'true');
+  await expect(page.locator('#website-error')).toHaveText('Please enter a valid website URL.');
+  await page.locator('#website').fill('corrected.example');
+  await expect(page.locator('#website-error')).toBeHidden();
+  await expect(page.locator('#website')).not.toHaveAttribute('aria-invalid');
   expect(network.apiRequests).toEqual([]);
   expect(network.analyticsRequests).toEqual([]);
   expect(await page.evaluate(() => window.__googleConversionCalls)).toEqual([]);
+});
+
+test('@analytics required form errors focus the first field without submitting', async ({ page }) => {
+  skipUnless('marketing');
+  const network = await installMockNetwork(page);
+  await openMarketingForm(page, network, { status: 200, json: { ok: true, accepted: true } });
+  await page.locator('#preview-request-submit').click();
+  await expect(page.locator('#name')).toBeFocused();
+  await expect(page.locator('#name')).toHaveAttribute('aria-invalid', 'true');
+  await expect(page.locator('#name-error')).toBeVisible();
+  expect(network.apiRequests).toEqual([]);
+  expect(network.analyticsRequests).toEqual([]);
 });
 
 test('@analytics API failures emit no event or conversion and remain retryable', async ({ page }) => {

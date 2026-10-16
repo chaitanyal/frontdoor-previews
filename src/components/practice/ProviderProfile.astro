@@ -9,6 +9,7 @@
  * PA/NP profiles use concise role labels; specialty qualifications remain in training content.
  * Optional imagePosition keeps the same percentage focal point as provider cards.
  */
+import { imageDimensions } from '../../lib/image-dimensions.mjs';
 import { practiceAssetUrl } from '../../lib/assets.mjs';
 import {
   providerAffiliationMode,
@@ -87,6 +88,7 @@ const educationRows = [
   })),
 ];
 const affiliationMode = providerAffiliationMode(profile);
+const portraitDimensions = await imageDimensions(`sites/${config.practice.slug}/${provider.image}`);
 ---
 
 <PracticeHeader
@@ -159,12 +161,12 @@ const affiliationMode = providerAffiliationMode(profile);
             class="provider-portrait aspect-[4/5] overflow-hidden rounded-[36px] border border-slate-200 bg-white"
           >
             <img
+              {...portraitDimensions}
+              fetchpriority="high"
               src={practiceAssetUrl(provider.image, 2)}
               alt={provider.imageAlt}
               style={portraitStyle}
               class="image-treatment h-full w-full object-cover object-top"
-              width="720"
-              height="900"
             />
           </div>
         </div>

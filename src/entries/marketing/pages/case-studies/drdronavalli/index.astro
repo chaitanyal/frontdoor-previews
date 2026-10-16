@@ -1,5 +1,6 @@
 ---
 import MarketingLayout from '../../../../../layouts/MarketingLayout.astro';
+import { imageDimensions } from '../../../../../lib/image-dimensions.mjs';
 import {
   loadMarketingData,
   marketingCanonical,
@@ -7,6 +8,7 @@ import {
 } from '../../../../../lib/marketing-data.mjs';
 
 const { marketing } = await loadMarketingData(process.cwd());
+const portraitDimensions = await imageDimensions('marketing/assets/marketing/goutham-dronavalli.jpg');
 const title = 'Physician Website Redesign Case Study | Dr. Goutham Dronavalli';
 const description = 'A FrontDoor Health case study showing how a clearer practice website can help patients understand care, find answers, and confidently reach out.';
 ---
@@ -24,14 +26,6 @@ const description = 'A FrontDoor Health case study showing how a clearer practic
   title={title}
 >
   <style is:inline slot="head">
-    @font-face {
-      font-family: 'Inter';
-      font-style: normal;
-      font-weight: 400 800;
-      font-display: swap;
-      src: url('../../assets/fonts/inter-latin.woff2') format('woff2');
-    }
-
     .comparison-list li {
       position: relative;
       padding-left: 2.4rem;
@@ -78,7 +72,7 @@ const description = 'A FrontDoor Health case study showing how a clearer practic
   <header class="sticky top-0 z-50 border-b border-border-100/80 bg-white/85 backdrop-blur-xl">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-4 lg:px-8">
       <a href="../../index.html" class="flex min-w-0 flex-col items-start" aria-label="FrontDoor Health home">
-        <img src="../../assets/frontdoor-health-logo.svg" alt="FrontDoor Health" class="h-10 w-auto max-w-[145px] sm:max-w-[170px] md:h-14 md:max-w-[294px]" />
+        <img src="../../assets/frontdoor-health-logo.svg" alt="FrontDoor Health" width="760" height="150" class="h-10 w-auto max-w-[145px] sm:max-w-[170px] md:h-14 md:max-w-[294px]" />
       </a>
 
       <nav class="hidden items-center gap-8 md:flex">
@@ -90,7 +84,7 @@ const description = 'A FrontDoor Health case study showing how a clearer practic
     </div>
   </header>
 
-  <main>
+  <main id="main-content" tabindex="-1">
     <article>
       <section class="px-5 py-14 lg:px-8 lg:py-16">
         <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -120,6 +114,7 @@ const description = 'A FrontDoor Health case study showing how a clearer practic
               <img
                 src="../../assets/marketing/goutham-dronavalli.jpg"
                 alt="Dr. Goutham Dronavalli"
+                {...portraitDimensions}
                 class="h-20 w-20 flex-none rounded-full border border-slate-200 object-cover"
               />
               <div class="min-w-0">

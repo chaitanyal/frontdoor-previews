@@ -1,6 +1,6 @@
 ---
 /**
- * Practice document shell: theme attributes/tokens, SEO, JSON-LD, and runtime scripts.
+ * Practice document shell: theme attributes/tokens, font preloads, SEO, JSON-LD, and runtime scripts.
  * Caller supplies config, resolved theme, pageKind, and a route-relative stylesheetHref.
  * Default slot is the body; named head/scripts slots extend the document.
  * All pages enable practice analytics; home/provider/directory/treatment enable Lucide.
@@ -25,7 +25,7 @@ interface Props {
   socialType?: string;
   /** Relative to the rendered page, including nested provider/legal routes. */
   stylesheetHref: string;
-  theme: Record<string, string>;
+  theme: Record<string, any>;
   title?: string;
   description?: string;
   image?: string;
@@ -108,6 +108,10 @@ const jsonLdBlocks = tracksPractice
       )
     }
     <link rel="stylesheet" href={stylesheetHref} />
+    {theme.fontFiles.map((font) => (
+      <link rel="preload" href={`${stylesheetHref.slice(0, stylesheetHref.lastIndexOf('/') + 1)}fonts/${font}`} as="font" type="font/woff2" crossorigin />
+    ))}
+    {tracksPractice && <link rel="preconnect" href="https://unpkg.com" />}
     <script is:inline set:html={practiceSlugScript}></script>
     <script is:inline src="/shared/attribution.js"></script>
     <script is:inline src="/shared/analytics.js"></script>

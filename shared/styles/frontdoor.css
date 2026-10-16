@@ -35,7 +35,7 @@
   .icon-chip { @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-sage-50 text-brand-accent; }
   .gentle-gradient { @apply bg-white; }
   .reassurance-row { @apply flex items-center gap-3 rounded-[28px] border border-slate-200 bg-white/85 px-4 py-3 text-sm font-semibold text-slate-700; }
-  .interactive-card { @apply transition-all duration-300 hover:-translate-y-0.5 hover:shadow-cardHover; }
+  .interactive-card { @apply transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-cardHover; }
   .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-primary px-5 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-brand-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 focus-visible:ring-offset-2; }
   .btn-secondary { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white/85 px-5 py-3 text-base font-semibold text-slate-700 shadow-sm transition hover:bg-white focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 focus-visible:ring-offset-2; }
   .nav-link { @apply rounded-md text-sm font-medium text-slate-600 transition hover:text-slate-950 focus:outline-none focus-visible:ring-4 focus-visible:ring-slate-300 focus-visible:ring-offset-2; }
@@ -66,6 +66,8 @@
 }
 
 .image-treatment { filter: brightness(0.98) contrast(1.02) saturate(0.92); }
+/* Leave room for practice navigation that wraps at tablet widths. */
+:where(main, section, h1, h2, h3)[id] { scroll-margin-top: 9rem; }
 .fade-in-up { animation: fadeInUp 500ms ease-out both; }
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(0.5rem); }
