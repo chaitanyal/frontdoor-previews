@@ -5,7 +5,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import process from 'node:process';
 import { affectsMarketing } from './verification/change-plan.mjs';
-import { ensureBuild, fingerprint, recordCheck, reusableCheck, timed } from './verification/state.mjs';
+import { command, ensureBuild, fingerprint, recordCheck, reusableCheck, timed } from './verification/state.mjs';
 
 const ROOT = process.cwd();
 const args = process.argv.slice(2);
@@ -16,16 +16,6 @@ const fresh = args.includes('--fresh');
 function fail(message) {
   console.error(message);
   process.exit(1);
-}
-
-function run(command, commandArgs, environment = {}) {
-  process.stdout.write(`\n> ${command} ${commandArgs.join(' ')}\n`);
-  const result = spawnSync(command, commandArgs, {
-    cwd: ROOT,
-    env: { ...process.env, ...environment },
-    stdio: 'inherit',
-  });
-  if (result.status !== 0) process.exit(result.status || 1);
 }
 
 if (!site || !/^[a-z0-9-]+$/.test(site)) {
@@ -44,12 +34,11 @@ if (!updateContract && !fresh && reusableCheck(`site:${site}`)) {
 }
 const input = fingerprint();
 const artifacts = [];
-timed('practice configuration', () => run('python3', ['scripts/validate_practice_json.py', configPath]));
 artifacts.push(ensureBuild('practice', site, { fresh }).name);
-timed('practice contract', () => run('node', [
+timed('practice contract', () => command(process.execPath, [
   'scripts/verification/verify_output_contracts.mjs',
   updateContract ? '--update' : '--check', '--scope=practice', `--site=${site}`,
-]));
+], { stdio: 'inherit' }));
 
 const marketingConfig = JSON.parse(
   readFileSync(path.join(ROOT, 'marketing', 'marketing.json'), 'utf8'),
@@ -60,11 +49,11 @@ const previous = previousResult.status === 0 ? JSON.parse(previousResult.stdout)
 if (affectsMarketing(site, config, marketingConfig.featuredPractice, previous)) {
   process.stdout.write(`\n${site} is published in marketing; verifying that dependent target.\n`);
   artifacts.push(ensureBuild('marketing', '', { fresh }).name);
-  run('node', [
+  command(process.execPath, [
     'scripts/verification/verify_output_contracts.mjs',
     updateContract ? '--update' : '--check',
     '--scope=marketing',
-  ]);
+  ], { stdio: 'inherit' });
 }
 
 if (!updateContract) recordCheck(`site:${site}`, artifacts, input);

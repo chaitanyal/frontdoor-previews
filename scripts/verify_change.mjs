@@ -20,13 +20,9 @@ export function runChecks(checks, { dryRun = false, staged = false, fresh = fals
     const input = fingerprint();
     let names = [];
     timed(check, () => {
-      if (check === 'contracts:representatives') {
-        command(process.execPath, ['scripts/verification/verify_output_contracts.mjs', '--check', '--targets=marketing,practice-drdronavalli,preview-all', ...(fresh ? ['--fresh'] : [])], { stdio: 'inherit' });
-        names = ['marketing', 'practice-drdronavalli', 'preview-all'];
-      } else if (check === 'contracts:all') {
-        command(process.execPath, ['scripts/verification/verify_output_contracts.mjs', '--check', ...(fresh ? ['--fresh'] : [])], { stdio: 'inherit' });
-      } else if (check.startsWith('contracts:targets:')) {
-        command(process.execPath, ['scripts/verification/verify_output_contracts.mjs', '--check', `--targets=${check.slice(18)}`, ...(fresh ? ['--fresh'] : [])], { stdio: 'inherit' });
+      if (['contracts:representatives', 'contracts:all'].includes(check) || check.startsWith('contracts:targets:')) {
+        names = check === 'contracts:representatives' ? ['marketing', 'practice-drdronavalli', 'preview-all'] : check.startsWith('contracts:targets:') ? check.slice(18).split(',') : [];
+        command(process.execPath, ['scripts/verification/verify_output_contracts.mjs', '--check', ...(names.length ? [`--targets=${names.join(',')}`] : []), ...(fresh ? ['--fresh'] : [])], { stdio: 'inherit' });
       } else if (check === 'tooling') {
         for (const file of verificationTools.filter(file => file.endsWith('.mjs') && existsSync(file))) command(process.execPath, ['--check', file]);
         command(process.execPath, ['--test', 'tests/verification/verification-state.test.mjs'], { stdio: 'inherit' });

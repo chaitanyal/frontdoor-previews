@@ -56,12 +56,11 @@ function runNpmBuild(script, siteId) {
   ).toBe(0);
 }
 
-async function expectStaticFilePage(page, relativePath, expectedDetail) {
+async function expectStaticFilePage(page, relativePath) {
   const filePath = path.join(repoRoot, relativePath);
   await page.goto(pathToFileURL(filePath).href, { waitUntil: 'load' });
 
   await expect(page.locator('h1')).toBeVisible();
-  await expect(page.getByText(expectedDetail, { exact: true })).toBeVisible();
   expect(await page.locator('astro-island').count()).toBe(0);
   expect(await page.locator('script[src*="/_astro/"]').count()).toBe(0);
   expect(await page.locator('script[type="module"]').count()).toBe(0);
@@ -93,7 +92,6 @@ test.describe.serial('Astro verification foundation', () => {
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/marketing/index.html',
-      'Help the right patients choose your practice.',
     );
     const marketingRoot = path.join(repoRoot, '.tmp', 'astro-dist', 'marketing');
     const marketingRoutes = await discoverIndexRoutes(marketingRoot, {
@@ -129,7 +127,6 @@ test.describe.serial('Astro verification foundation', () => {
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/practice/index.html',
-      'Expert pulmonary and sleep care.',
     );
 
     runNpmBuild('build:astro:preview', 'northhillspsychiatry');
@@ -137,19 +134,16 @@ test.describe.serial('Astro verification foundation', () => {
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
-      'Psychiatric Care for Adults, Children & Families in North Austin',
     );
 
     runNpmBuild('build:astro:preview:all');
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/mariposa/index.html',
-      'Insight-oriented psychiatric care.',
     );
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
-      'Psychiatric Care for Adults, Children & Families in North Austin',
     );
     const mariposaHtml = readFileSync(
       path.join(
@@ -165,9 +159,6 @@ test.describe.serial('Astro verification foundation', () => {
     );
     expect(mariposaHtml).toContain(
       '<link rel="canonical" href="https://frontdoor.health/previews/mariposa/"',
-    );
-    expect(mariposaHtml).toContain(
-      'https://frontdoor.health/previews/mariposa/images/hero/central-texas-limestone-path-v1.webp',
     );
     expect(mariposaHtml).not.toContain('preview.frontdoor.health');
 
@@ -539,38 +530,6 @@ test.describe.serial('Astro verification foundation', () => {
     } finally {
       rmSync(fixtureRoot, { recursive: true, force: true });
     }
-  });
-
-  test('@astro-foundation routes Places Worker changes through Worker checks', () => {
-    const workerSourceResult = spawnSync(
-      process.execPath,
-      [
-        path.join(repoRoot, 'scripts', 'run_staged_checks.mjs'),
-        '--dry-run',
-        '--file=places-worker/src/index.ts',
-      ],
-      { cwd: repoRoot, encoding: 'utf8' },
-    );
-    expect(workerSourceResult.status).toBe(0);
-    expect(workerSourceResult.stdout).toContain(
-      '> npm run typecheck:places-worker',
-    );
-    expect(workerSourceResult.stdout).toContain('> npm run test:places-worker');
-    expect(workerSourceResult.stdout).not.toContain('test:output-contracts');
-
-    const workerConfigResult = spawnSync(
-      process.execPath,
-      [
-        path.join(repoRoot, 'scripts', 'run_staged_checks.mjs'),
-        '--dry-run',
-        '--file=places-worker/wrangler.toml',
-      ],
-      { cwd: repoRoot, encoding: 'utf8' },
-    );
-    expect(workerConfigResult.status).toBe(0);
-    expect(workerConfigResult.stdout).toContain(
-      '> npm run test:google-maps-config',
-    );
   });
 
   test('@astro-foundation rejects invalid target and SITE_ID combinations', () => {

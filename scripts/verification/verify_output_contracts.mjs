@@ -2,9 +2,8 @@
 
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { spawnSync } from 'node:child_process';
 import process from 'node:process';
-import { ensureBuild, fingerprint, outputFingerprint, verifiedArtifact, recordCheck, reusableCheck, timed } from './state.mjs';
+import { command, ensureBuild, fingerprint, outputFingerprint, verifiedArtifact, recordCheck, reusableCheck, timed } from './state.mjs';
 
 const ROOT = process.cwd();
 const ASTRO_ROOT = path.join(ROOT, '.tmp', 'astro-dist');
@@ -40,20 +39,6 @@ const TARGETS = [
 
 function fail(message) {
   throw new Error(message);
-}
-
-function run(command, args, environment = {}) {
-  const result = spawnSync(command, args, {
-    cwd: ROOT,
-    env: { ...process.env, ...environment },
-    encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'pipe'],
-  });
-  if (result.status !== 0) {
-    process.stdout.write(result.stdout || '');
-    process.stderr.write(result.stderr || '');
-    fail(`Command failed: ${command} ${args.join(' ')}`);
-  }
 }
 
 function walkFiles(directory, relative = '') {
@@ -308,7 +293,7 @@ export function verifyOutputContracts({ update = false, fresh = false, targets }
     return;
   }
   const input = fingerprint();
-  timed('configuration regressions', () => run(process.execPath, ['--test',
+  timed('configuration regressions', () => command(process.execPath, ['--test',
     'tests/verification/treatments.test.mjs', 'tests/verification/care-guidance.test.mjs', 'tests/verification/provider-team.test.mjs',
     'tests/verification/practice-llms.test.mjs', ...(!targets ? ['tests/verification/verification-state.test.mjs'] : [])]));
 

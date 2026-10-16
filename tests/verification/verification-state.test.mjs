@@ -153,6 +153,7 @@ test('selection retains full shared coverage and includes deleted inputs and bot
   assert.deepEqual(checksFor(['shared/styles/frontdoor.css']), ['contracts:representatives', 'browser:themes', 'screenshots']);
   assert.deepEqual(checksFor(['scripts/build_astro.mjs', 'sites/centexmh/practice.json']), ['contracts:all', 'browser:themes', 'browser:providers', 'browser:analytics']);
   assert.deepEqual(checksFor(['places-worker/wrangler.toml']), ['places:typecheck', 'places:test', 'places:config']);
+  assert.deepEqual(checksFor(['places-worker/src/index.ts']), ['places:typecheck', 'places:test']);
 });
 
 test('staged runner reuses a passed check, reruns absent receipts and refuses partial staging', () => fixture(({ root, git, write }) => {
