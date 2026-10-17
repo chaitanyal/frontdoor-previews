@@ -9,6 +9,7 @@ import {
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { expect, test } from '@playwright/test';
+import { ensureBuild } from '../../scripts/verification/state.mjs';
 import { validateGooglePlacesConfiguration } from '../../scripts/validate_google_places_config.mjs';
 import { assertMarketingCaseStudyRoute } from '../../src/lib/marketing-data.mjs';
 import {
@@ -32,7 +33,6 @@ import {
 } from '../../src/lib/sitemap.mjs';
 
 const repoRoot = path.resolve(import.meta.dirname, '../..');
-const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
 function cleanBuildEnv(overrides = {}) {
   const env = { ...process.env };
@@ -41,18 +41,6 @@ function cleanBuildEnv(overrides = {}) {
   delete env.FRONTDOOR_TARGET;
   delete env.SITE_ID;
   return { ...env, ...overrides };
-}
-
-function runNpmBuild(script, siteId) {
-  const result = spawnSync(npmCommand, ['run', script], {
-    cwd: repoRoot,
-    encoding: 'utf8',
-    env: cleanBuildEnv(siteId ? { SITE_ID: siteId } : {}),
-  });
-  expect(
-    result.status,
-    `${script} failed:\n${result.stdout}\n${result.stderr}`,
-  ).toBe(0);
 }
 
 async function expectStaticFilePage(page, relativePath) {
@@ -86,7 +74,7 @@ test.describe.serial('Astro verification foundation', () => {
   test('@astro-foundation builds every target and loads copied assets through file URLs', async ({
     page,
   }) => {
-    runNpmBuild('build:astro:marketing');
+    ensureBuild('marketing');
     expectRuntimeCopies('marketing');
     await expectStaticFilePage(
       page,
@@ -121,21 +109,21 @@ test.describe.serial('Astro verification foundation', () => {
       new URL('/assets/frontdoor-health-favicon.svg', 'https://frontdoor.health/foo/bar/').href,
     ).toBe('https://frontdoor.health/assets/frontdoor-health-favicon.svg');
 
-    runNpmBuild('build:astro:practice', 'drdronavalli');
+    ensureBuild('practice', 'drdronavalli');
     expectRuntimeCopies('practice');
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/practice/index.html',
     );
 
-    runNpmBuild('build:astro:preview', 'northhillspsychiatry');
+    ensureBuild('preview', 'northhillspsychiatry');
     expectRuntimeCopies('preview');
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/northhillspsychiatry/index.html',
     );
 
-    runNpmBuild('build:astro:preview:all');
+    ensureBuild('preview', 'ALL');
     await expectStaticFilePage(
       page,
       '.tmp/astro-dist/preview/previews/mariposa/index.html',

@@ -168,24 +168,31 @@ test('staged runner reuses a passed check, reruns absent receipts and refuses pa
   `);
   git('add', '.');
   const runner = path.resolve('scripts/verify_change.mjs');
-  const run = () => spawnSync(process.execPath, [runner, '--staged', '--file=src/input.js'], { cwd: root, encoding: 'utf8' });
+  const run = (...args) => spawnSync(process.execPath, [runner, '--file=src/input.js', ...args], { cwd: root, encoding: 'utf8' });
+  write('src/input.js', 'implemented change');
   let result = run();
   assert.equal(result.status, 0, result.stderr);
   assert.equal(readFileSync(path.join(root, '.tmp/count'), 'utf8'), '1');
-  result = run();
+  git('add', 'src/input.js');
+  result = run('--staged');
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /Reusing verified checks: contracts:all/);
   assert.equal(readFileSync(path.join(root, '.tmp/check-count'), 'utf8'), '1');
   rmSync(path.join(root, '.tmp/verification-state/checks'), { recursive: true });
-  result = run();
+  result = run('--staged');
   assert.equal(result.status, 0, result.stderr);
   assert.equal(readFileSync(path.join(root, '.tmp/check-count'), 'utf8'), '2');
   assert.equal(readFileSync(path.join(root, '.tmp/count'), 'utf8'), '1');
   write('src/input.js', 'different unstaged version');
-  result = run();
+  result = run('--staged');
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /Staged verification inputs differ/);
   assert.equal(readFileSync(path.join(root, '.tmp/check-count'), 'utf8'), '2');
+  git('add', 'src/input.js');
+  result = run('--staged');
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(readFileSync(path.join(root, '.tmp/check-count'), 'utf8'), '3');
+  assert.equal(readFileSync(path.join(root, '.tmp/count'), 'utf8'), '2');
 }));
 
 
@@ -302,4 +309,24 @@ test('reviewed baselines use unchanged artifacts without builds and reject stale
   evaluate(module + review + count);
   write('src/input.js', 'changed source');
   assert.equal(evaluate(module + `let failed=false; try {${accept}} catch {failed=true;} console.log(JSON.stringify(failed));`), true);
+}));
+
+
+test('full contracts retain configuration regressions without rerunning workflow tests', () => fixture(({ write, evaluate }) => {
+  write('sites/one/practice.json', '{}');
+  for (const name of ['treatments', 'care-guidance', 'provider-team', 'practice-llms']) {
+    write(`tests/verification/${name}.test.mjs`, `import fs from 'node:fs'; fs.appendFileSync('.tmp/config-checks', '${name}|');`);
+  }
+  write('tests/verification/verification-state.test.mjs', "throw new Error('Workflow tests must run through tooling checks');");
+  const contractsUrl = pathToFileURL(path.resolve('scripts/verification/verify_output_contracts.mjs')).href;
+  assert.equal(evaluate(`
+    delete process.env.NODE_TEST_CONTEXT;
+    const contracts = await import(${JSON.stringify(contractsUrl)});
+    contracts.reviewContracts();
+    contracts.acceptReviewedContracts();
+    contracts.verifyOutputContracts();
+    console.log(JSON.stringify(state.reusableCheck('contracts:all')));
+  `), true);
+  assert.deepEqual(evaluate(`console.log(JSON.stringify(state.command('cat',['.tmp/config-checks']).split('|').filter(Boolean).sort()));`),
+    ['care-guidance', 'practice-llms', 'provider-team', 'treatments']);
 }));

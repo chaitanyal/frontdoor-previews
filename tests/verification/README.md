@@ -34,7 +34,9 @@ The runner uses changed and untracked files; `--staged` selects the Git index, a
 `--dry-run` prints required checks. Places Worker checks remain unchanged.
 
 Verification tooling selects syntax checks and workflow regressions without website
-builds. Changed unit tests run directly; changed browser spec files run directly
+builds. Full contract checks retain configuration regressions but do not repeat
+workflow regressions. Foundation output checks reuse validated builds; failure-path
+tests still invoke the builder directly. Changed unit tests run directly; changed browser spec files run directly
 against existing valid builds. Deleted test files run remaining tests of that type.
 Contract-only baseline changes select their named targets; screenshot baselines
 select visual comparisons. Unknown shared test helpers/fixtures retain full
