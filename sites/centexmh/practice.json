@@ -622,12 +622,6 @@
       }
     }
   },
-  "footer": {
-    "links": [
-      "Privacy",
-      "Accessibility"
-    ]
-  },
   "home": {
     "featuredProviderSlugs": [
       "michael-musgrove",

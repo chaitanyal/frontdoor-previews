@@ -410,12 +410,6 @@
       }
     }
   },
-  "footer": {
-    "links": [
-      "Privacy",
-      "Accessibility"
-    ]
-  },
   "financialPolicy": {
     "paymentModel": "insurance",
     "pricingDisplay": "hidden",

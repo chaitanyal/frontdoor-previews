@@ -183,7 +183,8 @@ Builds are intentionally target-specific. Shared preview deployments use `SITE_I
 
 Marketing build flow:
 
-1. Compiles Tailwind CSS from `shared/styles/frontdoor.css`.
+1. Compiles practice CSS from `shared/styles/frontdoor.css` and marketing CSS from
+   `marketing/styles.css` using `marketing/tailwind.config.cjs`.
 2. Cleans `dist/`.
 3. Stages marketing assets, shared branding/fonts, and case-study media for Astro.
 4. Renders marketing routes and the featured practice from `marketing/marketing.json` and `sites/<site-id>/practice.json` with Astro.

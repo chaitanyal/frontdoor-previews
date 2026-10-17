@@ -1,16 +1,10 @@
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = process.cwd();
 const MARKETING_ROOT = path.join(ROOT, '.tmp', 'astro-dist', 'marketing');
 const PRACTICE_ROOT = path.join(ROOT, '.tmp', 'astro-dist', 'practice');
 const PREVIEW_ROOT = path.join(ROOT, '.tmp', 'astro-dist', 'preview');
-const MARKETING_CSS = path.join(
-  ROOT,
-  '.tmp',
-  'playwright-fixtures',
-  'marketing.css',
-);
 const ANALYTICS_URL = 'https://analytics.frontdoor.health/event';
 const PLACES_HOST = 'places.frontdoor.health';
 const FIXED_TIME = '2026-07-29T15:00:00.000Z';
@@ -88,14 +82,6 @@ function safeStaticPath(root, pathname) {
     if (existsSync(resolved) && statSync(resolved).isFile()) return resolved;
   }
   return null;
-}
-
-function withMarketingTestCss(html) {
-  if (html.includes('/__verification/marketing.css')) return html;
-  return html.replace(
-    '</head>',
-    '  <link rel="stylesheet" href="/__verification/marketing.css" data-verification-test-only />\n</head>',
-  );
 }
 
 function fullRequest(request) {
@@ -214,14 +200,6 @@ export async function installMockNetwork(page, options = {}) {
       return;
     }
 
-    if (url.hostname === 'cdn.tailwindcss.com') {
-      await route.fulfill({
-        contentType: 'text/javascript; charset=utf-8',
-        body: 'window.tailwind = window.tailwind || { config: {} };',
-      });
-      return;
-    }
-
     if (url.hostname === 'unpkg.com' && url.pathname.startsWith('/lucide')) {
       await route.fulfill({ contentType: 'text/javascript; charset=utf-8', body: LUCIDE_STUB });
       return;
@@ -256,11 +234,6 @@ export async function installMockNetwork(page, options = {}) {
       staticRoot = PRACTICE_ROOT;
     }
 
-    if (staticRoot && url.pathname === '/__verification/marketing.css') {
-      await route.fulfill({ path: MARKETING_CSS, contentType: 'text/css; charset=utf-8' });
-      return;
-    }
-
     if (staticRoot) {
       const filePath = safeStaticPath(staticRoot, url.pathname);
       if (!filePath) {
@@ -268,16 +241,7 @@ export async function installMockNetwork(page, options = {}) {
         return;
       }
 
-      const isMarketingHtml =
-        staticRoot === MARKETING_ROOT &&
-        !url.pathname.startsWith('/previews/') &&
-        path.extname(filePath) === '.html';
-      if (isMarketingHtml) {
-        const html = withMarketingTestCss(readFileSync(filePath, 'utf8'));
-        await route.fulfill({ contentType: 'text/html; charset=utf-8', body: html });
-      } else {
-        await route.fulfill({ path: filePath, contentType: responseContentType(filePath) });
-      }
+      await route.fulfill({ path: filePath, contentType: responseContentType(filePath) });
       return;
     }
 

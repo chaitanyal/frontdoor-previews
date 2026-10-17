@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./.tmp/astro-dist/marketing/**/*.html'],
+  content: ['./src/entries/marketing/**/*.astro', './src/components/marketing/**/*.astro', './src/layouts/MarketingLayout.astro'],
   theme: {
     extend: {
       fontFamily: {
@@ -21,6 +21,9 @@ module.exports = {
         sage: {
           100: '#DCE8E2',
           700: '#426B5B',
+        },
+        slate: {
+          500: '#475569',
         },
         border: {
           100: '#E2E8F0',

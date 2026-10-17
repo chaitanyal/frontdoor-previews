@@ -142,8 +142,9 @@ marketing home, case study, secondary pages, and form error/loading states, plus
 preview home/provider/legal pages. Standard review widths are 390px and 1440px;
 existing additional responsive checks and section captures remain.
 
-Marketing review captures load built `file://` pages with the deterministic local
-marketing stylesheet. External services remain mocked. Full-page captures clear
+Marketing review captures load built `file://` pages with the production marketing
+stylesheet. The 404 capture uses mocked HTTP to resolve its root-relative assets.
+External services remain mocked. Full-page captures clear
 focus and return to the top after loading fonts/images; section captures retain the
 specified section. This prevents earlier navigation assertions from moving sticky
 headers into arbitrary screenshot positions.
@@ -203,9 +204,9 @@ Analytics, Google Maps ratings, preview-request, Google Ads, Turnstile, and thir
 intercepted. The suite must not write to production D1, send preview-request emails,
 record real Google Ads conversions, or make real Places API requests.
 
-Marketing pages use a test-only stylesheet compiled from their Astro HTML so visual
-checks do not depend on the Tailwind CDN. Practice pages use their normal compiled
-stylesheet. Lucide and Turnstile receive deterministic local stubs.
+Marketing and practice pages use their production HTML and compiled stylesheets.
+Marketing CSS comes from `marketing/styles.css` and `marketing/tailwind.config.cjs`;
+tests do not inject replacement CSS. Lucide and Turnstile receive deterministic local stubs.
 
 
 ### Behavior selection and reviewed baselines

@@ -220,11 +220,6 @@
     }
   },
   "footer": {
-    "links": [
-      "Privacy",
-      "Terms",
-      "Accessibility"
-    ],
     "frontdoorCredit": true
   },
   "fictionalDemo": true,

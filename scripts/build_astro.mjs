@@ -166,6 +166,14 @@ if (target === 'marketing') {
     path.join(publicDir, 'assets'),
     { recursive: true },
   );
+  timed('marketing CSS', () => {
+    const cssResult = spawnSync(tailwindExecutable, [
+      '-c', 'marketing/tailwind.config.cjs', '-i', 'marketing/styles.css',
+      '-o', path.join(publicDir, 'assets', 'marketing.css'), '--minify',
+    ], { cwd: repoRoot, env: { ...process.env, BROWSERSLIST_IGNORE_OLD_DATA: 'true' }, stdio: 'inherit' });
+    if (cssResult.error) fail(`Unable to start Tailwind CSS: ${cssResult.error.message}`);
+    if (cssResult.status !== 0) process.exit(cssResult.status ?? 1);
+  });
   await mkdir(path.join(publicDir, 'assets', 'fonts'), { recursive: true });
   await cp(
     path.join(repoRoot, 'shared', 'fonts', 'inter-latin.woff2'),

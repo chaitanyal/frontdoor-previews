@@ -358,12 +358,7 @@
     }
   },
   "footer": {
-    "frontdoorCredit": true,
-    "links": [
-      "Privacy",
-      "Terms",
-      "Accessibility"
-    ]
+    "frontdoorCredit": true
   },
   "financialPolicy": {
     "paymentModel": "insurance",

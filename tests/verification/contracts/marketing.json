@@ -31,20 +31,20 @@
         "./assets/fonts/inter-latin.woff2",
         "./assets/frontdoor-health-favicon.svg",
         "./assets/frontdoor-health-logo.svg",
+        "./assets/marketing.css",
         "./case-studies/drdronavalli/",
         "./privacy/",
         "/shared/attribution.js",
         "/shared/google-ads.js"
       ],
       "runtimeScripts": [
-        "https://cdn.tailwindcss.com",
         "https://unpkg.com/lucide@latest",
         "https://challenges.cloudflare.com/turnstile/v0/api.js",
         "/shared/attribution.js",
         "/shared/google-ads.js",
         "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
       ],
-      "inlineScriptCount": 4,
+      "inlineScriptCount": 3,
       "ctaCounts": {}
     },
     {
@@ -66,14 +66,12 @@
         "topLevelTypes": []
       },
       "localAssetUrls": [
-        "./assets/fonts/inter-latin.woff2",
+        "/assets/fonts/inter-latin.woff2",
         "/assets/frontdoor-health-favicon.svg",
-        "/assets/marketing-tailwind-config.js",
+        "/assets/marketing.css",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
-        "https://cdn.tailwindcss.com",
-        "/assets/marketing-tailwind-config.js",
         "/shared/attribution.js",
         "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
       ],
@@ -101,12 +99,10 @@
       "localAssetUrls": [
         "../assets/fonts/inter-latin.woff2",
         "../assets/frontdoor-health-favicon.svg",
-        "../assets/marketing-tailwind-config.js",
+        "../assets/marketing.css",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
-        "https://cdn.tailwindcss.com",
-        "../assets/marketing-tailwind-config.js",
         "/shared/attribution.js",
         "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
       ],
@@ -134,13 +130,11 @@
       "localAssetUrls": [
         "../assets/fonts/inter-latin.woff2",
         "../assets/frontdoor-health-favicon.svg",
-        "../assets/marketing-tailwind-config.js",
+        "../assets/marketing.css",
         "./drdronavalli/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
-        "https://cdn.tailwindcss.com",
-        "../assets/marketing-tailwind-config.js",
         "/shared/attribution.js",
         "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
       ],
@@ -169,6 +163,7 @@
         "../../assets/fonts/inter-latin.woff2",
         "../../assets/frontdoor-health-favicon.svg",
         "../../assets/frontdoor-health-logo.svg",
+        "../../assets/marketing.css",
         "../../assets/marketing/goutham-dronavalli.jpg",
         "../../index.html",
         "../../index.html#contact",
@@ -179,11 +174,10 @@
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
-        "https://cdn.tailwindcss.com",
         "/shared/attribution.js",
         "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
       ],
-      "inlineScriptCount": 2,
+      "inlineScriptCount": 1,
       "ctaCounts": {}
     },
     {
@@ -2314,16 +2308,16 @@
         "../assets/fonts/inter-latin.woff2",
         "../assets/frontdoor-health-favicon.svg",
         "../assets/frontdoor-health-logo.svg",
+        "../assets/marketing.css",
         "../case-studies/drdronavalli/",
         "./",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
-        "https://cdn.tailwindcss.com",
         "/shared/attribution.js",
         "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
       ],
-      "inlineScriptCount": 2,
+      "inlineScriptCount": 1,
       "ctaCounts": {}
     },
     {
@@ -2347,13 +2341,11 @@
       "localAssetUrls": [
         "../assets/fonts/inter-latin.woff2",
         "../assets/frontdoor-health-favicon.svg",
-        "../assets/marketing-tailwind-config.js",
+        "../assets/marketing.css",
         "../case-studies/drdronavalli/",
         "/shared/attribution.js"
       ],
       "runtimeScripts": [
-        "https://cdn.tailwindcss.com",
-        "../assets/marketing-tailwind-config.js",
         "/shared/attribution.js",
         "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
       ],
@@ -2375,7 +2367,7 @@
     "assets/frontdoor-health-logo.svg",
     "assets/frontdoor-health-social.png",
     "assets/frontdoor-health-social.svg",
-    "assets/marketing-tailwind-config.js",
+    "assets/marketing.css",
     "assets/marketing/goutham-dronavalli.jpg",
     "case-studies/drdronavalli/dronavalli_after.webp",
     "case-studies/drdronavalli/dronavalli_before.webp",

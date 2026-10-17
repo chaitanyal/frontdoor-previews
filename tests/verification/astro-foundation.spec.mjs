@@ -115,7 +115,7 @@ test.describe.serial('Astro verification foundation', () => {
       'href="/assets/frontdoor-health-favicon.svg"',
     );
     expect(notFoundHtml).toContain(
-      'src="/assets/marketing-tailwind-config.js"',
+      'href="/assets/marketing.css"',
     );
     expect(
       new URL('/assets/frontdoor-health-favicon.svg', 'https://frontdoor.health/foo/bar/').href,

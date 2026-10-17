@@ -290,12 +290,6 @@
       }
     }
   },
-  "footer": {
-    "links": [
-      "Privacy",
-      "Accessibility"
-    ]
-  },
   "financialPolicy": {
     "paymentModel": "cash_only",
     "pricingDisplay": "contact_for_rates",

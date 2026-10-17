@@ -661,8 +661,7 @@ def validate_practice_config(config: dict[str, Any], source: Path) -> None:
     if "googleReviewSummary" in location:
         validate_google_review_summary(location["googleReviewSummary"], "location.googleReviewSummary")
 
-    footer = require_mapping(require_key(config, "footer", "root"), "footer")
-    validate_string_list(require_key(footer, "links", "footer"), "footer.links", min_items=1)
+    footer = require_mapping(config.get("footer", {}), "footer")
     if "frontdoorCredit" in footer and not isinstance(footer["frontdoorCredit"], bool):
         fail("footer.frontdoorCredit must be a boolean")
 

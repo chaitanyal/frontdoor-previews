@@ -1,55 +1,8 @@
-import { mkdirSync } from 'node:fs';
-import path from 'node:path';
-import { spawnSync } from 'node:child_process';
-import { ensureBuild, fingerprint, timed } from '../../scripts/verification/state.mjs';
+import { ensureBuild, fingerprint } from '../../scripts/verification/state.mjs';
 import { prepareScreenshotManifest } from '../../scripts/verification/screenshots.mjs';
-
-const repoRoot = process.cwd();
-const marketingCss = path.join(
-  repoRoot,
-  '.tmp',
-  'playwright-fixtures',
-  'marketing.css',
-);
-
-function run(command, args, environment = {}) {
-  const result = spawnSync(command, args, {
-    cwd: repoRoot,
-    encoding: 'utf8',
-    env: { ...process.env, ...environment },
-  });
-  if (result.status !== 0) {
-    throw new Error(
-      `${command} ${args.join(' ')} failed:\n${result.stdout}\n${result.stderr}`,
-    );
-  }
-}
 
 function runAstroBuild(script, siteId) {
   ensureBuild(script.slice('build:astro:'.length), siteId || '');
-}
-
-function compileMarketingTestCss() {
-  mkdirSync(path.dirname(marketingCss), { recursive: true });
-  const executable = path.join(
-    repoRoot,
-    'node_modules',
-    '.bin',
-    process.platform === 'win32' ? 'tailwindcss.cmd' : 'tailwindcss',
-  );
-  run(
-    executable,
-    [
-      '-c',
-      'tests/verification/fixtures/marketing-tailwind.config.cjs',
-      '-i',
-      'tests/verification/fixtures/marketing-tailwind-input.css',
-      '-o',
-      marketingCss,
-      '--minify',
-    ],
-    { BROWSERSLIST_IGNORE_OLD_DATA: 'true' },
-  );
 }
 
 export default function globalSetup() {
@@ -58,7 +11,6 @@ export default function globalSetup() {
   const scope = process.env.FRONTDOOR_TEST_SCOPE;
   if (!scope || scope === 'marketing') {
     runAstroBuild('build:astro:marketing');
-    timed('marketing browser fixture CSS', compileMarketingTestCss);
   }
   if (scope === 'marketing') return;
   runAstroBuild(

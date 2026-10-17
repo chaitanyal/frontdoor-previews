@@ -329,7 +329,7 @@ test('@theme-polish marketing header/footer navigation preserves local destinati
     });
     expect(contrast).toBeGreaterThanOrEqual(4.5);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    // The existing mock serves the same marketing artifact over HTTPS with its test CSS.
+    // The mock serves the unchanged marketing HTML and production stylesheet over HTTPS.
     // Resolve link destinations against the corresponding local file for asset/anchor checks.
     const current = await page.locator('header a, footer a').evaluateAll(links => links.map(link => ({ href: link.getAttribute('href'), visible: Boolean(link.getClientRects().length), tabIndex: link.tabIndex })));
     expect(current.length).toBeGreaterThan(0);
@@ -350,6 +350,30 @@ test('@theme-polish marketing header/footer navigation preserves local destinati
     const header = await page.locator('header').boundingBox();
     const heading = await page.locator('#contact h2').boundingBox();
     expect(heading.y).toBeGreaterThanOrEqual(header.y + header.height);
+  }
+});
+
+test('@theme-polish marketing pages use production CSS without JavaScript', async ({ browser }) => {
+  const page = await browser.newPage({ javaScriptEnabled: false });
+  try {
+    const network = await installMockNetwork(page);
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      for (const route of ['', 'about/', 'privacy/', 'case-studies/', 'case-studies/drdronavalli/', 'transformations/', '404.html']) {
+        await page.goto(`https://frontdoor.health/${route}`);
+        await expect(page.locator('link[rel="stylesheet"]')).toHaveCount(1);
+        const href = await page.locator('link[rel="stylesheet"]').getAttribute('href');
+        expect(new URL(href, page.url()).pathname).toBe('/assets/marketing.css');
+        await expect(page.locator('body')).toHaveCSS('font-family', 'Inter, sans-serif');
+        await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 248, 245)');
+        await expect(page.locator('h1')).toBeVisible();
+        await expect(page.locator('script[src*="tailwind"], [data-verification-test-only]')).toHaveCount(0);
+        expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      }
+    }
+    expect(network.unexpectedRequests).toEqual([]);
+  } finally {
+    await page.close();
   }
 });
 
@@ -377,7 +401,6 @@ test('@review-screenshots marketing pages and form states use local review captu
   await installMockNetwork(page);
   const root = path.resolve('.tmp/astro-dist/marketing');
   const output = path.resolve('.tmp/theme-polish/marketing');
-  const css = readFileSync('.tmp/playwright-fixtures/marketing.css', 'utf8');
   const routes = [
     ['home', 'index.html'], ['case-study', 'case-studies/drdronavalli/index.html'],
     ['about', 'about/index.html'], ['privacy', 'privacy/index.html'],
@@ -387,8 +410,8 @@ test('@review-screenshots marketing pages and form states use local review captu
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const [name, route] of routes) {
-      await page.goto(pathToFileURL(path.join(root, route)).href);
-      await page.addStyleTag({ content: css });
+      // The 404 response needs HTTP to resolve root-relative assets at arbitrary paths.
+      await page.goto(name === '404' ? 'https://frontdoor.health/404.html' : pathToFileURL(path.join(root, route)).href);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       await captureScreenshot(page, path.join(output, `${width}-${name}.png`));
       if (name !== 'home') continue;
