@@ -17,8 +17,10 @@ const DEFAULT_ALLOWED_PRACTICE_SLUGS = new Set([
   "frontdoor-health",
   "drdronavalli",
   "mariposa",
+  "mayabennett",
   "northhillspsychiatry",
   "northwestpsychiatry",
+  "westlakepsychiatry",
 ]);
 const allowedEventTypes = new Set([
   "page_view",
@@ -130,13 +132,36 @@ async function readPayload(request: Request): Promise<PayloadResult> {
     }
   }
 
-  const text = await request.text();
-  if (new TextEncoder().encode(text).byteLength > MAX_BODY_BYTES) {
-    return { payload: null, error: "too_large" };
+  if (!request.body) return { payload: null, error: "invalid" };
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > MAX_BODY_BYTES) {
+        await reader.cancel();
+        return { payload: null, error: "too_large" };
+      }
+      chunks.push(value);
+    }
+  } catch {
+    return { payload: null, error: "invalid" };
+  } finally {
+    reader.releaseLock();
+  }
+
+  const body = new Uint8Array(totalBytes);
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
   }
 
   try {
-    const payload = JSON.parse(text);
+    const payload = JSON.parse(new TextDecoder().decode(body));
     return payload && typeof payload === "object"
       ? { payload: payload as EventPayload, error: null }
       : { payload: null, error: "invalid" };

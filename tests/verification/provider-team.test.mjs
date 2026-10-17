@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { hasProviderDirectory, homepageProviders } from '../../src/lib/provider-team.mjs';
 import { practiceHomepageSchemas, providerDirectorySchemas, providerProfile, providerBreadcrumbSchema, providerIdentityLine, providerEntityType } from '../../src/lib/practice-view.mjs';
@@ -115,4 +116,41 @@ test('retiring a featured provider validates the adjusted selection without chan
     assert.ok(result.stdout.includes(`Would retire provider ${slug}`));
   }
   assert.equal(readFileSync('sites/centexmh/practice.json', 'utf8'), before);
+});
+
+test('restoring a retired provider removes only that profile’s redirects and respects dry-run', () => {
+  mkdirSync('.tmp', { recursive: true });
+  const root = mkdtempSync(path.resolve('.tmp/provider-return-'));
+  try {
+    cpSync('sites/centexmh', path.join(root, 'sites/audit'), { recursive: true });
+    cpSync('shared', path.join(root, 'shared'), { recursive: true });
+    mkdirSync(path.join(root, 'scripts'));
+    cpSync('scripts/validate_practice_json.py', path.join(root, 'scripts/validate_practice_json.py'));
+    const config = structuredClone(centex);
+    config.seo.allowIndexing = true;
+    const provider = config.providers[0];
+    const configPath = path.join(root, 'sites/audit/practice.json');
+    const redirectsPath = path.join(root, 'sites/audit/_redirects');
+    const unrelated = '# Keep other routes\n/old /#contact 302\n/providers/another-provider /#providers 301\n';
+    writeFileSync(configPath, JSON.stringify(config));
+    writeFileSync(redirectsPath, unrelated);
+    writeFileSync(path.join(root, 'returning.json'), JSON.stringify(provider));
+    const run = (...args) => {
+      const result = spawnSync(process.execPath, [path.resolve('scripts/manage_practice.mjs'), ...args], { cwd: root, encoding: 'utf8' });
+      assert.equal(result.status, 0, result.stderr);
+    };
+    run('provider-retire', 'audit', provider.slug);
+    const retired = readFileSync(configPath, 'utf8');
+    const redirects = readFileSync(redirectsPath, 'utf8');
+    assert.ok(redirects.includes(`/providers/${provider.slug} /providers/ 301`));
+    assert.ok(redirects.includes(`/providers/${provider.slug}/ /providers/ 301`));
+    run('provider-add', 'audit', 'returning.json', '--dry-run');
+    assert.equal(readFileSync(configPath, 'utf8'), retired);
+    assert.equal(readFileSync(redirectsPath, 'utf8'), redirects);
+    run('provider-add', 'audit', 'returning.json');
+    assert.ok(JSON.parse(readFileSync(configPath, 'utf8')).providers.some(item => item.slug === provider.slug));
+    assert.equal(readFileSync(redirectsPath, 'utf8'), unrelated);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });

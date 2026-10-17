@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFileSync, readdirSync } from "node:fs";
 import worker from "../src/index.ts";
 
-async function record({ origin = "https://drdronavalli.com", cf, ...payload } = {}) {
+async function record({ origin = "https://drdronavalli.com", cf, allowedPracticeSlugs, ...payload } = {}) {
   const writes = [];
   const request = new Request("https://analytics.frontdoor.health/event", {
     method: "POST",
@@ -11,6 +12,7 @@ async function record({ origin = "https://drdronavalli.com", cf, ...payload } = 
   });
   if (cf) Object.defineProperty(request, "cf", { value: cf });
   const response = await worker.fetch(request, {
+    ALLOWED_PRACTICE_SLUGS: allowedPracticeSlugs,
     RATE_LIMITER: { limit: async () => ({ success: true }) },
     DB: {
       prepare: () => ({
@@ -31,6 +33,51 @@ test("production page views without usable campaigns never write to D1", async (
         assert.deepEqual(body, { ok: true, skipped: true });
         assert.equal(writes.length, 0);
       }
+    }
+  }
+});
+
+test("oversized streams stop at the byte limit without a database write", async () => {
+  let chunksRead = 0;
+  let cancelled = false;
+  const body = new ReadableStream({
+    pull(controller) {
+      if (chunksRead === 16) return controller.close();
+      chunksRead++;
+      controller.enqueue(new TextEncoder().encode("é".repeat(1_024)));
+    },
+    cancel() { cancelled = true; },
+  }, { highWaterMark: 0 });
+  const request = new Request("https://analytics.frontdoor.health/event", {
+    method: "POST", duplex: "half", body,
+    headers: { Origin: "https://frontdoor.health", "Content-Type": "application/json" },
+  });
+  assert.equal(request.headers.get("Content-Length"), null);
+  const response = await worker.fetch(request, {
+    RATE_LIMITER: { limit: async () => ({ success: true }) },
+    DB: { prepare: () => assert.fail("Oversized requests must not write to D1") },
+  });
+  assert.equal(response.status, 413);
+  assert.deepEqual(await response.json(), { error: "Request too large" });
+  assert.equal(cancelled, true);
+  assert.equal(chunksRead, 5);
+});
+
+test("every published preview can record visits with both configured and fallback allowlists", async () => {
+  const wrangler = readFileSync(new URL("../wrangler.toml", import.meta.url), "utf8");
+  const configured = wrangler.match(/^ALLOWED_PRACTICE_SLUGS = "([^"]+)"/m)?.[1];
+  assert.ok(configured);
+  const sites = new URL("../../sites/", import.meta.url);
+  for (const entry of readdirSync(sites, { withFileTypes: true })) {
+    if (!entry.isDirectory() || entry.name === "template") continue;
+    const config = JSON.parse(readFileSync(new URL(`${entry.name}/practice.json`, sites), "utf8"));
+    if (config.seo?.allowIndexing !== false) continue;
+    for (const allowedPracticeSlugs of [undefined, configured]) {
+      const { writes } = await record({
+        origin: "https://frontdoor.health", allowedPracticeSlugs,
+        practice_slug: entry.name, path: `/previews/${entry.name}/`,
+      });
+      assert.equal(writes.length, 1);
     }
   }
 });

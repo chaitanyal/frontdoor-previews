@@ -107,7 +107,10 @@ async function readJsonBody(request) {
   }
 
   try {
-    return { payload: JSON.parse(new TextDecoder().decode(body)) };
+    const payload = JSON.parse(new TextDecoder().decode(body));
+    return payload && typeof payload === "object" && !Array.isArray(payload)
+      ? { payload }
+      : { error: "invalid" };
   } catch (_error) {
     return { error: "invalid" };
   }

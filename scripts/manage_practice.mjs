@@ -81,7 +81,7 @@ function redirectValue(config) {
   return destination;
 }
 
-function addRedirects(siteDirectory, providerSlug, destination) {
+function providerRedirects(siteDirectory, providerSlug, destination) {
   const redirectsPath = path.join(siteDirectory, '_redirects');
   const existing = existsSync(redirectsPath) ? readFileSync(redirectsPath, 'utf8') : '';
   const retained = existing
@@ -91,7 +91,7 @@ function addRedirects(siteDirectory, providerSlug, destination) {
       const source = line.trim().split(/\s+/)[0];
       return source !== `/providers/${providerSlug}` && source !== `/providers/${providerSlug}/`;
     });
-  retained.push(
+  if (destination) retained.push(
     `/providers/${providerSlug} ${destination} 301`,
     `/providers/${providerSlug}/ ${destination} 301`,
   );
@@ -119,7 +119,14 @@ function providerAdd() {
   assertProviderImage(provider, paths.directory);
   const candidate = { ...config, providers: [...config.providers, provider] };
   validateCandidate(site, candidate);
-  if (!dryRun) writeJsonAtomic(paths.config, candidate);
+  const redirectsPath = path.join(paths.directory, '_redirects');
+  const redirects = existsSync(redirectsPath)
+    ? providerRedirects(paths.directory, provider.slug)
+    : null;
+  if (!dryRun) {
+    if (redirects !== null) writeFileSync(redirectsPath, redirects);
+    writeJsonAtomic(paths.config, candidate);
+  }
   process.stdout.write(`${dryRun ? 'Would add' : 'Added'} provider ${provider.slug} to ${site}.\n`);
   process.stdout.write(`Next: npm run verify:site -- ${site} --update-contract\n`);
 }
@@ -151,7 +158,7 @@ function providerRetire() {
   validateCandidate(site, candidate);
   const destination = redirectValue(candidate);
   const redirects = config.seo?.allowIndexing
-    ? addRedirects(paths.directory, value, destination)
+    ? providerRedirects(paths.directory, value, destination)
     : null;
   if (!dryRun) {
     writeJsonAtomic(paths.config, candidate);

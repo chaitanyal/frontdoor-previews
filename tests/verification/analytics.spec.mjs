@@ -123,6 +123,23 @@ test('@analytics bounds preview-request bodies without Content-Length', async ()
   expect(await smallResponse.json()).toEqual({ ok: true, accepted: false });
 });
 
+test('@analytics rejects JSON values that are not form objects', async () => {
+  skipUnless('marketing');
+  const { onRequestPost } = await loadPreviewRequestFunction();
+  for (const payload of [null, [], 'text', 0, false]) {
+    const response = await onRequestPost({
+      request: new Request('https://frontdoor.health/api/preview-request', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      }),
+      env: {},
+    });
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({ ok: false, error: 'Invalid request.' });
+  }
+});
+
 test('@analytics sends the complete preview page-view payload', async ({ page }) => {
   skipUnless('preview');
   const network = await installMockNetwork(page);
