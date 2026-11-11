@@ -72,6 +72,24 @@ const features = [
     items: ['Fast-loading pages, search titles, and descriptions', 'Structured data, sitemaps, and discoverable provider pages', 'Privacy-conscious page-view and action tracking'],
   },
 ];
+const plans = [
+  {
+    name: 'Solo Practice', price: '$2,000', icon: 'user-round',
+    summary: 'Ideal for a single clinician or new practice.',
+    items: ['Custom, modern website (up to 5 pages)', 'Clinician profile and services', 'Domain setup and configuration', 'Google Business Profile setup', 'Foundational SEO and AI discoverability', 'Appointment scheduling connections'],
+  },
+  {
+    name: 'Group Practice', price: '$5,000', icon: 'users',
+    summary: 'For multi-clinician practices and treatment groups.',
+    items: ['Custom website (up to 12 pages)', 'Multiple clinician profiles (up to 5)', 'Services and specialty pages', 'Everything in the Solo Practice package', 'Team directory and practice information', 'Appointment scheduling connections'],
+  },
+];
+const maintenanceItems = [
+  'Website hosting, SSL, and security',
+  'Routine copy updates, including services, hours, and contact information',
+  'Provider directory updates: add, remove, or edit clinicians',
+  'Ongoing maintenance and troubleshooting',
+];
 const steps = [
   ['Start with your free preview', 'Tell us about your practice. See a personalized website direction before committing to a project.'],
   ['Plan your launch', 'Agree on your launch package, price, and ongoing support. We handle the website and setup while you confirm practice details.'],
@@ -85,8 +103,8 @@ const faqs = [
   ['Do you work with our scheduling, EHR, or patient portal?', 'In most cases, we can link clearly to your existing scheduling, intake, payment, telehealth, and portal tools. Those systems continue to handle their own workflows and patient information. We review your specific tools before agreeing on the scope.'],
   ['What does SEO and AI visibility include?', 'We organize your practice information clearly and build search foundations through page titles, descriptions, structured data, and sitemaps. This helps search engines and AI tools understand your services and clinicians. It does not guarantee rankings or recommendations.'],
   ['How do you approach accessibility?', 'We build with semantic headings, keyboard-friendly controls, visible focus, descriptive image text, and readable contrast informed by WCAG guidance.'],
-  ['How much does it cost, and how long does it take?', 'The website preview is free, with no commitment required. Before you proceed, we explain the launch price, domain costs, hosting and maintenance terms, and delivery schedule.'],
-  ['What about changes after launch?', 'Hosting and maintenance are part of the offer. We agree on the included updates, support, and ongoing costs before you commit, including how to keep provider details, services, fees, and office information current.'],
+  ['How much does it cost, and how long does it take?', 'The Solo Practice package is $2,000 for up to 5 pages. The Group Practice package is $5,000 for up to 12 pages and 5 clinician profiles. These are one-time design and launch prices. Hosting and maintenance cost $49 per month. The personalized website preview is free. We confirm your scope, domain costs, and delivery schedule before you commit.'],
+  ['What about changes after launch?', 'The $49 monthly hosting and maintenance service includes hosting, SSL, security, routine copy updates, provider directory updates, and ongoing maintenance and troubleshooting. We agree on the update and support details before you commit.'],
 ];
 ---
 
@@ -119,12 +137,12 @@ const faqs = [
       <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-16">
         <div>
           <h1 class="text-[2.65rem] font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-[4rem]">Websites built for mental health practices.</h1>
-          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">For therapists, psychologists, psychiatrists, and psychiatric nurse practitioners—in solo or group practice.</p>
+          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">For therapists, psychologists, psychiatrists, and psychiatric nurse practitioners in solo and group practices.</p>
           <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <a href="#contact" class="inline-flex justify-center rounded-2xl bg-brand-700 px-6 py-3.5 font-semibold text-white shadow-sm hover:bg-brand-900">Request Your Free Preview</a>
+            <p class="text-sm leading-6 text-slate-600 sm:order-last sm:w-full sm:pt-1">Personalized to your practice. No commitment required.</p>
             <a href="#examples" class="inline-flex justify-center rounded-xl px-3 py-3.5 font-semibold text-brand-700 underline decoration-brand-700/30 underline-offset-4 hover:text-brand-900">Explore Examples <span class="ml-2" aria-hidden="true">↓</span></a>
           </div>
-          <p class="mt-4 text-sm leading-6 text-slate-600">Personalized to your practice. No commitment required.</p>
         </div>
         <div class="relative min-w-0 pb-5 pr-12 sm:pr-16">
           <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
@@ -229,6 +247,48 @@ const faqs = [
       </div>
     </section>
 
+    <section id="pricing" class="bg-warm-100 px-5 py-16 lg:px-8 lg:py-20" aria-labelledby="pricing-title">
+      <div class="mx-auto max-w-7xl">
+        <div class="mx-auto max-w-5xl text-center">
+          <p class="text-sm font-semibold uppercase tracking-[0.14em] text-sage-700">Simple, transparent pricing</p>
+          <h2 id="pricing-title" class="mt-4 text-3xl font-bold leading-tight tracking-tight md:text-5xl">A complete website for your practice.</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">Professional design, a smooth launch, and ongoing support, so you can focus on your patients.</p>
+        </div>
+        <div class="mt-10 grid gap-6 md:grid-cols-2 lg:gap-8">
+          {plans.map((plan, index) => (
+            <article class:list={['flex min-w-0 flex-col rounded-[28px] border bg-white p-6 shadow-[0_12px_45px_rgba(15,23,42,0.04)] sm:p-8 lg:p-10', index === 1 ? 'border-sage-700/40' : 'border-slate-200']}>
+              <div class="flex items-start gap-4">
+                <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sage-100 text-sage-700" aria-hidden="true"><i data-lucide={plan.icon} class="h-8 w-8"></i></span>
+                <div>
+                  <h3 class="text-2xl font-bold tracking-tight lg:text-3xl">{plan.name}</h3>
+                  <p class="mt-2 text-base leading-6 text-slate-600">{plan.summary}</p>
+                </div>
+              </div>
+              <p class="mt-7 text-5xl font-bold tracking-tight lg:text-6xl">{plan.price}</p>
+              <p class="mt-2 text-base leading-7 text-slate-600">One-time website design &amp; launch</p>
+              <ul class="mt-6 flex-1 space-y-3 border-t border-slate-200 pt-6">
+                {plan.items.map(item => <li class="flex gap-3 text-base leading-7"><span class="font-semibold text-sage-700" aria-hidden="true">✓</span><span>{item}</span></li>)}
+              </ul>
+              <a href="#contact" class="mt-8 inline-flex min-h-[52px] items-center justify-center gap-3 rounded-2xl bg-brand-700 px-4 py-3.5 text-center text-base font-semibold text-white hover:bg-brand-900">Get a Free Website Preview <span aria-hidden="true">→</span></a>
+            </article>
+          ))}
+        </div>
+        <div class="mt-8 grid gap-6 rounded-[28px] border border-sage-700/20 bg-sage-100/40 p-6 sm:p-8 lg:grid-cols-[1fr_auto_1.2fr] lg:items-center lg:gap-8">
+          <div class="flex items-start gap-4">
+            <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sage-100 text-sage-700" aria-hidden="true"><i data-lucide="layers" class="h-8 w-8"></i></span>
+            <div>
+              <h3 class="text-2xl font-bold tracking-tight">Hosting &amp; Maintenance</h3>
+              <p class="mt-2 text-base leading-7 text-slate-600">Reliable hosting and ongoing support for your website.</p>
+            </div>
+          </div>
+          <p class="border-t border-sage-700/20 pt-5 text-3xl font-bold tracking-tight text-brand-700 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">$49<span class="text-xl font-semibold">/month</span></p>
+          <ul class="space-y-3">
+            {maintenanceItems.map(item => <li class="flex gap-3 text-sm leading-6"><span class="font-semibold text-sage-700" aria-hidden="true">✓</span><span>{item}</span></li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section class="bg-brand-50 px-5 py-16 lg:px-8 lg:py-20">
       <div class="mx-auto max-w-7xl">
         <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">A straightforward process</p>
@@ -265,6 +325,7 @@ const faqs = [
       </div>
     </section>
     <PreviewRequestForm
+      fixedSpecialty="Mental Health"
       heading="Get your free personalized website preview."
       summary="See what your practice could look like online before committing to a project. Share a few practice details, and we’ll prepare a preview shaped around your approach, services, and clinicians."
     />

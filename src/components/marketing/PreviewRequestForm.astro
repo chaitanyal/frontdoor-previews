@@ -1,6 +1,6 @@
 ---
 /**
- * Marketing lead form and browser submission handler; optional heading and summary customize the invitation.
+ * Marketing lead form; optional copy customizes the invitation and fixedSpecialty replaces the selector with a hidden value.
  * Posts to /api/preview-request with Turnstile and attribution data, then emits
  * analytics and conversion hooks only for accepted requests.
  * Field errors keep descriptions associated with controls and focus the first failure.
@@ -8,6 +8,7 @@
 const {
   heading = 'See what your practice website could look like.',
   summary = 'Opening a practice or improving your current website? Share your specialty and a few practice details. We’ll prepare a personalized preview.',
+  fixedSpecialty = '',
 } = Astro.props;
 const formScript = `
 window.lucide?.createIcons();
@@ -228,9 +229,9 @@ window.lucide?.createIcons();
           <input id="practiceName" name="practiceName" autocomplete="organization" aria-describedby="practiceName-error" required maxlength="150" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="Your practice name" />
           <p id="practiceName-error" hidden class="mt-2 text-sm text-red-800"></p>
         </div>
-        <div>
+        {fixedSpecialty ? <input id="specialty" name="specialty" type="hidden" value={fixedSpecialty} /> : <div>
           <label for="specialty" class="text-sm font-medium text-slate-700">Specialty</label>
-          <!-- Keep these options synchronized with ALLOWED_SPECIALTIES in functions/api/preview-request.js. -->
+          <!-- Values must be accepted by ALLOWED_SPECIALTIES in functions/api/preview-request.js. -->
           <select id="specialty" name="specialty" aria-describedby="specialty-error" required class="mt-2 h-[58px] w-full rounded-2xl border border-slate-300 bg-white px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50">
             <option value="" selected disabled>Select a specialty</option>
             <option value="Cardiology">Cardiology</option>
@@ -259,7 +260,7 @@ window.lucide?.createIcons();
             <option value="Other">Other</option>
           </select>
           <p id="specialty-error" hidden class="mt-2 text-sm text-red-800"></p>
-        </div>
+        </div>}
         <div>
           <label for="email" class="text-sm font-medium text-slate-700">Email</label>
           <input id="email" name="email" type="email" autocomplete="email" spellcheck="false" aria-describedby="email-error" required maxlength="254" class="mt-2 w-full rounded-2xl border border-slate-300 px-4 py-4 text-base outline-none focus:border-brand-700 focus:ring-4 focus:ring-brand-50" placeholder="you@example.com" />
