@@ -1,10 +1,14 @@
 ---
 /**
- * Marketing lead form and browser submission handler; takes no props.
+ * Marketing lead form and browser submission handler; optional heading and summary customize the invitation.
  * Posts to /api/preview-request with Turnstile and attribution data, then emits
  * analytics and conversion hooks only for accepted requests.
  * Field errors keep descriptions associated with controls and focus the first failure.
  */
+const {
+  heading = 'See what your practice website could look like.',
+  summary = 'Opening a practice or improving your current website? Share your specialty and a few practice details. We’ll prepare a personalized preview.',
+} = Astro.props;
 const formScript = `
 window.lucide?.createIcons();
 
@@ -205,10 +209,10 @@ window.lucide?.createIcons();
     <div>
       <p class="text-sm font-semibold uppercase tracking-wide text-blue-200">Start with a free preview</p>
       <h2 class="mt-5 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-        See what your practice website could look like.
+        {heading}
       </h2>
       <p class="mt-5 text-lg leading-8 text-blue-100">
-        Opening a practice or improving your current website? Share your specialty and a few practice details. We’ll prepare a personalized preview.
+        {summary}
       </p>
     </div>
 

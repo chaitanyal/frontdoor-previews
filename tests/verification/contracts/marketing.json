@@ -33,6 +33,7 @@
         "./assets/frontdoor-health-logo.svg",
         "./assets/marketing.css",
         "./case-studies/drdronavalli/",
+        "./mental-health-website-design/",
         "./privacy/",
         "/shared/attribution.js",
         "/shared/google-ads.js"
@@ -178,6 +179,51 @@
         "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
       ],
       "inlineScriptCount": 1,
+      "ctaCounts": {}
+    },
+    {
+      "route": "/mental-health-website-design/",
+      "outputFile": "mental-health-website-design/index.html",
+      "title": "Mental Health Websites & Launch Package | FrontDoor Health",
+      "description": "Get a free personalized website preview for your mental health practice. Explore a launch package with domain setup, Google Business Profile, SEO and AI visibility, hosting, and maintenance.",
+      "robots": null,
+      "canonical": "https://frontdoor.health/mental-health-website-design/",
+      "openGraphUrls": {
+        "image": "https://frontdoor.health/assets/mental-health/maya-desktop.webp",
+        "url": "https://frontdoor.health/mental-health-website-design/"
+      },
+      "twitterUrls": {
+        "image": "https://frontdoor.health/assets/mental-health/maya-desktop.webp"
+      },
+      "jsonLd": {
+        "count": 1,
+        "topLevelTypes": [
+          "Service"
+        ]
+      },
+      "localAssetUrls": [
+        "../",
+        "../assets/fonts/inter-latin.woff2",
+        "../assets/frontdoor-health-favicon.svg",
+        "../assets/frontdoor-health-logo.svg",
+        "../assets/marketing.css",
+        "../assets/mental-health/maya-desktop.webp",
+        "../assets/mental-health/maya-mobile.webp",
+        "../assets/mental-health/westlake-desktop.webp",
+        "../previews/mayabennett/",
+        "../previews/westlakepsychiatry/",
+        "../privacy/",
+        "/shared/attribution.js",
+        "/shared/google-ads.js"
+      ],
+      "runtimeScripts": [
+        "https://unpkg.com/lucide@latest",
+        "https://challenges.cloudflare.com/turnstile/v0/api.js",
+        "/shared/attribution.js",
+        "/shared/google-ads.js",
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+      ],
+      "inlineScriptCount": 3,
       "ctaCounts": {}
     },
     {
@@ -2369,11 +2415,15 @@
     "assets/frontdoor-health-social.svg",
     "assets/marketing.css",
     "assets/marketing/goutham-dronavalli.jpg",
+    "assets/mental-health/maya-desktop.webp",
+    "assets/mental-health/maya-mobile.webp",
+    "assets/mental-health/westlake-desktop.webp",
     "case-studies/drdronavalli/dronavalli_after.webp",
     "case-studies/drdronavalli/dronavalli_before.webp",
     "case-studies/drdronavalli/index.html",
     "case-studies/index.html",
     "index.html",
+    "mental-health-website-design/index.html",
     "previews/centexmh/accessibility/index.html",
     "previews/centexmh/assets/fonts/inter-latin.woff2",
     "previews/centexmh/assets/fonts/newsreader-latin.woff2",
@@ -2503,6 +2553,7 @@
     "https://frontdoor.health/about/",
     "https://frontdoor.health/case-studies/",
     "https://frontdoor.health/case-studies/drdronavalli/",
+    "https://frontdoor.health/mental-health-website-design/",
     "https://frontdoor.health/privacy/",
     "https://frontdoor.health/transformations/"
   ]

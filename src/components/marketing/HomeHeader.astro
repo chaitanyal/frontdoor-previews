@@ -1,12 +1,13 @@
 ---
-/** Homepage-only marketing navigation; anchors and logo path are relative to the homepage. */
+/** Marketing navigation; nested landing pages supply their home and asset paths. */
+const { homeHref = '#', assetPrefix = '.' } = Astro.props;
 ---
 
 <header class="sticky top-0 z-50 border-b border-border-100/80 bg-white/85 backdrop-blur-xl">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-    <a href="#" class="flex flex-col items-start" aria-label="FrontDoor Health home">
+    <a href={homeHref} class="flex flex-col items-start" aria-label="FrontDoor Health home">
       <img
-        src="./assets/frontdoor-health-logo.svg"
+        src={`${assetPrefix}/assets/frontdoor-health-logo.svg`}
         alt="FrontDoor Health" width="760" height="150"
         class="h-12 w-auto max-w-[220px] md:h-14 md:max-w-[294px]"
         style="height: 48px; width: auto; max-width: 220px;"
