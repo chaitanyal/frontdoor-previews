@@ -210,8 +210,8 @@
         "../assets/mental-health/maya-desktop.webp",
         "../assets/mental-health/maya-mobile.webp",
         "../assets/mental-health/westlake-desktop.webp",
-        "../previews/mayabennett/",
-        "../previews/westlakepsychiatry/",
+        "../previews/mayabennett/?preview_source=mental-health-website-design&utm_source=frontdoor.health&utm_medium=referral&utm_campaign=mental-health-website-design&utm_content=mayabennett",
+        "../previews/westlakepsychiatry/?preview_source=mental-health-website-design&utm_source=frontdoor.health&utm_medium=referral&utm_campaign=mental-health-website-design&utm_content=westlakepsychiatry",
         "../privacy/",
         "/shared/attribution.js",
         "/shared/google-ads.js"
@@ -223,7 +223,7 @@
         "/shared/google-ads.js",
         "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
       ],
-      "inlineScriptCount": 3,
+      "inlineScriptCount": 4,
       "ctaCounts": {}
     },
     {

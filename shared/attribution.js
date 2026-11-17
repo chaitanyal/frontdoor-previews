@@ -70,5 +70,30 @@
     clearExpiredUtmCampaign,
   };
 
+  function routePreviewReturn() {
+    const link = document.querySelector('.concept-notice a');
+    if (!link) return;
+
+    const key = "fdh_preview_source_" + window.FRONTDOOR_PRACTICE_SLUG;
+    let source = new URLSearchParams(window.location.search).get("preview_source");
+    try {
+      if (source === "mental-health-website-design") {
+        window.sessionStorage.setItem(key, source);
+      } else {
+        source = window.sessionStorage.getItem(key);
+      }
+    } catch (_error) {
+      // The explicit source still works when session storage is unavailable.
+    }
+    if (source === "mental-health-website-design") {
+      link.href = "https://frontdoor.health/mental-health-website-design/#contact";
+    }
+  }
+
   captureUtmCampaign();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", routePreviewReturn, { once: true });
+  } else {
+    routePreviewReturn();
+  }
 })();

@@ -610,3 +610,113 @@ test('@analytics API failures emit no event or conversion and remain retryable',
   expect(network.analyticsRequests).toEqual([]);
   expect(await page.evaluate(() => window.__googleConversionCalls)).toEqual([]);
 });
+
+
+test('@analytics mental health examples carry all landing UTMs and retain campaign attribution', async ({ context }) => {
+  skipUnless('marketing');
+  const page = await context.newPage();
+  await installDeterministicBrowser(page, { preventExternalNavigation: false });
+  const network = await installMockNetwork(page);
+  const incoming = {
+    utm_source: 'google', utm_medium: 'cpc', utm_campaign: UTM_CAMPAIGN,
+    utm_content: 'therapy & counseling', utm_term: 'therapist website design', utm_custom: 'variant-a',
+  };
+  for (const tags of [{}, incoming]) {
+    const params = new URLSearchParams({ utm_campaign: '', ...tags, unrelated: 'omit-me' });
+    await page.goto(`https://frontdoor.health/mental-health-website-design/?${params}`);
+    const expectedCampaign = tags.utm_campaign || 'mental-health-website-design';
+    for (const [index, slug] of ['mayabennett', 'westlakepsychiatry'].entries()) {
+      const url = new URL(await page.locator('#examples article > a').nth(index).getAttribute('href'), page.url());
+      await expect(page.locator('#examples article > a').nth(index)).toHaveAccessibleName(/^View Example Website:/);
+      expect(url.pathname).toBe(`/previews/${slug}/`);
+      expect(Object.fromEntries(url.searchParams)).toEqual({
+        preview_source: 'mental-health-website-design',
+        utm_source: 'frontdoor.health', utm_medium: 'referral',
+        utm_campaign: expectedCampaign, utm_content: slug, ...tags,
+      });
+    }
+    const before = network.analyticsRequests.length;
+    await page.locator('#examples article > a').first().click();
+    await expect(page).toHaveURL(/\/previews\/mayabennett\/\?/);
+    await expect.poll(() => network.analyticsRequests.length).toBe(before + 1);
+    expect(network.analyticsRequests.at(-1).payload).toMatchObject({
+      event: 'page_view', practice_slug: 'mayabennett', utm_campaign: expectedCampaign,
+    });
+    await page.goto('https://frontdoor.health/mental-health-website-design/');
+    const returningLink = new URL(await page.locator('#examples article > a').first().getAttribute('href'), page.url());
+    expect(returningLink.searchParams.get('utm_campaign')).toBe(expectedCampaign);
+  }
+});
+
+
+test('@analytics examples return landing-page visitors to its form across nested pages', async ({ context }) => {
+  skipUnless('marketing');
+  const page = await context.newPage();
+  await installDeterministicBrowser(page, { preventExternalNavigation: false });
+  await installMockNetwork(page);
+  for (const slug of ['mayabennett', 'westlakepsychiatry']) {
+    await page.goto(`https://frontdoor.health/previews/${slug}/`);
+    await expect(page.locator('.concept-notice a')).toHaveAttribute('href', 'https://frontdoor.health/#contact');
+    await page.goto('https://frontdoor.health/mental-health-website-design/?utm_campaign=return-flow');
+    await page.locator(`#examples article > a[href*="/previews/${slug}/"]`).click();
+    const destination = 'https://frontdoor.health/mental-health-website-design/#contact';
+    await expect(page.locator('.concept-notice a')).toHaveAttribute('href', destination);
+    await page.goto(`https://frontdoor.health/previews/${slug}/privacy/`);
+    await expect(page.locator('.concept-notice a')).toHaveAttribute('href', destination);
+    await page.reload();
+    await expect(page.locator('.concept-notice a')).toHaveAttribute('href', destination);
+    await page.locator('.concept-notice a').click();
+    await expect(page).toHaveURL(destination);
+    await expect(page.locator('#preview-request-form')).toBeVisible();
+    await expect(page.locator('#specialty')).toHaveValue('Mental Health');
+    expect(await page.evaluate(() => window.FrontdoorAttribution.getUtmCampaign())).toBe('return-flow');
+  }
+});
+
+test('@analytics explicit preview source routes without session storage and ignores untrusted destinations', async ({ context }) => {
+  skipUnless('marketing');
+  const page = await context.newPage();
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'sessionStorage', { get() { throw new Error('Storage unavailable'); } });
+  });
+  await installDeterministicBrowser(page);
+  await installMockNetwork(page);
+  await page.goto('https://frontdoor.health/previews/mayabennett/?preview_source=mental-health-website-design');
+  await expect(page.locator('.concept-notice a')).toHaveAttribute('href', 'https://frontdoor.health/mental-health-website-design/#contact');
+  await page.goto('https://frontdoor.health/previews/mayabennett/?preview_source=https://untrusted.example/');
+  await expect(page.locator('.concept-notice a')).toHaveAttribute('href', 'https://frontdoor.health/#contact');
+});
+
+
+test('@analytics marketing forms cannot expose contact details through native GET submission', async ({ browser }) => {
+  skipUnless('marketing');
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const page = await context.newPage();
+    const network = await installMockNetwork(page);
+    const navigations = [];
+    page.on('request', request => {
+      if (request.isNavigationRequest()) navigations.push(request);
+    });
+    for (const route of ['/', '/mental-health-website-design/']) {
+      const url = `https://frontdoor.health${route}`;
+      await page.goto(url);
+      await expect(page.locator('#preview-request-form')).toHaveAttribute('method', 'post');
+      await expect(page.locator('#preview-request-submit')).toBeDisabled();
+      await expect(page.locator('noscript a[href="mailto:chaitanya@frontdoor.health"]')).toBeVisible();
+      await page.locator('#name').fill('Verification Tester');
+      await page.locator('#practiceName').fill('Review Clinic');
+      if (route === '/') await page.locator('#specialty').selectOption('Psychiatry');
+      await page.locator('#email').fill('verification@example.com');
+      const before = navigations.length;
+      await page.locator('#email').press('Enter');
+      await page.waitForTimeout(100);
+      expect(navigations).toHaveLength(before);
+      await expect(page).toHaveURL(url);
+    }
+    expect(network.apiRequests).toEqual([]);
+    expect(network.analyticsRequests).toEqual([]);
+  } finally {
+    await context.close();
+  }
+});

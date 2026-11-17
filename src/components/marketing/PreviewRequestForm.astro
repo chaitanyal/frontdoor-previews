@@ -1,9 +1,11 @@
 ---
 /**
- * Marketing lead form; optional copy customizes the invitation and fixedSpecialty replaces the selector with a hidden value.
+ * Marketing lead form; optional copy or the summary slot customizes the invitation.
+ * fixedSpecialty replaces the selector with a hidden value.
  * Posts to /api/preview-request with Turnstile and attribution data, then emits
  * analytics and conversion hooks only for accepted requests.
  * Field errors keep descriptions associated with controls and focus the first failure.
+ * Native submission uses POST; the submit button stays disabled until its handler is ready.
  */
 const {
   heading = 'See what your practice website could look like.',
@@ -201,6 +203,7 @@ window.lucide?.createIcons();
       submitButton.removeAttribute('aria-busy');
     }
   });
+  submitButton.disabled = false;
 })();
 `;
 ---
@@ -212,12 +215,14 @@ window.lucide?.createIcons();
       <h2 class="mt-5 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
         {heading}
       </h2>
-      <p class="mt-5 text-lg leading-8 text-blue-100">
-        {summary}
-      </p>
+      <slot name="summary">
+        <p class="mt-5 text-lg leading-8 text-blue-100">
+          {summary}
+        </p>
+      </slot>
     </div>
 
-    <form id="preview-request-form" class="rounded-[32px] bg-white/95 p-8 text-slate-950 shadow-[0_20px_70px_rgba(0,0,0,0.18)] md:p-10">
+    <form id="preview-request-form" method="post" class="rounded-[32px] bg-white/95 p-8 text-slate-950 shadow-[0_20px_70px_rgba(0,0,0,0.18)] md:p-10">
       <div class="space-y-6">
         <div>
           <label for="name" class="text-sm font-medium text-slate-700">Name</label>
@@ -277,8 +282,11 @@ window.lucide?.createIcons();
           <input id="companyWebsite" name="companyWebsite" tabindex="-1" autocomplete="off" />
         </div>
         <div class="cf-turnstile" data-sitekey="0x4AAAAAADeia3tun_3f12Pa"></div>
+        <noscript>
+          <p class="text-sm leading-6 text-slate-700">This form requires JavaScript. To request your free preview, email <a href="mailto:chaitanya@frontdoor.health" class="font-semibold text-brand-700 underline underline-offset-4">chaitanya@frontdoor.health</a>.</p>
+        </noscript>
         <p id="preview-request-status" class="hidden rounded-2xl px-4 py-3 text-sm font-medium" role="status" aria-live="polite"></p>
-        <button id="preview-request-submit" type="submit" class="w-full rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-brand-900 disabled:cursor-not-allowed disabled:opacity-70"><span class="request-spinner" aria-hidden="true"></span><span id="preview-request-submit-label">Request a Free Preview</span></button>
+        <button id="preview-request-submit" type="submit" disabled class="w-full rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-brand-900 disabled:cursor-not-allowed disabled:opacity-70"><span class="request-spinner" aria-hidden="true"></span><span id="preview-request-submit-label">Request a Free Preview</span></button>
       </div>
     </form>
   </div>
