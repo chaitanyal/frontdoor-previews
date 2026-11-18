@@ -13,6 +13,7 @@ const {
   fixedSpecialty = '',
   showEyebrow = true,
   submitText = 'Request a Free Preview',
+  successMessage = 'Thanks. I will review your practice website and follow up.',
 } = Astro.props;
 const formScript = `
 window.lucide?.createIcons();
@@ -196,7 +197,7 @@ window.lucide?.createIcons();
       window.turnstile?.reset();
       hasSubmitted = true;
       submitLabel.textContent = 'Request Sent';
-      showStatus('Thanks. I will review your practice website and follow up.', 'success');
+      showStatus(form.dataset.successMessage, 'success');
     } catch (error) {
       window.turnstile?.reset();
       showStatus(error.message || 'Unable to send your request right now.', 'error');
@@ -226,7 +227,7 @@ window.lucide?.createIcons();
       </slot>
     </div>
 
-    <form id="preview-request-form" method="post" class="rounded-[32px] bg-white/95 p-8 text-slate-950 shadow-[0_20px_70px_rgba(0,0,0,0.18)] md:p-10">
+    <form id="preview-request-form" method="post" data-success-message={successMessage} class="rounded-[32px] bg-white/95 p-8 text-slate-950 shadow-[0_20px_70px_rgba(0,0,0,0.18)] md:p-10">
       <div class="space-y-6">
         <div>
           <label for="name" class="text-sm font-medium text-slate-700">Name</label>

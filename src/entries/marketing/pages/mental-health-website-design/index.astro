@@ -29,15 +29,21 @@ const examples = [
 ];
 const plans = [
   { name: 'Solo practice', price: '$2,000', scope: 'Up to 5 pages, including your clinician profile and services.' },
-  { name: 'Group practice', price: '$5,000', scope: 'Up to 12 pages and 5 clinician profiles, including a team directory.' },
+  { name: 'Group practice', price: '$5,000', scope: 'Team directory, up to 5 clinician profiles, and up to 12 pages.' },
 ];
 const previewCta = 'Request your free preview';
 const faqs = [
-  ['Can you help if I’m opening a new practice?', 'Yes. We can start with your practice details and help you choose a domain, even if this is your first website.'],
-  ['Can you replace my existing website?', 'Yes. We review your current pages and patient links, then build a preview so you can see the proposed changes.'],
-  ['Can patients keep using our current EHR or scheduler?', 'In most cases, yes. We link to your existing patient portal, scheduling, intake, or payment tools. We confirm which links your systems support before you commit.'],
-  ['When will my website be ready?', 'We’ll confirm your launch schedule after reviewing the scope and before you commit.'],
-  ['What if a clinician joins or leaves after launch?', 'We can add or retire their profile and update the team directory. We’ll confirm the scope of ongoing updates with you before launch.'],
+  ['How much work will I need to do?', 'You’ll talk us through your practice and review the copy before launch. We handle the writing, design, domain setup, and launch.'],
+  ['What will we talk about before you write my website?', 'We’ll ask whether you work solo or with a team, which services you offer, and what makes your approach to care distinctive. We’ll also discuss your background and, if you have a team, theirs.'],
+  ['How is FrontDoor Health different from Squarespace or a web design agency?', 'With a DIY builder like Squarespace, you write the copy, source images and other materials, and choose fonts and colors. An agency can handle the build, but you may still spend time coordinating meetings, gathering materials, and managing rounds of feedback. With FrontDoor Health, you talk us through your practice and review the result. We write the copy, handle the visuals and design, and launch the site. You get clear pricing and a free personalized preview before you commit.'],
+  ['Will the website feel like my practice?', 'We shape the writing and design around your approach to care and the people you serve. Your personalized preview shows how that comes together.'],
+  ['What if I want changes after seeing the preview?', 'We encourage feedback. It’s essential to making sure the website accurately reflects your practice. The preview gives you something concrete to react to, so you can point to what feels right and what you’d like us to change. The preview is free, with no commitment.'],
+  ['Can you help if I’m opening a new practice?', 'Yes. We can start with a conversation about your practice and help you choose a domain.'],
+  ['Can you replace my website and keep my domain?', 'Yes. You can keep your existing web address, and we’ll handle connecting it to your new site. We’ll reuse as much of your current content as we can and confirm which patient links should carry over.'],
+  ['Can patients keep using our current scheduling tools and portal?', 'Yes. We’ll confirm which tools you use and connect your existing EHR portal, scheduling, intake, and payment tools to your new website.'],
+  ['How do you make the website accessible?', 'We design for accessibility from the start, with readable text, clear contrast, keyboard navigation, and headings that help screen reader users find their way.'],
+  ['When will my website be ready?', 'You’ll get a personalized preview about a week after we talk and confirm the key details. Once you approve it, we can usually launch within another week if you don’t need major changes.'],
+  ['What if a clinician joins or leaves after launch?', 'We can update clinician profiles and your team directory. We’ll confirm what ongoing maintenance covers before launch.'],
 ];
 ---
 
@@ -70,10 +76,10 @@ const faqs = [
       <div class="mx-auto grid max-w-7xl gap-y-5 lg:grid-cols-[1fr_1fr] lg:gap-x-16">
         <div>
           <h1 class="text-[2.65rem] font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-[4rem]">Websites for mental health practices</h1>
-          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">We write, design, and maintain your website. Patients can get to know your clinicians, find fees and insurance information, and request an appointment.</p>
+          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">Opening a practice or ready for a better website? We build fast, mobile-friendly sites that help patients find you in search, understand what you offer, and request an appointment.</p>
           <div class="mt-8 flex flex-col gap-3 sm:items-start">
             <a href="#contact" class="inline-flex justify-center rounded-2xl bg-brand-700 px-6 py-3.5 font-semibold text-white shadow-sm hover:bg-brand-900">{previewCta}</a>
-            <p class="text-sm leading-6 text-slate-600">See what your site could look like before you commit.</p>
+            <p class="text-sm leading-6 text-slate-600">Get a personalized website preview for your practice. No payment or commitment required.</p>
           </div>
         </div>
         <div class="aspect-video self-center lg:col-start-2 lg:row-start-1 lg:row-span-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
@@ -94,8 +100,8 @@ const faqs = [
     <section id="examples" class="bg-warm-100 px-5 py-16 lg:px-8 lg:py-20">
       <div class="mx-auto max-w-7xl">
         <div class="max-w-3xl">
-          <h2 class="text-3xl font-bold leading-tight tracking-tight md:text-5xl">See what patients can do on your website</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-600">Step inside these two fictional practices as a patient would.</p>
+          <h2 class="text-3xl font-bold leading-tight tracking-tight md:text-5xl">Explore solo and group practice websites</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">See how two fictional practice websites answer common questions about services, fees, and insurance before patients call your office.</p>
         </div>
         <div class="mt-10 grid gap-8 md:grid-cols-2">
           {examples.map((example) => (
@@ -129,7 +135,8 @@ const faqs = [
             <article class="flex flex-col items-start rounded-[28px] border border-slate-200 bg-white p-6 sm:p-8">
               <h3 class="text-2xl font-bold">{plan.name}</h3>
               <p class="mt-4 text-4xl font-bold text-brand-700">{plan.price}</p>
-              <p class="mt-1 text-sm text-slate-600">One-time design and launch fee</p>
+              <p class="mt-1 text-sm text-slate-600">One-time fee for copywriting, design, and launch</p>
+              <p class="mt-1 text-sm text-slate-600">Plus $49/month for hosting and maintenance</p>
               <p class="my-5 flex-1 text-base leading-7">{plan.scope}</p>
               <a href="#contact" class="rounded-2xl bg-brand-700 px-5 py-3 font-semibold text-white hover:bg-brand-900">{previewCta}</a>
             </article>
@@ -141,14 +148,14 @@ const faqs = [
             <span aria-hidden="true" class="text-2xl font-normal text-sage-700 group-open:rotate-45">+</span>
           </summary>
           <ul class="mt-3 list-disc space-y-1 pl-5 text-base leading-7 text-slate-600">
-            <li>We write, design, and launch a site that’s easy to use on phones.</li>
-            <li>We connect your domain and help patients find you in search.</li>
+            <li>Fast pages that work well on phones, with search optimization for your practice.</li>
+            <li>We connect your domain.</li>
             <li>We set up or update your Google Business Profile if your practice qualifies.</li>
             <li>We link to the tools patients use to book, fill out forms, and pay.</li>
           </ul>
         </details>
         <div class="mt-6 rounded-2xl bg-sage-100 p-6 sm:p-8">
-          <h3 class="text-xl font-bold">Hosting and maintenance for either plan · $49/month</h3>
+          <h3 class="text-xl font-bold">What monthly hosting and maintenance covers</h3>
           <p class="mt-2 text-base leading-7">Includes hosting, security, troubleshooting, and routine updates to your hours, services, and clinician profiles.</p>
         </div>
       </div>
@@ -159,6 +166,7 @@ const faqs = [
       heading="See a website preview for your practice"
       showEyebrow={false}
       submitText={previewCta}
+      successMessage="Thanks for requesting a preview. We’ll email you to confirm what you need before we build it."
     >
       <div slot="summary" class="mt-5 text-lg leading-8 text-blue-100">
         <ol class="list-decimal space-y-3 pl-6">
