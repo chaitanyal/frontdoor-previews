@@ -720,3 +720,33 @@ test('@analytics marketing forms cannot expose contact details through native GE
     await context.close();
   }
 });
+
+test('@analytics video failures are retryable and only playback counts toward the preview funnel', async ({page}) => {
+  skipUnless('marketing');
+  const network = await installMockNetwork(page);
+  await installKnownStorage(page);
+  network.setPreviewRequestResponse({status: 200, json: {ok: true, accepted: true}});
+  // Drive browser media events deterministically without fetching the production MP4.
+  await page.addInitScript(() => {
+    Object.defineProperty(HTMLVideoElement.prototype, 'src', {set() {}});
+    HTMLMediaElement.prototype.play = async () => {};
+  });
+  await page.goto('https://frontdoor.health/mental-health-website-design/?utm_campaign=video-test');
+  const poster = page.locator('#practice-overview');
+  await poster.press('Enter');
+  await page.locator('video').dispatchEvent('error');
+  await expect(page.locator('#video-retry')).toBeVisible();
+  await poster.press('Enter');
+  await page.locator('video').dispatchEvent('playing');
+  await page.locator('video').dispatchEvent('playing');
+  await page.locator('#name').fill('Verification Tester');
+  await page.locator('#practiceName').fill('Contract Test Clinic');
+  await page.locator('#email').fill('verification@example.com');
+  await page.locator('#preview-request-submit').click();
+  await expect.poll(() => network.analyticsRequests.map(r => r.payload.event_type))
+    .toEqual(['page_view', 'video_start', 'preview_requested']);
+  for (const {payload} of network.analyticsRequests) {
+    expect(payload.session_id).toBe(FIXED_SESSION_ID);
+    expect(payload.utm_campaign).toBe('video-test');
+  }
+});

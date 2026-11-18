@@ -100,6 +100,7 @@ window.lucide?.createIcons();
       },
       body: JSON.stringify({
         event_type: 'preview_requested',
+        session_id: form.dataset.analyticsSession,
         utm_campaign: utmCampaign,
         page_path: window.location.pathname,
         referrer: document.referrer || '',

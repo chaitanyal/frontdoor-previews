@@ -31,6 +31,7 @@ const allowedEventTypes = new Set([
   "email_click",
   "resource_download",
   "preview_requested",
+  "video_start",
 ]);
 
 type EventPayload = {
