@@ -11,6 +11,8 @@ const {
   heading = 'See what your practice website could look like.',
   summary = 'Opening a practice or improving your current website? Share your specialty and a few practice details. We’ll prepare a personalized preview.',
   fixedSpecialty = '',
+  showEyebrow = true,
+  submitText = 'Request a Free Preview',
 } = Astro.props;
 const formScript = `
 window.lucide?.createIcons();
@@ -21,6 +23,7 @@ window.lucide?.createIcons();
   const submitLabel = document.getElementById('preview-request-submit-label');
   const status = document.getElementById('preview-request-status');
   if (!form || !submitButton || !submitLabel || !status) return;
+  const idleLabel = submitLabel.textContent;
   let isSubmitting = false;
   let hasSubmitted = false;
 
@@ -198,7 +201,7 @@ window.lucide?.createIcons();
       window.turnstile?.reset();
       showStatus(error.message || 'Unable to send your request right now.', 'error');
       submitButton.disabled = false;
-      submitLabel.textContent = 'Request a Free Preview';
+      submitLabel.textContent = idleLabel;
     } finally {
       isSubmitting = false;
       submitButton.removeAttribute('aria-busy');
@@ -212,7 +215,7 @@ window.lucide?.createIcons();
 <section id="contact" class="bg-brand-700 px-5 py-16 text-white lg:px-8 lg:py-20">
   <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 lg:grid-cols-2">
     <div>
-      <p class="text-sm font-semibold uppercase tracking-wide text-blue-200">Start with a free preview</p>
+      {showEyebrow && <p class="text-sm font-semibold uppercase tracking-wide text-blue-200">Start with a free preview</p>}
       <h2 class="mt-5 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
         {heading}
       </h2>
@@ -287,7 +290,7 @@ window.lucide?.createIcons();
           <p class="text-sm leading-6 text-slate-700">This form requires JavaScript. To request your free preview, email <a href="mailto:chaitanya@frontdoor.health" class="font-semibold text-brand-700 underline underline-offset-4">chaitanya@frontdoor.health</a>.</p>
         </noscript>
         <p id="preview-request-status" class="hidden rounded-2xl px-4 py-3 text-sm font-medium" role="status" aria-live="polite"></p>
-        <button id="preview-request-submit" type="submit" disabled class="w-full rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-brand-900 disabled:cursor-not-allowed disabled:opacity-70"><span class="request-spinner" aria-hidden="true"></span><span id="preview-request-submit-label">Request a Free Preview</span></button>
+        <button id="preview-request-submit" type="submit" disabled class="w-full rounded-2xl bg-brand-700 px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-brand-900 disabled:cursor-not-allowed disabled:opacity-70"><span class="request-spinner" aria-hidden="true"></span><span id="preview-request-submit-label">{submitText}</span></button>
       </div>
     </form>
   </div>

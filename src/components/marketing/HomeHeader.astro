@@ -1,6 +1,6 @@
 ---
 /** Marketing navigation; nested landing pages supply their home and asset paths. */
-const { homeHref = '#', assetPrefix = '.' } = Astro.props;
+const { homeHref = '#', assetPrefix = '.', previewLabel, sectionLabel = 'Why it matters' } = Astro.props;
 ---
 
 <header class="sticky top-0 z-50 border-b border-border-100/80 bg-white/85 backdrop-blur-xl">
@@ -15,10 +15,10 @@ const { homeHref = '#', assetPrefix = '.' } = Astro.props;
     </a>
 
     <nav class="hidden items-center gap-8 md:flex">
-      <a href="#what" class="text-sm font-medium text-slate-500 hover:text-slate-950">Why it matters</a>
-      <a href="#contact" class="rounded-2xl bg-brand-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-900">Request a Free Preview</a>
+      <a href="#what" class="text-sm font-medium text-slate-500 hover:text-slate-950">{sectionLabel}</a>
+      <a href="#contact" class="rounded-2xl bg-brand-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-900">{previewLabel || 'Request a Free Preview'}</a>
     </nav>
 
-    <a href="#contact" class="whitespace-nowrap rounded-2xl bg-brand-700 px-3.5 py-2.5 text-sm font-semibold text-white md:hidden">Free Preview</a>
+    <a href="#contact" class="text-center rounded-2xl bg-brand-700 px-3.5 py-2.5 text-sm font-semibold text-white md:hidden">{previewLabel || 'Free Preview'}</a>
   </div>
 </header>

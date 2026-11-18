@@ -627,7 +627,7 @@ test('@analytics mental health examples carry all landing UTMs and retain campai
     const expectedCampaign = tags.utm_campaign || 'mental-health-website-design';
     for (const [index, slug] of ['mayabennett', 'westlakepsychiatry'].entries()) {
       const url = new URL(await page.locator('#examples article > a').nth(index).getAttribute('href'), page.url());
-      await expect(page.locator('#examples article > a').nth(index)).toHaveAccessibleName(/^View Example Website:/);
+      await expect(page.locator('#examples article > a').nth(index)).toHaveAccessibleName(`Explore the ${index === 0 ? "solo" : "group"} practice: ${index === 0 ? "Maya Bennett Psychology" : "Westlake Psychiatry & Therapy"}`);
       expect(url.pathname).toBe(`/previews/${slug}/`);
       expect(Object.fromEntries(url.searchParams)).toEqual({
         preview_source: 'mental-health-website-design',

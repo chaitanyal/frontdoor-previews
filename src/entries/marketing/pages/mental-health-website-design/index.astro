@@ -7,7 +7,7 @@ import { loadMarketingData, marketingCanonical } from '../../../../lib/marketing
 
 const { marketing } = await loadMarketingData(process.cwd());
 const title = 'Mental Health Websites & Launch Package | FrontDoor Health';
-const description = 'Get a free personalized website preview for your mental health practice. Explore a launch package with domain setup, Google Business Profile, SEO and AI visibility, hosting, and maintenance.';
+const description = 'FrontDoor Health writes, designs, and maintains websites for solo and group mental health practices. Explore examples, compare prices, and request your free preview.';
 const canonical = marketingCanonical(marketing, 'mental-health-website-design');
 const examples = [
   {
@@ -16,7 +16,7 @@ const examples = [
     slug: 'mayabennett',
     image: 'maya-desktop.webp',
     alt: 'Maya Bennett Psychology homepage with a quiet landscape and an introduction to the practice’s approach to therapy.',
-    description: 'See how a solo therapist can introduce their approach, explain fees, and help visitors take the first step toward care.',
+    description: 'Meet Dr. Bennett, explore her approach, and check fees before requesting a consultation.',
   },
   {
     name: 'Westlake Psychiatry & Therapy',
@@ -24,87 +24,20 @@ const examples = [
     slug: 'westlakepsychiatry',
     image: 'westlake-desktop.webp',
     alt: 'Westlake Psychiatry & Therapy website introducing psychiatry, therapy, and a multidisciplinary care team.',
-    description: 'Explore how a group practice brings its clinicians, psychiatry and therapy services, and treatment options together in one easy-to-navigate website.',
-  },
-];
-const audiences = [
-  ['Therapists & psychologists', 'Show your therapeutic approach, the people you work with, and what starting therapy looks like.'],
-  ['Psychiatrists', 'Explain evaluations, medication management, your clinical focus, and how patients can request care.'],
-  ['Psychiatric nurse practitioners', 'Present your credentials, services, patient populations, and in-person or telehealth options clearly.'],
-];
-const launchPackage = [
-  ['Your practice website', 'Practice-specific copy and design, clinician profiles, service information, and a clear path to appointments.'],
-  ['Domain setup', 'Help choosing or connecting your practice’s domain, with the technical setup handled for you.'],
-  ['Google Business Profile', 'Profile setup or refinement for eligible practices, with accurate practice details, website links, and verification support.'],
-  ['SEO & AI visibility', 'Clear content, search metadata, structured data, and sitemaps that help search engines and AI tools understand your practice.'],
-  ['Website hosting and maintenance', 'Hosting, technical operation, and ongoing website maintenance, with included updates and support agreed before you commit.'],
-  ['EHR and scheduling connections', 'Connect your website to the EHR portal, scheduling, intake, and payment tools your practice already uses. Help patients reach the right system easily.'],
-];
-const features = [
-  {
-    number: '01', title: 'A design that feels like your practice.',
-    description: 'Thoughtful colors, readable typography, and relevant imagery create a calm first impression. Clear navigation helps people find their way.',
-    items: ['Practice-specific copy and visual direction', 'Layouts for solo clinicians and growing teams', 'Photography and portraits with considered crops'],
-  },
-  {
-    number: '02', title: 'Your people. Your approach to care.',
-    description: 'Help visitors understand who you are, what you offer, and whether your practice fits their needs before they reach out.',
-    items: ['Provider portraits, credentials, and individual profiles', 'Care philosophy, patient concerns, and services', 'Team directories and dedicated treatment pages when needed'],
-  },
-  {
-    number: '03', title: 'Practical answers, easy to find.',
-    description: 'Give patients the information they need to make an informed next step, using the details and policies you approve.',
-    items: ['Insurance, private-pay fees, and out-of-network guidance', 'Superbills and payment policies where applicable', 'Office hours, directions, FAQs, forms, and resources'],
-  },
-  {
-    number: '04', title: 'A clear path from interest to contact.',
-    description: 'Make the right next step easy for new and existing patients, with clear links to the tools your practice already uses.',
-    items: ['Prominent consultation, appointment, and phone actions', 'Links to scheduling, intake, payment, and patient portals', 'Telehealth access and mobile appointment actions'],
-  },
-  {
-    number: '05', title: 'Comfortable to use on any screen.',
-    description: 'Patients should be able to read, explore, and take action comfortably on a phone, tablet, or desktop.',
-    items: ['Responsive layouts and touch-friendly controls', 'Keyboard navigation and visible focus states', 'Semantic headings, image descriptions, and readable contrast'],
-  },
-  {
-    number: '06', title: 'Built to be found. Ready to measure.',
-    description: 'Give your practice a strong search foundation and understand how visitors use key appointment and contact links.',
-    items: ['Fast-loading pages, search titles, and descriptions', 'Structured data, sitemaps, and discoverable provider pages', 'Privacy-conscious page-view and action tracking'],
+    description: 'Meet the team, compare services, and check insurance before requesting an appointment.',
   },
 ];
 const plans = [
-  {
-    name: 'Solo Practice', price: '$2,000', icon: 'user-round',
-    summary: 'Ideal for a single clinician or new practice.',
-    items: ['Custom, modern website (up to 5 pages)', 'Clinician profile and services', 'Domain setup and configuration', 'Google Business Profile setup', 'Foundational SEO and AI discoverability', 'Appointment scheduling connections'],
-  },
-  {
-    name: 'Group Practice', price: '$5,000', icon: 'users',
-    summary: 'For multi-clinician practices and treatment groups.',
-    items: ['Custom website (up to 12 pages)', 'Multiple clinician profiles (up to 5)', 'Services and specialty pages', 'Everything in the Solo Practice package', 'Team directory and practice information', 'Appointment scheduling connections'],
-  },
+  { name: 'Solo practice', price: '$2,000', scope: 'Up to 5 pages, including your clinician profile and services.' },
+  { name: 'Group practice', price: '$5,000', scope: 'Up to 12 pages and 5 clinician profiles, including a team directory.' },
 ];
-const maintenanceItems = [
-  'Website hosting, SSL, and security',
-  'Routine copy updates, including services, hours, and contact information',
-  'Provider directory updates: add, remove, or edit clinicians',
-  'Ongoing maintenance and troubleshooting',
-];
-const steps = [
-  ['Start with your free preview', 'Tell us about your practice. See a personalized website direction before committing to a project.'],
-  ['Plan your launch', 'Agree on your launch package, price, and ongoing support. We handle the website and setup while you confirm practice details.'],
-  ['Launch with support', 'Approve your website for launch. We connect your domain, support your business profile setup, and handle hosting and maintenance.'],
-];
+const previewCta = 'Request your free preview';
 const faqs = [
-  ['What is included in the launch package?', 'The package brings together your website, domain setup, Google Business Profile setup or refinement for eligible practices, SEO and AI visibility foundations, hosting, and ongoing maintenance. We agree on the deliverables and support details before you commit.'],
-  ['Can you help if I’m opening a new practice?', 'Yes. You do not need an existing website or domain. We help you establish your practice online, using the services and details you confirm.'],
-  ['Can you replace our existing website?', 'Yes. We review your current content and patient-facing links, then build a clearer website around your practice. You review the new direction before committing to a replacement.'],
-  ['Will our website look like these examples?', 'Your preview will reflect your practice’s voice, care approach, and visual direction. The examples show what FrontDoor websites can include; they are fictional concepts, not client results or fixed designs you must choose from.'],
-  ['Do you work with our scheduling, EHR, or patient portal?', 'In most cases, we can link clearly to your existing scheduling, intake, payment, telehealth, and portal tools. Those systems continue to handle their own workflows and patient information. We review your specific tools before agreeing on the scope.'],
-  ['What does SEO and AI visibility include?', 'We organize your practice information clearly and build search foundations through page titles, descriptions, structured data, and sitemaps. This helps search engines and AI tools understand your services and clinicians. It does not guarantee rankings or recommendations.'],
-  ['How do you approach accessibility?', 'We build with semantic headings, keyboard-friendly controls, visible focus, descriptive image text, and readable contrast informed by WCAG guidance.'],
-  ['How much does it cost, and how long does it take?', 'The Solo Practice package is $2,000 for up to 5 pages. The Group Practice package is $5,000 for up to 12 pages and 5 clinician profiles. These are one-time design and launch prices. Hosting and maintenance cost $49 per month. The personalized website preview is free. We confirm your scope, domain costs, and delivery schedule before you commit.'],
-  ['What about changes after launch?', 'The $49 monthly hosting and maintenance service includes hosting, SSL, security, routine copy updates, provider directory updates, and ongoing maintenance and troubleshooting. We agree on the update and support details before you commit.'],
+  ['Can you help if I’m opening a new practice?', 'Yes. We can start with your practice details and help you choose a domain, even if this is your first website.'],
+  ['Can you replace my existing website?', 'Yes. We review your current pages and patient links, then build a preview so you can see the proposed changes.'],
+  ['Can patients keep using our current EHR or scheduler?', 'In most cases, yes. We link to your existing patient portal, scheduling, intake, or payment tools. We confirm which links your systems support before you commit.'],
+  ['When will my website be ready?', 'We’ll confirm your launch schedule after reviewing the scope and before you commit.'],
+  ['What if a clinician joins or leaves after launch?', 'We can add or retire their profile and update the team directory. We’ll confirm the scope of ongoing updates with you before launch.'],
 ];
 ---
 
@@ -131,16 +64,16 @@ const faqs = [
     provider: { '@type': 'Organization', name: 'FrontDoor Health', url: marketingCanonical(marketing) },
   }}
 >
-  <HomeHeader homeHref="../" assetPrefix=".." />
+  <HomeHeader homeHref="../" assetPrefix=".." previewLabel={previewCta} sectionLabel="Packages and pricing" />
   <main id="main-content" tabindex="-1">
     <section class="overflow-hidden bg-warm-100 px-5 py-14 lg:px-8 lg:py-20">
       <div class="mx-auto grid max-w-7xl gap-y-5 lg:grid-cols-[1fr_1fr] lg:gap-x-16">
         <div>
           <h1 class="text-[2.65rem] font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-[4rem]">Websites for mental health practices</h1>
-          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">We write, design, and launch your site so patients can see how you help and how to reach you.</p>
+          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">We write, design, and maintain your website. Patients can get to know your clinicians, find fees and insurance information, and request an appointment.</p>
           <div class="mt-8 flex flex-col gap-3 sm:items-start">
-            <a href="#contact" class="inline-flex justify-center rounded-2xl bg-brand-700 px-6 py-3.5 font-semibold text-white shadow-sm hover:bg-brand-900">Request Your Free Preview</a>
-            <p class="text-sm leading-6 text-slate-600">No payment or commitment required.</p>
+            <a href="#contact" class="inline-flex justify-center rounded-2xl bg-brand-700 px-6 py-3.5 font-semibold text-white shadow-sm hover:bg-brand-900">{previewCta}</a>
+            <p class="text-sm leading-6 text-slate-600">See what your site could look like before you commit.</p>
           </div>
         </div>
         <div class="aspect-video self-center lg:col-start-2 lg:row-start-1 lg:row-span-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
@@ -161,19 +94,17 @@ const faqs = [
     <section id="examples" class="bg-warm-100 px-5 py-16 lg:px-8 lg:py-20">
       <div class="mx-auto max-w-7xl">
         <div class="max-w-3xl">
-          <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">Concepts for solo and group practices</p>
-          <h2 class="mt-4 text-3xl font-bold leading-tight tracking-tight md:text-5xl">See how your practice could look online.</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-600">Open either example website and explore it as a patient would. Browse clinician profiles, services, and practical details to see what could work for your practice.</p>
-          <p class="mt-3 text-sm leading-6 text-slate-600">Both are fictional practice concepts created by FrontDoor Health.</p>
+          <h2 class="text-3xl font-bold leading-tight tracking-tight md:text-5xl">See what patients can do on your website</h2>
+          <p class="mt-5 text-lg leading-8 text-slate-600">Step inside these two fictional practices as a patient would.</p>
         </div>
         <div class="mt-10 grid gap-8 md:grid-cols-2">
           {examples.map((example) => (
             <article class="min-w-0 overflow-hidden rounded-[28px] border border-slate-200 bg-warm-50">
-              <a href={`../previews/${example.slug}/?preview_source=mental-health-website-design&utm_source=frontdoor.health&utm_medium=referral&utm_campaign=mental-health-website-design&utm_content=${example.slug}`} class="group block rounded-[28px] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-brand-700" aria-label={`View Example Website: ${example.name} (fictional practice)`}>
+              <a href={`../previews/${example.slug}/?preview_source=mental-health-website-design&utm_source=frontdoor.health&utm_medium=referral&utm_campaign=mental-health-website-design&utm_content=${example.slug}`} class="group block rounded-[28px] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-brand-700" aria-label={`Explore the ${example.label.toLowerCase()}: ${example.name}`}>
                 <div class="border-b border-slate-200 bg-warm-200 p-4 sm:p-6">
                   <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">{example.label}</p>
-                    <span class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-brand-700 px-4 py-3 text-sm font-semibold text-white group-hover:bg-brand-900">View Example Website <span aria-hidden="true">→</span></span>
+                    <span class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-brand-700 px-4 py-3 text-sm font-semibold text-white group-hover:bg-brand-900">Explore the {example.label.toLowerCase()} <span aria-hidden="true">→</span></span>
                   </div>
                   <img src={`../assets/mental-health/${example.image}`} width="1440" height="1000" alt={example.alt} loading="lazy" class="w-full rounded-lg border border-slate-200 shadow-sm" />
                 </div>
@@ -185,150 +116,64 @@ const faqs = [
             </article>
           ))}
         </div>
-        <div class="mt-8 flex flex-col gap-4 rounded-2xl bg-white p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-          <p class="max-w-xl text-lg font-medium leading-7 text-brand-700">Now see a direction for your own practice. Your personalized preview is free, with no commitment required.</p>
-          <a href="#contact" class="inline-flex shrink-0 justify-center rounded-2xl bg-brand-700 px-6 py-3.5 font-semibold text-white hover:bg-brand-900">Request Your Free Preview</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="launch-package" class="bg-white px-5 py-16 lg:px-8 lg:py-20" aria-labelledby="package-title">
-      <div class="mx-auto max-w-7xl">
-        <div class="max-w-3xl">
-          <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">What’s included</p>
-          <h2 id="package-title" class="mt-4 text-3xl font-bold leading-tight tracking-tight md:text-5xl">Your complete online launch package.</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-600">Opening a practice or refreshing an existing one? We handle the pieces that get you online and keep your website running.</p>
-        </div>
-        <div class="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-          {launchPackage.map(([heading, copy], index) => (
-            <article class="border-t border-slate-200 pt-6">
-              <p class="text-sm font-semibold text-sage-700">0{index + 1}</p>
-              <h3 class="mt-3 text-xl font-bold">{heading}</h3>
-              <p class="mt-3 text-base leading-7 text-slate-600">{copy}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section id="what" class="bg-brand-900 px-5 py-16 text-white lg:px-8 lg:py-20">
-      <div class="mx-auto max-w-7xl">
-        <div class="grid gap-6 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <p class="text-sm font-semibold uppercase tracking-wide text-blue-200">Help patients find the right fit</p>
-            <h2 class="mt-4 text-3xl font-bold leading-tight tracking-tight md:text-5xl">Make your approach clear before the first conversation.</h2>
-          </div>
-          <p class="text-lg leading-8 text-slate-300 lg:pt-9">People want to understand who you help, what care involves, what it costs, and how to begin. We organize your website around those questions, with copy that reflects your practice.</p>
-        </div>
-        <div class="mt-10 grid gap-8 border-t border-white/20 pt-8 md:grid-cols-3">
-          {audiences.map(([heading, copy]) => (
-            <div><h3 class="text-xl font-bold">{heading}</h3><p class="mt-4 text-base leading-7 text-slate-300">{copy}</p></div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="px-5 py-16 lg:px-8 lg:py-20" aria-labelledby="included-title">
-      <div class="mx-auto max-w-7xl">
-        <div class="max-w-3xl">
-          <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">Inside your FrontDoor website</p>
-          <h2 id="included-title" class="mt-4 text-3xl font-bold leading-tight tracking-tight md:text-5xl">The details that make a website work for your practice.</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-600">We bring the copy, design, and patient journey together. Your website includes the sections and features that fit your services and how your practice works.</p>
-        </div>
-        <div class="mt-12 grid gap-x-12 md:grid-cols-2 lg:gap-x-20">
-          {features.map((feature) => (
-            <article class="border-t border-slate-300 py-8 lg:py-10">
-              <p class="text-sm font-semibold text-sage-700">{feature.number}</p>
-              <h3 class="mt-4 text-2xl font-bold leading-tight tracking-tight">{feature.title}</h3>
-              <p class="mt-4 text-base leading-7 text-slate-600">{feature.description}</p>
-              <ul class="mt-5 space-y-3">
-                {feature.items.map((item) => <li class="flex gap-3 text-sm leading-6 text-slate-700"><span class="font-semibold text-sage-700" aria-hidden="true">✓</span><span>{item}</span></li>)}
-              </ul>
-            </article>
-          ))}
-        </div>
-        <p class="border-t border-slate-300 pt-6 text-sm leading-6 text-slate-600">Patient-facing details also include appropriate emergency notices, privacy information, and links to your approved patient resources.</p>
+        <a href="#contact" class="mt-8 inline-flex justify-center rounded-2xl bg-brand-700 px-6 py-3.5 font-semibold text-white hover:bg-brand-900">{previewCta}</a>
       </div>
     </section>
 
     <section id="pricing" class="bg-warm-100 px-5 py-16 lg:px-8 lg:py-20" aria-labelledby="pricing-title">
       <div class="mx-auto max-w-7xl">
-        <div class="mx-auto max-w-5xl text-center">
-          <p class="text-sm font-semibold uppercase tracking-[0.14em] text-sage-700">Simple, transparent pricing</p>
-          <h2 id="pricing-title" class="mt-4 text-3xl font-bold leading-tight tracking-tight md:text-5xl">A complete website for your practice.</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-600">Professional design, a smooth launch, and ongoing support, so you can focus on your patients.</p>
-        </div>
-        <div class="mt-10 grid gap-6 md:grid-cols-2 lg:gap-8">
-          {plans.map((plan, index) => (
-            <article class:list={['flex min-w-0 flex-col rounded-[28px] border bg-white p-6 shadow-[0_12px_45px_rgba(15,23,42,0.04)] sm:p-8 lg:p-10', index === 1 ? 'border-sage-700/40' : 'border-slate-200']}>
-              <div class="flex items-start gap-4">
-                <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sage-100 text-sage-700" aria-hidden="true"><i data-lucide={plan.icon} class="h-8 w-8"></i></span>
-                <div>
-                  <h3 class="text-2xl font-bold tracking-tight lg:text-3xl">{plan.name}</h3>
-                  <p class="mt-2 text-base leading-6 text-slate-600">{plan.summary}</p>
-                </div>
-              </div>
-              <p class="mt-7 text-5xl font-bold tracking-tight lg:text-6xl">{plan.price}</p>
-              <p class="mt-2 text-base leading-7 text-slate-600">One-time website design &amp; launch</p>
-              <ul class="mt-6 flex-1 space-y-3 border-t border-slate-200 pt-6">
-                {plan.items.map(item => <li class="flex gap-3 text-base leading-7"><span class="font-semibold text-sage-700" aria-hidden="true">✓</span><span>{item}</span></li>)}
-              </ul>
-              <a href="#contact" class="mt-8 inline-flex min-h-[52px] items-center justify-center gap-3 rounded-2xl bg-brand-700 px-4 py-3.5 text-center text-base font-semibold text-white hover:bg-brand-900">Get a Free Website Preview <span aria-hidden="true">→</span></a>
+        <div id="what" class="scroll-mt-24"><h2 id="pricing-title" class="text-3xl font-bold tracking-tight md:text-5xl">What does a practice website cost?</h2></div>
+        <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">For psychiatrists, psychologists, nurse practitioners, therapists, and counselors in solo and group practices.</p>
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          {plans.map(plan => (
+            <article class="flex flex-col items-start rounded-[28px] border border-slate-200 bg-white p-6 sm:p-8">
+              <h3 class="text-2xl font-bold">{plan.name}</h3>
+              <p class="mt-4 text-4xl font-bold text-brand-700">{plan.price}</p>
+              <p class="mt-1 text-sm text-slate-600">One-time design and launch fee</p>
+              <p class="my-5 flex-1 text-base leading-7">{plan.scope}</p>
+              <a href="#contact" class="rounded-2xl bg-brand-700 px-5 py-3 font-semibold text-white hover:bg-brand-900">{previewCta}</a>
             </article>
           ))}
         </div>
-        <div class="mt-8 grid gap-6 rounded-[28px] border border-sage-700/20 bg-sage-100/40 p-6 sm:p-8 lg:grid-cols-[1fr_auto_1.2fr] lg:items-center lg:gap-8">
-          <div class="flex items-start gap-4">
-            <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sage-100 text-sage-700" aria-hidden="true"><i data-lucide="layers" class="h-8 w-8"></i></span>
-            <div>
-              <h3 class="text-2xl font-bold tracking-tight">Hosting &amp; Maintenance</h3>
-              <p class="mt-2 text-base leading-7 text-slate-600">Reliable hosting and ongoing support for your website.</p>
-            </div>
-          </div>
-          <p class="border-t border-sage-700/20 pt-5 text-3xl font-bold tracking-tight text-brand-700 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">$49<span class="text-xl font-semibold">/month</span></p>
-          <ul class="space-y-3">
-            {maintenanceItems.map(item => <li class="flex gap-3 text-sm leading-6"><span class="font-semibold text-sage-700" aria-hidden="true">✓</span><span>{item}</span></li>)}
+        <details id="launch-package" open class="group mt-6 scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-6 sm:p-8">
+          <summary class="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-4 text-xl font-bold">
+            What’s included in both packages?
+            <span aria-hidden="true" class="text-2xl font-normal text-sage-700 group-open:rotate-45">+</span>
+          </summary>
+          <ul class="mt-3 list-disc space-y-1 pl-5 text-base leading-7 text-slate-600">
+            <li>We write, design, and launch a site that’s easy to use on phones.</li>
+            <li>We connect your domain and help patients find you in search.</li>
+            <li>We set up or update your Google Business Profile if your practice qualifies.</li>
+            <li>We link to the tools patients use to book, fill out forms, and pay.</li>
           </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-brand-50 px-5 py-16 lg:px-8 lg:py-20">
-      <div class="mx-auto max-w-7xl">
-        <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">A straightforward process</p>
-        <h2 class="mt-4 max-w-3xl text-3xl font-bold leading-tight tracking-tight md:text-5xl">You focus on your practice.<br class="hidden md:block" /> We handle your online launch.</h2>
-        <div class="mt-10 grid gap-8 md:grid-cols-3 lg:gap-12">
-          {steps.map(([heading, copy], index) => (
-            <div class="border-t border-brand-700/20 pt-6">
-              <p class="text-sm font-bold text-sage-700">0{index + 1}</p>
-              <h3 class="mt-4 text-xl font-bold">{heading}</h3>
-              <p class="mt-4 text-base leading-7 text-slate-600">{copy}</p>
-            </div>
-          ))}
+        </details>
+        <div class="mt-6 rounded-2xl bg-sage-100 p-6 sm:p-8">
+          <h3 class="text-xl font-bold">Hosting and maintenance for either plan · $49/month</h3>
+          <p class="mt-2 text-base leading-7">Includes hosting, security, troubleshooting, and routine updates to your hours, services, and clinician profiles.</p>
         </div>
       </div>
     </section>
 
     <PreviewRequestForm
       fixedSpecialty="Mental Health"
-      heading="Get your free personalized website preview."
+      heading="See a website preview for your practice"
+      showEyebrow={false}
+      submitText={previewCta}
     >
       <div slot="summary" class="mt-5 text-lg leading-8 text-blue-100">
         <ol class="list-decimal space-y-3 pl-6">
           <li>Tell us about your practice.</li>
-          <li>We’ll email you to confirm the details.</li>
-          <li>Explore your personalized website preview.</li>
+          <li>We’ll email you to confirm what you need.</li>
+          <li>We’ll send you a link to your personalized preview.</li>
         </ol>
-        <p class="mt-6">Your preview is free. Decide whether to move forward after you see it.</p>
+        <p class="mt-6">You decide whether to move forward after you’ve seen it.</p>
       </div>
     </PreviewRequestForm>
 
     <section class="bg-white px-5 py-16 lg:px-8 lg:py-20" aria-labelledby="faq-title">
       <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
         <div>
-          <p class="text-sm font-semibold uppercase tracking-wide text-sage-700">A few practical questions</p>
-          <h2 id="faq-title" class="mt-4 text-3xl font-bold leading-tight tracking-tight md:text-5xl">Know what to expect.</h2>
-          <p class="mt-5 text-lg leading-8 text-slate-600">Starting fresh or ready for a change? We’ll help you understand what fits your practice.</p>
+          <h2 id="faq-title" class="text-3xl font-bold leading-tight tracking-tight md:text-5xl">Common questions</h2>
         </div>
         <div class="divide-y divide-slate-200 border-y border-slate-200">
           {faqs.map(([question, answer], index) => (
