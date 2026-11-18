@@ -134,28 +134,28 @@ const faqs = [
   <HomeHeader homeHref="../" assetPrefix=".." />
   <main id="main-content" tabindex="-1">
     <section class="overflow-hidden bg-warm-100 px-5 py-14 lg:px-8 lg:py-20">
-      <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-16">
+      <div class="mx-auto grid max-w-7xl gap-y-5 lg:grid-cols-[1fr_1fr] lg:gap-x-16">
         <div>
-          <h1 class="text-[2.65rem] font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-[4rem]">Websites built for mental health practices.</h1>
-          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">For therapists, psychologists, psychiatrists, and psychiatric nurse practitioners in solo and group practices.</p>
+          <h1 class="text-[2.65rem] font-bold leading-[1.06] tracking-tight md:text-6xl lg:text-[4rem]">Websites for mental health practices</h1>
+          <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">We write, design, and launch your site so patients can see how you help and how to reach you.</p>
           <div class="mt-8 flex flex-col gap-3 sm:items-start">
             <a href="#contact" class="inline-flex justify-center rounded-2xl bg-brand-700 px-6 py-3.5 font-semibold text-white shadow-sm hover:bg-brand-900">Request Your Free Preview</a>
-            <p class="text-sm leading-6 text-slate-600">Free to explore. No payment or commitment required.</p>
-            <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
-              <a href="#examples" class="inline-flex min-h-[44px] items-center gap-2 font-semibold text-brand-700 underline decoration-brand-700/30 underline-offset-4 hover:text-brand-900">View Example Websites <span aria-hidden="true">↓</span></a>
-              <a href="#pricing" class="inline-flex min-h-[44px] items-center text-sm text-slate-600 underline underline-offset-4 hover:text-brand-900">View pricing</a>
-            </div>
+            <p class="text-sm leading-6 text-slate-600">No payment or commitment required.</p>
           </div>
         </div>
-        <div class="relative min-w-0 pb-5 pr-12 sm:pr-16">
-          <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_60px_rgba(15,23,42,0.12)]">
-            <div class="flex items-center gap-1.5 border-b border-slate-200 bg-white px-4 py-3" aria-hidden="true"><span class="h-2 w-2 rounded-full bg-slate-300"></span><span class="h-2 w-2 rounded-full bg-slate-300"></span><span class="h-2 w-2 rounded-full bg-slate-300"></span><span class="ml-3 text-[10px] text-slate-500">A FrontDoor website concept</span></div>
-            <img src="../assets/mental-health/maya-desktop.webp" width="1440" height="1000" alt={examples[0].alt} fetchpriority="high" class="block w-full" />
-          </div>
-          <div class="absolute bottom-0 right-0 w-[26%] overflow-hidden rounded-[1.25rem] border-[4px] border-brand-900 bg-white shadow-xl" aria-hidden="true">
-            <img src="../assets/mental-health/maya-mobile.webp" width="390" height="820" alt="" class="block w-full" />
-          </div>
-          <p class="mt-5 max-w-[80%] text-xs leading-5 text-slate-500">Maya Bennett Psychology · Fictional website concept</p>
+        <div class="aspect-video self-center lg:col-start-2 lg:row-start-1 lg:row-span-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
+          <a id="practice-overview" href="https://video.frontdoor.health/frontdoor-mental-health-720p.mp4" class="group relative block h-full w-full focus-visible:outline-offset-[-4px]">
+            <img src="../assets/mental-health/overview.webp" width="896" height="504" alt="" fetchpriority="high" class="block h-full w-full" />
+            <span class="absolute inset-0 grid place-items-center">
+              <span aria-hidden="true" class="grid h-14 w-14 place-items-center rounded-full bg-brand-900 text-xl text-white shadow-lg ring-2 ring-white group-hover:bg-brand-700">▶</span>
+            </span>
+            <span class="sr-only">Watch the 1-minute overview</span>
+            <span aria-hidden="true" class="absolute bottom-3 right-3 rounded bg-brand-900 px-2 py-1 text-xs font-semibold text-white">0:58</span>
+          </a>
+        </div>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <a href="#examples" class="inline-flex min-h-[44px] items-center gap-2 font-semibold text-brand-700 underline decoration-brand-700/30 underline-offset-4 hover:text-brand-900">View Example Websites <span aria-hidden="true">↓</span></a>
+          <a href="#pricing" class="inline-flex min-h-[44px] items-center text-sm text-slate-600 underline underline-offset-4 hover:text-brand-900">View pricing</a>
         </div>
       </div>
     </section>
@@ -348,6 +348,22 @@ const faqs = [
   <MarketingFooter homeHref="../" privacyHref="../privacy/" contactHref="#contact" showHome />
 
   <script is:inline>
+    document.getElementById('practice-overview').addEventListener('click', (event) => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      const link = event.currentTarget;
+      const player = document.createElement('video');
+      player.controls = true;
+      player.playsInline = true;
+      player.src = link.href;
+      player.poster = link.querySelector('img').src;
+      player.setAttribute('aria-label', 'FrontDoor Health website overview for mental health practices');
+      player.className = 'block h-full w-full';
+      link.replaceWith(player);
+      player.play().catch(() => {}); // Native controls remain available if autoplay is blocked.
+      player.focus();
+    });
+
     const landingUtms = [...new URLSearchParams(window.location.search)]
       .filter(([key, value]) => key.startsWith('utm_') && value);
     const exampleCampaign = window.FrontdoorAttribution?.getUtmCampaign?.();
