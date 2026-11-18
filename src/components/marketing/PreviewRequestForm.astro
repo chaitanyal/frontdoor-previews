@@ -11,6 +11,7 @@ const {
   heading = 'See what your practice website could look like.',
   summary = 'Opening a practice or improving your current website? Share your specialty and a few practice details. We’ll prepare a personalized preview.',
   fixedSpecialty = '',
+  compactOnMobile = false,
   showEyebrow = true,
   submitText = 'Request a Free Preview',
   successMessage = 'Thanks. I will review your practice website and follow up.',
@@ -213,11 +214,11 @@ window.lucide?.createIcons();
 `;
 ---
 
-<section id="contact" class="bg-brand-700 px-5 py-16 text-white lg:px-8 lg:py-20">
-  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-10 lg:grid-cols-2">
+<section id="contact" class:list={['bg-brand-700 px-5 text-white lg:px-8 lg:py-20', compactOnMobile ? 'scroll-mt-16 py-12' : 'py-16']}>
+  <div class:list={['mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2 lg:gap-10', compactOnMobile ? 'gap-6' : 'gap-10']}>
     <div>
       {showEyebrow && <p class="text-sm font-semibold uppercase tracking-wide text-blue-200">Start with a free preview</p>}
-      <h2 class="mt-5 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+      <h2 class:list={['text-3xl font-bold leading-tight tracking-tight md:text-4xl', showEyebrow && 'mt-5']}>
         {heading}
       </h2>
       <slot name="summary">
