@@ -43,7 +43,8 @@
         "https://challenges.cloudflare.com/turnstile/v0/api.js",
         "/shared/attribution.js",
         "/shared/google-ads.js",
-        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270",
+        "https://www.googletagmanager.com/gtm.js?id=GTM-M5ZHPXVX"
       ],
       "inlineScriptCount": 3,
       "ctaCounts": {}
@@ -74,7 +75,8 @@
       ],
       "runtimeScripts": [
         "/shared/attribution.js",
-        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270",
+        "https://www.googletagmanager.com/gtm.js?id=GTM-M5ZHPXVX"
       ],
       "inlineScriptCount": 1,
       "ctaCounts": {}
@@ -105,7 +107,8 @@
       ],
       "runtimeScripts": [
         "/shared/attribution.js",
-        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270",
+        "https://www.googletagmanager.com/gtm.js?id=GTM-M5ZHPXVX"
       ],
       "inlineScriptCount": 1,
       "ctaCounts": {}
@@ -137,7 +140,8 @@
       ],
       "runtimeScripts": [
         "/shared/attribution.js",
-        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270",
+        "https://www.googletagmanager.com/gtm.js?id=GTM-M5ZHPXVX"
       ],
       "inlineScriptCount": 1,
       "ctaCounts": {}
@@ -176,7 +180,8 @@
       ],
       "runtimeScripts": [
         "/shared/attribution.js",
-        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270",
+        "https://www.googletagmanager.com/gtm.js?id=GTM-M5ZHPXVX"
       ],
       "inlineScriptCount": 1,
       "ctaCounts": {}
@@ -221,7 +226,8 @@
         "https://challenges.cloudflare.com/turnstile/v0/api.js",
         "/shared/attribution.js",
         "/shared/google-ads.js",
-        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270",
+        "https://www.googletagmanager.com/gtm.js?id=GTM-M5ZHPXVX"
       ],
       "inlineScriptCount": 4,
       "ctaCounts": {}
@@ -2361,7 +2367,8 @@
       ],
       "runtimeScripts": [
         "/shared/attribution.js",
-        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270",
+        "https://www.googletagmanager.com/gtm.js?id=GTM-M5ZHPXVX"
       ],
       "inlineScriptCount": 1,
       "ctaCounts": {}
@@ -2393,7 +2400,8 @@
       ],
       "runtimeScripts": [
         "/shared/attribution.js",
-        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270"
+        "https://www.googletagmanager.com/gtag/js?id=AW-18297020270",
+        "https://www.googletagmanager.com/gtm.js?id=GTM-M5ZHPXVX"
       ],
       "inlineScriptCount": 1,
       "ctaCounts": {}
